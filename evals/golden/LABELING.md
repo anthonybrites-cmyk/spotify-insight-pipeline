@@ -87,13 +87,21 @@ Other named things, such as an artist or a device, are fine too.
 - the text is too short or vague
 - it's in a language you can't read
 - it's missing context
-- you wrote two options (`a|b`) somewhere
+- you marked the row `ambiguous`
 
 Otherwise `false`.
 
-## Ambiguous cases
+## Ambiguous cases: always choose one label
 
-In `topic`, `intent` or `severity` **only**, if two answers are genuinely defensible, write both separated by `|`, e.g. `3|4`. The scorer accepts either, and it counts the row as ambiguous. Use this sparingly.
+Every `topic`, `intent` and `severity` cell must contain **exactly one** value: your best judgment. If a case is genuinely ambiguous, record that in the extra columns instead:
+
+| Column | What to write |
+|---|---|
+| `ambiguous` | `true` if another label is genuinely defensible, otherwise leave blank or write `false` |
+| `alternative_labels` | The other defensible label(s), e.g. `severity=4` or `topic=downloads; severity=4` |
+| `label_notes` | Optional short reason, e.g. "unclear whether all offline listening is blocked" |
+
+Headline agreement is always scored **strictly** against your single primary label. A separate "lenient" figure that also accepts your noted alternatives is reported alongside it, never instead of it. The number of ambiguous cases is reported, as the brief requires.
 
 ## Worked examples
 
@@ -101,7 +109,7 @@ These are made-up reviews, not from the golden set.
 
 | Review | topic | intent | severity | sentiment | entities | evidence_quote | needs_review |
 |---|---|---|---|---|---|---|---|
-| Downloaded songs stop playing when I go offline. | downloads | complaint | 3\|4 | -0.5 | Downloads; Offline mode | Downloaded songs stop playing when I go offline. | true |
+| Downloaded songs stop playing when I go offline. | downloads | complaint | 3 | -0.5 | Downloads; Offline mode | Downloaded songs stop playing when I go offline. | true |
 | I pay for Premium and the app crashes every time I open a playlist. Fix it or I'm cancelling. | playback | cancellation | 3 | -1 | Premium; Playlists | the app crashes every time I open a playlist | false |
 | Love the Discover Weekly playlists, but way too many ads. | usability | complaint | 2 | 0 | Discover Weekly; Playlists; Ads | way too many ads | false |
 | Charged twice this month and support never replied. | billing | complaint | 5 | -1 | Customer support | Charged twice this month | false |
@@ -110,7 +118,7 @@ These are made-up reviews, not from the golden set.
 | Boycott Spotify!!! | other | unclear | 1 | -0.5 | | Boycott Spotify!!! | false |
 
 Why each example is labelled that way:
-- **Downloads offline:** is offline listening fully blocked (4) or only degraded (3)? The text doesn't say, so it's marked ambiguous and flagged for review.
+- **Downloads offline:** is offline listening fully blocked (4) or only degraded (3)? The text doesn't say, so choose one, 3, since the text doesn't state a total block. Then fill in `ambiguous` = `true`, `alternative_labels` = `severity=4`, and `needs_review` = `true`.
 - **Premium crash:** mentioning Premium doesn't make it billing, because the crash is the problem. The threat to cancel makes the intent `cancellation` but doesn't raise severity. Playlists fail, but other use remains, so 3.
 - **Discover Weekly + ads:** mixed praise and criticism is a `complaint`. The topic comes from the problem (ads → usability), not from the praised feature.
 - **Charged twice:** there are two problems. The financial harm (5) outranks support (2–3), so the topic is billing.

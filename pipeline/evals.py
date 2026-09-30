@@ -91,9 +91,19 @@ def run_injection(args, log):
 SENTIMENT_TOLERANCE = 0.5  # predeclared: |predicted - human| <= 0.5 counts as agreement
 
 
-def _accepted(value, cast=str):
-    """Human cells may list several accepted labels separated by '|' for ambiguous cases."""
-    return [cast(v.strip()) for v in value.split("|") if v.strip()]
+def _alternatives(cell):
+    """Parse 'severity=4; topic=downloads' into {field: [values]} (secondary, lenient scoring only)."""
+    alts = {}
+    for part in cell.replace("|", ";").split(";"):
+        if "=" in part:
+            field, value = (x.strip() for x in part.split("=", 1))
+            if field in ("topic", "intent", "severity") and value:
+                alts.setdefault(field, []).append(int(value) if field == "severity" else value)
+    return alts
+
+
+def _truthy(cell):
+    return cell.strip().lower() in ("true", "1", "yes", "y")
 
 
 def score_golden(args, log):
@@ -115,10 +125,19 @@ def score_golden(args, log):
     if not labeled:
         return 1
     for g in labeled:
-        bad = [t for t in _accepted(g["topic"]) if t not in TOPICS] + [i for i in _accepted(g["intent"]) if i not in INTENTS]
-        bad += [v for v in _accepted(g["severity"]) if v not in "12345"]
+        bad = []
+        if g["topic"].strip() not in TOPICS:
+            bad.append(f"topic={g['topic']!r}")
+        if g["intent"].strip() not in INTENTS:
+            bad.append(f"intent={g['intent']!r}")
+        if g["severity"].strip() not in ("1", "2", "3", "4", "5"):
+            bad.append(f"severity={g['severity']!r}")
+        alts = _alternatives(g.get("alternative_labels", ""))
+        bad += [f"alternative topic {t!r}" for t in alts.get("topic", []) if t not in TOPICS]
+        bad += [f"alternative intent {i!r}" for i in alts.get("intent", []) if i not in INTENTS]
+        bad += [f"alternative severity {v!r}" for v in alts.get("severity", []) if v not in (1, 2, 3, 4, 5)]
         if bad:
-            raise SystemExit(f"golden row {g['review_id']}: invalid label(s) {bad}")
+            raise SystemExit(f"golden row {g['review_id']}: one primary label per column required; invalid: {bad}")
     manifest = read_json(run_dir / "run_manifest.json", {})
     from .config import JEV_MODEL
     records = {r["review_id"]: r for r in build(run_dir, "fake-jev-0" if manifest.get("fake") else JEV_MODEL)}
@@ -132,30 +151,33 @@ def score_golden(args, log):
     sentiment_errors = []
     cases = []
     for g in labeled:
-        acc = {"topic": _accepted(g["topic"]), "intent": _accepted(g["intent"]), "severity": _accepted(g["severity"], int)}
-        ambiguous = any(len(v) > 1 for v in acc.values())
+        primary = {"topic": g["topic"].strip(), "intent": g["intent"].strip(), "severity": int(g["severity"])}
+        alts = _alternatives(g.get("alternative_labels", ""))
+        ambiguous = _truthy(g.get("ambiguous", "")) or bool(alts)
         totals["ambiguous"] += ambiguous
         r = records.get(g["review_id"])
-        case = {"review_id": g["review_id"], "text": texts[g["review_id"]][:300], "expected": {k: g[k] for k in acc},
-                "ambiguous": ambiguous}
+        case = {"review_id": g["review_id"], "text": texts[g["review_id"]][:300], "expected": primary,
+                "alternatives": alts, "ambiguous": ambiguous, "label_notes": g.get("label_notes", "")}
         if not r or r["status"] != "completed":
             case.update({"status": r["status"] if r else "missing", "pass": False,
                          "fail_reasons": ["no valid prediction (counts as wrong)"]})
             totals["missing_or_quarantined"] += 1
             cases.append(case)
             continue
-        ok = {k: r[k] in acc[k] for k in acc}
-        for k, v in ok.items():
-            totals[k + "_correct"] += v
+        # Headline (strict): the single primary human label. Secondary (lenient): primary or a noted alternative.
+        ok = {k: r[k] == v for k, v in primary.items()}
+        lenient = {k: ok[k] or r[k] in alts.get(k, []) for k in primary}
+        for k in primary:
+            totals[k + "_correct"] += ok[k]
+            totals[k + "_lenient"] += lenient[k]
         totals["all_three_correct"] += all(ok.values())
-        totals["severity_abs_error"] += min(abs(r["severity"] - x) for x in acc["severity"])
+        totals["severity_abs_error"] += abs(r["severity"] - primary["severity"])
         totals["present"] += 1
-        if len(acc["topic"]) == 1:
-            per_topic[acc["topic"][0]] += 1
-            confusion["topic"][f"{acc['topic'][0]}->{r['topic']}"] += 1
-        if len(acc["intent"]) == 1:
-            confusion["intent"][f"{acc['intent'][0]}->{r['intent']}"] += 1
-        fails = [f"{k}: expected {g[k]}, predicted {r[k]}" for k, v in ok.items() if not v]
+        per_topic[primary["topic"]] += 1
+        confusion["topic"][f"{primary['topic']}->{r['topic']}"] += 1
+        confusion["intent"][f"{primary['intent']}->{r['intent']}"] += 1
+        fails = [f"{k}: expected {primary[k]}, predicted {r[k]}" + (" (matches a noted alternative)" if lenient[k] else "")
+                 for k, v in ok.items() if not v]
         if g.get("sentiment", "").strip():
             err = abs(float(g["sentiment"]) - r["sentiment"])
             sentiment_errors.append(err)
@@ -167,7 +189,7 @@ def score_golden(args, log):
         human_entities = [x.strip() for x in g.get("entities", "").replace(";", "|").split("|") if x.strip()]
         unsupported = [x for x in r["entities"] if human_entities and x.lower() not in {h.lower() for h in human_entities}]
         if g.get("needs_review", "").strip():
-            human_nr = g["needs_review"].strip().lower() in ("true", "1", "yes", "y")
+            human_nr = _truthy(g["needs_review"])
             nr[("tp" if r["needs_review"] else "fn") if human_nr else ("fp" if r["needs_review"] else "tn")] += 1
         case.update({"status": "completed", "predicted": {k: r[k] for k in ("topic", "intent", "severity", "sentiment",
                                                                             "needs_review", "entities")},
@@ -183,12 +205,17 @@ def score_golden(args, log):
                "missing_or_quarantined_counted_wrong": totals["missing_or_quarantined"],
                "agreement": {"topic": frac("topic_correct"), "intent": frac("intent_correct"),
                              "severity_exact": frac("severity_correct"), "all_three": frac("all_three_correct")},
+               "agreement_basis": "strict: one primary human label per field; missing/quarantined count as wrong",
+               "secondary_lenient_agreement": {"topic": frac("topic_lenient"), "intent": frac("intent_lenient"),
+                                               "severity_exact": frac("severity_lenient"),
+                                               "note": "also accepts alternatives noted in alternative_labels; "
+                                                       "reported separately, never as the headline"},
                "severity_mae_on_present": round(totals["severity_abs_error"] / max(1, totals["present"]), 4),
                "sentiment": {"tolerance": SENTIMENT_TOLERANCE, "labelled": len(sentiment_errors),
                              "mae": round(sum(sentiment_errors) / len(sentiment_errors), 4) if sentiment_errors else None,
                              "within_tolerance": sum(e <= SENTIMENT_TOLERANCE for e in sentiment_errors)},
                "needs_review_as_prediction": {**dict(nr), "precision": precision, "recall": recall},
-               "per_topic_support_unambiguous": dict(per_topic),
+               "per_topic_support": dict(per_topic),
                "confusion_expected_to_predicted": {k: dict(v.most_common()) for k, v in confusion.items()},
                "note": "50 cases are a small diagnostic sample, not a population accuracy estimate. "
                        "quote_supports_label is left blank for human inspection."}
