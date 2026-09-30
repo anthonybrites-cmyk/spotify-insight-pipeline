@@ -1,0 +1,96 @@
+{
+  "clean_coverage": {
+    "accounted_fraction": 1.0,
+    "duplicate_ids": 0,
+    "expected": 500,
+    "invalid_or_unresolved": 0,
+    "labelable": 500,
+    "labelable_completion_fraction": 1.0,
+    "missing": 0,
+    "quarantined": 0,
+    "received_lines": 500,
+    "unique_expected_ids": 500,
+    "valid_cache_reuses": 21,
+    "valid_completed": 500,
+    "valid_completion_fraction": 1.0
+  },
+  "clean_export_status": "pass",
+  "planted": {
+    "batch51": {
+      "checker_issue_counts": {
+        "unbounded_batch": 1
+      },
+      "detected": true,
+      "expected_code": "unbounded_batch"
+    },
+    "cache_chain": {
+      "checker_issue_counts": {
+        "invalid_cache_reuse": 2,
+        "resume_call_evidence": 1,
+        "resume_snapshot_mismatch": 1,
+        "unfinished_classification": 1
+      },
+      "detected": true,
+      "expected_code": "invalid_cache_reuse"
+    },
+    "claim": {
+      "checker_issue_counts": {
+        "claim_mismatch": 1
+      },
+      "detected": true,
+      "expected_code": "claim_mismatch"
+    },
+    "duplicate": {
+      "checker_issue_counts": {
+        "duplicate_review_id": 1,
+        "resume_call_evidence": 1,
+        "resume_snapshot_mismatch": 1,
+        "unfinished_classification": 1
+      },
+      "detected": true,
+      "expected_code": "duplicate_review_id"
+    },
+    "hash": {
+      "checker_issue_counts": {
+        "resume_call_evidence": 1,
+        "resume_snapshot_mismatch": 1,
+        "source_mismatch": 1,
+        "unfinished_classification": 1
+      },
+      "detected": true,
+      "expected_code": "source_mismatch"
+    },
+    "quote": {
+      "checker_issue_counts": {
+        "resume_call_evidence": 1,
+        "resume_snapshot_mismatch": 1,
+        "unfinished_classification": 1,
+        "unsupported_quote": 1
+      },
+      "detected": true,
+      "expected_code": "unsupported_quote"
+    },
+    "ranking": {
+      "checker_issue_counts": {
+        "ranking_mismatch": 1
+      },
+      "detected": true,
+      "expected_code": "ranking_mismatch"
+    },
+    "reprocess": {
+      "checker_issue_counts": {
+        "reprocessed_checkpoint": 1
+      },
+      "detected": true,
+      "expected_code": "reprocessed_checkpoint"
+    },
+    "ungrouped": {
+      "checker_issue_counts": {
+        "ranking_mismatch": 1,
+        "ungrouped_complaints": 1
+      },
+      "detected": true,
+      "expected_code": "ungrouped_complaints"
+    }
+  }
+}

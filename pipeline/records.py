@@ -15,7 +15,7 @@ def build(run_dir, jev_model):
     failures = {}
     for f in read_jsonl(run_dir / "enrich" / "failures.jsonl"):
         if f["label_config"] == config:
-            failures[f["unit"]] = f["reason"]
+            failures[f["unit"]] = f
     disagreements = set(read_json(run_dir / "verify" / "disagreement_units.json", []))
     assignments, _ = load_assignments(run_dir) if (run_dir / "group" / "issues.json").exists() else ({}, None)
 
@@ -23,19 +23,23 @@ def build(run_dir, jev_model):
     for s in load_sources(run_dir):
         base = {"review_id": s["review_id"], "source_sha256": s["source_sha256"]}
         if s["unit"] is None:
-            records.append({**base, "status": "quarantined", "reason": s["quarantine_reason"]})
+            records.append({**base, "status": "quarantined", "reason": s["quarantine_reason"], "attempts": 0})
             continue
         row = done.get(s["unit"])
         if row is None:
-            reason = failures.get(s["unit"])
-            records.append({**base, "status": "quarantined",
-                            "reason": f"enrich_failed: {reason}" if reason else "not_processed"})
+            failure = failures.get(s["unit"])
+            if failure:
+                records.append({**base, "status": "quarantined", "reason": f"enrich_failed: {failure['reason']}",
+                                "attempts": failure.get("attempts", 0)})
+            else:  # never attempted: the run is incomplete, and this row is disclosed as such
+                records.append({**base, "status": "quarantined", "reason": "pending_not_processed", "attempts": 0})
             continue
         record = {**base, "status": "completed", **{k: row[k] for k in LABEL_FIELDS}, "label_config": config}
         if s["unit"] in disagreements:
             record["needs_review"] = True
         if s["review_id"] != row["review_id"]:
             record["cache_source_id"] = row["review_id"]
+        record["attempts"] = 0 if "cache_source_id" in record else row.get("attempts", 1)
         if record["intent"] in ("complaint", "cancellation"):
             record["issue_id"] = assignments.get(s["unit"])
         records.append(record)

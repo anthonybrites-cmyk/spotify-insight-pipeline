@@ -2,7 +2,7 @@
 
 The model makes judgments; code enforces the contract's identities:
   * severity 1 for praise / request / unclear, >= 2 for complaint;
-  * sentiment is computed from the level probabilities in code;
+  * sentiment = score / 2 - 1 is computed in code from Jev's 0..4 Score position;
   * the evidence quote is a sentence cut from the source text by code, so it is
     always an exact substring; Jev only chooses which sentence.
 Only review_text is ever sent. Stars, likes, versions and dates are never inputs.
@@ -12,8 +12,7 @@ import re
 from decimal import Decimal, ROUND_HALF_UP
 
 from .checker import INTENTS, TOPICS
-from .config import (JEV_MODEL, MAX_QUOTE_CANDIDATES, MIN_CONFIDENCE, SCHEMA_VERSION,
-                     SENTIMENT_VALUES, UNCLEAR_NOUL_THRESHOLD)
+from .config import JEV_MODEL, MAX_QUOTE_CANDIDATES, MIN_CONFIDENCE, SCHEMA_VERSION, UNCLEAR_NOUL_THRESHOLD
 from .entities import LEXICON
 from .store import canonical, sha256_text
 
@@ -111,7 +110,7 @@ def prompt_template_hash():
                 "splitter": _SENTENCE_BREAK.pattern, "max_candidates": MAX_QUOTE_CANDIDATES,
                 "state_shape": "{'review': review_text}", "entity_lexicon": LEXICON,
                 "post": {"unclear_threshold": UNCLEAR_NOUL_THRESHOLD, "min_confidence": MIN_CONFIDENCE,
-                         "sentiment_values": [str(v) for v in SENTIMENT_VALUES]}}
+                         "sentiment_mapping": "score / 2 - 1"}}
     return sha256_text(canonical(template))[:12]
 
 
@@ -138,16 +137,13 @@ def interpret(answers, candidates):
     model_severity = int(severity_s)
 
     score = answers.get("sentiment")
-    if not isinstance(score, dict) or score.get("type") != "score":
+    if not isinstance(score, dict) or score.get("type") != "score" or not isinstance(score.get("score"), (int, float)):
         raise InvalidAnswer("sentiment: missing")
-    probs = score.get("probabilities") or {}
-    if set(probs) != {str(i) for i in range(len(SENTIMENT_VALUES))}:
-        raise InvalidAnswer("sentiment: unexpected levels")
-    total = sum(Decimal(str(p)) for p in probs.values())
-    if total <= 0:
-        raise InvalidAnswer("sentiment: zero probability mass")
-    expected = sum(Decimal(str(probs[str(i)])) * v for i, v in enumerate(SENTIMENT_VALUES)) / total
-    sentiment = float(max(Decimal(-1), min(Decimal(1), expected)).quantize(Decimal("0.001"), ROUND_HALF_UP))
+    position = Decimal(str(score["score"]))  # probability-weighted level position, 0..4
+    if not Decimal(0) <= position <= Decimal(len(SENTIMENT_LEVELS) - 1):
+        raise InvalidAnswer("sentiment: score outside 0..4")
+    # Course-documented mapping: sentiment = score / 2 - 1 maps positions 0..4 to -1..1 (computed in code).
+    sentiment = float((position / 2 - 1).quantize(Decimal("0.001"), ROUND_HALF_UP))
 
     unclear = answers.get("unclear")
     if not isinstance(unclear, dict) or not isinstance(unclear.get("noul"), (int, float)):

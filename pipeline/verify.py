@@ -1,10 +1,11 @@
-"""Stage 3: independent verification on a declared sample.
+"""Stage 3: independent verification on a declared random sample.
 
-A different model family (Claude) labels a declared sample *blind*: it never sees
-Jev's labels. Code then compares the two. Sample = half the lowest-confidence Jev
-units (where errors concentrate) + half uniform random by seeded hash (an unbiased
-estimate of agreement). Disagreements set needs_review=true at export; labels are
-not overwritten, so every label keeps a single label_config.
+A different model family (Claude) labels a declared uniform random sample (ordered by
+sha256(seed:unit)) *blind*: it never sees Jev's labels. Code compares the two, reports
+agreement overall and by Jev-confidence band, and lists disagreements for inspection.
+Material disagreements set needs_review=true at export; labels are not overwritten, so
+every label keeps a single label_config. A planted-wrong-label test runs on a separate
+copy of the comparison and must be caught by the same comparison code.
 """
 
 import hashlib
@@ -61,18 +62,22 @@ def label_config():
     return f"{CLAUDE_MODEL}+verify-{sha256_text(system_prompt() + canonical(SCHEMA))[:12]}+{SCHEMA_VERSION}"
 
 
-def select_sample(done, n):
-    def min_conf(row):
-        c = row["diagnostics"]["confidence"]
-        return min(c["topic"], c["intent"], c["severity"])
-    units = sorted(done.values(), key=lambda r: r["unit"])
-    n = min(n, len(units))
-    n_low = n // 2
-    low = sorted(units, key=lambda r: (min_conf(r), r["unit"]))[:n_low]
-    low_ids = {r["unit"] for r in low}
-    rest = [r for r in units if r["unit"] not in low_ids]
-    rand = sorted(rest, key=lambda r: hashlib.sha256(f"{SEED}:{r['unit']}".encode()).hexdigest())[:n - n_low]
-    return [(r, "low_confidence") for r in low] + [(r, "random") for r in rand]
+def select_sample(done, n, exclude_ids=()):
+    units = [r for r in done.values() if r["review_id"] not in exclude_ids]
+    ranked = sorted(units, key=lambda r: hashlib.sha256(f"{SEED}:{r['unit']}".encode()).hexdigest())
+    return [(r, "random") for r in ranked[:min(n, len(ranked))]]
+
+
+def min_conf(row):
+    c = row["diagnostics"]["confidence"]
+    return min(c["topic"], c["intent"], c["severity"])
+
+
+def compare(jev, verifier):
+    match = {f: verifier[f] == jev[f] for f in ("topic", "intent", "severity")}
+    diff = abs(verifier["severity"] - jev["severity"])
+    # Material disagreement: topic or intent differs, or severity differs by 2+ levels.
+    return match, diff, (not match["topic"] or not match["intent"] or diff >= 2)
 
 
 def make_validator(sent_ids):
@@ -93,13 +98,14 @@ def make_validator(sent_ids):
     return validate
 
 
-def run(run_dir, client, budget, calls, texts, n, jev_model, log=print):
+def run(run_dir, client, budget, calls, texts, n, jev_model, exclude_ids=(), log=print):
     out = run_dir / "verify"
     config = enrich_config(jev_model)
     done = completed_results(run_dir, config)
-    sample = select_sample(done, n)
+    sample = select_sample(done, n, exclude_ids)
     write_json(out / "sample.json", {
-        "method": "half lowest min(topic,intent,severity) Jev confidence; half uniform by sha256(seed:unit)",
+        "method": "uniform random over completed distinct texts: lowest sha256(seed:unit) values; "
+                  "golden-50 IDs excluded",
         "seed": SEED, "requested": n, "size": len(sample), "enrich_label_config": config,
         "units": [{"unit": r["unit"], "review_id": r["review_id"], "stratum": s} for r, s in sample]})
     vconfig = label_config()
@@ -122,29 +128,31 @@ def run(run_dir, client, budget, calls, texts, n, jev_model, log=print):
     return write_report(out, sample, verdicts, vconfig, config)
 
 
+def band(conf):
+    return "low_confidence(<0.5)" if conf < 0.5 else "mid_confidence(0.5-0.8)" if conf < 0.8 else "high_confidence(>=0.8)"
+
+
 def write_report(out, sample, verdicts, vconfig, config):
     rows, disagreements = [], []
-    per = {s: Counter() for s in ("low_confidence", "random", "all")}
-    confusion = {"topic": Counter(), "intent": Counter()}
+    per = {}
+    confusion = {"topic": Counter(), "intent": Counter(), "severity": Counter()}
     for r, stratum in sample:
         v = verdicts[r["review_id"]]
-        match = {"topic": v["topic"] == r["topic"], "intent": v["intent"] == r["intent"],
-                 "severity": v["severity"] == r["severity"]}
-        diff = abs(v["severity"] - r["severity"])
-        for key in (stratum, "all"):
-            per[key]["n"] += 1
-            per[key]["severity_abs_error"] += diff
+        match, diff, material = compare(r, v)
+        for key in ("all", band(min_conf(r))):
+            c = per.setdefault(key, Counter())
+            c["n"] += 1
+            c["severity_abs_error"] += diff
             for f, ok in match.items():
-                per[key][f + "_agree"] += ok
-            per[key]["all_three_agree"] += all(match.values())
+                c[f + "_agree"] += ok
+            c["all_three_agree"] += all(match.values())
+            c["material_disagreements"] += material
         for f in confusion:
             confusion[f][f"{r[f]}->{v[f]}"] += 1
-        # Material disagreement: topic or intent differs, or severity differs by 2+ levels.
-        material = not match["topic"] or not match["intent"] or diff >= 2
-        row = {"unit": r["unit"], "review_id": r["review_id"], "stratum": stratum,
+        row = {"unit": r["unit"], "review_id": r["review_id"], "stratum": stratum, "jev_min_confidence": min_conf(r),
                "jev": {k: r[k] for k in ("topic", "intent", "severity")},
                "verifier": {k: v[k] for k in ("topic", "intent", "severity")}, "verifier_reason": v["reason"],
-               "material_disagreement": material}
+               "evidence_quote": r["evidence_quote"], "material_disagreement": material}
         rows.append(row)
         if material:
             disagreements.append(r["unit"])
@@ -155,14 +163,32 @@ def write_report(out, sample, verdicts, vconfig, config):
                 "intent_agreement": round(c["intent_agree"] / n, 4),
                 "severity_exact_agreement": round(c["severity_agree"] / n, 4),
                 "all_three_agreement": round(c["all_three_agree"] / n, 4),
-                "severity_mae": round(c["severity_abs_error"] / n, 4)}
-    report = {"verify_label_config": vconfig, "enrich_label_config": config,
-              "strata": {k: rates(c) for k, c in per.items()},
+                "severity_mae": round(c["severity_abs_error"] / n, 4),
+                "material_disagreements": c["material_disagreements"]}
+    report = {"verify_label_config": vconfig, "enrich_label_config": config, "sample": "declared uniform random",
+              "strata": {k: rates(c) for k, c in sorted(per.items())},
               "material_disagreements": len(disagreements),
               "definition": "topic or intent differs, or severity differs by >= 2; these records get needs_review=true",
-              "confusion": {f: dict(c.most_common()) for f, c in confusion.items()},
-              "note": "Agreement between two models is not accuracy; the random stratum estimates population agreement."}
+              "confusion_jev_to_verifier": {f: dict(c.most_common()) for f, c in confusion.items()},
+              "note": "Agreement between two models is not accuracy."}
     write_json(out / "report.json", report)
     write_json(out / "comparisons.json", rows)
     write_json(out / "disagreement_units.json", sorted(disagreements))
+    write_json(out / "planted_label_test.json", planted_label_test(rows))
     return report
+
+
+def planted_label_test(rows, n=25):
+    """Separate test copy: take records where both models agreed, plant a deliberately wrong
+    Jev label (topic rotated to a different topic), rerun the same comparison, count detections.
+    Uses saved verifier outputs only; no model calls; never touches the real records."""
+    agreed = [r for r in rows if not r["material_disagreement"]][:n]
+    cases = []
+    for r in agreed:
+        planted = dict(r["jev"])
+        planted["topic"] = TOPICS[(TOPICS.index(planted["topic"]) + 3) % len(TOPICS)]
+        _, _, material = compare(planted, r["verifier"])
+        cases.append({"review_id": r["review_id"], "original_topic": r["jev"]["topic"], "planted_topic": planted["topic"],
+                      "verifier_topic": r["verifier"]["topic"], "detected": material})
+    return {"description": "deliberately wrong topic planted in a copy of agreeing comparisons",
+            "planted": len(cases), "detected": sum(c["detected"] for c in cases), "cases": cases}

@@ -13,6 +13,10 @@ class Retryable(Exception):
         self.usage = usage
 
 
+class InvalidOutput(Exception):
+    """The provider answered, but the answer failed validation. Retried at most once."""
+
+
 class Fatal(Exception):
     """Do not retry (bad request, invalid output after retries...)."""
 
@@ -27,16 +31,27 @@ def backoff(attempt, retry_after=None, rng=random.random):
     return min(BACKOFF_CAP_S, BACKOFF_BASE_S * 2 ** (attempt - 1)) * (0.5 + rng())
 
 
-def run_with_retries(attempt_fn, on_failed_attempt, max_attempts=MAX_ATTEMPTS, sleep=time.sleep):
-    """attempt_fn(attempt) returns a result or raises Retryable/Fatal.
+def run_with_retries(attempt_fn, on_failed_attempt, max_attempts=MAX_ATTEMPTS, max_invalid_retries=1,
+                     sleep=time.sleep):
+    """attempt_fn(attempt, previous_error) returns a result or raises Retryable/InvalidOutput/Fatal.
 
-    on_failed_attempt(attempt, error) is called for every failed attempt so that
-    each one is logged as a failed call.
+    Two separate bounds, per the assignment:
+      * transient errors (rate limits, 5xx, timeouts): exponential backoff, at most max_attempts calls;
+      * invalid output: retried at most once (with the error available to attempt_fn), then Fatal,
+        so the unit is quarantined with the reason.
+    on_failed_attempt(attempt, error) is called for every failed attempt so each one is logged.
     """
     last = None
+    invalid = 0
     for attempt in range(1, max_attempts + 1):
         try:
-            return attempt_fn(attempt)
+            return attempt_fn(attempt, last)
+        except InvalidOutput as e:
+            last = e
+            invalid += 1
+            on_failed_attempt(attempt, e)
+            if invalid > max_invalid_retries:
+                raise Fatal(f"invalid output after {max_invalid_retries} retry: {e}")
         except Retryable as e:
             last = e
             on_failed_attempt(attempt, e)

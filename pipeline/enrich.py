@@ -103,13 +103,13 @@ def run(run_dir, client, budget, calls, stop, max_new=None, accept_gate=False, l
             row = {"unit": task.key, "review_id": task.review_id, "label_config": config, **labels,
                    "entities": extract(task.text), "model": outcome.response.model,
                    "request_id": outcome.response.request_id, "diagnostics": diagnostics,
-                   "completed_at": now(), "phase": phase}
+                   "attempts": outcome.attempts, "completed_at": now(), "phase": phase}
             results.write(row)
             done[task.key] = row
             counters["ok"] += 1
         else:
             failures.write({"unit": task.key, "review_id": task.review_id, "label_config": config,
-                            "reason": outcome.error, "at": now()})
+                            "reason": outcome.error, "attempts": outcome.attempts, "at": now()})
             counters["failed"] += 1
         if counters["ok"] % 200 == 0:
             results.flush()

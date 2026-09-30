@@ -9,11 +9,19 @@ from .checker import FIELDS  # noqa: F401  (documents that hashing follows the c
 from .store import canonical, read_json, read_jsonl, sha256_file, write_json
 
 RECORD_ORDER = ("review_id", "source_sha256", "status", "reason", "topic", "intent", "sentiment", "severity",
-                "entities", "evidence_quote", "needs_review", "label_config", "cache_source_id")
+                "entities", "evidence_quote", "needs_review", "label_config", "cache_source_id", "attempts")
 
 
 def contract_record(r):
     return {k: r[k] for k in RECORD_ORDER if k in r}
+
+
+def claims_csv(claims):
+    buf = io.StringIO()
+    writer = csv.DictWriter(buf, fieldnames=["claim_id", "issue_id", "metric", "value"], lineterminator="\n")
+    writer.writeheader()
+    writer.writerows(claims)
+    return buf.getvalue()
 
 
 def write_gz_jsonl(path, rows):
@@ -22,7 +30,7 @@ def write_gz_jsonl(path, rows):
             f.write(canonical(row) + "\n")
 
 
-def run(run_dir, grading_dir, records, claims, allow_fake=False, log=print):
+def run(run_dir, grading_dir, records, claims, allow_fake=False, log=print, results_dir=None):
     configs = {r["label_config"] for r in records if r["status"] == "completed"}
     if any("fake" in c for c in configs) and not allow_fake:
         raise SystemExit("refusing to export: records come from the offline fake provider (tests only)")
@@ -60,11 +68,7 @@ def run(run_dir, grading_dir, records, claims, allow_fake=False, log=print):
     write_gz_jsonl(grading_dir / "calls.jsonl.gz", read_jsonl(run_dir / "calls.jsonl"))
     for name in ("membership.csv", "ranking.csv"):
         shutil.copyfile(run_dir / "rank" / name, grading_dir / name)
-    buf = io.StringIO()
-    writer = csv.DictWriter(buf, fieldnames=["claim_id", "issue_id", "metric", "value"], lineterminator="\n")
-    writer.writeheader()
-    writer.writerows(claims)
-    (grading_dir / "claims.csv").write_text(buf.getvalue(), encoding="utf-8")
+    (grading_dir / "claims.csv").write_text(claims_csv(claims), encoding="utf-8")
 
     if before_name:
         before = read_json(snapshots / before_name)
@@ -84,3 +88,54 @@ def run(run_dir, grading_dir, records, claims, allow_fake=False, log=print):
     manifest = {p.name: sha256_file(p) for p in sorted(grading_dir.iterdir()) if p.is_file() and p.name != "MANIFEST.json"}
     write_json(grading_dir / "MANIFEST.json", manifest)
     log(f"export: wrote {grading_dir} ({len(records)} records)")
+    if results_dir:
+        export_results(run_dir, results_dir, records, claims, log)
+
+
+def export_results(run_dir, out, records, claims, log=print):
+    """Human-readable result set named in the assignment brief (separate from the grading adapter)."""
+    out.mkdir(parents=True, exist_ok=True)
+    enriched_run = {r["unit"]: r for r in read_jsonl(run_dir / "enrich" / "results.jsonl")}
+    units = {s["review_id"]: s["unit"] for s in read_jsonl(run_dir / "ingest" / "sources.jsonl")}
+    with gzip.open(out / "enriched.jsonl.gz", "wt", encoding="utf-8") as f:
+        for r in records:
+            if r["status"] != "completed":
+                continue
+            diag = enriched_run.get(units[r["review_id"]], {}).get("diagnostics", {})
+            f.write(canonical({**r, "jev_confidence": diag.get("confidence"),
+                               "severity_rule_applied": diag.get("severity_rule_applied")}) + "\n")
+    with (out / "quarantine.jsonl").open("w", encoding="utf-8") as f:
+        for r in records:
+            if r["status"] == "quarantined":
+                f.write(canonical(r) + "\n")
+    issues = read_json(run_dir / "group" / "issues.json")["issues"]
+    members = {}
+    for r in records:
+        if r["status"] == "completed" and r.get("issue_id"):
+            members.setdefault(r["issue_id"], []).append(r["review_id"])
+    write_json(out / "issues.json", {iid: {**meta, "member_count": len(members.get(iid, [])),
+                                           "member_review_ids": sorted(members.get(iid, []))}
+                                     for iid, meta in issues.items()})
+    ranking = list(csv.DictReader((run_dir / "rank" / "ranking.csv").open(encoding="utf-8", newline="")))
+    buf = io.StringIO()
+    writer = csv.DictWriter(buf, fieldnames=["issue_id", "topic", "name", "complaint_count", "severity_sum",
+                                             "mean_severity", "priority_score", "rank"], lineterminator="\n")
+    writer.writeheader()
+    for row in ranking:
+        meta = issues[row["issue_id"]]
+        writer.writerow({**{k: row[k] for k in ("issue_id", "complaint_count", "severity_sum", "mean_severity",
+                                                "priority_score", "rank")}, "topic": meta["topic"], "name": meta["name"]})
+    (out / "aggregates.csv").write_text(buf.getvalue(), encoding="utf-8")
+    for src, dst in (("rank/ranking.csv", "ranking.csv"), ("rank/membership.csv", "membership.csv"),
+                     ("ingest/data_manifest.json", "data_manifest.json"),
+                     ("ingest/ingestion_report.json", "ingestion_report.json"), ("run_log.jsonl", "run_log.jsonl"),
+                     ("run_summary.json", "run_summary.json"), ("run_manifest.json", "run_manifest.json"),
+                     ("memo/memo.md", "memo.md"), ("memo/check.json", "memo_check.json"),
+                     ("memo/facts_cited.json", "memo_facts_cited.json"), ("verify/report.json", "verification_report.json"),
+                     ("verify/comparisons.json", "verification_comparisons.json"),
+                     ("verify/planted_label_test.json", "planted_label_test.json"),
+                     ("verify/sample.json", "verification_sample.json"), ("group/summary.json", "group_summary.json")):
+        if (run_dir / src).exists():
+            shutil.copyfile(run_dir / src, out / dst)
+    (out / "claims.csv").write_text(claims_csv(claims), encoding="utf-8")
+    log(f"export: wrote results folder {out}")

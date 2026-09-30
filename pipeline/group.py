@@ -51,14 +51,16 @@ def complaint_units(done):
     return {u: r for u, r in done.items() if r["intent"] in COMPLAINT_INTENTS}
 
 
-def taxonomy_input(complaints):
+def taxonomy_input(complaints, exclude_ids=()):
     by_topic = {t: [] for t in TOPICS}
     for r in complaints.values():
         by_topic[r["topic"]].append(r)
+    counts = {t: len(rows) for t, rows in by_topic.items()}
+    by_topic = {t: [r for r in rows if r["review_id"] not in exclude_ids] for t, rows in by_topic.items()}
     payload = []
     for t in TOPICS:
         rows = sorted(by_topic[t], key=lambda r: hashlib.sha256(f"{SEED}:{r['unit']}".encode()).hexdigest())
-        payload.append({"topic": t, "definition": TOPIC_CRITERIA[t], "distinct_complaint_texts": len(rows),
+        payload.append({"topic": t, "definition": TOPIC_CRITERIA[t], "distinct_complaint_texts": counts[t],
                         "sample_quotes": [r["evidence_quote"][:240] for r in rows[:SAMPLES_PER_TOPIC]]})
     return payload
 
@@ -103,13 +105,13 @@ def assignment_question(topic, issues):
                                          f"Choose `general` if none fits or it is too vague. " + DATA_NOTE}}
 
 
-def run(run_dir, claude_client, jev_client, budget, calls, stop, texts, log=print, **dispatch_kw):
+def run(run_dir, claude_client, jev_client, budget, calls, stop, texts, exclude_ids=(), log=print, **dispatch_kw):
     out = run_dir / "group"
     done = completed_results(run_dir, enrich_config(jev_client.model))
     complaints = complaint_units(done)
 
     # Step A: taxonomy (cached by input hash; a rerun with identical input makes no call).
-    tax_input = taxonomy_input(complaints)
+    tax_input = taxonomy_input(complaints, exclude_ids)
     user = "<topics>\n" + json.dumps(tax_input, ensure_ascii=False, indent=1) + "\n</topics>"
     tconfig = f"{claude_client.model}+group-taxonomy-{sha256_text(SYSTEM + canonical(SCHEMA))[:12]}+{SCHEMA_VERSION}"
     name = f"taxonomy_{sha256_text(tconfig + user)[:12]}"

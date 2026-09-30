@@ -50,5 +50,4 @@ MIN_CONFIDENCE = {"topic": 0.35, "intent": 0.35, "severity": 0.25}
 # spend so far must not exceed the same fraction of the budget cap.
 EARLY_GATE_FRACTION = Decimal("0.10")
 
-SENTIMENT_VALUES = [Decimal("-1"), Decimal("-0.5"), Decimal("0"), Decimal("0.5"), Decimal("1")]
 MAX_QUOTE_CANDIDATES = 30

@@ -11,7 +11,7 @@ import anthropic
 from .budget import cost_usd
 from .config import (CLAUDE_BASE_URL, CLAUDE_EFFORT, CLAUDE_MAX_TOKENS, CLAUDE_MODEL, CLAUDE_PRICE_IN,
                      CLAUDE_PRICE_OUT, CLAUDE_TIMEOUT_S)
-from .retry import AuthFailure, Fatal, Retryable, run_with_retries
+from .retry import AuthFailure, Fatal, InvalidOutput, Retryable, run_with_retries
 from .store import write_json
 
 
@@ -62,7 +62,7 @@ def estimate_tokens(text):
 
 
 def call(client, budget, calls, handoff_dir, name, role, phase, label_config, review_ids, system, user,
-         schema=None, validate=None, max_tokens=CLAUDE_MAX_TOKENS, max_attempts=3):
+         schema=None, validate=None, max_tokens=CLAUDE_MAX_TOKENS, max_attempts=4):
     """One logical request with retries. Saves request/response handoffs; returns (parsed, response)."""
     handoff_dir.mkdir(parents=True, exist_ok=True)
     write_json(handoff_dir / f"{name}.request.json",
@@ -70,13 +70,18 @@ def call(client, budget, calls, handoff_dir, name, role, phase, label_config, re
                 "schema": schema, "max_tokens": max_tokens, "label_config": label_config})
     state = {}
 
-    def attempt(n):
+    def attempt(n, previous_error):
         state.clear()
+        prompt = user
+        if isinstance(previous_error, InvalidOutput):
+            # The single invalid-output retry carries the validation error back to the model.
+            prompt = (user + "\n\nYour previous response was rejected by validation: " + str(previous_error)[:500]
+                      + "\nReturn a corrected, complete response.")
         # Reserve the worst case: full input estimate plus max_tokens of output.
-        reservation = budget.reserve(cost_usd(estimate_tokens(system + user), max_tokens,
+        reservation = budget.reserve(cost_usd(estimate_tokens(system + prompt), max_tokens,
                                               CLAUDE_PRICE_IN, CLAUDE_PRICE_OUT))
         try:
-            response = client.create(system, user, schema, max_tokens)
+            response = client.create(system, prompt, schema, max_tokens)
         except BaseException:
             budget.release(reservation)
             raise
@@ -88,13 +93,13 @@ def call(client, budget, calls, handoff_dir, name, role, phase, label_config, re
         if response["stop_reason"] == "refusal":
             raise Fatal("model refused")
         if response["stop_reason"] == "max_tokens":
-            raise Retryable("truncated at max_tokens")
-        parsed = json.loads(response["text"]) if schema is not None else response["text"]
-        if validate is not None:
-            try:
+            raise InvalidOutput("truncated at max_tokens")
+        try:
+            parsed = json.loads(response["text"]) if schema is not None else response["text"]
+            if validate is not None:
                 parsed = validate(parsed)
-            except ValueError as e:
-                raise Retryable(f"invalid output: {e}")
+        except ValueError as e:  # includes json.JSONDecodeError
+            raise InvalidOutput(f"invalid output: {e}")
         return parsed
 
     def failed(n, error):

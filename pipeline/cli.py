@@ -2,119 +2,202 @@
 
   keys                 show whether each API key is present (never the value)
   run                  ingest -> enrich -> verify -> group -> rank -> recommend [-> export]
-  export               rebuild the grading folder from a finished run directory
+  rerank               regenerate the baseline ranking from saved outputs (no model calls) and diff it
+  export               rebuild the grading and results folders from a finished run directory
   check                run the course checker (profile, reference, check) against a grading folder
-  eval-injection       live prompt-injection cases through the same Jev rubric (separate run dir)
+  golden-input         write a copy of golden_50 with only the six source fields (labels stripped)
   score-golden         compare a run's records with your hand-labelled golden_50 file
+  eval-injection       live prompt-injection cases through the Jev rubric and the verifier
 """
 
 import argparse
 import subprocess
 import sys
 import time
+import uuid
 from pathlib import Path
 
-from . import enrich, export, group, ingest, memo, rank, records, verify
+from . import enrich, export, golden, group, ingest, memo, rank, records, verify
 from .budget import Budget
 from .config import CLAUDE_MODEL, JEV_MODEL, REPO, VENDOR_CHECKER
 from .dispatch import StopFlag
 from .envfile import key_status, require
+from .runlog import RunLog, summarize
 from .store import JsonlAppender, read_json, write_json
 
 STOP_EXIT = 3
+STAGES = ("ingest", "enrich", "verify", "group", "rank", "recommend")
 
 
 def log(message):
     print(time.strftime("%H:%M:%S"), message, flush=True)
 
 
-def make_clients(fake, need_claude=True):
+def make_clients(fake, stages):
     if fake:
         from .fakes import FakeClaude, FakeJev
         return FakeJev(), FakeClaude()
     from .claude import ClaudeClient
     from .jev import JevClient
-    jev = JevClient(require("TYPESAFE_API_KEY"), model=JEV_MODEL)
-    claude_client = ClaudeClient(require("ANTHROPIC_API_KEY"), model=CLAUDE_MODEL) if need_claude else None
+    jev = JevClient(require("TYPESAFE_API_KEY"), model=JEV_MODEL) if "enrich" in stages or "group" in stages else None
+    needs_claude = bool({"verify", "group", "recommend"} & set(stages))
+    claude_client = ClaudeClient(require("ANTHROPIC_API_KEY"), model=CLAUDE_MODEL) if needs_claude else None
     return jev, claude_client
+
+
+def git_commit():
+    try:
+        out = subprocess.run(["git", "-C", str(REPO), "rev-parse", "HEAD"], capture_output=True, text=True, check=True)
+        dirty = subprocess.run(["git", "-C", str(REPO), "status", "--porcelain", "--", "pipeline"],
+                               capture_output=True, text=True).stdout.strip()
+        return out.stdout.strip() + ("+uncommitted-pipeline-changes" if dirty else "")
+    except (OSError, subprocess.CalledProcessError):
+        return "unknown"
 
 
 def cmd_run(args):
     run_dir = Path(args.run_dir).resolve()
     input_csv = Path(args.input).resolve()
+    stages = tuple(s.strip() for s in args.stages.split(",")) if args.stages else STAGES
+    unknown = set(stages) - set(STAGES)
+    if unknown:
+        raise SystemExit(f"unknown stages: {sorted(unknown)}")
     run_dir.mkdir(parents=True, exist_ok=True)
     manifest = read_json(run_dir / "run_manifest.json", {})
     if manifest and manifest.get("input") != str(input_csv):
         raise SystemExit(f"{run_dir} belongs to input {manifest['input']}; use a new --run-dir")
+    invocation = time.strftime("%Y%m%dT%H%M%S") + "-" + uuid.uuid4().hex[:6]
+    manifest.setdefault("run_id", run_dir.name + "-" + uuid.uuid4().hex[:8])
     manifest.update({"input": str(input_csv), "budget_group": args.budget_group, "budget_usd": args.budget_usd,
-                     "verify_n": args.verify_n, "fake": args.offline_fake})
+                     "verify_n": args.verify_n, "fake": args.offline_fake, "stages": list(stages),
+                     "workers": args.workers, "rps": args.rps, "max_minutes": args.max_minutes,
+                     "exclude_golden_ids_from": args.exclude_golden})
+    manifest.setdefault("invocations", []).append({"id": invocation, "code_version": git_commit(),
+                                                  "argv": sys.argv[1:], "started": time.strftime("%Y-%m-%dT%H:%M:%S%z")})
     write_json(run_dir / "run_manifest.json", manifest)
 
-    jev, claude_client = make_clients(args.offline_fake)
+    jev, claude_client = make_clients(args.offline_fake, stages)
     budget = Budget(args.budget_group, args.budget_usd, run_dir.name,
                     ledger_dir=(run_dir / "budgets") if args.offline_fake else REPO / "budgets")
     calls = JsonlAppender(run_dir / "calls.jsonl")
+    runlog = RunLog(run_dir, invocation)
+    runlog.event("invocation_start", argv=sys.argv[1:], budget=budget.summary())
+    code = None
     try:
-        return _run_stages(args, run_dir, input_csv, jev, claude_client, budget, calls)
+        code = _run_stages(args, stages, run_dir, input_csv, jev, claude_client, budget, calls, runlog, manifest)
+        return code
     finally:
+        runlog.event("invocation_end", exit_code=code, budget=budget.summary())
         calls.close()
         budget.close()
+        runlog.close()
 
 
-def _run_stages(args, run_dir, input_csv, jev, claude_client, budget, calls):
+def _run_stages(args, stages, run_dir, input_csv, jev, claude_client, budget, calls, runlog, manifest):
     dispatch_kw = {"workers": args.workers, "rps": args.rps}
-    log(f"run: {run_dir.name}; budget {budget.summary()}")
+    exclude = golden.load_ids(args.exclude_golden)
+    log(f"run: {run_dir.name}; stages {','.join(stages)}; budget {budget.summary()}")
 
-    summary = ingest.run(input_csv, run_dir, log=log)
+    with runlog.stage("ingest"):
+        ingest.run(input_csv, run_dir, log=log)
     texts = {u["unit"]: u["text"] for u in ingest.load_units(run_dir)}
 
-    with StopFlag() as stop:
-        reason = enrich.run(run_dir, jev, budget, calls, stop, max_new=args.stop_after_units,
-                            accept_gate=args.accept_early_gate, log=log, **dispatch_kw)
-        if reason == "incomplete" and stop.reason is None:
-            log("enrich: retrying units that failed (one pass)")
-            reason = enrich.run(run_dir, jev, budget, calls, stop, accept_gate=args.accept_early_gate,
-                                log=log, **dispatch_kw)
-        if reason not in (None, "incomplete"):
-            log(f"stopped: {reason}. Progress is saved. Rerun the same command to resume. Budget {budget.summary()}")
-            return STOP_EXIT
-        if reason == "incomplete":
-            log("enrich: some units still failed after retries; they will be exported as quarantined with reasons")
+    with StopFlag(max_minutes=args.max_minutes) as stop:
+        if "enrich" in stages:
+            with runlog.stage("enrich") as st:
+                reason = enrich.run(run_dir, jev, budget, calls, stop, max_new=args.stop_after_units,
+                                    accept_gate=args.accept_early_gate, log=log, **dispatch_kw)
+                if reason == "incomplete" and stop.reason is None:
+                    log("enrich: one more pass over units whose transient errors exhausted their retries")
+                    reason = enrich.run(run_dir, jev, budget, calls, stop, accept_gate=args.accept_early_gate,
+                                        log=log, **dispatch_kw)
+                st["stop_reason"] = reason
+            if reason not in (None, "incomplete"):
+                log(f"stopped: {reason}. Progress is saved. Rerun the same command to resume. Budget {budget.summary()}")
+                return STOP_EXIT
+            if reason == "incomplete":
+                log("enrich: some units still failed; they are exported as quarantined with reasons and attempts")
+        if "verify" in stages:
+            with runlog.stage("verify"):
+                verify.run(run_dir, claude_client, budget, calls, texts, args.verify_n, jev.model,
+                           exclude_ids=exclude, log=log)
+        if "group" in stages:
+            with runlog.stage("group") as st:
+                reason = group.run(run_dir, claude_client, jev, budget, calls, stop, texts, exclude_ids=exclude,
+                                   log=log, **dispatch_kw)
+                st["stop_reason"] = reason
+            if reason:
+                log(f"stopped during grouping: {reason}. Rerun the same command to resume.")
+                return STOP_EXIT
 
-        verify.run(run_dir, claude_client, budget, calls, texts, args.verify_n, jev.model, log=log)
-        reason = group.run(run_dir, claude_client, jev, budget, calls, stop, texts, log=log, **dispatch_kw)
-        if reason:
-            log(f"stopped during grouping: {reason}. Rerun the same command to resume.")
-            return STOP_EXIT
-
-    final = records.build(run_dir, jev.model)
-    ranking = rank.run(run_dir, final, log=log)
-    _, issues = group.load_assignments(run_dir)
-    claims, errors = memo.run(run_dir, claude_client, budget, calls, ranking, issues["issues"], final, log=log)
-    if errors:
-        log(f"memo: number check still failing after retries ({len(errors)} errors); see memo/check.json")
-    write_json(run_dir / "spend.json", budget.summary())
-    log(f"done. Budget {budget.summary()}")
-    if args.grading_dir:
-        export.run(run_dir, Path(args.grading_dir).resolve(), final, claims, allow_fake=args.allow_fake, log=log)
+    jev_model = jev.model if jev else JEV_MODEL
+    final = records.build(run_dir, jev_model)
+    claims, errors, ranking = [], [], None
+    if "rank" in stages:
+        with runlog.stage("rank"):
+            ranking = rank.run(run_dir, final, log=log)
+    if "recommend" in stages:
+        ranking = ranking or rank.load_computed(run_dir)
+        with runlog.stage("recommend") as st:
+            _, issues = group.load_assignments(run_dir)
+            claims, errors = memo.run(run_dir, claude_client, budget, calls, ranking, issues["issues"], final,
+                                      exclude_ids=exclude, log=log)
+            st["memo_check_errors"] = len(errors)
+        if errors:
+            log(f"memo: number check still failing after retries ({len(errors)} errors); see memo/check.json")
+    calls.flush()
+    summary = summarize(run_dir, final, budget.summary(),
+                        {"budget_group": args.budget_group, "budget_usd": args.budget_usd,
+                         "early_gate_fraction": "0.10", "max_minutes": args.max_minutes,
+                         "workers": args.workers, "rps": args.rps})
+    log(f"done. records {summary['records']['by_status']}; list-price cost ${summary['total_cost_usd_list_price']}")
+    if args.grading_dir and "recommend" in stages:
+        export.run(run_dir, Path(args.grading_dir).resolve(), final, claims, allow_fake=args.allow_fake, log=log,
+                   results_dir=Path(args.results_dir).resolve() if args.results_dir else None)
     return 0
+
+
+def jev_model_for(run_dir):
+    return "fake-jev-0" if read_json(run_dir / "run_manifest.json", {}).get("fake") else JEV_MODEL
 
 
 def cmd_export(args):
     run_dir = Path(args.run_dir).resolve()
-    manifest = read_json(run_dir / "run_manifest.json")
-    jev_model = "fake-jev-0" if manifest.get("fake") else JEV_MODEL
-    final = records.build(run_dir, jev_model)
-    ranking = rank.run(run_dir, final, log=log)
-    claims = [c for c in read_json(run_dir / "memo" / "memo_inputs.json")["claims"]
-              if c["claim_id"] in set(read_json(run_dir / "memo" / "check.json")["cited"])]
-    export.run(run_dir, Path(args.grading_dir).resolve(), final, claims, allow_fake=args.allow_fake, log=log)
+    final = records.build(run_dir, jev_model_for(run_dir))
+    rank.run(run_dir, final, log=log)
+    cited = set(read_json(run_dir / "memo" / "check.json")["cited"])
+    claims = [c for c in read_json(run_dir / "memo" / "memo_inputs.json")["claims"] if c["claim_id"] in cited]
+    export.run(run_dir, Path(args.grading_dir).resolve(), final, claims, allow_fake=args.allow_fake, log=log,
+               results_dir=Path(args.results_dir).resolve() if args.results_dir else None)
     return 0
+
+
+def cmd_rerank(args):
+    """No model calls: recompute the baseline ranking from saved records + membership and diff it."""
+    if args.grading_dir:
+        folder = Path(args.grading_dir).resolve()
+        recomputed = rank.rerank_from_grading(folder)
+        saved = (folder / "ranking.csv").read_text(encoding="utf-8")
+    else:
+        run_dir = Path(args.run_dir).resolve()
+        final = records.build(run_dir, jev_model_for(run_dir))
+        members = [(r["issue_id"], r["review_id"], r["severity"]) for r in final
+                   if r["status"] == "completed" and r["intent"] in ("complaint", "cancellation")]
+        recomputed = rank.to_csv(rank.RANK_FIELDS, rank.compute(members)[1])
+        saved = (run_dir / "rank" / "ranking.csv").read_text(encoding="utf-8")
+    if args.out:
+        Path(args.out).write_text(recomputed, encoding="utf-8")
+    same = recomputed == saved
+    print({"identical_to_saved_ranking": same, "issues": recomputed.count("\n") - 1,
+           "sha256": rank.sha256_text(recomputed)})
+    return 0 if same else 1
 
 
 def cmd_check(args):
     grading = Path(args.grading_dir).resolve()
     out = Path(args.out_dir).resolve()
+    if out == grading or grading in out.parents:
+        raise SystemExit("--out-dir must be outside the grading folder")
     out.mkdir(parents=True, exist_ok=True)
     ref = out / "local-reference.json"
     report = out / "self-check.json"
@@ -129,7 +212,8 @@ def cmd_check(args):
     result = read_json(report)
     print({"status": result["status"], "issue_counts": result["issue_counts"], "coverage": result["coverage"],
            "reported_calls": result["reported_calls"], "reported_input_tokens": result["reported_input_tokens"],
-           "reported_output_tokens": result["reported_output_tokens"]})
+           "reported_output_tokens": result["reported_output_tokens"],
+           "working_coverage_point_candidate": result["working_coverage_point_candidate"]})
     return 0 if result["status"] == "pass" else 1
 
 
@@ -143,17 +227,27 @@ def main(argv=None):
     p.add_argument("--run-dir", required=True)
     p.add_argument("--budget-group", required=True, help="ledger shared across runs, e.g. dev or full")
     p.add_argument("--budget-usd", required=True, type=float, help="hard cap for the budget group")
-    p.add_argument("--verify-n", type=int, default=1000)
+    p.add_argument("--verify-n", type=int, default=1000, help="declared random verification sample size")
+    p.add_argument("--stages", help=f"comma list, default all: {','.join(STAGES)}")
+    p.add_argument("--exclude-golden", help="golden_50 CSV: its review IDs (only) are kept out of prompt examples")
     p.add_argument("--stop-after-units", type=int, help="send at most N new enrichment requests, then stop (resume demo)")
+    p.add_argument("--max-minutes", type=float, help="time cap: stop dispatching after this many minutes, save progress")
     p.add_argument("--accept-early-gate", action="store_true", help="continue past a failed 10%% cost gate")
     p.add_argument("--grading-dir", help="export the grading folder here when the run finishes")
+    p.add_argument("--results-dir", help="export the human-readable results folder here")
     p.add_argument("--workers", type=int, default=24)
     p.add_argument("--rps", type=float, default=30)
     p.add_argument("--offline-fake", action="store_true", help="TESTS ONLY: fake providers, no network, no spend")
     p.add_argument("--allow-fake", action="store_true", help="TESTS ONLY: allow exporting fake records")
+    p = sub.add_parser("rerank")
+    g = p.add_mutually_exclusive_group(required=True)
+    g.add_argument("--grading-dir", help="recompute from grading/records.jsonl.gz + membership.csv")
+    g.add_argument("--run-dir", help="recompute from a run directory's saved stage outputs")
+    p.add_argument("--out", help="also write the recomputed ranking.csv here")
     p = sub.add_parser("export")
     p.add_argument("--run-dir", required=True)
     p.add_argument("--grading-dir", required=True)
+    p.add_argument("--results-dir")
     p.add_argument("--allow-fake", action="store_true")
     p = sub.add_parser("check")
     p.add_argument("--input", required=True)
@@ -161,25 +255,28 @@ def main(argv=None):
     p.add_argument("--out-dir", required=True, help="where local-reference.json and self-check.json go (not the grading dir)")
     p.add_argument("--gold")
     p.add_argument("--rebuild-reference", action="store_true")
-    p = sub.add_parser("eval-injection")
-    p.add_argument("--budget-usd", type=float, default=0.25)
+    p = sub.add_parser("golden-input")
+    p.add_argument("--golden", required=True)
+    p.add_argument("--out", required=True)
     p = sub.add_parser("score-golden")
     p.add_argument("--run-dir", required=True)
-    p.add_argument("--golden", required=True)
+    p.add_argument("--golden", required=True, help="your hand-labelled golden CSV")
+    p.add_argument("--out-dir", default=str(REPO / "evals" / "golden"))
+    p = sub.add_parser("eval-injection")
+    p.add_argument("--budget-usd", type=float, default=0.25)
     args = parser.parse_args(argv)
     if args.command == "keys":
         print(key_status())
         return 0
-    if args.command == "run":
-        return cmd_run(args)
-    if args.command == "export":
-        return cmd_export(args)
-    if args.command == "check":
-        return cmd_check(args)
+    if args.command == "golden-input":
+        print("wrote", golden.strip_labels(args.golden, args.out))
+        return 0
+    handlers = {"run": cmd_run, "rerank": cmd_rerank, "export": cmd_export, "check": cmd_check}
+    if args.command in handlers:
+        return handlers[args.command](args)
+    from . import evals
     if args.command == "eval-injection":
-        from .evals import run_injection
-        return run_injection(args, log)
+        return evals.run_injection(args, log)
     if args.command == "score-golden":
-        from .evals import score_golden
-        return score_golden(args, log)
+        return evals.score_golden(args, log)
     return 2

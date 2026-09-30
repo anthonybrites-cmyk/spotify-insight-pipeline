@@ -34,11 +34,22 @@ SMALL = DATA / "checkpoint_500.csv"
 FULL = DATA / "spotify_reviews_18months.csv"
 
 
+GOLDEN = DATA / "golden_50_to_label.csv"
+EVIDENCE = Path(os.environ["EVIDENCE_DIR"]) if os.environ.get("EVIDENCE_DIR") else None
+
+
+def save_evidence(name, value):
+    if EVIDENCE:
+        EVIDENCE.mkdir(parents=True, exist_ok=True)
+        (EVIDENCE / name).write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+
+
 def fake_run(tmp, *extra, grading=True):
     args = ["run", "--input", str(SMALL), "--run-dir", str(tmp / "run"), "--budget-group", "fake",
-            "--budget-usd", "1", "--verify-n", "100", "--offline-fake", "--workers", "4", "--rps", "10000", *extra]
+            "--budget-usd", "1", "--verify-n", "100", "--offline-fake", "--workers", "4", "--rps", "10000",
+            "--exclude-golden", str(GOLDEN), *extra]
     if grading:
-        args += ["--grading-dir", str(tmp / "grading"), "--allow-fake"]
+        args += ["--grading-dir", str(tmp / "grading"), "--results-dir", str(tmp / "results"), "--allow-fake"]
     return cli.main(args)
 
 
@@ -119,11 +130,21 @@ class TestRubric(unittest.TestCase):
         self.assertEqual(labels["severity"], 1)  # cancellation does not raise severity
 
     def test_sentiment_is_computed_in_code(self):
-        labels, _ = rubric.interpret(self.answers(sentiment_level=0), ["x"])
-        self.assertEqual(labels["sentiment"], -1.0)
         a = self.answers()
-        a["sentiment"]["probabilities"] = {"0": 0.5, "1": 0, "2": 0, "3": 0, "4": 0.5}
-        self.assertEqual(rubric.interpret(a, ["x"])[0]["sentiment"], 0.0)
+        for score, expected in ((0, -1.0), (4, 1.0), (2, 0.0), (1.05, -0.475), (3.3333, 0.667)):
+            a["sentiment"]["score"] = score
+            self.assertEqual(rubric.interpret(a, ["x"])[0]["sentiment"], expected)
+        a["sentiment"]["score"] = 4.2
+        with self.assertRaises(rubric.InvalidAnswer):
+            rubric.interpret(a, ["x"])
+
+    def test_verify_sample_is_random_and_excludes_golden(self):
+        done = {f"u{i}": {"unit": f"u{i}", "review_id": f"r{i}"} for i in range(200)}
+        sample = verify.select_sample(done, 50, exclude_ids={"r1", "r2", "r3"})
+        ids = [r["review_id"] for r, _ in sample]
+        self.assertEqual(len(ids), 50)
+        self.assertFalse({"r1", "r2", "r3"} & set(ids))
+        self.assertEqual(ids, [r["review_id"] for r, _ in verify.select_sample(done, 50, {"r1", "r2", "r3"})])
 
     def test_out_of_set_answers_are_rejected(self):
         a = self.answers()
@@ -203,6 +224,14 @@ class TestValidators(unittest.TestCase):
         self.assertIn("playback.crashes", issues)
         self.assertEqual(sum(i.endswith(".general") for i in issues), len(cs.TOPICS))
 
+    def test_memo_id_checks(self):
+        claims = [{"claim_id": "C01", "issue_id": "playback.crashes", "metric": "complaint_count", "value": "12"}]
+        ok = "Fix playback.crashes first: 12 complaints [C01], e.g. review 0d4f8b48-74c1-4e2a-89b5-11eaa737027e."
+        self.assertEqual(memo.check(ok, claims, {}, ["playback.crashes"], ["0d4f8b48-74c1-4e2a-89b5-11eaa737027e"]), [])
+        self.assertTrue(memo.check(ok.replace("playback.crashes", "playback.stutter"), claims, {},
+                                   ["playback.crashes"], ["0d4f8b48-74c1-4e2a-89b5-11eaa737027e"]))
+        self.assertTrue(memo.check(ok, claims, {}, ["playback.crashes"], []))
+
     def test_memo_number_check(self):
         claims = [{"claim_id": "C01", "issue_id": "playback.crashes", "metric": "complaint_count", "value": "5012"},
                   {"claim_id": "C02", "issue_id": "playback.crashes", "metric": "mean_severity", "value": "3.412000"}]
@@ -279,22 +308,46 @@ class TestBudgetAndResume(unittest.TestCase):
         self.assertTrue(all(len(c["review_ids"]) == 1 for c in calls))
 
     def test_transient_and_invalid_answers_are_retried_and_logged(self):
-        client = FakeJev(fail_every=5, invalid_every=7)
+        client = FakeJev(fail_every=5, invalid_every=7, always_invalid_every=11)
         run_dir, reason, _, _ = self.enrich_once(1, client=client)
-        self.assertIsNone(reason)
+        self.assertEqual(reason, "incomplete")  # the always-invalid units are quarantined, not retried forever
         calls = list(read_jsonl(run_dir / "calls.jsonl"))
         failed = [c for c in calls if c["outcome"] == "failed"]
         self.assertTrue(any("invalid_answer" in c["error"] and c["usage_available"] for c in failed))
         self.assertTrue(any("529" in c["error"] and not c["usage_available"] for c in failed))
-        self.assertEqual(sum(c["outcome"] == "succeeded" for c in calls), 479)
         self.assertEqual(len({c["request_id"] for c in calls}), len(calls))
-        # First attempt of every 7th text (bucket 1) and its retry are invalid, unless attempt 1 was a 529.
-        expected_invalid = 0
-        for u in ingest.load_units(run_dir):
-            bucket = int(cs.hashlib.sha256(u["text"].encode()).hexdigest(), 16)
-            if bucket % 7 == 1:
-                expected_invalid += 1 if bucket % 5 == 0 else 2
-        self.assertEqual(sum("invalid_answer" in c.get("error", "") for c in failed), expected_invalid)
+        units = ingest.load_units(run_dir)
+        buckets = {u["unit"]: int(cs.hashlib.sha256(u["text"].encode()).hexdigest(), 16) for u in units}
+        always = {u for u, b in buckets.items() if b % 11 == 2}
+        # Invalid output is retried at most once: exactly 2 invalid attempts per always-invalid unit.
+        invalid_by_id = {}
+        for c in failed:
+            if "invalid_answer" in c["error"]:
+                invalid_by_id[c["review_ids"][0]] = invalid_by_id.get(c["review_ids"][0], 0) + 1
+        self.assertTrue(all(n <= 2 for n in invalid_by_id.values()))
+        failures = {f["unit"]: f for f in read_jsonl(run_dir / "enrich" / "failures.jsonl")}
+        self.assertEqual(set(failures), always)
+        self.assertTrue(all("invalid output after 1 retry" in f["reason"] and f["attempts"] >= 2
+                            for f in failures.values()))
+        done = {r["unit"] for r in read_jsonl(run_dir / "enrich" / "results.jsonl")}
+        self.assertEqual(done, set(buckets) - always)  # first-attempt-invalid units recovered on the retry
+        from pipeline import records as rec
+        final = rec.build(run_dir, client.model)
+        quarantined = [r for r in final if r["status"] == "quarantined"]
+        self.assertTrue(quarantined and all(r["reason"].startswith("enrich_failed") and r["attempts"] >= 2
+                                            for r in quarantined))
+
+    def test_time_cap_stops_and_saves(self):
+        run_dir = self.tmp / "tc"
+        ingest.run(SMALL, run_dir, log=lambda m: None)
+        budget = Budget("t", 1, "tc", ledger_dir=self.tmp / "ledger")
+        calls = JsonlAppender(run_dir / "calls.jsonl")
+        with StopFlag(max_minutes=1e-9) as stop:
+            reason = enrich.run(run_dir, FakeJev(), budget, calls, stop, log=lambda m: None, workers=2, rps=10000)
+        calls.close()
+        budget.close()
+        self.assertEqual(reason, "time_cap")
+        self.assertTrue(list((run_dir / "enrich" / "checkpoints").glob("enrich_stop_*time_cap.json")))
 
     def test_truncated_jsonl_tail_is_repaired(self):
         path = self.tmp / "x.jsonl"
@@ -401,9 +454,46 @@ class TestExportAndPlantedErrors(Fixture):
             "reprocess": (None, reprocess, "reprocessed_checkpoint"),
             "ungrouped": (None, ungrouped, "ungrouped_complaints"),
         }
+        outcomes = {}
         for name, (records_fn, file_fn, code) in expectations.items():
             with self.subTest(name):
-                self.assertIn(code, self.planted(name, records_fn, file_fn))
+                flagged = self.planted(name, records_fn, file_fn)
+                outcomes[name] = {"expected_code": code, "checker_issue_counts": flagged, "detected": code in flagged}
+                self.assertIn(code, flagged)
+        save_evidence("planted_export_errors.json", {"clean_export_status": self.report["status"],
+                                                     "clean_coverage": self.report["coverage"], "planted": outcomes})
+
+    def test_rerank_from_saved_outputs_is_identical_without_models(self):
+        self.assertEqual(cli.main(["rerank", "--grading-dir", str(self.grading)]), 0)
+        self.assertEqual(cli.main(["rerank", "--run-dir", str(self.tmp / "run")]), 0)
+
+    def test_results_folder_and_logs(self):
+        results = self.tmp / "results"
+        for name in ("enriched.jsonl.gz", "quarantine.jsonl", "issues.json", "aggregates.csv", "ranking.csv",
+                     "data_manifest.json", "ingestion_report.json", "run_log.jsonl", "run_summary.json", "memo.md",
+                     "verification_report.json", "planted_label_test.json", "claims.csv"):
+            self.assertTrue((results / name).exists(), name)
+        summary = json.loads((results / "run_summary.json").read_text())
+        self.assertEqual(summary["records"]["total"], 500)
+        self.assertIn("enrich|fake-jev-0", summary["usage_by_role_model"])
+        events = [json.loads(l) for l in (results / "run_log.jsonl").read_text().splitlines()]
+        self.assertEqual(len({e["invocation"] for e in events}), 2)  # interrupted invocation + resumed one
+        self.assertTrue(any(e["event"] == "stage_end" and e["stage"] == "enrich" for e in events))
+
+    def test_planted_wrong_label_is_caught_by_verification_compare(self):
+        planted = json.loads((self.tmp / "results" / "planted_label_test.json").read_text())
+        self.assertGreater(planted["planted"], 0)
+        self.assertEqual(planted["detected"], planted["planted"])
+        save_evidence("planted_wrong_label_offline.json", {k: planted[k] for k in ("planted", "detected")})
+
+    def test_golden_ids_never_in_verify_sample_or_prompt_examples(self):
+        from pipeline import golden
+        ids = golden.load_ids(GOLDEN)
+        sample = json.loads((self.tmp / "run" / "verify" / "sample.json").read_text())
+        self.assertFalse(ids & {u["review_id"] for u in sample["units"]})
+        stripped = golden.strip_labels(GOLDEN, self.tmp / "golden_texts.csv")
+        header = stripped.read_text(encoding="utf-8").splitlines()[0].split(",")
+        self.assertEqual(header, list(cs.FIELDS))
 
 
 if __name__ == "__main__":

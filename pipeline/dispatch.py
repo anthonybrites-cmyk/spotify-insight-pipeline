@@ -14,15 +14,20 @@ from decimal import Decimal
 
 from .budget import BudgetExceeded, cost_usd
 from .config import JEV_PRICE_IN, JEV_PRICE_OUT, JEV_RPS, JEV_WORKERS
-from .retry import AuthFailure, Fatal, RateLimiter, Retryable, run_with_retries
+from .retry import AuthFailure, Fatal, InvalidOutput, RateLimiter, run_with_retries
 
 
 class StopFlag:
     """First Ctrl-C asks for a graceful stop (finish in-flight calls, save); a second one exits."""
 
-    def __init__(self):
+    def __init__(self, max_minutes=None):
         self.reason = None
         self._previous = None
+        self.deadline = time.monotonic() + max_minutes * 60 if max_minutes else None
+
+    def check_deadline(self):
+        if self.deadline is not None and time.monotonic() > self.deadline:
+            self.set("time_cap")
 
     def set(self, reason):
         if self.reason is None:
@@ -63,6 +68,7 @@ class Outcome:
     events: list = field(default_factory=list)
     cost: Decimal = Decimal(0)
     parsed: object = None
+    attempts: int = 0
 
 
 class TokenEstimator:
@@ -85,7 +91,8 @@ def run_tasks(tasks, client, budget, role, phase, label_config, validate, on_out
     """Dispatch tasks; returns the stop reason or None when all tasks were processed.
 
     validate(task, response) runs in the worker and returns parsed labels or raises
-    ValueError (the attempt is then logged as failed and retried).
+    ValueError (the attempt is logged as failed and retried once; a second invalid answer
+    quarantines the task). Transient errors use bounded backoff.
     on_outcome(outcome) is called on the main thread for each finished task and may
     call stop.set(reason) (e.g. the early cost gate).
     """
@@ -96,8 +103,9 @@ def run_tasks(tasks, client, budget, role, phase, label_config, validate, on_out
         outcome = Outcome(task=task)
         billed = {}
 
-        def attempt(n):
+        def attempt(n, previous_error):
             billed.clear()
+            outcome.attempts = n
             if stop.reason in ("auth", "budget"):
                 raise Fatal("stopped before sending")
             limiter.wait()
@@ -117,7 +125,7 @@ def run_tasks(tasks, client, budget, role, phase, label_config, validate, on_out
                 # Billed but unusable output: log it as a failed call with its real usage, then retry.
                 billed.update(request_id=response.request_id, model=response.model,
                               input_tokens=response.input_tokens, output_tokens=response.output_tokens)
-                raise Retryable(f"invalid_answer: {e}")
+                raise InvalidOutput(f"invalid_answer: {e}")
             return response
 
         def failed(n, error):
@@ -163,6 +171,8 @@ def run_tasks(tasks, client, budget, role, phase, label_config, validate, on_out
     last_flush = time.monotonic()
     with ThreadPoolExecutor(max_workers=workers) as pool:
         while True:
+            if hasattr(stop, "check_deadline"):
+                stop.check_deadline()
             while (stop.reason is None and len(in_flight) < workers * 2
                    and (max_new is None or submitted < max_new)):
                 task = next(iterator, None)

@@ -67,3 +67,30 @@ def run(run_dir, records, log=print):
 def load(run_dir):
     with (run_dir / "rank" / "ranking.csv").open(encoding="utf-8", newline="") as f:
         return list(csv.DictReader(f))
+
+
+def load_computed(run_dir):
+    """Saved ranking with integer fields restored (mean_severity stays the exported string)."""
+    rows = load(run_dir)
+    for r in rows:
+        for k in ("rank", "complaint_count", "severity_sum", "priority_score"):
+            r[k] = int(r[k])
+    return rows
+
+
+def rerank_from_grading(folder):
+    """Recompute ranking.csv from records.jsonl(.gz) + membership.csv only. No model calls."""
+    import gzip
+    import json
+    path = folder / "records.jsonl"
+    opener = (lambda: path.open(encoding="utf-8")) if path.exists() else \
+        (lambda: gzip.open(folder / "records.jsonl.gz", "rt", encoding="utf-8"))
+    severity = {}
+    with opener() as f:
+        for line in f:
+            r = json.loads(line)
+            if r.get("status") == "completed" and r.get("intent") in ("complaint", "cancellation"):
+                severity[r["review_id"]] = r["severity"]
+    with (folder / "membership.csv").open(encoding="utf-8", newline="") as f:
+        members = [(m["issue_id"], m["review_id"], severity[m["review_id"]]) for m in csv.DictReader(f)]
+    return to_csv(RANK_FIELDS, compute(members)[1])

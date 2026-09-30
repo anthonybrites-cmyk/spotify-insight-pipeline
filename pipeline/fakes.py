@@ -28,9 +28,10 @@ class FakeJev:
     provider = "fake"
     model = "fake-jev-0"
 
-    def __init__(self, fail_every=0, invalid_every=0):
+    def __init__(self, fail_every=0, invalid_every=0, always_invalid_every=0):
         self.fail_every = fail_every
-        self.invalid_every = invalid_every
+        self.invalid_every = invalid_every            # first attempt invalid -> recovered by the one retry
+        self.always_invalid_every = always_invalid_every  # every attempt invalid -> quarantined
         self.calls = 0
         self.sent = []
         self.attempts = {}
@@ -46,7 +47,8 @@ class FakeJev:
         bucket = int(hashlib.sha256(raw.encode()).hexdigest(), 16)
         if self.fail_every and n == 1 and bucket % self.fail_every == 0:
             raise Retryable("fake transient 529")
-        invalid_now = bool(self.invalid_every) and n <= 2 and bucket % self.invalid_every == 1
+        invalid_now = ((bool(self.invalid_every) and n == 1 and bucket % self.invalid_every == 1)
+                       or (bool(self.always_invalid_every) and bucket % self.always_invalid_every == 2))
         answers = {}
         for key, q in questions.items():
             if q["type"] == "choice":
@@ -65,7 +67,7 @@ class FakeJev:
                 answers[key] = {"type": "choice", "choice": pick, "confidence": 0.8,
                                 "probabilities": {o: (1.0 if o == pick else 0.0) for o in options}}
             elif q["type"] == "score":
-                answers[key] = {"type": "score", "score": 2.0, "confidence": 0.8,
+                answers[key] = {"type": "score", "score": 2.0 if "bad" not in text else 0.5, "confidence": 0.8,
                                 "probabilities": {str(i): (1.0 if i == 2 else 0.0) for i in range(len(q["criteria"]))}}
             else:
                 answers[key] = {"type": "noul", "noul": 0.1}

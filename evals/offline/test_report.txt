@@ -1,0 +1,62 @@
+test_early_gate_halts_at_ten_percent (test_pipeline.TestBudgetAndResume.test_early_gate_halts_at_ten_percent) ... ok
+test_hard_cap_stops_before_overspending (test_pipeline.TestBudgetAndResume.test_hard_cap_stops_before_overspending) ... ok
+test_resume_never_resends_completed_units (test_pipeline.TestBudgetAndResume.test_resume_never_resends_completed_units) ... ok
+test_time_cap_stops_and_saves (test_pipeline.TestBudgetAndResume.test_time_cap_stops_and_saves) ... ok
+test_transient_and_invalid_answers_are_retried_and_logged (test_pipeline.TestBudgetAndResume.test_transient_and_invalid_answers_are_retried_and_logged) ... ok
+test_truncated_jsonl_tail_is_repaired (test_pipeline.TestBudgetAndResume.test_truncated_jsonl_tail_is_repaired) ... ok
+19:17:57 run: run; stages ingest,enrich,verify,group,rank,recommend; budget {'group': 'fake', 'cap_usd': '1.0', 'committed_usd': '0', 'this_run_usd': '0', 'remaining_usd': '1.0'}
+19:17:57 ingest: profiling full file with the course helper
+19:17:57 ingest: 500 rows, 0 empty quarantined, 479 distinct texts
+19:17:57 enrich: 0/479 units already complete; 479 pending; phase=initial; config=fake-jev-0+prompt-b5552dab82ec+schema-v1
+19:17:57 enrich: early cost gate at 48/479 units: spend $0.001655388 vs allowed $0.100; linear projection $0.0165; PASSED
+19:17:57 enrich: stopped (stop_after); 100/479 units saved; snapshot enrich_stop_20260930T021757_stop_after.json (112 review IDs)
+19:17:57 stopped: stop_after. Progress is saved. Rerun the same command to resume. Budget {'group': 'fake', 'cap_usd': '1.0', 'committed_usd': '0.003442824', 'this_run_usd': '0.003442824', 'remaining_usd': '0.996557176'}
+19:17:57 run: run; stages ingest,enrich,verify,group,rank,recommend; budget {'group': 'fake', 'cap_usd': '1.0', 'committed_usd': '0.003442824', 'this_run_usd': '0.003442824', 'remaining_usd': '0.996557176'}
+19:17:57 ingest: already complete for a94e31663ee7; reusing saved handoff
+19:17:57 enrich: 100/479 units already complete; 379 pending; phase=resume; config=fake-jev-0+prompt-b5552dab82ec+schema-v1
+19:17:58 enrich: all 479 units complete; snapshot enrich_complete.json (500 review IDs)
+19:17:58 verify: batch 1/2 done; run spend $0.0385
+19:17:58 verify: batch 2/2 done; run spend $0.0605
+19:17:58 group: taxonomy proposed; run spend $0.0686
+19:17:58 group: 159 distinct complaint texts; 127 assigned; 32 need Jev
+19:17:58 rank: 7 issues, 162 complaint memberships
+19:17:58 memo: round 1: 0 check errors
+19:17:58 done. records {'completed': 500}; list-price cost $0.075058146
+19:17:58 export: wrote /private/var/folders/zx/_29ttf7134n4r0mr54q620m80000gn/T/pipeline-test-85x99iud/grading (500 records)
+/Users/anthonybrites/code/spotify-insight-pipeline/pipeline/export.py:119: ResourceWarning: unclosed file <_io.TextIOWrapper name='/private/var/folders/zx/_29ttf7134n4r0mr54q620m80000gn/T/pipeline-test-85x99iud/run/rank/ranking.csv' mode='r' encoding='utf-8'>
+  ranking = list(csv.DictReader((run_dir / "rank" / "ranking.csv").open(encoding="utf-8", newline="")))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+19:17:58 export: wrote results folder /private/var/folders/zx/_29ttf7134n4r0mr54q620m80000gn/T/pipeline-test-85x99iud/results
+test_clean_export_passes_course_checker (test_pipeline.TestExportAndPlantedErrors.test_clean_export_passes_course_checker) ... ok
+test_fake_records_are_not_exportable_without_flag (test_pipeline.TestExportAndPlantedErrors.test_fake_records_are_not_exportable_without_flag) ... 19:17:58 rank: 7 issues, 162 complaint memberships
+ok
+test_golden_ids_never_in_verify_sample_or_prompt_examples (test_pipeline.TestExportAndPlantedErrors.test_golden_ids_never_in_verify_sample_or_prompt_examples) ... ok
+test_planted_errors_are_detected (test_pipeline.TestExportAndPlantedErrors.test_planted_errors_are_detected) ... ok
+test_planted_wrong_label_is_caught_by_verification_compare (test_pipeline.TestExportAndPlantedErrors.test_planted_wrong_label_is_caught_by_verification_compare) ... ok
+test_rerank_from_saved_outputs_is_identical_without_models (test_pipeline.TestExportAndPlantedErrors.test_rerank_from_saved_outputs_is_identical_without_models) ... ok
+test_results_folder_and_logs (test_pipeline.TestExportAndPlantedErrors.test_results_folder_and_logs) ... ok
+test_full_file_ingestion_counts (test_pipeline.TestProvenance.test_full_file_ingestion_counts) ... skipped 'set RUN_SLOW=1 for the full-file ingestion test'
+test_quotes_are_exact_substrings (test_pipeline.TestProvenance.test_quotes_are_exact_substrings) ... ok
+test_row_sha_uses_course_helper (test_pipeline.TestProvenance.test_row_sha_uses_course_helper) ... ok
+test_vendored_checker_is_unmodified (test_pipeline.TestProvenance.test_vendored_checker_is_unmodified) ... ok
+test_arithmetic_order_and_half_up (test_pipeline.TestRanking.test_arithmetic_order_and_half_up) ... ok
+test_rejects_duplicates_and_bad_severity (test_pipeline.TestRanking.test_rejects_duplicates_and_bad_severity) ... ok
+test_reproducible (test_pipeline.TestRanking.test_reproducible) ... ok
+test_ties_break_by_issue_id (test_pipeline.TestRanking.test_ties_break_by_issue_id) ... ok
+test_code_enforces_severity_identities (test_pipeline.TestRubric.test_code_enforces_severity_identities) ... ok
+test_low_confidence_or_unclear_sets_needs_review (test_pipeline.TestRubric.test_low_confidence_or_unclear_sets_needs_review) ... ok
+test_only_review_text_is_sent (test_pipeline.TestRubric.test_only_review_text_is_sent) ... ok
+test_out_of_set_answers_are_rejected (test_pipeline.TestRubric.test_out_of_set_answers_are_rejected) ... ok
+test_sentiment_is_computed_in_code (test_pipeline.TestRubric.test_sentiment_is_computed_in_code) ... ok
+test_verify_sample_is_random_and_excludes_golden (test_pipeline.TestRubric.test_verify_sample_is_random_and_excludes_golden) ... ok
+test_memo_id_checks (test_pipeline.TestValidators.test_memo_id_checks) ... ok
+test_memo_number_check (test_pipeline.TestValidators.test_memo_number_check) ... ok
+test_taxonomy_validation (test_pipeline.TestValidators.test_taxonomy_validation) ... ok
+test_verify_rejects_id_errors (test_pipeline.TestValidators.test_verify_rejects_id_errors) ... ok
+
+----------------------------------------------------------------------
+Ran 31 tests in 0.767s
+
+OK (skipped=1)
+{'identical_to_saved_ranking': True, 'issues': 7, 'sha256': 'dcb47ba7669dc31288a0f405e1dfeac9234d146c9a020732ac6d753dd3450ea5'}
+{'identical_to_saved_ranking': True, 'issues': 7, 'sha256': 'dcb47ba7669dc31288a0f405e1dfeac9234d146c9a020732ac6d753dd3450ea5'}
