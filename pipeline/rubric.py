@@ -49,7 +49,7 @@ SEVERITY_CRITERIA = {
     "2": "Dislike, generic criticism, minor annoyance, too many ads, or a cosmetic issue, with no stated loss of function.",
     "3": "A function is degraded or restricted but some use or a workaround remains, for example frequent pauses, some songs will not play, intermittent crashes, or a control restricted for free users.",
     "4": "A core task is clearly blocked, for example cannot log in, cannot play any music, the app will not open, downloads never work, or paid Premium is not active.",
-    "5": "Explicit serious financial, privacy or data harm, for example charged without consent or after cancelling, money taken, account data exposed, or saved playlists or library deleted. An expensive plan, a crash, or angry language alone is not level 5.",
+    "5": "Explicit serious health, financial, privacy or data harm, for example charged wrongly, money taken, data exposed, library deleted, or physical harm. An expensive plan, a crash, or angry language alone is not level 5.",
 }
 SEVERITY_INSTRUCTIONS = (
     "How severe is the problem that `review` reports? Judge only the impact the text states; do not "

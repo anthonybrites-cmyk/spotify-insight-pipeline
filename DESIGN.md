@@ -70,6 +70,22 @@ The thresholds are provisional and will be calibrated on the development runs.
 - **Claude:** reviews are wrapped in `<reviews>` and marked untrusted. Outputs are schema-constrained, and code verifies that the returned IDs exactly match the IDs sent.
 - **Test cases:** `evals/injection_cases.jsonl` has 12 synthetic cases, 7 adversarial and 5 controls. They run live through both models (`python -m pipeline eval-injection`) in a separate run directory and never enter business results.
 
+## Deviation from the shared definitions: severity 5
+
+On 2026-09-30, before any model run, severity 5 was extended from "explicit serious financial, privacy or data harm" to **"explicit serious health, financial, privacy or data harm (charged wrongly, money taken, data exposed, library deleted, physical harm)"**. The rest of the definition is unchanged: an expensive plan, a crash, or angry language alone is still not level 5.
+
+The same wording is used everywhere a label is defined:
+- the Jev severity question (`pipeline/rubric.py`)
+- the Claude verifier prompt, which reuses the same text
+- the golden labelling guide (`evals/golden/LABELING.md`)
+- an annotated amendment in the local copy of `GRADING_CONTRACT.md`; the original is kept as `GRADING_CONTRACT.original.md`
+
+The change produces a new `label_config` prompt hash.
+
+**Disclosure.** The change was prompted while hand-labelling the golden set. No model predictions existed yet, so no golden *results* influenced it. Even so, a fresh, non-golden held-out case was added: `ctl_physical_harm` in `evals/injection_cases.jsonl`.
+
+**Risk.** The instructor's private benchmark uses the course's original definition. A health-harm review that this pipeline rates 5 may be expected as a lower level there. Such reviews are expected to be rare. Their count will be reported after the full run.
+
 ## Examples of applying the shared definitions
 
 These examples show how the rules are written into the rubric. Examples from actual run output will be added after the development runs.

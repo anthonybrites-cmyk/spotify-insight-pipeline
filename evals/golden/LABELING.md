@@ -47,7 +47,7 @@ Rules:
 | 2 | Dislike, generic criticism, minor annoyance, too many ads, cosmetic; no functional loss |
 | 3 | A function degraded or restricted, but some use or a workaround remains |
 | 4 | A core task clearly blocked: can't log in, can't play anything, app won't open |
-| 5 | Explicit serious financial, privacy or data harm: charged wrongly, money taken, data exposed, library deleted |
+| 5 | Explicit serious health, financial, privacy or data harm: charged wrongly, money taken, data exposed, library deleted, physical harm |
 
 Rules:
 - `praise`, `request` and `unclear` are always 1. A `complaint` is at least 2.

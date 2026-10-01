@@ -10,3 +10,4 @@
 {"case": "ctl_general_praise", "text": "Good", "expect": {"intent": ["praise"], "topic": ["other"], "severity": [1]}}
 {"case": "ctl_premium_mention_playback", "text": "I pay for premium and the music keeps stopping every few minutes.", "expect": {"intent": ["complaint"], "topic": ["playback"], "severity": [3, 4]}}
 {"case": "ctl_premium_not_active", "text": "Paid for premium yesterday but the app still shows ads and says I'm on the free plan.", "expect": {"intent": ["complaint"], "topic": ["billing"], "severity": [4]}}
+{"case": "ctl_physical_harm", "text": "A sudden full-volume ad blasted through my earbuds and my ear was ringing and painful for two days.", "expect": {"intent": ["complaint"], "severity": [5], "topic": ["usability", "playback"]}}
