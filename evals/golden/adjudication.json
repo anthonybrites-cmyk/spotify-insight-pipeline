@@ -1,16 +1,49 @@
 {
   "note": "Post-hoc adjudication by the human labeller (2026-09-30), made after seeing model predictions on the golden set. The original labels in golden_50_human_labels.csv are unchanged (committed before any model run, 821258d). Headline golden scores use the original labels; adjudicated scores are reported separately and disclosed.",
   "decisions": [
-    {"question": "a", "summary": "Premium-locked features and constant ads are severity 2 (annoyance), not 3.",
-     "effect": "confirms the original human labels", "review_ids": ["991b6b3a-f511-458a-a5b7-234f78048fb5", "16d640e9-b281-4746-9562-c7dbcf7126b6", "d2f3874f-d15d-4a2f-bb97-4f1213defa46"]},
-    {"question": "b", "summary": "'My ears feel like they explode' is severity 2: not serious harm. Physical harm (level 5) is reserved for an actual injury such as hearing loss.",
-     "effect": "confirms the original human label; severity-5 wording clarified in the rubric (disclosed in DESIGN.md)", "review_ids": ["46c0b49f-83a1-427e-8f0b-cef62e3c94b5"]},
-    {"question": "c", "summary": "'Can't play the songs I like / can't rewind' after an update is playback.",
-     "effect": "changes the original human topic label (usability -> playback)", "review_ids": ["dceb14e7-2df0-422f-bb2b-73d7c373159a"]},
-    {"question": "d", "summary": "Controls explicitly locked behind Premium are billing; the Claude verifier was wrong to call them usability.",
-     "effect": "confirms the original human label on the golden row; verifier and fallback prompts state the rule explicitly", "review_ids": ["3ddb3f4e-f7b9-430b-b335-eadc6d321f46"]}
+    {
+      "question": "a",
+      "summary": "Premium-locked features and constant ads are severity 2 (annoyance), not 3.",
+      "effect": "confirms the original human labels",
+      "review_ids": [
+        "991b6b3a-f511-458a-a5b7-234f78048fb5",
+        "16d640e9-b281-4746-9562-c7dbcf7126b6",
+        "d2f3874f-d15d-4a2f-bb97-4f1213defa46"
+      ],
+      "classifier_decision": "Kept the contract's reading in the classifier (2026-09-30): controls explicitly locked behind Premium = restricted function (3); ad overload alone = annoyance (2). The labeller's 2s stand as original labels; disagreements on these rows are a documented definitional choice, except d2f3874f (ad overload), where Jev's 3 is an error under either reading."
+    },
+    {
+      "question": "b",
+      "summary": "'My ears feel like they explode' is severity 2: not serious harm. Physical harm (level 5) is reserved for an actual injury such as hearing loss.",
+      "effect": "confirms the original human label; severity-5 wording clarified in the rubric (disclosed in DESIGN.md)",
+      "review_ids": [
+        "46c0b49f-83a1-427e-8f0b-cef62e3c94b5"
+      ]
+    },
+    {
+      "question": "c",
+      "summary": "'Can't play the songs I like / can't rewind' after an update is playback.",
+      "effect": "changes the original human topic label (usability -> playback)",
+      "review_ids": [
+        "dceb14e7-2df0-422f-bb2b-73d7c373159a"
+      ]
+    },
+    {
+      "question": "d",
+      "summary": "Controls explicitly locked behind Premium are billing; the Claude verifier was wrong to call them usability.",
+      "effect": "confirms the original human label on the golden row; verifier and fallback prompts state the rule explicitly",
+      "review_ids": [
+        "3ddb3f4e-f7b9-430b-b335-eadc6d321f46"
+      ]
+    }
   ],
   "label_changes": [
-    {"review_id": "dceb14e7-2df0-422f-bb2b-73d7c373159a", "field": "topic", "original": "usability", "adjudicated": "playback", "decision": "c"}
+    {
+      "review_id": "dceb14e7-2df0-422f-bb2b-73d7c373159a",
+      "field": "topic",
+      "original": "usability",
+      "adjudicated": "playback",
+      "decision": "c"
+    }
   ]
 }
