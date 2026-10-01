@@ -90,7 +90,7 @@ def build_inputs(ranking, issues, records, verify_report, ingest_summary, exclud
 
 NUMBER = re.compile(r"(?<![\w.])\d{1,3}(?:,\d{3})+(?:\.\d+)?|(?<![\w.])\d+(?:\.\d+)?")
 CITATION = re.compile(r"\[((?:C|F)\d{2})\]")
-BANNED = re.compile(r"\$|\brevenue\b|\bARR\b|\bLTV\b|\bdollars?\b", re.IGNORECASE)
+MONEY_WORDS = re.compile(r"\brevenue\b|\bARR\b|\bLTV\b|\bdollars?\b", re.IGNORECASE)
 
 
 ISSUE_REF = re.compile(r"\b(?:access|usability|playback|downloads|catalog|billing|support|other)\.[a-z0-9_]+\b")
@@ -141,10 +141,12 @@ def check(memo, claims, facts, issue_ids=None, review_ids=None, evidence_texts=N
                 continue  # ranks, list counts
             errors.append(f"number {number!r} is not a cited claim/fact value in its paragraph")
         for sentence in re.split(r"(?<=[.!?])\s+", paragraph):
-            if re.search(r"\bchurn", sentence, re.IGNORECASE) and not re.search(r"\b(no|not|cannot|isn't|doesn't|without)\b", sentence, re.IGNORECASE):
+            negated = re.search(r"\b(no|not|cannot|isn't|doesn't|without|never)\b", sentence, re.IGNORECASE)
+            if re.search(r"\bchurn", sentence, re.IGNORECASE) and not negated:
                 errors.append(f"asserts churn: {sentence[:80]!r}")
-    if BANNED.search(memo):
-        errors.append("mentions money/revenue, which the data cannot support")
+            # Money figures are always refused; the words are allowed only when stating the data lacks them.
+            if "$" in sentence or (MONEY_WORDS.search(sentence) and not negated):
+                errors.append(f"asserts money/revenue: {sentence[:80]!r}")
     if not CITATION.search(memo):
         errors.append("no citations")
     return errors

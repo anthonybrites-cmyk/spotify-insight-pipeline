@@ -267,6 +267,8 @@ class TestValidators(unittest.TestCase):
         for name, text in planted.items():
             self.assertTrue(memo.check(text, claims, facts), name)
         self.assertEqual(memo.check("Cancellation intent is not confirmed churn [F01] 660622.", claims, facts), [])
+        self.assertEqual(memo.check("There is no revenue or plan data [F01] 660622.", claims, facts), [])
+        self.assertTrue(memo.check("Ads cost revenue [F01] 660622.", claims, facts))
 
 
 class TestBudgetAndResume(unittest.TestCase):

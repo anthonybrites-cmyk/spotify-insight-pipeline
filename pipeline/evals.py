@@ -262,7 +262,7 @@ def compare_translation(args, log):
     translated = completed_results(tr_dir, current_config(tr_dir, JEV_MODEL))
     comparisons = [c for c in read_json(base_dir / "verify" / "comparisons.json") if c["unit"] in translated]
     rows, totals = [], {"n": 0, "base_missing": 0}
-    for key in ("baseline", "translated"):
+    for key in ("baseline", "variant"):
         for f in ("topic", "intent", "severity"):
             totals[f"{key}_{f}"] = 0
         totals[f"{key}_material"] = 0
@@ -274,21 +274,29 @@ def compare_translation(args, log):
         totals["n"] += 1
         v = c["verifier"]
         t = translated[c["unit"]]
-        for key, labels in (("baseline", b), ("translated", t)):
+        for key, labels in (("baseline", b), ("variant", t)):
             for f in ("topic", "intent", "severity"):
                 totals[f"{key}_{f}"] += labels[f] == v[f]
             totals[f"{key}_material"] += (labels["topic"] != v["topic"] or labels["intent"] != v["intent"]
                                           or abs(labels["severity"] - v["severity"]) >= 2)
         rows.append({"review_id": c["review_id"], "verifier": v, "baseline_jev": {k: b[k] for k in v},
-                     "translated_jev": {k: t[k] for k in v}, "translation_used": t.get("translation_used")})
+                     "variant_jev": {k: t[k] for k in v}, "translation_used": t.get("translation_used")})
     n = totals["n"] or 1
     calls = list(read_jsonl(tr_dir / "calls.jsonl"))
     tr_calls = [c for c in calls if c["role"] == "enrich" and "translation_handoffs" in c.get("handoff", "")]
+    def jev_tokens(run):
+        enrich_calls = [c for c in read_jsonl(run / "calls.jsonl")
+                        if c["role"] == "enrich" and c["model"].startswith("jev") and c["outcome"] == "succeeded"]
+        return round(sum(c["input_tokens"] for c in enrich_calls) / len(enrich_calls), 1) if enrich_calls else None
+    shared = set(base) & set(translated)
+    changes = {f: sum(base[u][f] != translated[u][f] for u in shared) for f in ("topic", "intent", "severity")}
     report = {"units_compared": totals["n"], "baseline_missing": totals["base_missing"],
+              "label_changes_vs_baseline_all_shared_units": {"units": len(shared), **changes},
+              "jev_input_tokens_per_enrich_request": {"baseline": jev_tokens(base_dir), "variant": jev_tokens(tr_dir)},
               "agreement_with_blind_verifier": {
                   key: {f: round(totals[f"{key}_{f}"] / n, 4) for f in ("topic", "intent", "severity")}
                   | {"material_disagreement_rate": round(totals[f"{key}_material"] / n, 4)}
-                  for key in ("baseline", "translated")},
+                  for key in ("baseline", "variant")},
               "translation_calls": {"succeeded": sum(c["outcome"] == "succeeded" for c in tr_calls),
                                     "failed": sum(c["outcome"] == "failed" for c in tr_calls),
                                     "input_tokens": sum(c["input_tokens"] for c in tr_calls),
@@ -300,7 +308,9 @@ def compare_translation(args, log):
     out = Path(args.out)
     out.parent.mkdir(parents=True, exist_ok=True)
     write_json(out, report)
-    log(json.dumps({k: report[k] for k in ("units_compared", "agreement_with_blind_verifier", "translation_calls")}))
+    log(json.dumps({k: report[k] for k in ("units_compared", "agreement_with_blind_verifier", "translation_calls",
+                                           "label_changes_vs_baseline_all_shared_units",
+                                           "jev_input_tokens_per_enrich_request")}, indent=1))
     return 0
 
 

@@ -65,6 +65,8 @@ def cmd_run(args):
     unknown = set(stages) - set(STAGES)
     if unknown:
         raise SystemExit(f"unknown stages: {sorted(unknown)}")
+    from . import rubric
+    rubric.use_variant(args.rubric)
     run_dir.mkdir(parents=True, exist_ok=True)
     manifest = read_json(run_dir / "run_manifest.json", {})
     if manifest and manifest.get("input") != str(input_csv):
@@ -74,7 +76,8 @@ def cmd_run(args):
     manifest.update({"input": str(input_csv), "budget_group": args.budget_group, "budget_usd": args.budget_usd,
                      "verify_n": args.verify_n, "fake": args.offline_fake, "stages": list(stages),
                      "workers": args.workers, "rps": args.rps, "max_minutes": args.max_minutes,
-                     "exclude_golden_ids_from": args.exclude_golden, "translate": args.translate})
+                     "exclude_golden_ids_from": args.exclude_golden, "translate": args.translate,
+                     "rubric_variant": args.rubric})
     manifest.setdefault("invocations", []).append({"id": invocation, "code_version": git_commit(),
                                                   "argv": sys.argv[1:], "started": time.strftime("%Y-%m-%dT%H:%M:%S%z")})
     write_json(run_dir / "run_manifest.json", manifest)
@@ -251,6 +254,8 @@ def main(argv=None):
     p.add_argument("--stages", help=f"comma list, default all: {','.join(STAGES)}")
     p.add_argument("--exclude-golden", help="golden_50 CSV: its review IDs (only) are kept out of prompt examples")
     p.add_argument("--stop-after-units", type=int, help="send at most N new enrichment requests, then stop (resume demo)")
+    p.add_argument("--rubric", default="full", choices=["full", "compact"],
+                   help="Jev question wording: full (original) or compact (same rules, fewer tokens)")
     p.add_argument("--translate", action="store_true",
                    help="translate non-English texts with Claude before Jev (part of label_config; off by default)")
     p.add_argument("--max-minutes", type=float, help="time cap: stop dispatching after this many minutes, save progress")
@@ -297,7 +302,8 @@ def main(argv=None):
     p.add_argument("--input", required=True)
     p.add_argument("--groups", default="non_english_latin,non_latin_script")
     p.add_argument("--out", required=True)
-    p = sub.add_parser("compare-translation", help="baseline vs translated Jev labels against the same blind verifier")
+    p = sub.add_parser("compare-translation", aliases=["compare-variant"],
+                       help="baseline vs variant (translated or compact) Jev labels against the same blind verifier")
     p.add_argument("--baseline-run", required=True)
     p.add_argument("--translated-run", required=True)
     p.add_argument("--out", default=str(REPO / "evals" / "translation_test.json"))
@@ -324,6 +330,6 @@ def main(argv=None):
         return evals.golden_head_to_head(args, log)
     if args.command == "subset":
         return evals.write_subset(args, log)
-    if args.command == "compare-translation":
+    if args.command in ("compare-translation", "compare-variant"):
         return evals.compare_translation(args, log)
     return 2
