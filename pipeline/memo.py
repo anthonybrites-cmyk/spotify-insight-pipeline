@@ -97,7 +97,7 @@ ISSUE_REF = re.compile(r"\b(?:access|usability|playback|downloads|catalog|billin
 UUID = re.compile(r"\b[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\b")
 
 
-QUOTED = re.compile(r"[\"\u201c]([^\"\u201c\u201d]{12,})[\"\u201d]")
+QUOTE_PAIRS = re.compile(r"[\"\u201c]([^\"\u201c\u201d]*)[\"\u201d]")
 SECTIONS = ("recommendation", "evidence", "alternatives considered", "limits")
 
 
@@ -113,7 +113,11 @@ def check(memo, claims, facts, issue_ids=None, review_ids=None, evidence_texts=N
         if len(set(UUID.findall(memo)) & set(review_ids)) < min_review_ids:
             errors.append(f"cite at least {min_review_ids} representative review IDs from <examples>")
     if evidence_texts is not None:
-        for quoted in QUOTED.findall(memo):
+        # Pair every quotation mark in order (short quotes included) so that the text *between* two quotes
+        # is never mistaken for a quote; then check the quotes of 12+ characters.
+        for quoted in QUOTE_PAIRS.findall(memo):
+            if len(quoted.strip()) < 12:
+                continue
             q = quoted.strip().rstrip(".,!?;:")
             if not any(q in t for t in evidence_texts):
                 errors.append(f"quoted text {quoted[:60]!r} is not copied exactly from the evidence pack")

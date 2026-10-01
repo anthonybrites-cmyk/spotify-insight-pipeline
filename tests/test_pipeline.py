@@ -248,6 +248,10 @@ class TestValidators(unittest.TestCase):
                                    claims, {}, **args))
         self.assertTrue(memo.check(good.replace(ids[2], "").replace(ids[1], ""), claims, {}, **args))
         self.assertTrue(memo.check(good.replace("## Alternatives considered", "## Other"), claims, {}, **args))
+        # A short quote before a long one must not make the text between them look like a quote.
+        two = good.replace('say "it crashes every time I open it"',
+                           'say "ads" (review ' + ids[0] + ') and "it crashes every time I open it"')
+        self.assertEqual(memo.check(two, claims, {}, **args), [])
         self.assertTrue(memo.check(good.replace("playback.crashes", "crash issue"), claims, {}, **args))
 
     def test_memo_number_check(self):
