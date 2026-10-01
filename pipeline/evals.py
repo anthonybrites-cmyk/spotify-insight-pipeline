@@ -17,7 +17,7 @@ from .budget import Budget, cost_usd
 from .config import JEV_PRICE_IN, JEV_PRICE_OUT, REPO
 from .envfile import require
 from .retry import run_with_retries
-from .store import JsonlAppender, read_json, read_jsonl, write_json
+from .store import JsonlAppender, canonical, read_json, read_jsonl, sha256_text, write_json
 
 
 def check_expect(labels, expect):
@@ -376,3 +376,90 @@ def check_golden(args, log):
     for w in warnings:
         log("WARNING " + w)
     return 0 if not errors else 1
+
+
+def golden_head_to_head(args, log):
+    """Claude labels the (label-stripped) golden texts blind; compare Jev vs Claude vs the human labels.
+
+    Only review text is sent (from the golden run's ingest, built from the stripped copy). Claude uses the
+    verifier prompt and schema; the same code rules Jev gets (praise/request/unclear -> severity 1,
+    complaint >= 2) are applied to Claude's labels so the comparison is like for like.
+    """
+    from collections import Counter
+    from .claude import ClaudeClient
+    from .config import JEV_MODEL
+    from .ingest import load_sources, load_units
+    from .records import build
+    run_dir = Path(args.golden_run).resolve()
+    out = Path(args.out_dir)
+    out.mkdir(parents=True, exist_ok=True)
+    units = load_units(run_dir)
+    unit_of = {s["review_id"]: s["unit"] for s in load_sources(run_dir)}
+    ids = [u["original_id"] for u in units]
+    payload = [{"review_id": u["original_id"], "text": u["text"]} for u in units]
+    user = "<reviews>\n" + json.dumps(payload, ensure_ascii=False, indent=0) + "\n</reviews>"
+    budget = Budget("dev", args.budget_usd, "golden-head-to-head")
+    calls = JsonlAppender(run_dir / "head_to_head_calls.jsonl")
+    client = ClaudeClient(require("ANTHROPIC_API_KEY"))
+    handoffs = run_dir / "head_to_head"
+    name = f"claude_golden_{sha256_text(verify.label_config() + canonical(ids))[:12]}"
+    parsed = read_json(handoffs / f"{name}.parsed.json")
+    if parsed is None:
+        parsed, _ = claude.call(client, budget, calls, handoffs, name, "eval", "eval", verify.label_config(), ids,
+                                verify.system_prompt(), user, schema=verify.SCHEMA, validate=verify.make_validator(ids))
+    calls.close()
+    budget.close()
+    claude_by_unit = {}
+    by_id = {r["review_id"]: r for r in parsed["results"]}
+    for u in units:
+        r = dict(by_id[u["original_id"]])
+        if r["intent"] in ("praise", "request", "unclear"):
+            r["severity"] = 1
+        elif r["intent"] == "complaint" and r["severity"] < 2:
+            r["severity"] = 2
+        claude_by_unit[u["unit"]] = r
+    jev_records = {r["review_id"]: r for r in build(run_dir, JEV_MODEL)}
+    jev_diag = {r["unit"]: r["diagnostics"] for r in read_jsonl(run_dir / "enrich" / "results.jsonl")}
+    with Path(args.golden).open(encoding="utf-8-sig", newline="") as f:
+        gold = list(csv.DictReader(f))
+
+    def band(conf):
+        return "low(<0.5)" if conf < 0.5 else "mid(0.5-0.8)" if conf < 0.8 else "high(>=0.8)"
+    tallies = {}
+    rows = []
+    for g in gold:
+        rid = g["review_id"]
+        unit = unit_of[rid]
+        human = {"topic": g["topic"].strip(), "intent": g["intent"].strip(), "severity": int(g["severity"])}
+        jev = jev_records[rid]
+        cl = claude_by_unit[unit]
+        conf = jev_diag[unit]["confidence"]
+        b = band(min(conf["topic"], conf["intent"], conf["severity"]))
+        row = {"review_id": rid, "jev_confidence_band": b, "human": human,
+               "jev": {k: jev[k] for k in human}, "claude": {k: cl[k] for k in human}, "claude_reason": cl["reason"]}
+        for who in ("jev", "claude"):
+            for key in ("all", b):
+                t = tallies.setdefault(f"{who}|{key}", Counter())
+                t["n"] += 1
+                for field in human:
+                    t[field] += row[who][field] == human[field]
+                t["all_three"] += all(row[who][f] == human[f] for f in human)
+                t["severity_abs_error"] += abs(row[who]["severity"] - human["severity"])
+        rows.append(row)
+    def rates(t):
+        n = t["n"]
+        return {"n": n, **{k: round(t[k] / n, 4) for k in ("topic", "intent", "severity", "all_three")},
+                "severity_mae": round(t["severity_abs_error"] / n, 4)}
+    summary = {k: rates(v) for k, v in sorted(tallies.items())}
+    usage = list(read_jsonl(run_dir / "head_to_head_calls.jsonl"))
+    report = {"comparison": "strict agreement with the single primary human label", "by_model_and_jev_band": summary,
+              "claude_model": client.model, "claude_label_config": verify.label_config(),
+              "claude_calls": [{k: c.get(k) for k in ("request_id", "outcome", "input_tokens", "output_tokens", "cost_usd")}
+                               for c in usage],
+              "disclosure": "Golden labels were used to compare candidate setups (the brief allows this before choosing "
+                            "a final setup); any resulting change must be disclosed and checked on held-out cases.",
+              "rows": rows}
+    write_json(out / "head_to_head.json", report)
+    for k, v in summary.items():
+        log(f"{k:22s} {v}")
+    return 0

@@ -1,0 +1,1083 @@
+{
+  "by_model_and_jev_band": {
+    "claude|all": {
+      "all_three": 0.76,
+      "intent": 0.92,
+      "n": 50,
+      "severity": 0.86,
+      "severity_mae": 0.22,
+      "topic": 0.92
+    },
+    "claude|high(>=0.8)": {
+      "all_three": 0.8438,
+      "intent": 0.9688,
+      "n": 32,
+      "severity": 0.9375,
+      "severity_mae": 0.0625,
+      "topic": 0.9062
+    },
+    "claude|low(<0.5)": {
+      "all_three": 0.7143,
+      "intent": 0.8571,
+      "n": 7,
+      "severity": 0.7143,
+      "severity_mae": 0.5714,
+      "topic": 1.0
+    },
+    "claude|mid(0.5-0.8)": {
+      "all_three": 0.5455,
+      "intent": 0.8182,
+      "n": 11,
+      "severity": 0.7273,
+      "severity_mae": 0.4545,
+      "topic": 0.9091
+    },
+    "jev|all": {
+      "all_three": 0.74,
+      "intent": 0.96,
+      "n": 50,
+      "severity": 0.84,
+      "severity_mae": 0.24,
+      "topic": 0.88
+    },
+    "jev|high(>=0.8)": {
+      "all_three": 0.9062,
+      "intent": 1.0,
+      "n": 32,
+      "severity": 0.9375,
+      "severity_mae": 0.0625,
+      "topic": 0.9375
+    },
+    "jev|low(<0.5)": {
+      "all_three": 0.1429,
+      "intent": 0.8571,
+      "n": 7,
+      "severity": 0.4286,
+      "severity_mae": 0.8571,
+      "topic": 0.7143
+    },
+    "jev|mid(0.5-0.8)": {
+      "all_three": 0.6364,
+      "intent": 0.9091,
+      "n": 11,
+      "severity": 0.8182,
+      "severity_mae": 0.3636,
+      "topic": 0.8182
+    }
+  },
+  "claude_calls": [
+    {
+      "cost_usd": "0.064498",
+      "input_tokens": 5239,
+      "outcome": "succeeded",
+      "output_tokens": 5402,
+      "request_id": "req_011CfanKvxgJuJykeaKCtQAW"
+    }
+  ],
+  "claude_label_config": "claude-sonnet-5+verify-cb4924766fde+schema-v1",
+  "claude_model": "claude-sonnet-5",
+  "comparison": "strict agreement with the single primary human label",
+  "disclosure": "Golden labels were used to compare candidate setups (the brief allows this before choosing a final setup); any resulting change must be disclosed and checked on held-out cases.",
+  "rows": [
+    {
+      "claude": {
+        "intent": "complaint",
+        "severity": 2,
+        "topic": "catalog"
+      },
+      "claude_reason": "Complains about songs being banned/removed from catalog.",
+      "human": {
+        "intent": "complaint",
+        "severity": 2,
+        "topic": "catalog"
+      },
+      "jev": {
+        "intent": "complaint",
+        "severity": 2,
+        "topic": "catalog"
+      },
+      "jev_confidence_band": "mid(0.5-0.8)",
+      "review_id": "292ce26a-815d-4bce-a3b6-93cb6c9e7e2c"
+    },
+    {
+      "claude": {
+        "intent": "praise",
+        "severity": 1,
+        "topic": "other"
+      },
+      "claude_reason": "General praise, no specific feature mentioned.",
+      "human": {
+        "intent": "praise",
+        "severity": 1,
+        "topic": "other"
+      },
+      "jev": {
+        "intent": "praise",
+        "severity": 1,
+        "topic": "other"
+      },
+      "jev_confidence_band": "high(>=0.8)",
+      "review_id": "a70e8d3e-3f84-46bc-b008-67f476c67963"
+    },
+    {
+      "claude": {
+        "intent": "praise",
+        "severity": 1,
+        "topic": "other"
+      },
+      "claude_reason": "General praise with no specific feature.",
+      "human": {
+        "intent": "praise",
+        "severity": 1,
+        "topic": "other"
+      },
+      "jev": {
+        "intent": "praise",
+        "severity": 1,
+        "topic": "other"
+      },
+      "jev_confidence_band": "high(>=0.8)",
+      "review_id": "0d4f8b48-74c1-4e2a-89b5-11eaa737027e"
+    },
+    {
+      "claude": {
+        "intent": "complaint",
+        "severity": 2,
+        "topic": "usability"
+      },
+      "claude_reason": "Complains limited functionality, likely ad-related restriction.",
+      "human": {
+        "intent": "complaint",
+        "severity": 2,
+        "topic": "usability"
+      },
+      "jev": {
+        "intent": "complaint",
+        "severity": 3,
+        "topic": "usability"
+      },
+      "jev_confidence_band": "low(<0.5)",
+      "review_id": "991b6b3a-f511-458a-a5b7-234f78048fb5"
+    },
+    {
+      "claude": {
+        "intent": "praise",
+        "severity": 1,
+        "topic": "other"
+      },
+      "claude_reason": "General praise, no specific feature.",
+      "human": {
+        "intent": "praise",
+        "severity": 1,
+        "topic": "other"
+      },
+      "jev": {
+        "intent": "praise",
+        "severity": 1,
+        "topic": "other"
+      },
+      "jev_confidence_band": "high(>=0.8)",
+      "review_id": "599a0d41-989a-40ef-8ed2-e92db76eea46"
+    },
+    {
+      "claude": {
+        "intent": "complaint",
+        "severity": 2,
+        "topic": "other"
+      },
+      "claude_reason": "Generic complaint with no specific defect.",
+      "human": {
+        "intent": "complaint",
+        "severity": 2,
+        "topic": "other"
+      },
+      "jev": {
+        "intent": "complaint",
+        "severity": 2,
+        "topic": "other"
+      },
+      "jev_confidence_band": "high(>=0.8)",
+      "review_id": "0c6ca545-3f89-4da6-b3db-1a352371fb6e"
+    },
+    {
+      "claude": {
+        "intent": "praise",
+        "severity": 1,
+        "topic": "other"
+      },
+      "claude_reason": "General praise, no specific feature.",
+      "human": {
+        "intent": "praise",
+        "severity": 1,
+        "topic": "other"
+      },
+      "jev": {
+        "intent": "praise",
+        "severity": 1,
+        "topic": "other"
+      },
+      "jev_confidence_band": "high(>=0.8)",
+      "review_id": "111f9048-f7bd-4be0-813e-76b8fc49f73f"
+    },
+    {
+      "claude": {
+        "intent": "praise",
+        "severity": 1,
+        "topic": "other"
+      },
+      "claude_reason": "General praise, no specific feature.",
+      "human": {
+        "intent": "praise",
+        "severity": 1,
+        "topic": "other"
+      },
+      "jev": {
+        "intent": "praise",
+        "severity": 1,
+        "topic": "other"
+      },
+      "jev_confidence_band": "high(>=0.8)",
+      "review_id": "b567f70c-edba-4922-ac2a-e945e5eb3472"
+    },
+    {
+      "claude": {
+        "intent": "praise",
+        "severity": 1,
+        "topic": "other"
+      },
+      "claude_reason": "General praise, no specific feature.",
+      "human": {
+        "intent": "praise",
+        "severity": 1,
+        "topic": "catalog"
+      },
+      "jev": {
+        "intent": "praise",
+        "severity": 1,
+        "topic": "other"
+      },
+      "jev_confidence_band": "mid(0.5-0.8)",
+      "review_id": "b5ee7834-a0eb-4c15-9c7b-935831021922"
+    },
+    {
+      "claude": {
+        "intent": "praise",
+        "severity": 1,
+        "topic": "billing"
+      },
+      "claude_reason": "Praises Duo Premium plan removing ads.",
+      "human": {
+        "intent": "praise",
+        "severity": 1,
+        "topic": "usability"
+      },
+      "jev": {
+        "intent": "praise",
+        "severity": 1,
+        "topic": "usability"
+      },
+      "jev_confidence_band": "high(>=0.8)",
+      "review_id": "1fc8b08f-7d6a-472f-b317-8ceb28d00f22"
+    },
+    {
+      "claude": {
+        "intent": "complaint",
+        "severity": 3,
+        "topic": "playback"
+      },
+      "claude_reason": "Songs stop playing after short time intermittently.",
+      "human": {
+        "intent": "complaint",
+        "severity": 3,
+        "topic": "playback"
+      },
+      "jev": {
+        "intent": "complaint",
+        "severity": 3,
+        "topic": "playback"
+      },
+      "jev_confidence_band": "high(>=0.8)",
+      "review_id": "947821dc-b356-45dc-a0bc-1903728fad40"
+    },
+    {
+      "claude": {
+        "intent": "complaint",
+        "severity": 4,
+        "topic": "support"
+      },
+      "claude_reason": "App crashes constantly, resolved only via support contact.",
+      "human": {
+        "intent": "praise",
+        "severity": 1,
+        "topic": "support"
+      },
+      "jev": {
+        "intent": "complaint",
+        "severity": 4,
+        "topic": "support"
+      },
+      "jev_confidence_band": "low(<0.5)",
+      "review_id": "723f07de-9881-4049-8680-1a9e25652914"
+    },
+    {
+      "claude": {
+        "intent": "complaint",
+        "severity": 2,
+        "topic": "other"
+      },
+      "claude_reason": "Generic negative statement with no specific defect.",
+      "human": {
+        "intent": "complaint",
+        "severity": 2,
+        "topic": "other"
+      },
+      "jev": {
+        "intent": "complaint",
+        "severity": 2,
+        "topic": "other"
+      },
+      "jev_confidence_band": "high(>=0.8)",
+      "review_id": "47428620-ec21-424d-a515-0b0b0012a5cf"
+    },
+    {
+      "claude": {
+        "intent": "praise",
+        "severity": 1,
+        "topic": "other"
+      },
+      "claude_reason": "General praise, no specific feature.",
+      "human": {
+        "intent": "praise",
+        "severity": 1,
+        "topic": "other"
+      },
+      "jev": {
+        "intent": "praise",
+        "severity": 1,
+        "topic": "other"
+      },
+      "jev_confidence_band": "high(>=0.8)",
+      "review_id": "fc344263-308d-48a1-9715-c380d063b6de"
+    },
+    {
+      "claude": {
+        "intent": "praise",
+        "severity": 1,
+        "topic": "other"
+      },
+      "claude_reason": "General praise, no specific feature.",
+      "human": {
+        "intent": "praise",
+        "severity": 1,
+        "topic": "other"
+      },
+      "jev": {
+        "intent": "praise",
+        "severity": 1,
+        "topic": "other"
+      },
+      "jev_confidence_band": "high(>=0.8)",
+      "review_id": "6112667b-3d71-475c-b1a4-159b87f73d2b"
+    },
+    {
+      "claude": {
+        "intent": "complaint",
+        "severity": 2,
+        "topic": "usability"
+      },
+      "claude_reason": "Dislikes ads interrupting music frequently.",
+      "human": {
+        "intent": "complaint",
+        "severity": 2,
+        "topic": "usability"
+      },
+      "jev": {
+        "intent": "complaint",
+        "severity": 2,
+        "topic": "usability"
+      },
+      "jev_confidence_band": "mid(0.5-0.8)",
+      "review_id": "01d453b0-dca3-42e9-8aa4-5fc167b08070"
+    },
+    {
+      "claude": {
+        "intent": "unclear",
+        "severity": 1,
+        "topic": "other"
+      },
+      "claude_reason": "Unintelligible text with no clear complaint.",
+      "human": {
+        "intent": "praise",
+        "severity": 1,
+        "topic": "other"
+      },
+      "jev": {
+        "intent": "request",
+        "severity": 1,
+        "topic": "catalog"
+      },
+      "jev_confidence_band": "mid(0.5-0.8)",
+      "review_id": "ac6cd66d-a9d2-42a4-afb8-2f84beff7fd1"
+    },
+    {
+      "claude": {
+        "intent": "unclear",
+        "severity": 1,
+        "topic": "other"
+      },
+      "claude_reason": "Appears to be a name, no content.",
+      "human": {
+        "intent": "unclear",
+        "severity": 1,
+        "topic": "other"
+      },
+      "jev": {
+        "intent": "unclear",
+        "severity": 1,
+        "topic": "other"
+      },
+      "jev_confidence_band": "mid(0.5-0.8)",
+      "review_id": "44129679-31a0-4108-9314-086a3456f6ae"
+    },
+    {
+      "claude": {
+        "intent": "complaint",
+        "severity": 3,
+        "topic": "catalog"
+      },
+      "claude_reason": "Lyrics sometimes missing for songs.",
+      "human": {
+        "intent": "complaint",
+        "severity": 3,
+        "topic": "catalog"
+      },
+      "jev": {
+        "intent": "complaint",
+        "severity": 2,
+        "topic": "catalog"
+      },
+      "jev_confidence_band": "low(<0.5)",
+      "review_id": "46842184-32f8-4088-ac15-2a700a7e94ed"
+    },
+    {
+      "claude": {
+        "intent": "complaint",
+        "severity": 2,
+        "topic": "other"
+      },
+      "claude_reason": "Generic negative statement with no specific defect.",
+      "human": {
+        "intent": "complaint",
+        "severity": 2,
+        "topic": "other"
+      },
+      "jev": {
+        "intent": "complaint",
+        "severity": 2,
+        "topic": "other"
+      },
+      "jev_confidence_band": "high(>=0.8)",
+      "review_id": "657f1b77-0183-4b06-bf48-5e6d9ab08f9a"
+    },
+    {
+      "claude": {
+        "intent": "unclear",
+        "severity": 1,
+        "topic": "other"
+      },
+      "claude_reason": "Bare boycott/political statement, no product complaint.",
+      "human": {
+        "intent": "unclear",
+        "severity": 1,
+        "topic": "other"
+      },
+      "jev": {
+        "intent": "unclear",
+        "severity": 1,
+        "topic": "other"
+      },
+      "jev_confidence_band": "low(<0.5)",
+      "review_id": "5de7f95b-ccad-41b2-9f63-a13f7c1d9f09"
+    },
+    {
+      "claude": {
+        "intent": "praise",
+        "severity": 1,
+        "topic": "catalog"
+      },
+      "claude_reason": "Praises song recommendations and playlist generation.",
+      "human": {
+        "intent": "praise",
+        "severity": 1,
+        "topic": "catalog"
+      },
+      "jev": {
+        "intent": "praise",
+        "severity": 1,
+        "topic": "catalog"
+      },
+      "jev_confidence_band": "high(>=0.8)",
+      "review_id": "de48c99b-46fe-4837-8634-e63dbc72a5ea"
+    },
+    {
+      "claude": {
+        "intent": "praise",
+        "severity": 1,
+        "topic": "other"
+      },
+      "claude_reason": "General praise, no specific feature.",
+      "human": {
+        "intent": "praise",
+        "severity": 1,
+        "topic": "other"
+      },
+      "jev": {
+        "intent": "praise",
+        "severity": 1,
+        "topic": "other"
+      },
+      "jev_confidence_band": "high(>=0.8)",
+      "review_id": "aa573851-0b86-4b1b-adf6-210268c08d2a"
+    },
+    {
+      "claude": {
+        "intent": "request",
+        "severity": 1,
+        "topic": "usability"
+      },
+      "claude_reason": "Requests fewer ads between songs.",
+      "human": {
+        "intent": "complaint",
+        "severity": 2,
+        "topic": "usability"
+      },
+      "jev": {
+        "intent": "complaint",
+        "severity": 2,
+        "topic": "usability"
+      },
+      "jev_confidence_band": "mid(0.5-0.8)",
+      "review_id": "372d4e67-59cc-4c54-879f-3e8a202ee554"
+    },
+    {
+      "claude": {
+        "intent": "complaint",
+        "severity": 4,
+        "topic": "playback"
+      },
+      "claude_reason": "Update prevents songs from playing back at all.",
+      "human": {
+        "intent": "complaint",
+        "severity": 3,
+        "topic": "usability"
+      },
+      "jev": {
+        "intent": "complaint",
+        "severity": 4,
+        "topic": "playback"
+      },
+      "jev_confidence_band": "high(>=0.8)",
+      "review_id": "47f1406d-4918-4d60-9647-5ca8e610caca"
+    },
+    {
+      "claude": {
+        "intent": "praise",
+        "severity": 1,
+        "topic": "other"
+      },
+      "claude_reason": "General praise, no specific feature.",
+      "human": {
+        "intent": "praise",
+        "severity": 1,
+        "topic": "other"
+      },
+      "jev": {
+        "intent": "praise",
+        "severity": 1,
+        "topic": "other"
+      },
+      "jev_confidence_band": "high(>=0.8)",
+      "review_id": "82780cbe-6435-4efb-84f6-8e5fa47ffc3a"
+    },
+    {
+      "claude": {
+        "intent": "unclear",
+        "severity": 1,
+        "topic": "other"
+      },
+      "claude_reason": "Meaningless single word text.",
+      "human": {
+        "intent": "unclear",
+        "severity": 1,
+        "topic": "other"
+      },
+      "jev": {
+        "intent": "unclear",
+        "severity": 1,
+        "topic": "other"
+      },
+      "jev_confidence_band": "high(>=0.8)",
+      "review_id": "36609c5c-fe48-4459-86b8-cc78fd3c77cd"
+    },
+    {
+      "claude": {
+        "intent": "unclear",
+        "severity": 1,
+        "topic": "other"
+      },
+      "claude_reason": "Unrelated/unintelligible text.",
+      "human": {
+        "intent": "praise",
+        "severity": 1,
+        "topic": "other"
+      },
+      "jev": {
+        "intent": "praise",
+        "severity": 1,
+        "topic": "other"
+      },
+      "jev_confidence_band": "high(>=0.8)",
+      "review_id": "f4c8146a-d5c8-4168-b00e-21af666afc6a"
+    },
+    {
+      "claude": {
+        "intent": "cancellation",
+        "severity": 3,
+        "topic": "usability"
+      },
+      "claude_reason": "Update restricts song selection and shuffle control, user deleting app.",
+      "human": {
+        "intent": "cancellation",
+        "severity": 3,
+        "topic": "billing"
+      },
+      "jev": {
+        "intent": "cancellation",
+        "severity": 3,
+        "topic": "usability"
+      },
+      "jev_confidence_band": "high(>=0.8)",
+      "review_id": "3ddb3f4e-f7b9-430b-b335-eadc6d321f46"
+    },
+    {
+      "claude": {
+        "intent": "complaint",
+        "severity": 3,
+        "topic": "billing"
+      },
+      "claude_reason": "Basic features now locked behind Premium subscription.",
+      "human": {
+        "intent": "complaint",
+        "severity": 2,
+        "topic": "billing"
+      },
+      "jev": {
+        "intent": "complaint",
+        "severity": 3,
+        "topic": "billing"
+      },
+      "jev_confidence_band": "high(>=0.8)",
+      "review_id": "16d640e9-b281-4746-9562-c7dbcf7126b6"
+    },
+    {
+      "claude": {
+        "intent": "complaint",
+        "severity": 2,
+        "topic": "other"
+      },
+      "claude_reason": "Political/hate statement, generic negative sentiment.",
+      "human": {
+        "intent": "complaint",
+        "severity": 2,
+        "topic": "other"
+      },
+      "jev": {
+        "intent": "complaint",
+        "severity": 2,
+        "topic": "other"
+      },
+      "jev_confidence_band": "mid(0.5-0.8)",
+      "review_id": "8cc4fad4-26ec-47b7-96e8-49c7da714eca"
+    },
+    {
+      "claude": {
+        "intent": "complaint",
+        "severity": 4,
+        "topic": "playback"
+      },
+      "claude_reason": "App won't open and songs won't play after reinstall.",
+      "human": {
+        "intent": "complaint",
+        "severity": 4,
+        "topic": "playback"
+      },
+      "jev": {
+        "intent": "complaint",
+        "severity": 4,
+        "topic": "playback"
+      },
+      "jev_confidence_band": "high(>=0.8)",
+      "review_id": "215463ae-95b7-4481-8747-1754b68f31fa"
+    },
+    {
+      "claude": {
+        "intent": "complaint",
+        "severity": 5,
+        "topic": "usability"
+      },
+      "claude_reason": "Sudden loud ad volume causes claimed physical ear harm.",
+      "human": {
+        "intent": "complaint",
+        "severity": 2,
+        "topic": "usability"
+      },
+      "jev": {
+        "intent": "complaint",
+        "severity": 5,
+        "topic": "usability"
+      },
+      "jev_confidence_band": "mid(0.5-0.8)",
+      "review_id": "46c0b49f-83a1-427e-8f0b-cef62e3c94b5"
+    },
+    {
+      "claude": {
+        "intent": "unclear",
+        "severity": 1,
+        "topic": "other"
+      },
+      "claude_reason": "Incoherent text with no clear meaning.",
+      "human": {
+        "intent": "unclear",
+        "severity": 1,
+        "topic": "other"
+      },
+      "jev": {
+        "intent": "unclear",
+        "severity": 1,
+        "topic": "billing"
+      },
+      "jev_confidence_band": "low(<0.5)",
+      "review_id": "283b5843-a992-464f-b1dc-9dc7281ff390"
+    },
+    {
+      "claude": {
+        "intent": "praise",
+        "severity": 1,
+        "topic": "other"
+      },
+      "claude_reason": "General praise, no specific feature.",
+      "human": {
+        "intent": "praise",
+        "severity": 1,
+        "topic": "other"
+      },
+      "jev": {
+        "intent": "praise",
+        "severity": 1,
+        "topic": "other"
+      },
+      "jev_confidence_band": "high(>=0.8)",
+      "review_id": "1d15724a-98ff-400a-8083-0d9afc801098"
+    },
+    {
+      "claude": {
+        "intent": "praise",
+        "severity": 1,
+        "topic": "other"
+      },
+      "claude_reason": "General praise, no specific feature.",
+      "human": {
+        "intent": "praise",
+        "severity": 1,
+        "topic": "other"
+      },
+      "jev": {
+        "intent": "praise",
+        "severity": 1,
+        "topic": "other"
+      },
+      "jev_confidence_band": "high(>=0.8)",
+      "review_id": "89ea724c-358f-48ab-9516-cd130d21c471"
+    },
+    {
+      "claude": {
+        "intent": "praise",
+        "severity": 1,
+        "topic": "usability"
+      },
+      "claude_reason": "Praises low ad frequency.",
+      "human": {
+        "intent": "praise",
+        "severity": 1,
+        "topic": "usability"
+      },
+      "jev": {
+        "intent": "praise",
+        "severity": 1,
+        "topic": "usability"
+      },
+      "jev_confidence_band": "high(>=0.8)",
+      "review_id": "2aa566c6-b98d-4513-b900-83702a8db8eb"
+    },
+    {
+      "claude": {
+        "intent": "complaint",
+        "severity": 3,
+        "topic": "catalog"
+      },
+      "claude_reason": "Lyrics fail to load after update, also navigation issue.",
+      "human": {
+        "intent": "complaint",
+        "severity": 3,
+        "topic": "catalog"
+      },
+      "jev": {
+        "intent": "complaint",
+        "severity": 3,
+        "topic": "catalog"
+      },
+      "jev_confidence_band": "mid(0.5-0.8)",
+      "review_id": "8c0546b0-ce43-4a36-9d33-9f979e98d522"
+    },
+    {
+      "claude": {
+        "intent": "praise",
+        "severity": 1,
+        "topic": "other"
+      },
+      "claude_reason": "General praise, no specific feature.",
+      "human": {
+        "intent": "praise",
+        "severity": 1,
+        "topic": "other"
+      },
+      "jev": {
+        "intent": "praise",
+        "severity": 1,
+        "topic": "other"
+      },
+      "jev_confidence_band": "high(>=0.8)",
+      "review_id": "a972945c-6601-4108-882a-afe986866a7b"
+    },
+    {
+      "claude": {
+        "intent": "praise",
+        "severity": 1,
+        "topic": "other"
+      },
+      "claude_reason": "General praise, no specific feature.",
+      "human": {
+        "intent": "praise",
+        "severity": 1,
+        "topic": "other"
+      },
+      "jev": {
+        "intent": "praise",
+        "severity": 1,
+        "topic": "other"
+      },
+      "jev_confidence_band": "high(>=0.8)",
+      "review_id": "8fd3dd72-5535-40f6-8779-1bd60892131e"
+    },
+    {
+      "claude": {
+        "intent": "request",
+        "severity": 1,
+        "topic": "usability"
+      },
+      "claude_reason": "Requests ability to organize saved albums into collections.",
+      "human": {
+        "intent": "request",
+        "severity": 1,
+        "topic": "usability"
+      },
+      "jev": {
+        "intent": "request",
+        "severity": 1,
+        "topic": "usability"
+      },
+      "jev_confidence_band": "mid(0.5-0.8)",
+      "review_id": "b58dd6f0-ad88-4319-b6db-58afb60c37c1"
+    },
+    {
+      "claude": {
+        "intent": "complaint",
+        "severity": 2,
+        "topic": "other"
+      },
+      "claude_reason": "Generic negative statement with no specific defect.",
+      "human": {
+        "intent": "complaint",
+        "severity": 2,
+        "topic": "other"
+      },
+      "jev": {
+        "intent": "complaint",
+        "severity": 2,
+        "topic": "other"
+      },
+      "jev_confidence_band": "high(>=0.8)",
+      "review_id": "1a41c7e1-a655-4c63-b4db-c22bdff18003"
+    },
+    {
+      "claude": {
+        "intent": "complaint",
+        "severity": 3,
+        "topic": "usability"
+      },
+      "claude_reason": "Update prevents playing liked songs and rewinding.",
+      "human": {
+        "intent": "complaint",
+        "severity": 3,
+        "topic": "usability"
+      },
+      "jev": {
+        "intent": "complaint",
+        "severity": 3,
+        "topic": "playback"
+      },
+      "jev_confidence_band": "low(<0.5)",
+      "review_id": "dceb14e7-2df0-422f-bb2b-73d7c373159a"
+    },
+    {
+      "claude": {
+        "intent": "praise",
+        "severity": 1,
+        "topic": "catalog"
+      },
+      "claude_reason": "Praises song search and recommendation features.",
+      "human": {
+        "intent": "praise",
+        "severity": 1,
+        "topic": "catalog"
+      },
+      "jev": {
+        "intent": "praise",
+        "severity": 1,
+        "topic": "catalog"
+      },
+      "jev_confidence_band": "high(>=0.8)",
+      "review_id": "5fba12ea-4980-4f25-a129-f830a3974fd2"
+    },
+    {
+      "claude": {
+        "intent": "complaint",
+        "severity": 4,
+        "topic": "downloads"
+      },
+      "claude_reason": "Paying subscriber unable to use offline mode at all.",
+      "human": {
+        "intent": "complaint",
+        "severity": 3,
+        "topic": "downloads"
+      },
+      "jev": {
+        "intent": "complaint",
+        "severity": 4,
+        "topic": "downloads"
+      },
+      "jev_confidence_band": "mid(0.5-0.8)",
+      "review_id": "ac4e860a-c042-49cc-90f3-189591c336ac"
+    },
+    {
+      "claude": {
+        "intent": "complaint",
+        "severity": 2,
+        "topic": "usability"
+      },
+      "claude_reason": "Too many ads, generic negative experience.",
+      "human": {
+        "intent": "complaint",
+        "severity": 2,
+        "topic": "usability"
+      },
+      "jev": {
+        "intent": "complaint",
+        "severity": 2,
+        "topic": "usability"
+      },
+      "jev_confidence_band": "high(>=0.8)",
+      "review_id": "9034d675-9582-49b6-a1c1-c4ddabf8baf1"
+    },
+    {
+      "claude": {
+        "intent": "complaint",
+        "severity": 3,
+        "topic": "billing"
+      },
+      "claude_reason": "Too expensive, free version nearly unusable due to ads.",
+      "human": {
+        "intent": "complaint",
+        "severity": 2,
+        "topic": "billing"
+      },
+      "jev": {
+        "intent": "complaint",
+        "severity": 3,
+        "topic": "billing"
+      },
+      "jev_confidence_band": "low(<0.5)",
+      "review_id": "d2f3874f-d15d-4a2f-bb97-4f1213defa46"
+    },
+    {
+      "claude": {
+        "intent": "complaint",
+        "severity": 2,
+        "topic": "other"
+      },
+      "claude_reason": "Generic complaint about update being bad.",
+      "human": {
+        "intent": "complaint",
+        "severity": 2,
+        "topic": "other"
+      },
+      "jev": {
+        "intent": "complaint",
+        "severity": 2,
+        "topic": "other"
+      },
+      "jev_confidence_band": "high(>=0.8)",
+      "review_id": "99b93e31-9f15-4daa-88ac-349ab0419c48"
+    },
+    {
+      "claude": {
+        "intent": "praise",
+        "severity": 1,
+        "topic": "other"
+      },
+      "claude_reason": "General praise, no specific feature.",
+      "human": {
+        "intent": "praise",
+        "severity": 1,
+        "topic": "other"
+      },
+      "jev": {
+        "intent": "praise",
+        "severity": 1,
+        "topic": "other"
+      },
+      "jev_confidence_band": "high(>=0.8)",
+      "review_id": "ca63dfbe-7120-4e18-af6e-8ea786cd157d"
+    },
+    {
+      "claude": {
+        "intent": "praise",
+        "severity": 1,
+        "topic": "other"
+      },
+      "claude_reason": "General praise, no specific feature.",
+      "human": {
+        "intent": "praise",
+        "severity": 1,
+        "topic": "other"
+      },
+      "jev": {
+        "intent": "praise",
+        "severity": 1,
+        "topic": "other"
+      },
+      "jev_confidence_band": "high(>=0.8)",
+      "review_id": "083811c7-d469-499b-9bef-5b9fb096653d"
+    }
+  ]
+}
