@@ -227,10 +227,28 @@ class TestValidators(unittest.TestCase):
     def test_memo_id_checks(self):
         claims = [{"claim_id": "C01", "issue_id": "playback.crashes", "metric": "complaint_count", "value": "12"}]
         ok = "Fix playback.crashes first: 12 complaints [C01], e.g. review 0d4f8b48-74c1-4e2a-89b5-11eaa737027e."
-        self.assertEqual(memo.check(ok, claims, {}, ["playback.crashes"], ["0d4f8b48-74c1-4e2a-89b5-11eaa737027e"]), [])
+        kw = dict(min_review_ids=1, require_sections=False)
+        self.assertEqual(memo.check(ok, claims, {}, ["playback.crashes"], ["0d4f8b48-74c1-4e2a-89b5-11eaa737027e"], **kw), [])
         self.assertTrue(memo.check(ok.replace("playback.crashes", "playback.stutter"), claims, {},
-                                   ["playback.crashes"], ["0d4f8b48-74c1-4e2a-89b5-11eaa737027e"]))
-        self.assertTrue(memo.check(ok, claims, {}, ["playback.crashes"], []))
+                                   ["playback.crashes"], ["0d4f8b48-74c1-4e2a-89b5-11eaa737027e"], **kw))
+        self.assertTrue(memo.check(ok, claims, {}, ["playback.crashes"], [], **kw))
+
+    def test_memo_structure_quote_and_review_id_checks(self):
+        claims = [{"claim_id": "C01", "issue_id": "playback.crashes", "metric": "complaint_count", "value": "12"}]
+        ids = ["0d4f8b48-74c1-4e2a-89b5-11eaa737027e", "a70e8d3e-3f84-46bc-b008-67f476c67963",
+               "991b6b3a-f511-458a-a5b7-234f78048fb5"]
+        good = ("## Recommendation\nFix playback.crashes: 12 complaints [C01].\n\n## Evidence\nReviews " + ", ".join(ids)
+                + ' say "it crashes every time I open it".\n\n## Alternatives considered\nOthers rank lower.\n\n'
+                  "## Limits\nSelf-selected reviews.")
+        pack = ["Honestly it crashes every time I open it, please fix"]
+        args = dict(issue_ids=["playback.crashes"], review_ids=ids, evidence_texts=pack,
+                    required_issue_ids=["playback.crashes"])
+        self.assertEqual(memo.check(good, claims, {}, **args), [])
+        self.assertTrue(memo.check(good.replace("it crashes every time I open it", "the update made the app useless"),
+                                   claims, {}, **args))
+        self.assertTrue(memo.check(good.replace(ids[2], "").replace(ids[1], ""), claims, {}, **args))
+        self.assertTrue(memo.check(good.replace("## Alternatives considered", "## Other"), claims, {}, **args))
+        self.assertTrue(memo.check(good.replace("playback.crashes", "crash issue"), claims, {}, **args))
 
     def test_memo_number_check(self):
         claims = [{"claim_id": "C01", "issue_id": "playback.crashes", "metric": "complaint_count", "value": "5012"},

@@ -1,0 +1,69 @@
+{
+  "agreement": {
+    "all_three": 0.74,
+    "intent": 0.96,
+    "severity_exact": 0.84,
+    "topic": 0.88
+  },
+  "agreement_basis": "strict: one primary human label per field; missing/quarantined count as wrong",
+  "ambiguous_cases": 4,
+  "confusion_expected_to_predicted": {
+    "intent": {
+      "cancellation->cancellation": 1,
+      "complaint->complaint": 21,
+      "praise->complaint": 1,
+      "praise->praise": 21,
+      "praise->request": 1,
+      "request->request": 1,
+      "unclear->unclear": 4
+    },
+    "topic": {
+      "billing->billing": 2,
+      "billing->usability": 1,
+      "catalog->catalog": 5,
+      "catalog->other": 1,
+      "downloads->downloads": 1,
+      "other->billing": 1,
+      "other->catalog": 1,
+      "other->other": 25,
+      "playback->playback": 2,
+      "support->support": 1,
+      "usability->playback": 2,
+      "usability->usability": 8
+    }
+  },
+  "labelled_cases": 50,
+  "missing_or_quarantined_counted_wrong": 0,
+  "needs_review_as_prediction": {
+    "fn": 4,
+    "fp": 4,
+    "precision": 0.3333333333333333,
+    "recall": 0.3333333333333333,
+    "tn": 40,
+    "tp": 2
+  },
+  "note": "50 cases are a small diagnostic sample, not a population accuracy estimate. quote_supports_label is left blank for human inspection.",
+  "per_topic_support": {
+    "billing": 3,
+    "catalog": 6,
+    "downloads": 1,
+    "other": 27,
+    "playback": 2,
+    "support": 1,
+    "usability": 10
+  },
+  "run_dir": "/Users/anthonybrites/code/spotify-insight-pipeline/runs/golden",
+  "secondary_lenient_agreement": {
+    "intent": 0.98,
+    "note": "also accepts alternatives noted in alternative_labels; reported separately, never as the headline",
+    "severity_exact": 0.88,
+    "topic": 0.9
+  },
+  "sentiment": {
+    "labelled": 50,
+    "mae": 0.1179,
+    "tolerance": 0.5,
+    "within_tolerance": 48
+  },
+  "severity_mae_on_present": 0.24
+}
