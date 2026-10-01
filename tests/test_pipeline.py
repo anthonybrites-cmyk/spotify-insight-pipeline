@@ -498,3 +498,73 @@ class TestExportAndPlantedErrors(Fixture):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestTranslationPath(unittest.TestCase):
+    """--translate with fake providers: tagging, ID-checked batches, resume, provenance, checker."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.tmp = Path(tempfile.mkdtemp(prefix="pipeline-translate-"))
+        cls.subset = cls.tmp / "non_english.csv"
+        assert cli.main(["subset", "--input", str(DATA / "analysis_10000.csv"), "--out", str(cls.subset)]) == 0
+        base = ["--input", str(cls.subset), "--budget-group", "fake", "--budget-usd", "1", "--offline-fake",
+                "--workers", "4", "--rps", "10000", "--verify-n", "100000"]
+        # Baseline = the 10k-style run: full pipeline, verifying every non-English unit as an extra stratum.
+        assert cli.main(["run", *base, "--run-dir", str(cls.tmp / "baseline"), "--verify-n", "10",
+                         "--verify-extra-groups", "non_english_latin,non_latin_script"]) == 0
+        tr = ["run", *base, "--run-dir", str(cls.tmp / "translated"), "--translate"]
+        assert cli.main([*tr, "--stop-after-units", "60"]) == cli.STOP_EXIT
+        assert cli.main([*tr, "--grading-dir", str(cls.tmp / "grading"), "--allow-fake"]) == 0
+        cls.ref = cls.tmp / "ref.json"
+        subprocess.run([sys.executable, str(VENDOR_CHECKER), "reference", "--full", str(cls.subset), "--analysis",
+                        str(cls.subset), "--out", str(cls.ref)], check=True, capture_output=True)
+        subprocess.run([sys.executable, str(VENDOR_CHECKER), "check", "--reference", str(cls.ref), "--submission",
+                        str(cls.tmp / "grading"), "--out", str(cls.tmp / "report.json")], check=True, capture_output=True)
+        cls.report = json.loads((cls.tmp / "report.json").read_text())
+
+    @classmethod
+    def tearDownClass(cls):
+        shutil.rmtree(cls.tmp, ignore_errors=True)
+
+    def test_subset_is_non_english(self):
+        from pipeline import language
+        rows = list(cs.csv_rows(self.subset))
+        self.assertGreater(len(rows), 100)
+        self.assertTrue(all(language.group(r["review_text"]) in language.TRANSLATION_GROUPS for r in rows))
+
+    def test_translated_export_passes_checker(self):
+        self.assertEqual(self.report["status"], "pass", self.report["issue_counts"])
+
+    def test_translation_calls_are_bounded_enrich_calls_with_matching_config(self):
+        calls = list(read_jsonl(self.tmp / "translated" / "calls.jsonl"))
+        tr = [c for c in calls if c["role"] == "enrich" and c["model"].startswith("fake-claude")]
+        self.assertTrue(tr)
+        self.assertTrue(all(1 <= len(c["review_ids"]) <= 50 for c in tr))
+        configs = {c["label_config"] for c in calls if c["role"] == "enrich"}
+        self.assertEqual(len(configs), 1)
+        self.assertIn("+translate-", configs.pop())
+        # Resume never re-translates: each review ID appears in at most one successful translation call.
+        sent = [i for c in tr if c["outcome"] == "succeeded" for i in c["review_ids"]]
+        self.assertEqual(len(sent), len(set(sent)))
+
+    def test_jev_saw_original_plus_translation_and_quotes_stay_original(self):
+        results = list(read_jsonl(self.tmp / "translated" / "enrich" / "results.jsonl"))
+        self.assertTrue(any(r["translation_used"] for r in results))
+        texts = {u["unit"]: u["text"] for u in ingest.load_units(self.tmp / "translated")}
+        self.assertTrue(all(r["evidence_quote"] in texts[r["unit"]] for r in results))
+
+    def test_compare_translation_report(self):
+        out = self.tmp / "translation_test.json"
+        self.assertEqual(cli.main(["compare-translation", "--baseline-run", str(self.tmp / "baseline"),
+                                   "--translated-run", str(self.tmp / "translated"), "--out", str(out)]), 0)
+        report = json.loads(out.read_text())
+        self.assertGreater(report["units_compared"], 0)
+        self.assertGreater(report["translation_calls"]["succeeded"], 0)
+        self.assertEqual(report["units_compared"], 268)  # every non-English unit has a baseline verifier label
+        baseline_report = json.loads((self.tmp / "baseline" / "verify" / "report.json").read_text())
+        self.assertIn("random:all", baseline_report["strata"])
+        self.assertIn("language_extra:all", baseline_report["strata"])
+        self.assertTrue(any(k.startswith("all_verified:language:") for k in baseline_report["strata"]))
+        translated_report = json.loads((self.tmp / "translated" / "verify" / "report.json").read_text())
+        self.assertIn("all_verified:translated:True", translated_report["strata"])

@@ -228,3 +228,77 @@ def score_golden(args, log):
                 f.write(f"- `{c['review_id']}`: {'; '.join(c['fail_reasons'])}\n  > {c['text']}\n")
     log(json.dumps({k: summary[k] for k in ("labelled_cases", "agreement", "severity_mae_on_present", "ambiguous_cases")}))
     return 0
+
+
+def write_subset(args, log):
+    """Write the rows of an input CSV whose review text falls in the given language groups."""
+    from . import language
+    from .checker import FIELDS, csv_rows
+    groups = set(g.strip() for g in args.groups.split(","))
+    out = Path(args.out)
+    out.parent.mkdir(parents=True, exist_ok=True)
+    n = 0
+    with out.open("w", encoding="utf-8", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=list(FIELDS), lineterminator="\n")
+        writer.writeheader()
+        for row in csv_rows(args.input):
+            if row["review_text"].strip() and language.group(row["review_text"]) in groups:
+                writer.writerow({k: row[k] for k in FIELDS})
+                n += 1
+    log(f"subset: wrote {n} rows in groups {sorted(groups)} to {out}")
+    return 0
+
+
+def compare_translation(args, log):
+    """Same blind verifier labels (from the baseline run), two Jev label sets: baseline vs translated.
+
+    The translated run only needs stages ingest,enrich; no second verification pass. No model calls here.
+    """
+    from decimal import Decimal
+    from .enrich import completed_results, current_config
+    from .config import JEV_MODEL
+    base_dir, tr_dir = Path(args.baseline_run).resolve(), Path(args.translated_run).resolve()
+    base = completed_results(base_dir, current_config(base_dir, JEV_MODEL))
+    translated = completed_results(tr_dir, current_config(tr_dir, JEV_MODEL))
+    comparisons = [c for c in read_json(base_dir / "verify" / "comparisons.json") if c["unit"] in translated]
+    rows, totals = [], {"n": 0, "base_missing": 0}
+    for key in ("baseline", "translated"):
+        for f in ("topic", "intent", "severity"):
+            totals[f"{key}_{f}"] = 0
+        totals[f"{key}_material"] = 0
+    for c in comparisons:
+        b = base.get(c["unit"])
+        if b is None:
+            totals["base_missing"] += 1
+            continue
+        totals["n"] += 1
+        v = c["verifier"]
+        t = translated[c["unit"]]
+        for key, labels in (("baseline", b), ("translated", t)):
+            for f in ("topic", "intent", "severity"):
+                totals[f"{key}_{f}"] += labels[f] == v[f]
+            totals[f"{key}_material"] += (labels["topic"] != v["topic"] or labels["intent"] != v["intent"]
+                                          or abs(labels["severity"] - v["severity"]) >= 2)
+        rows.append({"review_id": c["review_id"], "verifier": v, "baseline_jev": {k: b[k] for k in v},
+                     "translated_jev": {k: t[k] for k in v}, "translation_used": t.get("translation_used")})
+    n = totals["n"] or 1
+    calls = list(read_jsonl(tr_dir / "calls.jsonl"))
+    tr_calls = [c for c in calls if c["role"] == "enrich" and "translation_handoffs" in c.get("handoff", "")]
+    report = {"units_compared": totals["n"], "baseline_missing": totals["base_missing"],
+              "agreement_with_blind_verifier": {
+                  key: {f: round(totals[f"{key}_{f}"] / n, 4) for f in ("topic", "intent", "severity")}
+                  | {"material_disagreement_rate": round(totals[f"{key}_material"] / n, 4)}
+                  for key in ("baseline", "translated")},
+              "translation_calls": {"succeeded": sum(c["outcome"] == "succeeded" for c in tr_calls),
+                                    "failed": sum(c["outcome"] == "failed" for c in tr_calls),
+                                    "input_tokens": sum(c["input_tokens"] for c in tr_calls),
+                                    "output_tokens": sum(c["output_tokens"] for c in tr_calls),
+                                    "cost_usd_list_price": str(sum(Decimal(c.get("cost_usd", "0")) for c in tr_calls))},
+              "note": "Verifier labels come from the baseline run and are blind (original text only). "
+                      "Agreement is not accuracy.",
+              "rows": rows}
+    out = Path(args.out)
+    out.parent.mkdir(parents=True, exist_ok=True)
+    write_json(out, report)
+    log(json.dumps({k: report[k] for k in ("units_compared", "agreement_with_blind_verifier", "translation_calls")}))
+    return 0

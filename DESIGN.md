@@ -70,6 +70,32 @@ The thresholds are provisional and will be calibrated on the development runs.
 - **Claude:** reviews are wrapped in `<reviews>` and marked untrusted. Outputs are schema-constrained, and code verifies that the returned IDs exactly match the IDs sent.
 - **Test cases:** `evals/injection_cases.jsonl` has 12 synthetic cases, 7 adversarial and 5 controls. They run live through both models (`python -m pipeline eval-injection`) in a separate run directory and never enter business results.
 
+## Non-English reviews
+
+The dataset is untranslated. A deterministic tagger (`pipeline/language.py`, a word-list and script heuristic) assigns each distinct text a group. Across the full file:
+
+| Group | Distinct texts |
+|---|---|
+| English | 438,197 |
+| Short, unrecognised (mostly English slang) | 22,910 |
+| Latin script, non-English | 15,532 |
+| No letters | 4,261 |
+| Non-Latin script | 3,289 |
+
+The last two non-English rows together, 18,821 texts (3.9%), are the translation candidates.
+
+Plan, decided with measured data:
+1. The 500 and 10k runs report verifier agreement per language group. The 10k run also verifies all 268 non-English candidates as a separate declared stratum (`--verify-extra-groups`). The random sample stays the headline.
+2. If non-English agreement is clearly worse, test `--translate` on those 268 texts. That is enrichment only. `compare-translation` scores both Jev label sets against the *same* blind verifier labels and reports the translation cost.
+3. The setting is then fixed for the full run, so all 660,622 records share one `label_config`.
+
+When translation is on:
+- Claude translates candidates in batches of up to 50, with IDs checked and every batch saved.
+- Jev receives `{"review": original, "english_translation": ...}` and is told to judge the original.
+- Evidence quotes are still cut from the original text.
+- Translation calls are logged as `enrich` calls under the record's `label_config`.
+- A batch that fails stays pending and is never classified without its translation.
+
 ## Deviation from the shared definitions: severity 5
 
 On 2026-09-30, before any model run, severity 5 was extended from "explicit serious financial, privacy or data harm" to **"explicit serious health, financial, privacy or data harm (charged wrongly, money taken, data exposed, library deleted, physical harm)"**. The rest of the definition is unchanged: an expensive plan, a crash, or angry language alone is still not level 5.

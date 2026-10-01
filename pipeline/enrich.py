@@ -16,7 +16,7 @@ import time
 from datetime import datetime, timezone
 from decimal import Decimal
 
-from . import rubric
+from . import rubric, translate
 from .config import EARLY_GATE_FRACTION
 from .dispatch import Task, run_tasks
 from .entities import extract
@@ -26,6 +26,14 @@ from .store import JsonlAppender, read_json, read_jsonl, write_json
 
 def now():
     return datetime.now(timezone.utc).isoformat(timespec="seconds")
+
+
+def current_config(run_dir, fallback_model):
+    """label_config of the latest enrichment invocation (includes the translation tag when used)."""
+    state = read_json(run_dir / "enrich" / "state.json", {})
+    if state.get("invocations"):
+        return state["invocations"][-1]["label_config"]
+    return rubric.label_config(fallback_model)
 
 
 def completed_results(run_dir, config):
@@ -57,15 +65,20 @@ def validate(task, response):
     return labels, diagnostics
 
 
-def run(run_dir, client, budget, calls, stop, max_new=None, accept_gate=False, log=print, **dispatch_kw):
+def run(run_dir, client, budget, calls, stop, max_new=None, accept_gate=False, translator=None, log=print,
+        **dispatch_kw):
     out = run_dir / "enrich"
-    config = rubric.label_config(client.model)
+    config = rubric.label_config(client.model, translate.tag(translator.model) if translator else None)
     write_json(out / f"questions_{config.replace('+', '_')}.json",
                {"label_config": config, "state_shape": {"review": "<review_text>"},
                 "fixed_questions": rubric.fixed_questions(),
                 "quote_question": {"instructions": rubric.QUOTE_INSTRUCTIONS,
                                    "criteria": "one option per sentence cut from the review by code"},
-                "classification_input_fields": ["review_text"]})
+                "classification_input_fields": ["review_text"],
+                "translation": ({"enabled": True, "model": translator.model, "tag": translate.tag(translator.model),
+                                 "system_prompt": translate.SYSTEM, "schema": translate.SCHEMA,
+                                 "groups": list(translate.TRANSLATION_GROUPS), "effort": translate.EFFORT}
+                                if translator else {"enabled": False})})
     state = read_json(out / "state.json", {"invocations": []})
     same_config = [inv for inv in state["invocations"] if inv["label_config"] == config]
     phase = "resume" if same_config else "initial"
@@ -83,17 +96,38 @@ def run(run_dir, client, budget, calls, stop, max_new=None, accept_gate=False, l
     if not pending:
         return finish(run_dir, state, invocation, done, None, log)
 
+    translations = {}
+    if translator:
+        translations = translate.saved(run_dir, config)
+        window = pending[:max_new] if max_new else pending
+        todo = [u for u in window if translate.needs_translation(u) and u["unit"] not in translations]
+        if todo and stop.reason is None:
+            log(f"enrich: translating {len(todo)} non-English texts before classification")
+            translate.run(run_dir, translator, budget, calls, todo, config, phase, stop, log=log)
+            translations = translate.saved(run_dir, config)
+        if stop.reason:
+            return finish(run_dir, state, invocation, done, stop.reason, log)
+
     results = JsonlAppender(out / "results.jsonl")
     failures = JsonlAppender(out / "failures.jsonl")
     counters = {"ok": 0, "failed": 0, "last_log": time.monotonic()}
 
     def tasks():
         for u in pending:
-            questions, candidates = rubric.questions_for(u["text"])
-            task = Task(key=u["unit"], review_id=u["original_id"], state=rubric.state_for(u["text"]),
-                        questions=questions, text_len=len(u["text"]))
+            translation = None
+            if translator and translate.needs_translation(u):
+                saved_tr = translations.get(u["unit"])
+                if saved_tr is None:
+                    continue  # never classify a candidate without its translation under this config
+                if saved_tr["meaningful"] and not saved_tr["is_english"] and saved_tr["translation"].strip():
+                    translation = saved_tr["translation"]
+            questions, candidates = rubric.questions_for(u["text"], translated=bool(translation))
+            task = Task(key=u["unit"], review_id=u["original_id"], state=rubric.state_for(u["text"], translation),
+                        questions=questions, text_len=len(u["text"]) + len(translation or ""))
             task.candidates = candidates
             task.text = u["text"]
+            task.language_group = u.get("language_group")
+            task.translation_used = bool(translation)
             yield task
 
     def on_outcome(outcome):
@@ -103,7 +137,8 @@ def run(run_dir, client, budget, calls, stop, max_new=None, accept_gate=False, l
             row = {"unit": task.key, "review_id": task.review_id, "label_config": config, **labels,
                    "entities": extract(task.text), "model": outcome.response.model,
                    "request_id": outcome.response.request_id, "diagnostics": diagnostics,
-                   "attempts": outcome.attempts, "completed_at": now(), "phase": phase}
+                   "attempts": outcome.attempts, "completed_at": now(), "phase": phase,
+                   "language_group": task.language_group, "translation_used": task.translation_used}
             results.write(row)
             done[task.key] = row
             counters["ok"] += 1
@@ -135,6 +170,8 @@ def run(run_dir, client, budget, calls, stop, max_new=None, accept_gate=False, l
         return "early_gate"
     reason = run_tasks(tasks(), client, budget, "enrich", phase, config, validate, on_outcome, stop, calls,
                        max_new=max_new, log=log, **dispatch_kw)
+    if reason is None and max_new is not None and len(done) < len(units):
+        reason = "stop_after"  # a deliberate stop, even when the remaining units were not yet translatable
     results.close()
     failures.close()
     return finish(run_dir, state, invocation, done, reason, log, counters)

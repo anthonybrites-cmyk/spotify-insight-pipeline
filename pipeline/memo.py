@@ -37,7 +37,7 @@ def build_inputs(ranking, issues, records, verify_report, ingest_summary, exclud
     complaints = [r for r in completed if r["intent"] in ("complaint", "cancellation")]
     total_members = sum(int(r["complaint_count"]) for r in ranking)
     top3 = sum(int(r["complaint_count"]) for r in ranking[:3])
-    random = (verify_report or {}).get("strata", {}).get("all", {})
+    random = (verify_report or {}).get("strata", {}).get("random:all", {})
     facts = {
         "F01": ("source reviews in the input file", str(len(records))),
         "F02": ("reviews with a completed classification", str(len(completed))),

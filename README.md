@@ -118,9 +118,16 @@ Data: download the course ZIP from the link in the assignment brief, unzip it an
 # 1) 500-review development run ($2 dev budget shared with step 2)
 .venv/bin/python -m pipeline run --input "$DATA/checkpoint_500.csv" --run-dir runs/dev500 $G \
   --budget-group dev --budget-usd 2 --verify-n 100 --grading-dir runs/dev500/grading --results-dir runs/dev500/results
-# 2) 10,000-review development checkpoint
+# 2) 10,000-review development checkpoint; also verifies all 268 non-English texts as a separate stratum
 .venv/bin/python -m pipeline run --input "$DATA/analysis_10000.csv" --run-dir runs/dev10k $G \
-  --budget-group dev --budget-usd 2 --verify-n 300 --grading-dir runs/dev10k/grading --results-dir runs/dev10k/results
+  --budget-group dev --budget-usd 2 --verify-n 300 --verify-extra-groups non_english_latin,non_latin_script \
+  --grading-dir runs/dev10k/grading --results-dir runs/dev10k/results
+# 2b) Only if non-English agreement is clearly worse: translation test on those 268 texts
+#     (enrichment only; reuses the 10k run's blind verifier labels; no second verification)
+.venv/bin/python -m pipeline subset --input "$DATA/analysis_10000.csv" --out runs/lang10k/non_english.csv
+.venv/bin/python -m pipeline run --input runs/lang10k/non_english.csv --run-dir runs/lang10k --translate \
+  --stages ingest,enrich --budget-group dev --budget-usd 2
+.venv/bin/python -m pipeline compare-translation --baseline-run runs/dev10k --translated-run runs/lang10k
 # 3) Golden set: enrichment only, on a copy with the labels stripped; then score against your labels
 .venv/bin/python -m pipeline golden-input --golden "$DATA/golden_50_to_label.csv" --out runs/golden/golden_50_texts.csv
 .venv/bin/python -m pipeline run --input runs/golden/golden_50_texts.csv --run-dir runs/golden --stages ingest,enrich \
@@ -179,5 +186,5 @@ Run with `EVIDENCE_DIR=evals/offline` to refresh the saved outcomes. The live in
 
 - **The data.** It is a historical, self-selected set of public Play Store reviews, with no revenue, plan tier, cost, or confirmed churn. Cancellation language is expressed intent, not observed churn.
 - **Model agreement.** Agreement between Jev and Claude is not accuracy. The 50-review golden set is a small diagnostic, not a population estimate.
-- **Language.** Jev is strongest in English; non-English and very short texts are routed to `needs_review` when Jev reports low confidence.
+- **Language.** A deterministic tagger (`pipeline/language.py`) finds 18,821 distinct likely non-English texts in the full file, 3.9% of distinct texts. Verification agreement is reported per language group. Translation (`--translate`) is built but off. Whether to enable it is decided from the 10k comparison, and fixed before the full run, so every record shares one `label_config`.
 - **Dates.** The first and last calendar months are partial.

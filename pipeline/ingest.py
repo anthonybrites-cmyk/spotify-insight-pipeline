@@ -10,6 +10,7 @@ Handoffs written to <run>/ingest/:
 """
 
 from .checker import FIELDS, csv_rows, profile, row_sha
+from . import language
 from .config import FULL_CSV_SHA256
 from .store import JsonlAppender, read_json, sha256_file, sha256_text, write_json
 
@@ -29,7 +30,8 @@ def run(input_csv, run_dir, log=print):
     out = run_dir / "ingest"
     input_sha = sha256_file(input_csv)
     existing = read_json(out / "summary.json")
-    if existing and existing.get("input_sha256") == input_sha and existing.get("complete"):
+    if (existing and existing.get("input_sha256") == input_sha and existing.get("complete")
+            and existing.get("language_version") == language.version()):
         log(f"ingest: already complete for {input_sha[:12]}; reusing saved handoff")
         return existing
     for name in ("sources.jsonl", "units.jsonl"):
@@ -60,7 +62,8 @@ def run(input_csv, run_dir, log=print):
             continue
         unit = sha256_text(text)
         if unit not in units:
-            units[unit] = {"unit": unit, "text": text, "original_id": rid, "member_count": 0}
+            units[unit] = {"unit": unit, "text": text, "original_id": rid, "member_count": 0,
+                           "language_group": language.group(text)}
             order.append(unit)
         units[unit]["member_count"] += 1
         sources.write({"review_id": rid, "source_sha256": row_sha(row), "unit": unit})
@@ -78,6 +81,11 @@ def run(input_csv, run_dir, log=print):
     for lo, hi in zip(LENGTH_BUCKETS, LENGTH_BUCKETS[1:] + [None]):
         label = f"{lo}+" if hi is None else f"{lo}-{hi - 1}"
         buckets[label] = sum(1 for n in lengths if n >= lo and (hi is None or n < hi))
+    lang_distinct, lang_rows = {}, {}
+    for unit in order:
+        g = units[unit]["language_group"]
+        lang_distinct[g] = lang_distinct.get(g, 0) + 1
+        lang_rows[g] = lang_rows.get(g, 0) + units[unit]["member_count"]
     observed = {"records": rows, "empty_review_text": empty, "missing_app_version": missing["app_version"],
                 "duplicate_review_ids": duplicate_ids, "distinct_nonempty_texts": len(order)}
     is_full = input_sha == FULL_CSV_SHA256
@@ -87,6 +95,9 @@ def run(input_csv, run_dir, log=print):
                                            "p90": percentile(lengths, .9), "p99": percentile(lengths, .99),
                                            "max": lengths[-1] if lengths else None, "histogram": buckets},
               "observed": observed,
+              "language_groups": {"method": f"deterministic heuristic (pipeline/language.py, version {language.version()})",
+                                  "distinct_texts": dict(sorted(lang_distinct.items())),
+                                  "rows": dict(sorted(lang_rows.items()))},
               "expected_checks": ({k: {"expected": v, "observed": observed[k], "ok": observed[k] == v}
                                    for k, v in FULL_EXPECTED.items()} if is_full else "not the course full file"),
               "quarantine_rule": "review_text empty after stripping whitespace -> quarantined, reason empty_review_text",
@@ -102,7 +113,8 @@ def run(input_csv, run_dir, log=print):
     summary = {"input_path": str(input_csv), "input_sha256": input_sha, "input_bytes": input_csv.stat().st_size,
                "rows": rows, "empty_review_text": empty, "nonempty": rows - empty,
                "distinct_nonempty_texts": len(order), "duplicate_review_ids": duplicate_ids,
-               "exact_duplicate_rows_reusable": rows - empty - len(order), "complete": True}
+               "exact_duplicate_rows_reusable": rows - empty - len(order), "language_version": language.version(),
+               "language_groups_distinct": dict(sorted(lang_distinct.items())), "complete": True}
     write_json(out / "summary.json", summary)
     log(f"ingest: {rows} rows, {empty} empty quarantined, {len(order)} distinct texts")
     return summary

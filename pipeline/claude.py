@@ -24,10 +24,10 @@ class ClaudeClient:
                                           timeout=CLAUDE_TIMEOUT_S)
         self.model = model
 
-    def create(self, system, user, schema=None, max_tokens=CLAUDE_MAX_TOKENS):
+    def create(self, system, user, schema=None, max_tokens=CLAUDE_MAX_TOKENS, effort=CLAUDE_EFFORT):
         params = {"model": self.model, "max_tokens": max_tokens, "system": system,
                   "messages": [{"role": "user", "content": user}],
-                  "thinking": {"type": "adaptive"}, "output_config": {"effort": CLAUDE_EFFORT}}
+                  "thinking": {"type": "adaptive"}, "output_config": {"effort": effort}}
         if schema is not None:
             params["output_config"]["format"] = {"type": "json_schema", "schema": schema}
         try:
@@ -61,13 +61,25 @@ def estimate_tokens(text):
     return int(len(text) / 2.5) + 500
 
 
+class _NoLock:
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *exc):
+        return False
+
+
 def call(client, budget, calls, handoff_dir, name, role, phase, label_config, review_ids, system, user,
-         schema=None, validate=None, max_tokens=CLAUDE_MAX_TOKENS, max_attempts=4):
-    """One logical request with retries. Saves request/response handoffs; returns (parsed, response)."""
+         schema=None, validate=None, max_tokens=CLAUDE_MAX_TOKENS, max_attempts=4, effort=CLAUDE_EFFORT, lock=None):
+    """One logical request with retries. Saves request/response handoffs; returns (parsed, response).
+
+    Pass a shared `lock` when several threads write to the same call log.
+    """
+    lock = lock or _NoLock()
     handoff_dir.mkdir(parents=True, exist_ok=True)
     write_json(handoff_dir / f"{name}.request.json",
                {"model": client.model, "role": role, "review_ids": review_ids, "system": system, "user": user,
-                "schema": schema, "max_tokens": max_tokens, "label_config": label_config})
+                "schema": schema, "max_tokens": max_tokens, "effort": effort, "label_config": label_config})
     state = {}
 
     def attempt(n, previous_error):
@@ -81,7 +93,7 @@ def call(client, budget, calls, handoff_dir, name, role, phase, label_config, re
         reservation = budget.reserve(cost_usd(estimate_tokens(system + prompt), max_tokens,
                                               CLAUDE_PRICE_IN, CLAUDE_PRICE_OUT))
         try:
-            response = client.create(system, prompt, schema, max_tokens)
+            response = client.create(system, prompt, schema, max_tokens, effort)
         except BaseException:
             budget.release(reservation)
             raise
@@ -104,6 +116,10 @@ def call(client, budget, calls, handoff_dir, name, role, phase, label_config, re
 
     def failed(n, error):
         response = state.get("response") or {}
+        with lock:
+            _log_failed(n, error, response)
+
+    def _log_failed(n, error, response):
         calls.write({"request_id": response.get("request_id") or f"local-failed-{uuid.uuid4().hex}",
                      "role": role, "review_ids": review_ids, "model": response.get("model", client.model),
                      "phase": phase, "outcome": "failed", "label_config": label_config,
@@ -112,13 +128,18 @@ def call(client, budget, calls, handoff_dir, name, role, phase, label_config, re
                      "attempt": n, "error": str(error)[:300], "handoff": handoff_ref(handoff_dir, name)})
         calls.flush()
 
+    def _log_ok(response):
+        calls.write({"request_id": response["request_id"], "role": role, "review_ids": review_ids,
+                     "model": response["model"], "phase": phase, "outcome": "succeeded", "label_config": label_config,
+                     "input_tokens": response["input_tokens"], "output_tokens": response["output_tokens"],
+                     "usage_available": True, "cost_usd": response["cost_usd"],
+                     "handoff": handoff_ref(handoff_dir, name)})
+        calls.flush()
+        budget.flush()
+
     parsed = run_with_retries(attempt, failed, max_attempts=max_attempts)
     response = state["response"]
-    calls.write({"request_id": response["request_id"], "role": role, "review_ids": review_ids,
-                 "model": response["model"], "phase": phase, "outcome": "succeeded", "label_config": label_config,
-                 "input_tokens": response["input_tokens"], "output_tokens": response["output_tokens"],
-                 "usage_available": True, "cost_usd": response["cost_usd"], "handoff": handoff_ref(handoff_dir, name)})
-    calls.flush()
-    budget.flush()
+    with lock:
+        _log_ok(response)
     write_json(handoff_dir / f"{name}.parsed.json", parsed if not isinstance(parsed, str) else {"text": parsed})
     return parsed, response

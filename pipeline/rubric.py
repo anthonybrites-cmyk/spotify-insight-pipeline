@@ -71,6 +71,10 @@ QUOTE_INSTRUCTIONS = (
 _SENTENCE_BREAK = re.compile(r"(?<=[.!?。！？])\s+|\n+")
 
 
+TRANSLATION_NOTE = (" `english_translation`, when present, is a machine translation of `review` provided only to "
+                    "help you read it; judge what the original `review` says.")
+
+
 def quote_candidates(text):
     """Exact substrings of the source text, in order, de-duplicated."""
     seen, out = set(), []
@@ -92,30 +96,38 @@ def fixed_questions():
     }
 
 
-def questions_for(text):
+def questions_for(text, translated=False):
     questions = fixed_questions()
     candidates = quote_candidates(text)
     if len(candidates) > 1:
         questions["quote"] = {"type": "choice", "instructions": QUOTE_INSTRUCTIONS,
                               "criteria": {f"s{i}": c for i, c in enumerate(candidates)}}
+    if translated:
+        for q in questions.values():
+            q["instructions"] = q["instructions"] + TRANSLATION_NOTE
     return questions, candidates
 
 
-def state_for(text):
+def state_for(text, translation=None):
+    """Only the review text (and, under --translate, its machine translation) is ever sent."""
+    if translation:
+        return {"review": text, "english_translation": translation}
     return {"review": text}
 
 
 def prompt_template_hash():
     template = {"questions": fixed_questions(), "quote_instructions": QUOTE_INSTRUCTIONS,
                 "splitter": _SENTENCE_BREAK.pattern, "max_candidates": MAX_QUOTE_CANDIDATES,
-                "state_shape": "{'review': review_text}", "entity_lexicon": LEXICON,
+                "state_shape": "{'review': review_text[, 'english_translation': ...]}", "entity_lexicon": LEXICON,
+                "translation_note": TRANSLATION_NOTE,
                 "post": {"unclear_threshold": UNCLEAR_NOUL_THRESHOLD, "min_confidence": MIN_CONFIDENCE,
                          "sentiment_mapping": "score / 2 - 1"}}
     return sha256_text(canonical(template))[:12]
 
 
-def label_config(model=JEV_MODEL):
-    return f"{model}+prompt-{prompt_template_hash()}+{SCHEMA_VERSION}"
+def label_config(model=JEV_MODEL, translate_tag=None):
+    extra = f"+{translate_tag}" if translate_tag else ""
+    return f"{model}+prompt-{prompt_template_hash()}{extra}+{SCHEMA_VERSION}"
 
 
 class InvalidAnswer(ValueError):

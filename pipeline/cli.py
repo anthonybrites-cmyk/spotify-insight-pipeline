@@ -8,6 +8,8 @@
   golden-input         write a copy of golden_50 with only the six source fields (labels stripped)
   score-golden         compare a run's records with your hand-labelled golden_50 file
   eval-injection       live prompt-injection cases through the Jev rubric and the verifier
+  subset               rows of a CSV in given language groups (translation test input)
+  compare-translation  baseline vs translated Jev labels against the same blind verifier labels
 """
 
 import argparse
@@ -33,14 +35,14 @@ def log(message):
     print(time.strftime("%H:%M:%S"), message, flush=True)
 
 
-def make_clients(fake, stages):
+def make_clients(fake, stages, translate=False):
     if fake:
         from .fakes import FakeClaude, FakeJev
         return FakeJev(), FakeClaude()
     from .claude import ClaudeClient
     from .jev import JevClient
     jev = JevClient(require("TYPESAFE_API_KEY"), model=JEV_MODEL) if "enrich" in stages or "group" in stages else None
-    needs_claude = bool({"verify", "group", "recommend"} & set(stages))
+    needs_claude = bool({"verify", "group", "recommend"} & set(stages)) or translate
     claude_client = ClaudeClient(require("ANTHROPIC_API_KEY"), model=CLAUDE_MODEL) if needs_claude else None
     return jev, claude_client
 
@@ -71,12 +73,12 @@ def cmd_run(args):
     manifest.update({"input": str(input_csv), "budget_group": args.budget_group, "budget_usd": args.budget_usd,
                      "verify_n": args.verify_n, "fake": args.offline_fake, "stages": list(stages),
                      "workers": args.workers, "rps": args.rps, "max_minutes": args.max_minutes,
-                     "exclude_golden_ids_from": args.exclude_golden})
+                     "exclude_golden_ids_from": args.exclude_golden, "translate": args.translate})
     manifest.setdefault("invocations", []).append({"id": invocation, "code_version": git_commit(),
                                                   "argv": sys.argv[1:], "started": time.strftime("%Y-%m-%dT%H:%M:%S%z")})
     write_json(run_dir / "run_manifest.json", manifest)
 
-    jev, claude_client = make_clients(args.offline_fake, stages)
+    jev, claude_client = make_clients(args.offline_fake, stages, args.translate)
     budget = Budget(args.budget_group, args.budget_usd, run_dir.name,
                     ledger_dir=(run_dir / "budgets") if args.offline_fake else REPO / "budgets")
     calls = JsonlAppender(run_dir / "calls.jsonl")
@@ -105,12 +107,13 @@ def _run_stages(args, stages, run_dir, input_csv, jev, claude_client, budget, ca
     with StopFlag(max_minutes=args.max_minutes) as stop:
         if "enrich" in stages:
             with runlog.stage("enrich") as st:
+                translator = claude_client if args.translate else None
                 reason = enrich.run(run_dir, jev, budget, calls, stop, max_new=args.stop_after_units,
-                                    accept_gate=args.accept_early_gate, log=log, **dispatch_kw)
+                                    accept_gate=args.accept_early_gate, translator=translator, log=log, **dispatch_kw)
                 if reason == "incomplete" and stop.reason is None:
                     log("enrich: one more pass over units whose transient errors exhausted their retries")
                     reason = enrich.run(run_dir, jev, budget, calls, stop, accept_gate=args.accept_early_gate,
-                                        log=log, **dispatch_kw)
+                                        translator=translator, log=log, **dispatch_kw)
                 st["stop_reason"] = reason
             if reason not in (None, "incomplete"):
                 log(f"stopped: {reason}. Progress is saved. Rerun the same command to resume. Budget {budget.summary()}")
@@ -119,8 +122,9 @@ def _run_stages(args, stages, run_dir, input_csv, jev, claude_client, budget, ca
                 log("enrich: some units still failed; they are exported as quarantined with reasons and attempts")
         if "verify" in stages:
             with runlog.stage("verify"):
+                extra = tuple(g.strip() for g in args.verify_extra_groups.split(",")) if args.verify_extra_groups else ()
                 verify.run(run_dir, claude_client, budget, calls, texts, args.verify_n, jev.model,
-                           exclude_ids=exclude, log=log)
+                           exclude_ids=exclude, extra_groups=extra, log=log)
         if "group" in stages:
             with runlog.stage("group") as st:
                 reason = group.run(run_dir, claude_client, jev, budget, calls, stop, texts, exclude_ids=exclude,
@@ -228,9 +232,13 @@ def main(argv=None):
     p.add_argument("--budget-group", required=True, help="ledger shared across runs, e.g. dev or full")
     p.add_argument("--budget-usd", required=True, type=float, help="hard cap for the budget group")
     p.add_argument("--verify-n", type=int, default=1000, help="declared random verification sample size")
+    p.add_argument("--verify-extra-groups", help="also verify every unit in these language groups, as a separate "
+                   "stratum (e.g. non_english_latin,non_latin_script for the 10k language comparison)")
     p.add_argument("--stages", help=f"comma list, default all: {','.join(STAGES)}")
     p.add_argument("--exclude-golden", help="golden_50 CSV: its review IDs (only) are kept out of prompt examples")
     p.add_argument("--stop-after-units", type=int, help="send at most N new enrichment requests, then stop (resume demo)")
+    p.add_argument("--translate", action="store_true",
+                   help="translate non-English texts with Claude before Jev (part of label_config; off by default)")
     p.add_argument("--max-minutes", type=float, help="time cap: stop dispatching after this many minutes, save progress")
     p.add_argument("--accept-early-gate", action="store_true", help="continue past a failed 10%% cost gate")
     p.add_argument("--grading-dir", help="export the grading folder here when the run finishes")
@@ -262,6 +270,14 @@ def main(argv=None):
     p.add_argument("--run-dir", required=True)
     p.add_argument("--golden", required=True, help="your hand-labelled golden CSV")
     p.add_argument("--out-dir", default=str(REPO / "evals" / "golden"))
+    p = sub.add_parser("subset", help="rows of a CSV in given language groups (for the translation test)")
+    p.add_argument("--input", required=True)
+    p.add_argument("--groups", default="non_english_latin,non_latin_script")
+    p.add_argument("--out", required=True)
+    p = sub.add_parser("compare-translation", help="baseline vs translated Jev labels against the same blind verifier")
+    p.add_argument("--baseline-run", required=True)
+    p.add_argument("--translated-run", required=True)
+    p.add_argument("--out", default=str(REPO / "evals" / "translation_test.json"))
     p = sub.add_parser("eval-injection")
     p.add_argument("--budget-usd", type=float, default=0.25)
     args = parser.parse_args(argv)
@@ -279,4 +295,8 @@ def main(argv=None):
         return evals.run_injection(args, log)
     if args.command == "score-golden":
         return evals.score_golden(args, log)
+    if args.command == "subset":
+        return evals.write_subset(args, log)
+    if args.command == "compare-translation":
+        return evals.compare_translation(args, log)
     return 2

@@ -1,6 +1,6 @@
 """Assemble exactly one final record per source ID from the saved stage handoffs."""
 
-from .enrich import completed_results
+from .enrich import completed_results, current_config
 from .group import load_assignments
 from .ingest import load_sources
 from .rubric import label_config as enrich_config
@@ -10,7 +10,7 @@ LABEL_FIELDS = ("topic", "intent", "sentiment", "severity", "entities", "evidenc
 
 
 def build(run_dir, jev_model):
-    config = enrich_config(jev_model)
+    config = current_config(run_dir, jev_model)
     done = completed_results(run_dir, config)
     failures = {}
     for f in read_jsonl(run_dir / "enrich" / "failures.jsonl"):

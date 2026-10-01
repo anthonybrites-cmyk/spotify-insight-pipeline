@@ -15,8 +15,9 @@ from collections import Counter
 from . import claude
 from .checker import INTENTS, TOPICS
 from .config import CLAUDE_MODEL, SCHEMA_VERSION, VERIFY_BATCH
-from .enrich import completed_results
+from .enrich import completed_results, current_config
 from .rubric import INTENT_CRITERIA, SEVERITY_CRITERIA, TOPIC_CRITERIA, label_config as enrich_config
+from . import language
 from .store import canonical, read_json, sha256_text, write_json
 
 SEED = "spotify-insight-verify-v1"
@@ -62,10 +63,20 @@ def label_config():
     return f"{CLAUDE_MODEL}+verify-{sha256_text(system_prompt() + canonical(SCHEMA))[:12]}+{SCHEMA_VERSION}"
 
 
-def select_sample(done, n, exclude_ids=()):
+def select_sample(done, n, exclude_ids=(), extra_groups=()):
+    """Declared uniform random sample, plus (optionally) every unit in extra language groups.
+
+    The random sample is the headline; the extra stratum exists only to make per-language
+    agreement measurable when a random sample holds too few non-English texts.
+    """
     units = [r for r in done.values() if r["review_id"] not in exclude_ids]
     ranked = sorted(units, key=lambda r: hashlib.sha256(f"{SEED}:{r['unit']}".encode()).hexdigest())
-    return [(r, "random") for r in ranked[:min(n, len(ranked))]]
+    sample = [(r, "random") for r in ranked[:min(n, len(ranked))]]
+    chosen = {r["unit"] for r, _ in sample}
+    if extra_groups:
+        sample += [(r, "language_extra") for r in ranked
+                   if r["unit"] not in chosen and r.get("language_group") in extra_groups]
+    return sample
 
 
 def min_conf(row):
@@ -98,14 +109,15 @@ def make_validator(sent_ids):
     return validate
 
 
-def run(run_dir, client, budget, calls, texts, n, jev_model, exclude_ids=(), log=print):
+def run(run_dir, client, budget, calls, texts, n, jev_model, exclude_ids=(), extra_groups=(), log=print):
     out = run_dir / "verify"
-    config = enrich_config(jev_model)
+    config = current_config(run_dir, jev_model)
     done = completed_results(run_dir, config)
-    sample = select_sample(done, n, exclude_ids)
+    sample = select_sample(done, n, exclude_ids, extra_groups)
     write_json(out / "sample.json", {
         "method": "uniform random over completed distinct texts: lowest sha256(seed:unit) values; "
-                  "golden-50 IDs excluded",
+                  "golden-50 IDs excluded; plus every unit in extra_language_groups as a separate stratum",
+        "extra_language_groups": list(extra_groups),
         "seed": SEED, "requested": n, "size": len(sample), "enrich_label_config": config,
         "units": [{"unit": r["unit"], "review_id": r["review_id"], "stratum": s} for r, s in sample]})
     vconfig = label_config()
@@ -139,7 +151,10 @@ def write_report(out, sample, verdicts, vconfig, config):
     for r, stratum in sample:
         v = verdicts[r["review_id"]]
         match, diff, material = compare(r, v)
-        for key in ("all", band(min_conf(r))):
+        lang = "language:" + (r.get("language_group") or language.group(r.get("text", "")))
+        keys = [f"{stratum}:all", f"{stratum}:{band(min_conf(r))}", f"all_verified:{lang}",
+                "all_verified:translated:" + str(bool(r.get("translation_used")))]
+        for key in keys:
             c = per.setdefault(key, Counter())
             c["n"] += 1
             c["severity_abs_error"] += diff
@@ -165,12 +180,15 @@ def write_report(out, sample, verdicts, vconfig, config):
                 "all_three_agreement": round(c["all_three_agree"] / n, 4),
                 "severity_mae": round(c["severity_abs_error"] / n, 4),
                 "material_disagreements": c["material_disagreements"]}
-    report = {"verify_label_config": vconfig, "enrich_label_config": config, "sample": "declared uniform random",
+    report = {"verify_label_config": vconfig, "enrich_label_config": config,
+              "headline": "random:all (declared uniform random sample)",
               "strata": {k: rates(c) for k, c in sorted(per.items())},
               "material_disagreements": len(disagreements),
               "definition": "topic or intent differs, or severity differs by >= 2; these records get needs_review=true",
               "confusion_jev_to_verifier": {f: dict(c.most_common()) for f, c in confusion.items()},
-              "note": "Agreement between two models is not accuracy."}
+              "note": "Agreement between two models is not accuracy. random:* = declared random sample (headline); "
+                      "language_extra:* = all extra-language units; all_verified:language:* compares language groups "
+                      "across everything verified."}
     write_json(out / "report.json", report)
     write_json(out / "comparisons.json", rows)
     write_json(out / "disagreement_units.json", sorted(disagreements))

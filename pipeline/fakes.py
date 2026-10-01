@@ -83,12 +83,18 @@ class FakeClaude:
         self.memo_text = memo_text
         self.requests = []
 
-    def create(self, system, user, schema=None, max_tokens=16000):
+    def create(self, system, user, schema=None, max_tokens=16000, effort="medium"):
         self.requests.append(user)
         if schema is not None and "results" in schema["properties"]:
-            reviews = json.loads(user.split("<reviews>\n", 1)[1].rsplit("\n</reviews>", 1)[0])
-            body = {"results": [{"review_id": r["review_id"], "topic": "other", "intent": "complaint",
-                                 "severity": 2, "reason": "fake"} for r in reviews]}
+            reviews = json.loads(user.split("<reviews>\n", 1)[1].split("\n</reviews>", 1)[0])
+            item = schema["properties"]["results"]["items"]["properties"]
+            if "translation" in item:
+                body = {"results": [{"review_id": r["review_id"], "language": "fake", "is_english": False,
+                                     "meaningful": True, "translation": "[fake translation] " + r["text"][:40]}
+                                    for r in reviews]}
+            else:
+                body = {"results": [{"review_id": r["review_id"], "topic": "other", "intent": "complaint",
+                                     "severity": 2, "reason": "fake"} for r in reviews]}
         elif schema is not None:
             body = {"topics": [{"topic": "playback", "subtopics": [
                 {"slug": "crashes", "name": "Crashes", "definition": "The app crashes."}]}]}

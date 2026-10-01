@@ -4,31 +4,31 @@ test_resume_never_resends_completed_units (test_pipeline.TestBudgetAndResume.tes
 test_time_cap_stops_and_saves (test_pipeline.TestBudgetAndResume.test_time_cap_stops_and_saves) ... ok
 test_transient_and_invalid_answers_are_retried_and_logged (test_pipeline.TestBudgetAndResume.test_transient_and_invalid_answers_are_retried_and_logged) ... ok
 test_truncated_jsonl_tail_is_repaired (test_pipeline.TestBudgetAndResume.test_truncated_jsonl_tail_is_repaired) ... ok
-19:17:57 run: run; stages ingest,enrich,verify,group,rank,recommend; budget {'group': 'fake', 'cap_usd': '1.0', 'committed_usd': '0', 'this_run_usd': '0', 'remaining_usd': '1.0'}
-19:17:57 ingest: profiling full file with the course helper
-19:17:57 ingest: 500 rows, 0 empty quarantined, 479 distinct texts
-19:17:57 enrich: 0/479 units already complete; 479 pending; phase=initial; config=fake-jev-0+prompt-b5552dab82ec+schema-v1
-19:17:57 enrich: early cost gate at 48/479 units: spend $0.001655388 vs allowed $0.100; linear projection $0.0165; PASSED
-19:17:57 enrich: stopped (stop_after); 100/479 units saved; snapshot enrich_stop_20260930T021757_stop_after.json (112 review IDs)
-19:17:57 stopped: stop_after. Progress is saved. Rerun the same command to resume. Budget {'group': 'fake', 'cap_usd': '1.0', 'committed_usd': '0.003442824', 'this_run_usd': '0.003442824', 'remaining_usd': '0.996557176'}
-19:17:57 run: run; stages ingest,enrich,verify,group,rank,recommend; budget {'group': 'fake', 'cap_usd': '1.0', 'committed_usd': '0.003442824', 'this_run_usd': '0.003442824', 'remaining_usd': '0.996557176'}
-19:17:57 ingest: already complete for a94e31663ee7; reusing saved handoff
-19:17:57 enrich: 100/479 units already complete; 379 pending; phase=resume; config=fake-jev-0+prompt-b5552dab82ec+schema-v1
-19:17:58 enrich: all 479 units complete; snapshot enrich_complete.json (500 review IDs)
-19:17:58 verify: batch 1/2 done; run spend $0.0385
-19:17:58 verify: batch 2/2 done; run spend $0.0605
-19:17:58 group: taxonomy proposed; run spend $0.0686
-19:17:58 group: 159 distinct complaint texts; 127 assigned; 32 need Jev
-19:17:58 rank: 7 issues, 162 complaint memberships
-19:17:58 memo: round 1: 0 check errors
-19:17:58 done. records {'completed': 500}; list-price cost $0.075058146
-19:17:58 export: wrote /private/var/folders/zx/_29ttf7134n4r0mr54q620m80000gn/T/pipeline-test-85x99iud/grading (500 records)
-/Users/anthonybrites/code/spotify-insight-pipeline/pipeline/export.py:119: ResourceWarning: unclosed file <_io.TextIOWrapper name='/private/var/folders/zx/_29ttf7134n4r0mr54q620m80000gn/T/pipeline-test-85x99iud/run/rank/ranking.csv' mode='r' encoding='utf-8'>
+18:09:23 run: run; stages ingest,enrich,verify,group,rank,recommend; budget {'group': 'fake', 'cap_usd': '1.0', 'committed_usd': '0', 'this_run_usd': '0', 'remaining_usd': '1.0'}
+18:09:23 ingest: profiling full file with the course helper
+18:09:23 ingest: 500 rows, 0 empty quarantined, 479 distinct texts
+18:09:23 enrich: 0/479 units already complete; 479 pending; phase=initial; config=fake-jev-0+prompt-f0bcf1c59f97+schema-v1
+18:09:23 enrich: early cost gate at 48/479 units: spend $0.001655388 vs allowed $0.100; linear projection $0.0165; PASSED
+18:09:23 enrich: stopped (stop_after); 100/479 units saved; snapshot enrich_stop_20261001T010923_stop_after.json (112 review IDs)
+18:09:23 stopped: stop_after. Progress is saved. Rerun the same command to resume. Budget {'group': 'fake', 'cap_usd': '1.0', 'committed_usd': '0.003442824', 'this_run_usd': '0.003442824', 'remaining_usd': '0.996557176'}
+18:09:23 run: run; stages ingest,enrich,verify,group,rank,recommend; budget {'group': 'fake', 'cap_usd': '1.0', 'committed_usd': '0.003442824', 'this_run_usd': '0.003442824', 'remaining_usd': '0.996557176'}
+18:09:23 ingest: already complete for a94e31663ee7; reusing saved handoff
+18:09:23 enrich: 100/479 units already complete; 379 pending; phase=resume; config=fake-jev-0+prompt-f0bcf1c59f97+schema-v1
+18:09:23 enrich: all 479 units complete; snapshot enrich_complete.json (500 review IDs)
+18:09:23 verify: batch 1/2 done; run spend $0.0385
+18:09:23 verify: batch 2/2 done; run spend $0.0605
+18:09:23 group: taxonomy proposed; run spend $0.0685
+18:09:23 group: 159 distinct complaint texts; 127 assigned; 32 need Jev
+18:09:23 rank: 7 issues, 162 complaint memberships
+18:09:23 memo: round 1: 0 check errors
+18:09:23 done. records {'completed': 500}; list-price cost $0.075026146
+18:09:23 export: wrote /private/var/folders/zx/_29ttf7134n4r0mr54q620m80000gn/T/pipeline-test-fvydipvo/grading (500 records)
+/Users/anthonybrites/code/spotify-insight-pipeline/pipeline/export.py:119: ResourceWarning: unclosed file <_io.TextIOWrapper name='/private/var/folders/zx/_29ttf7134n4r0mr54q620m80000gn/T/pipeline-test-fvydipvo/run/rank/ranking.csv' mode='r' encoding='utf-8'>
   ranking = list(csv.DictReader((run_dir / "rank" / "ranking.csv").open(encoding="utf-8", newline="")))
 ResourceWarning: Enable tracemalloc to get the object allocation traceback
-19:17:58 export: wrote results folder /private/var/folders/zx/_29ttf7134n4r0mr54q620m80000gn/T/pipeline-test-85x99iud/results
+18:09:23 export: wrote results folder /private/var/folders/zx/_29ttf7134n4r0mr54q620m80000gn/T/pipeline-test-fvydipvo/results
 test_clean_export_passes_course_checker (test_pipeline.TestExportAndPlantedErrors.test_clean_export_passes_course_checker) ... ok
-test_fake_records_are_not_exportable_without_flag (test_pipeline.TestExportAndPlantedErrors.test_fake_records_are_not_exportable_without_flag) ... 19:17:58 rank: 7 issues, 162 complaint memberships
+test_fake_records_are_not_exportable_without_flag (test_pipeline.TestExportAndPlantedErrors.test_fake_records_are_not_exportable_without_flag) ... 18:09:23 rank: 7 issues, 162 complaint memberships
 ok
 test_golden_ids_never_in_verify_sample_or_prompt_examples (test_pipeline.TestExportAndPlantedErrors.test_golden_ids_never_in_verify_sample_or_prompt_examples) ... ok
 test_planted_errors_are_detected (test_pipeline.TestExportAndPlantedErrors.test_planted_errors_are_detected) ... ok
@@ -49,14 +49,65 @@ test_only_review_text_is_sent (test_pipeline.TestRubric.test_only_review_text_is
 test_out_of_set_answers_are_rejected (test_pipeline.TestRubric.test_out_of_set_answers_are_rejected) ... ok
 test_sentiment_is_computed_in_code (test_pipeline.TestRubric.test_sentiment_is_computed_in_code) ... ok
 test_verify_sample_is_random_and_excludes_golden (test_pipeline.TestRubric.test_verify_sample_is_random_and_excludes_golden) ... ok
+{'identical_to_saved_ranking': True, 'issues': 7, 'sha256': 'dcb47ba7669dc31288a0f405e1dfeac9234d146c9a020732ac6d753dd3450ea5'}
+{'identical_to_saved_ranking': True, 'issues': 7, 'sha256': 'dcb47ba7669dc31288a0f405e1dfeac9234d146c9a020732ac6d753dd3450ea5'}
+18:09:24 subset: wrote 268 rows in groups ['non_english_latin', 'non_latin_script'] to /var/folders/zx/_29ttf7134n4r0mr54q620m80000gn/T/pipeline-translate-13hd64yb/non_english.csv
+18:09:24 run: baseline; stages ingest,enrich,verify,group,rank,recommend; budget {'group': 'fake', 'cap_usd': '1.0', 'committed_usd': '0', 'this_run_usd': '0', 'remaining_usd': '1.0'}
+18:09:24 ingest: profiling full file with the course helper
+18:09:24 ingest: 268 rows, 0 empty quarantined, 268 distinct texts
+18:09:24 enrich: 0/268 units already complete; 268 pending; phase=initial; config=fake-jev-0+prompt-f0bcf1c59f97+schema-v1
+18:09:24 enrich: early cost gate at 27/268 units: spend $0.000930594 vs allowed $0.100; linear projection $0.0092; PASSED
+18:09:24 enrich: all 268 units complete; snapshot enrich_complete.json (268 review IDs)
+18:09:24 verify: batch 1/6 done; run spend $0.0314
+18:09:24 verify: batch 2/6 done; run spend $0.0530
+18:09:24 verify: batch 3/6 done; run spend $0.0744
+18:09:24 verify: batch 4/6 done; run spend $0.0964
+18:09:24 verify: batch 5/6 done; run spend $0.1186
+18:09:24 verify: batch 6/6 done; run spend $0.1277
+18:09:24 group: taxonomy proposed; run spend $0.1306
+18:09:24 group: 25 distinct complaint texts; 25 assigned; 0 need Jev
+18:09:24 rank: 6 issues, 25 complaint memberships
+18:09:24 memo: round 1: 0 check errors
+18:09:24 done. records {'completed': 268}; list-price cost $0.135731358
+18:09:24 run: translated; stages ingest,enrich,verify,group,rank,recommend; budget {'group': 'fake', 'cap_usd': '1.0', 'committed_usd': '0', 'this_run_usd': '0', 'remaining_usd': '1.0'}
+18:09:24 ingest: profiling full file with the course helper
+18:09:24 ingest: 268 rows, 0 empty quarantined, 268 distinct texts
+18:09:24 enrich: 0/268 units already complete; 268 pending; phase=initial; config=fake-jev-0+prompt-f0bcf1c59f97+translate-fake-claude-0-3866046b40+schema-v1
+18:09:24 enrich: translating 60 non-English texts before classification
+18:09:24 translate: 2 batches saved, 0 failed, of 2; run spend $0.0359
+18:09:24 enrich: early cost gate at 27/268 units: spend $0.036818824 vs allowed $0.100; linear projection $0.3655; PASSED
+18:09:24 enrich: stopped (stop_after); 60/268 units saved; snapshot enrich_stop_20261001T010924_stop_after.json (60 review IDs)
+18:09:24 stopped: stop_after. Progress is saved. Rerun the same command to resume. Budget {'group': 'fake', 'cap_usd': '1.0', 'committed_usd': '0.037910992', 'this_run_usd': '0.037910992', 'remaining_usd': '0.962089008'}
+18:09:24 run: translated; stages ingest,enrich,verify,group,rank,recommend; budget {'group': 'fake', 'cap_usd': '1.0', 'committed_usd': '0.037910992', 'this_run_usd': '0.037910992', 'remaining_usd': '0.962089008'}
+18:09:24 ingest: already complete for 28d15b4136b4; reusing saved handoff
+18:09:24 enrich: 60/268 units already complete; 208 pending; phase=resume; config=fake-jev-0+prompt-f0bcf1c59f97+translate-fake-claude-0-3866046b40+schema-v1
+18:09:24 enrich: translating 208 non-English texts before classification
+18:09:24 translate: 5 batches saved, 0 failed, of 5; run spend $0.1621
+18:09:24 enrich: all 268 units complete; snapshot enrich_complete.json (268 review IDs)
+18:09:24 verify: batch 1/6 done; run spend $0.1914
+18:09:24 verify: batch 2/6 done; run spend $0.2130
+18:09:24 verify: batch 3/6 done; run spend $0.2344
+18:09:24 verify: batch 4/6 done; run spend $0.2564
+18:09:24 verify: batch 5/6 done; run spend $0.2786
+18:09:24 verify: batch 6/6 done; run spend $0.2877
+18:09:24 group: taxonomy proposed; run spend $0.2906
+18:09:24 group: 25 distinct complaint texts; 25 assigned; 0 need Jev
+18:09:24 rank: 6 issues, 25 complaint memberships
+18:09:24 memo: round 1: 0 check errors
+18:09:24 done. records {'completed': 268}; list-price cost $0.295739358
+18:09:24 export: wrote /private/var/folders/zx/_29ttf7134n4r0mr54q620m80000gn/T/pipeline-translate-13hd64yb/grading (268 records)
+test_compare_translation_report (test_pipeline.TestTranslationPath.test_compare_translation_report) ... 18:09:24 {"units_compared": 268, "agreement_with_blind_verifier": {"baseline": {"topic": 0.709, "intent": 0.0784, "severity": 0.0933, "material_disagreement_rate": 0.9851}, "translated": {"topic": 0.709, "intent": 0.0784, "severity": 0.0933, "material_disagreement_rate": 0.9851}}, "translation_calls": {"succeeded": 7, "failed": 0, "input_tokens": 11318, "output_tokens": 13737, "cost_usd_list_price": "0.160006"}}
+ok
+test_jev_saw_original_plus_translation_and_quotes_stay_original (test_pipeline.TestTranslationPath.test_jev_saw_original_plus_translation_and_quotes_stay_original) ... ok
+test_subset_is_non_english (test_pipeline.TestTranslationPath.test_subset_is_non_english) ... ok
+test_translated_export_passes_checker (test_pipeline.TestTranslationPath.test_translated_export_passes_checker) ... ok
+test_translation_calls_are_bounded_enrich_calls_with_matching_config (test_pipeline.TestTranslationPath.test_translation_calls_are_bounded_enrich_calls_with_matching_config) ... ok
 test_memo_id_checks (test_pipeline.TestValidators.test_memo_id_checks) ... ok
 test_memo_number_check (test_pipeline.TestValidators.test_memo_number_check) ... ok
 test_taxonomy_validation (test_pipeline.TestValidators.test_taxonomy_validation) ... ok
 test_verify_rejects_id_errors (test_pipeline.TestValidators.test_verify_rejects_id_errors) ... ok
 
 ----------------------------------------------------------------------
-Ran 31 tests in 0.767s
+Ran 36 tests in 1.144s
 
 OK (skipped=1)
-{'identical_to_saved_ranking': True, 'issues': 7, 'sha256': 'dcb47ba7669dc31288a0f405e1dfeac9234d146c9a020732ac6d753dd3450ea5'}
-{'identical_to_saved_ranking': True, 'issues': 7, 'sha256': 'dcb47ba7669dc31288a0f405e1dfeac9234d146c9a020732ac6d753dd3450ea5'}
