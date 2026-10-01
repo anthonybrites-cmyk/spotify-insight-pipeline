@@ -119,6 +119,16 @@ def score_golden(args, log):
     out.mkdir(parents=True, exist_ok=True)
     with Path(args.golden).open(encoding="utf-8-sig", newline="") as f:
         gold = list(csv.DictReader(f))
+    adjudication = getattr(args, "adjudication", None)
+    if adjudication:
+        # Post-hoc labeller decisions, applied to a copy and reported separately from the original labels.
+        changes = read_json(adjudication)["label_changes"]
+        by_id = {g["review_id"]: g for g in gold}
+        for ch in changes:
+            if by_id[ch["review_id"]][ch["field"]].strip() != ch["original"]:
+                raise SystemExit(f"adjudication does not match the original label for {ch['review_id']}")
+            by_id[ch["review_id"]][ch["field"]] = ch["adjudicated"]
+        log(f"golden: applying {len(changes)} adjudicated label change(s) from {adjudication}")
     labeled = [g for g in gold if all(g.get(k, "").strip() for k in ("topic", "intent", "severity"))]
     if len(labeled) < len(gold):
         log(f"golden: {len(gold) - len(labeled)} of {len(gold)} rows are not fully labelled (topic, intent, severity)")
@@ -201,7 +211,8 @@ def score_golden(args, log):
     frac = lambda k: round(totals[k] / n, 4)
     precision = nr["tp"] / (nr["tp"] + nr["fp"]) if nr["tp"] + nr["fp"] else None
     recall = nr["tp"] / (nr["tp"] + nr["fn"]) if nr["tp"] + nr["fn"] else None
-    summary = {"run_dir": str(run_dir), "labelled_cases": n, "ambiguous_cases": totals["ambiguous"],
+    summary = {"run_dir": str(run_dir), "labels": "adjudicated (post-hoc, disclosed)" if adjudication else "original",
+               "labelled_cases": n, "ambiguous_cases": totals["ambiguous"],
                "missing_or_quarantined_counted_wrong": totals["missing_or_quarantined"],
                "agreement": {"topic": frac("topic_correct"), "intent": frac("intent_correct"),
                              "severity_exact": frac("severity_correct"), "all_three": frac("all_three_correct")},
@@ -255,11 +266,11 @@ def compare_translation(args, log):
     The translated run only needs stages ingest,enrich; no second verification pass. No model calls here.
     """
     from decimal import Decimal
-    from .enrich import completed_results, current_config
+    from .enrich import current_config, final_results
     from .config import JEV_MODEL
     base_dir, tr_dir = Path(args.baseline_run).resolve(), Path(args.translated_run).resolve()
-    base = completed_results(base_dir, current_config(base_dir, JEV_MODEL))
-    translated = completed_results(tr_dir, current_config(tr_dir, JEV_MODEL))
+    base = final_results(base_dir, current_config(base_dir, JEV_MODEL))
+    translated = final_results(tr_dir, current_config(tr_dir, JEV_MODEL))
     comparisons = [c for c in read_json(base_dir / "verify" / "comparisons.json") if c["unit"] in translated]
     rows, totals = [], {"n": 0, "base_missing": 0}
     for key in ("baseline", "variant"):

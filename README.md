@@ -40,6 +40,10 @@ flowchart TD
       V -->|invalid: retry once| J
       V -->|still invalid| Q[("quarantine<br/>reason + attempts")]
       V -->|valid| S[("enrich/results.jsonl<br/>saved per request")]
+      S -->|"Jev confidence below 0.5"| FB(("Claude fallback<br/>blind re-label, 50 per request<br/>standard or Batch API"))
+      FB --> FV{"code check:<br/>IDs, enums,<br/>exact quote"}
+      FV -->|"bad quote: 1 retry"| FB
+      FV -->|"ok: final labels; still invalid: keep Jev + needs_review"| S
       J -.->|"429/5xx: bounded backoff"| J
     end
     S -->|"declared random sample, labels hidden"| VF
@@ -83,6 +87,7 @@ Every handoff is saved, and each stage has its own stop condition:
 | Role (`calls.jsonl`) | Model ID | Settings | Prompt version |
 |---|---|---|---|
 | enrich | `jev-1.13.0` (pinned, not the alias) | 1 review per request; Choice for topic, intent and severity; Score for sentiment; Noul for "unclear"; Choice over code-cut sentences for the quote | `label_config` = `jev-1.13.0+prompt-<hash>+schema-v1` |
+| enrich (fallback) | `claude-sonnet-5` | re-labels **blind** every text whose minimum Jev confidence is below 0.5; up to 50 reviews per request; JSON schema with an exact-substring quote; standard API (10k) or Message Batches API at 50% price (full run) | `label_config` gains `+fallback-claude-sonnet-5-t0.5-<hash>` for every record in the run |
 | verify | `claude-sonnet-5` | adaptive thinking, effort medium, JSON-schema output, 50 per request, `max_tokens` 16000 | `claude-sonnet-5+verify-<hash>+schema-v1` |
 | group | `claude-sonnet-5` then `jev-1.13.0` | taxonomy via JSON schema; Jev Choice per complaint | `...+group-taxonomy-<hash>`, `...+group-assign-<hash>` |
 | memo | `claude-sonnet-5` | plain markdown, code check, up to 3 rounds | `claude-sonnet-5+memo-<hash>+schema-v1` |
@@ -115,29 +120,34 @@ Data: download the course ZIP from the link in the assignment brief, unzip it an
 **Paid runs** (`DATA="$HOME/code/Final Assignment - Spotify Reviews Dataset"`; `G="--exclude-golden $DATA/golden_50_to_label.csv"`):
 
 ```bash
-# 1) 500-review development run ($2 dev budget shared with step 2)
+# 1) 500-review development run (done; development cap raised from $2 to $5 on 2026-09-30)
 .venv/bin/python -m pipeline run --input "$DATA/checkpoint_500.csv" --run-dir runs/dev500 $G \
-  --budget-group dev --budget-usd 2 --verify-n 100 --grading-dir runs/dev500/grading --results-dir runs/dev500/results
-# 2) 10,000-review development checkpoint; also verifies all 268 non-English texts as a separate stratum
+  --budget-group dev --budget-usd 5 --verify-n 100 --grading-dir runs/dev500/grading --results-dir runs/dev500/results
+# 2) 10,000-review development checkpoint with the Claude fallback (standard API); also verifies all 268
+#    non-English texts as a separate stratum
 .venv/bin/python -m pipeline run --input "$DATA/analysis_10000.csv" --run-dir runs/dev10k $G \
-  --budget-group dev --budget-usd 2 --verify-n 300 --verify-extra-groups non_english_latin,non_latin_script \
+  --budget-group dev --budget-usd 5 --fallback standard --verify-n 300 \
+  --verify-extra-groups non_english_latin,non_latin_script \
   --grading-dir runs/dev10k/grading --results-dir runs/dev10k/results
 # 2b) Only if non-English agreement is clearly worse: translation test on those 268 texts
 #     (enrichment only; reuses the 10k run's blind verifier labels; no second verification)
 .venv/bin/python -m pipeline subset --input "$DATA/analysis_10000.csv" --out runs/lang10k/non_english.csv
 .venv/bin/python -m pipeline run --input runs/lang10k/non_english.csv --run-dir runs/lang10k --translate \
-  --stages ingest,enrich --budget-group dev --budget-usd 2
+  --stages ingest,enrich --budget-group dev --budget-usd 5 --fallback standard
 .venv/bin/python -m pipeline compare-translation --baseline-run runs/dev10k --translated-run runs/lang10k
 # 3) Golden set: enrichment only, on a copy with the labels stripped; then score against your labels
 .venv/bin/python -m pipeline golden-input --golden "$DATA/golden_50_to_label.csv" --out runs/golden/golden_50_texts.csv
 .venv/bin/python -m pipeline run --input runs/golden/golden_50_texts.csv --run-dir runs/golden --stages ingest,enrich \
-  --budget-group dev --budget-usd 2
+  --budget-group dev --budget-usd 5
 .venv/bin/python -m pipeline score-golden --run-dir runs/golden --golden evals/golden/golden_50_human_labels.csv
-# 4) Full run: interrupt after 5,000 enrichment requests (recorded), then resume to completion
+.venv/bin/python -m pipeline score-golden --run-dir runs/golden --golden evals/golden/golden_50_human_labels.csv \
+  --adjudication evals/golden/adjudication.json --out-dir evals/golden/adjudicated   # post-hoc labels, reported separately
+# 4) Full run with the Claude fallback via the Message Batches API: interrupt after 5,000 enrichment
+#    requests (recorded), then resume to completion
 .venv/bin/python -m pipeline run --input "$DATA/spotify_reviews_18months.csv" --run-dir runs/full $G \
-  --budget-group full --budget-usd 40 --verify-n 1000 --stop-after-units 5000
+  --budget-group full --budget-usd 90 --fallback batch --verify-n 1000 --stop-after-units 5000
 .venv/bin/python -m pipeline run --input "$DATA/spotify_reviews_18months.csv" --run-dir runs/full $G \
-  --budget-group full --budget-usd 40 --verify-n 1000 --grading-dir grading --results-dir results
+  --budget-group full --budget-usd 90 --fallback batch --verify-n 1000 --grading-dir grading --results-dir results
 # 5) Live prompt-injection cases (synthetic, excluded from business results)
 .venv/bin/python -m pipeline eval-injection
 ```
@@ -155,6 +165,18 @@ Data: download the course ZIP from the link in the assignment brief, unzip it an
 - **Exact-duplicate reuse.** 660,609 nonempty rows collapse to 484,189 distinct texts. The other IDs get `cache_source_id` pointing to the directly classified original. Every ID keeps its own record and is counted separately.
 - **Statuses.** Each record is `completed`, or `quarantined` with a `reason` and `attempts`. Reasons are `empty_review_text`, `enrich_failed: …`, or `pending_not_processed` for an incomplete run.
 - **Usage and cost.** These are provider-reported tokens times published list prices (Jev $0.042 per million input tokens, output free; Sonnet 5 $2/$10 per million), reported in `run_summary.json`. Failed attempts that returned no usage are logged with 0 tokens and `usage_available: false`; they are not estimated.
+
+## Decisions log
+
+| Date | Decision | Evidence / reason |
+|---|---|---|
+| 2026-09-29 | Jev for every review's fixed labels; Claude for verification, taxonomy and memo | Brief guidance; Claude for every review was measured at ~$270–540 |
+| 2026-09-30 | Severity 5 adds health/physical harm, **clarified to an actual injury such as hearing loss** | Your call while labelling; prompted by golden row `46c0b49f…` (disclosed, see DESIGN.md) |
+| 2026-09-30 | Golden labels scored strictly; ambiguity goes in separate columns | The brief asks for an ambiguous-case count; the instructor's multiple accepted labels apply only to their benchmark |
+| 2026-09-30 | Keep the **full** Jev wording | Compact wording saved 28% of tokens but cost 3 points of topic agreement on the same verifier labels |
+| 2026-09-30 | **Claude fallback for every text with Jev confidence below 0.5**: standard API for the 10k run, Batch API for the full run; full-run cap **$90**; development cap **$5** | Golden head-to-head in the low band: Jev 1/7 vs Claude 5/7 all-correct (disclosed); to be checked on ~30 fresh held-out 10k reviews |
+| 2026-09-30 | Premium-locked controls → `billing` (verifier and fallback prompts state it explicitly); your adjudication of golden disagreements recorded separately | Your answers (a)–(d); [`evals/golden/adjudication.json`](evals/golden/adjudication.json) |
+| pending | Translation of non-English texts | Decided after the 10k language comparison |
 
 ## Development results
 
@@ -200,7 +222,7 @@ The declared random sample is 100 distinct texts; golden-50 IDs are excluded. Th
 | Low (<0.5) | 12 | 75% | 100% | 58% | 42% | 3 |
 
 - **Planted wrong label.** In a separate copy of the comparisons, Jev's topic was deliberately changed on 25 agreeing cases. The comparison code caught **25 of 25**.
-- **Who is right varies.** On premium-only controls, the contract says `billing`. Jev followed that, while Claude chose `usability` (e.g. `66c56c76…`).
+- **Who is right varies.** On premium-only controls, the contract says `billing`. Jev followed that, while Claude chose `usability` (e.g. `66c56c76…`). *[Labeller: billing; the verifier was wrong. The verifier and fallback prompts now state this rule explicitly.]*
 
 ### Golden set (50 hand-labelled reviews)
 
@@ -210,6 +232,7 @@ The labels were written and committed before any model run (commit `821258d`). E
 |---|---|---|---|---|---|
 | **Jev (pipeline)** | 88% | 96% | 84% | 74% | 0.24 |
 | Lenient: also accepts the alternatives you noted | 90% | 98% | 88% | — | — |
+| Adjudicated: your post-hoc decision (c) applied, `dceb14e7…` topic → playback ([`adjudication.json`](evals/golden/adjudication.json)) | 90% | 96% | 84% | 76% | 0.24 |
 
 Other measures:
 - **Sentiment:** MAE 0.118; 48 of 50 within the predeclared ±0.5 tolerance.
@@ -217,10 +240,10 @@ Other measures:
 - **Missing or quarantined predictions:** 0.
 - **`needs_review` treated as a prediction:** precision 0.33, recall 0.33 (2 true positives, 4 false positives, 4 false negatives). It does not yet track human judgment well.
 
-**Error analysis.** 13 rows have a label disagreement and 1 differs only on sentiment; all are listed in [`disagreements.md`](evals/golden/disagreements.md). The main patterns:
-1. **Severity 2 vs 3 for premium restrictions and ad load.** Jev rates "basic features are premium" and "unusable with constant ads" as 3 (a restricted function). The human label is 2 (annoyance).
-2. **Usability vs playback** when an update removes controls ("can't play the songs I like / can't rewind"). Jev chose playback; the human chose usability.
-3. **Health harm.** For "my ears feel like they explode", Jev chose 5 under the amended severity-5 definition; the human label is 2. This is the case that prompted the amendment ([DESIGN.md](DESIGN.md)).
+**Error analysis.** 13 rows have a label disagreement and 1 differs only on sentiment; all are listed in [`disagreements.md`](evals/golden/disagreements.md). Your adjudication of each pattern is in brackets. The main patterns:
+1. **Severity 2 vs 3 for premium restrictions and ad load.** Jev rates "basic features are premium" and "unusable with constant ads" as 3 (a restricted function). The human label is 2 (annoyance). *[Labeller: 2 is right; this is annoyance. Note that the contract's level 3 says "restricted function", so this is a genuine boundary case.]*
+2. **Usability vs playback** when an update removes controls ("can't play the songs I like / can't rewind"). Jev chose playback; the human chose usability. *[Labeller, post hoc: **playback**. Jev was right and the original golden label was the error; see the adjudicated row above.]*
+3. **Health harm.** For "my ears feel like they explode", Jev chose 5 under the amended severity-5 definition; the human label is 2. *[Labeller: 2. This is not serious harm; level 5 needs an actual injury such as hearing loss. The rubric now says so.]*
 4. **Low confidence predicts errors.** Jev got all three labels right on only 1 of the 7 golden reviews where its confidence was below 0.5.
 
 **Jev vs Claude on the same 50** ([`head_to_head.json`](evals/golden/head_to_head.json), one Claude call, $0.064). This comparison is disclosed because it informs the choice of final setup.
@@ -252,7 +275,7 @@ There are 13 synthetic reviews: 7 prompt-injection attempts and 6 controls, incl
 | Optional: Claude fallback for low-confidence texts (~14%, ~68k texts) | $0.0645 per 50-review call; Batch API halves it | +~$44 (Batch) to +~$87 (standard) |
 | Optional: translation of 18,821 non-English texts | not yet measured | decided after the 10k comparison |
 
-Runtime: about 4.5 h of Jev enrichment plus about 1.7 h of grouping at 30 requests/s. Decisions to make before the 10k run: whether to add the low-confidence fallback (likely via the Batch API), whether to translate, and the full-run cap.
+Runtime: about 4.5 h of Jev enrichment plus about 1.7 h of grouping at 30 requests/s, plus up to 24 h for the fallback batch (most finish within an hour). **Chosen setup:** baseline plus the low-confidence fallback via the Batch API, about $81 projected, under a $90 cap. The 10k run measures the real fallback rate and cost first.
 
 ### Full run *(pending)*
 

@@ -49,7 +49,7 @@ SEVERITY_CRITERIA = {
     "2": "Dislike, generic criticism, minor annoyance, too many ads, or a cosmetic issue, with no stated loss of function.",
     "3": "A function is degraded or restricted but some use or a workaround remains, for example frequent pauses, some songs will not play, intermittent crashes, or a control restricted for free users.",
     "4": "A core task is clearly blocked, for example cannot log in, cannot play any music, the app will not open, downloads never work, or paid Premium is not active.",
-    "5": "Explicit serious health, financial, privacy or data harm, for example charged wrongly, money taken, data exposed, library deleted, or physical harm. An expensive plan, a crash, or angry language alone is not level 5.",
+    "5": "Explicit serious health, financial, privacy or data harm, for example charged wrongly, money taken, data exposed, library deleted, or an actual physical injury such as hearing loss. An expensive plan, a crash, angry language, or discomfort or a warning that something is dangerous (for example a painfully loud ad) alone is not level 5.",
 }
 SEVERITY_INSTRUCTIONS = (
     "How severe is the problem that `review` reports? Judge only the impact the text states; do not "
@@ -110,7 +110,7 @@ COMPACT = {
         "3": "A function degraded or restricted; some use remains",
         "4": "A core task blocked: can't log in, can't play, app won't open",
         "5": "Explicit serious health, financial, privacy or data harm (charged wrongly, money taken, data exposed, "
-             "library deleted, physical harm); price, a crash or anger alone is not 5",
+             "library deleted, actual injury such as hearing loss); price, a crash, anger or discomfort alone is not 5",
     },
     "sentiment_instructions": "Overall sentiment of `review` toward the app." + _NOTE,
     "unclear_instructions": "Is `review` too unclear, unreadable or missing context to label confidently?" + _NOTE,
@@ -197,8 +197,8 @@ def prompt_template_hash():
     return sha256_text(canonical(template))[:12]
 
 
-def label_config(model=JEV_MODEL, translate_tag=None):
-    extra = f"+{translate_tag}" if translate_tag else ""
+def label_config(model=JEV_MODEL, translate_tag=None, fallback_tag=None):
+    extra = "".join(f"+{t}" for t in (translate_tag, fallback_tag) if t)
     variant = "" if _active["name"] == "full" else _active["name"] + "-"
     return f"{model}+prompt-{variant}{prompt_template_hash()}{extra}+{SCHEMA_VERSION}"
 

@@ -96,6 +96,8 @@ def export_results(run_dir, out, records, claims, log=print):
     """Human-readable result set named in the assignment brief (separate from the grading adapter)."""
     out.mkdir(parents=True, exist_ok=True)
     enriched_run = {r["unit"]: r for r in read_jsonl(run_dir / "enrich" / "results.jsonl")}
+    from .enrich import current_config, final_results
+    final = final_results(run_dir, current_config(run_dir, ""))
     units = {s["review_id"]: s["unit"] for s in read_jsonl(run_dir / "ingest" / "sources.jsonl")}
     with gzip.open(out / "enriched.jsonl.gz", "wt", encoding="utf-8") as f:
         for r in records:
@@ -103,7 +105,8 @@ def export_results(run_dir, out, records, claims, log=print):
                 continue
             diag = enriched_run.get(units[r["review_id"]], {}).get("diagnostics", {})
             f.write(canonical({**r, "jev_confidence": diag.get("confidence"),
-                               "severity_rule_applied": diag.get("severity_rule_applied")}) + "\n")
+                               "severity_rule_applied": diag.get("severity_rule_applied"),
+                               "decided_by": final.get(units[r["review_id"]], {}).get("decided_by", "jev")}) + "\n")
     with (out / "quarantine.jsonl").open("w", encoding="utf-8") as f:
         for r in records:
             if r["status"] == "quarantined":

@@ -17,7 +17,7 @@ from . import claude
 from .checker import TOPICS
 from .config import SCHEMA_VERSION
 from .dispatch import Task, run_tasks
-from .enrich import completed_results, current_config
+from .enrich import current_config, final_results
 from .rubric import DATA_NOTE, TOPIC_CRITERIA, label_config as enrich_config
 from .store import JsonlAppender, canonical, read_json, read_jsonl, sha256_text, write_json
 
@@ -107,7 +107,7 @@ def assignment_question(topic, issues):
 
 def run(run_dir, claude_client, jev_client, budget, calls, stop, texts, exclude_ids=(), log=print, **dispatch_kw):
     out = run_dir / "group"
-    done = completed_results(run_dir, current_config(run_dir, jev_client.model))
+    done = final_results(run_dir, current_config(run_dir, jev_client.model))
     complaints = complaint_units(done)
 
     # Step A: taxonomy (cached by input hash; a rerun with identical input makes no call).

@@ -622,3 +622,134 @@ class TestTranslationPath(unittest.TestCase):
         self.assertTrue(any(k.startswith("all_verified:language:") for k in baseline_report["strata"]))
         translated_report = json.loads((self.tmp / "translated" / "verify" / "report.json").read_text())
         self.assertIn("all_verified:translated:True", translated_report["strata"])
+
+
+RESUME_ONLY = {"resume_call_evidence", "resume_snapshot_mismatch", "unreadable_file"}
+
+
+class TestFallback(unittest.TestCase):
+    """Claude fallback for low-confidence Jev labels: routing, quote retry, batch resume, provenance."""
+
+    def assert_only_missing_resume_evidence(self, report):
+        # Runs that were never interrupted lack checkpoint_before.json; everything else must pass.
+        self.assertTrue(set(report["issue_counts"]) <= RESUME_ONLY, report["issue_counts"])
+        self.assertEqual(report["coverage"]["valid_completed"], 500)
+
+    def run_fake(self, tmp, mode, claude=None, jev=None, extra=(), grading=True):
+        from unittest import mock
+        from pipeline import fakes
+        claude = claude or fakes.FakeClaude()
+        jev = jev or FakeJev(low_conf_every=5)
+        with mock.patch.object(cli, "make_clients", lambda *a, **k: (jev, claude)):
+            code = fake_run(tmp, "--fallback", mode, *extra, grading=grading)
+        return code, jev, claude
+
+    def test_standard_fallback_relabels_low_confidence_and_passes_checker(self):
+        tmp = Path(tempfile.mkdtemp(prefix="pipeline-fb-"))
+        try:
+            code, jev, _ = self.run_fake(tmp, "standard")
+            self.assertEqual(code, 0)
+            run = tmp / "run"
+            results = list(read_jsonl(run / "enrich" / "results.jsonl"))
+            low = {r["unit"] for r in results if min(r["diagnostics"]["confidence"].values()) < 0.5}
+            fb = {r["unit"]: r for r in read_jsonl(run / "enrich" / "fallback.jsonl")}
+            self.assertTrue(low)
+            self.assertEqual(set(fb), low)  # exactly the low-confidence texts, nothing else
+            from pipeline.enrich import current_config, final_results
+            config = current_config(run, "fake-jev-0")
+            self.assertIn("+fallback-", config)
+            final = final_results(run, config)
+            self.assertTrue(all(final[u]["decided_by"] == "claude_fallback" and final[u]["topic"] == "playback"
+                                for u in low))
+            texts = {u["unit"]: u["text"] for u in ingest.load_units(run)}
+            self.assertTrue(all(final[u]["evidence_quote"] in texts[u] for u in final))
+            calls = list(read_jsonl(run / "calls.jsonl"))
+            fb_calls = [c for c in calls if c["role"] == "enrich" and c["model"].startswith("fake-claude")]
+            self.assertTrue(fb_calls and all(1 <= len(c["review_ids"]) <= 50 for c in fb_calls))
+            self.assertEqual({c["label_config"] for c in calls if c["role"] == "enrich"}, {config})
+            self.assert_only_missing_resume_evidence(check(tmp, tmp / "grading"))
+        finally:
+            shutil.rmtree(tmp, ignore_errors=True)
+
+    def test_bad_quote_is_retried_once_then_kept_with_jev_labels(self):
+        from pipeline import fakes
+        tmp = Path(tempfile.mkdtemp(prefix="pipeline-fb-"))
+        try:
+            # First pass to learn which IDs are low-confidence, then rerun fresh with bad quotes planted for two.
+            _, jev, _ = self.run_fake(tmp, "standard", grading=False)
+            fb_rows = list(read_jsonl(tmp / "run" / "enrich" / "fallback.jsonl"))
+            ids = [r["review_id"] for r in fb_rows[:2]]
+            shutil.rmtree(tmp / "run")
+            claude = fakes.FakeClaude(bad_quote_ids=ids)
+            code, _, _ = self.run_fake(tmp, "standard", claude=claude, grading=False)
+            self.assertEqual(code, 0)
+            rows = {r["review_id"]: r for r in read_jsonl(tmp / "run" / "enrich" / "fallback.jsonl")}
+            # Fake fixes the quote on the retry: both end up ok after exactly one retry.
+            self.assertTrue(all(rows[i]["status"] == "ok" and rows[i]["attempts"] == 2 for i in ids))
+            calls = list(read_jsonl(tmp / "run" / "calls.jsonl"))
+            self.assertTrue(any("fallback_quote_retry" in c.get("handoff", "") for c in calls))
+        finally:
+            shutil.rmtree(tmp, ignore_errors=True)
+
+    def test_batch_mode_resumes_polling_without_resubmitting(self):
+        from pipeline import fakes, fallback
+        from pipeline.dispatch import StopFlag
+        tmp = Path(tempfile.mkdtemp(prefix="pipeline-fb-"))
+        try:
+            claude = fakes.FakeClaude(polls_before_end=2)
+            run = tmp / "run"
+            ingest.run(SMALL, run, log=lambda m: None)
+            units = ingest.load_units(run)[:120]
+            budget = Budget("t", 1, "r", ledger_dir=tmp / "ledger")
+            calls = JsonlAppender(run / "calls.jsonl")
+            config = "fake-config"
+            with StopFlag() as stop:  # first poll: still processing -> simulate an interruption while waiting
+                fallback.run_batch(run, claude, budget, calls, units, config, "initial", stop, log=lambda m: None,
+                                   sleep=lambda s: stop.set("interrupted"))
+            state = json.loads((run / "enrich" / "fallback_batch.json").read_text())
+            self.assertFalse(state["collected"])
+            self.assertEqual(len(claude.batches), 1)
+            self.assertEqual(sum(len(v) for v in state["members"].values()), 120)
+            self.assertTrue(all(len(v) <= 50 for v in state["members"].values()))
+            with StopFlag() as stop:  # resume: polls the same batch, collects, never resubmits
+                fallback.run_batch(run, claude, budget, calls, units, config, "resume", stop, log=lambda m: None,
+                                   sleep=lambda s: None)
+            calls.close()
+            budget.close()
+            self.assertEqual(len(claude.batches), 1)
+            state = json.loads((run / "enrich" / "fallback_batch.json").read_text())
+            self.assertTrue(state["collected"])
+            self.assertEqual(len(fallback.saved(run, config)), 120)
+            logged = [c for c in read_jsonl(run / "calls.jsonl") if c.get("mode") == "batch"]
+            self.assertEqual(len(logged), 3)
+            self.assertTrue(all(c["phase"] == "initial" and c["outcome"] == "succeeded" for c in logged))
+        finally:
+            shutil.rmtree(tmp, ignore_errors=True)
+
+    def test_batch_fallback_end_to_end_passes_checker(self):
+        tmp = Path(tempfile.mkdtemp(prefix="pipeline-fb-"))
+        try:
+            code, _, _ = self.run_fake(tmp, "batch")
+            self.assertEqual(code, 0)
+            self.assert_only_missing_resume_evidence(check(tmp, tmp / "grading"))
+            summary = json.loads((tmp / "run" / "verify" / "report.json").read_text())
+            self.assertTrue(any(k.startswith("all_verified:decided_by:") for k in summary["strata"]))
+        finally:
+            shutil.rmtree(tmp, ignore_errors=True)
+
+    def test_interrupted_run_with_fallback_keeps_low_confidence_out_of_checkpoint(self):
+        tmp = Path(tempfile.mkdtemp(prefix="pipeline-fb-"))
+        try:
+            code, _, _ = self.run_fake(tmp, "standard", extra=("--stop-after-units", "100"), grading=False)
+            self.assertEqual(code, cli.STOP_EXIT)
+            self.assertFalse((tmp / "run" / "enrich" / "fallback.jsonl").exists())  # no fallback before the stop
+            snap = json.loads(next((tmp / "run" / "enrich" / "checkpoints").glob("enrich_stop_*.json")).read_text())
+            results = list(read_jsonl(tmp / "run" / "enrich" / "results.jsonl"))
+            low_ids = {r["review_id"] for r in results if min(r["diagnostics"]["confidence"].values()) < 0.5}
+            self.assertTrue(low_ids)
+            self.assertFalse(low_ids & set(snap["completed_ids"]))  # unresolved low-confidence units are not completed
+            code, _, _ = self.run_fake(tmp, "standard")
+            self.assertEqual(code, 0)
+            self.assertEqual(check(tmp, tmp / "grading")["status"], "pass")
+        finally:
+            shutil.rmtree(tmp, ignore_errors=True)

@@ -36,14 +36,14 @@ def log(message):
     print(time.strftime("%H:%M:%S"), message, flush=True)
 
 
-def make_clients(fake, stages, translate=False):
+def make_clients(fake, stages, translate=False, fallback=False):
     if fake:
         from .fakes import FakeClaude, FakeJev
         return FakeJev(), FakeClaude()
     from .claude import ClaudeClient
     from .jev import JevClient
     jev = JevClient(require("TYPESAFE_API_KEY"), model=JEV_MODEL) if "enrich" in stages or "group" in stages else None
-    needs_claude = bool({"verify", "group", "recommend"} & set(stages)) or translate
+    needs_claude = bool({"verify", "group", "recommend"} & set(stages)) or translate or fallback
     claude_client = ClaudeClient(require("ANTHROPIC_API_KEY"), model=CLAUDE_MODEL) if needs_claude else None
     return jev, claude_client
 
@@ -77,12 +77,13 @@ def cmd_run(args):
                      "verify_n": args.verify_n, "fake": args.offline_fake, "stages": list(stages),
                      "workers": args.workers, "rps": args.rps, "max_minutes": args.max_minutes,
                      "exclude_golden_ids_from": args.exclude_golden, "translate": args.translate,
-                     "rubric_variant": args.rubric})
+                     "rubric_variant": args.rubric, "fallback": args.fallback,
+                     "fallback_threshold": args.fallback_threshold})
     manifest.setdefault("invocations", []).append({"id": invocation, "code_version": git_commit(),
                                                   "argv": sys.argv[1:], "started": time.strftime("%Y-%m-%dT%H:%M:%S%z")})
     write_json(run_dir / "run_manifest.json", manifest)
 
-    jev, claude_client = make_clients(args.offline_fake, stages, args.translate)
+    jev, claude_client = make_clients(args.offline_fake, stages, args.translate, args.fallback != "off")
     budget = Budget(args.budget_group, args.budget_usd, run_dir.name,
                     ledger_dir=(run_dir / "budgets") if args.offline_fake else REPO / "budgets")
     calls = JsonlAppender(run_dir / "calls.jsonl")
@@ -125,12 +126,15 @@ def _stages(args, stages, run_dir, input_csv, jev, claude_client, budget, calls,
         if "enrich" in stages:
             with runlog.stage("enrich") as st:
                 translator = claude_client if args.translate else None
+                fb = ({"client": claude_client, "mode": args.fallback, "threshold": args.fallback_threshold}
+                      if args.fallback != "off" else None)
                 reason = enrich.run(run_dir, jev, budget, calls, stop, max_new=args.stop_after_units,
-                                    accept_gate=args.accept_early_gate, translator=translator, log=log, **dispatch_kw)
+                                    accept_gate=args.accept_early_gate, translator=translator, fallback_cfg=fb,
+                                    log=log, **dispatch_kw)
                 if reason == "incomplete" and stop.reason is None:
                     log("enrich: one more pass over units whose transient errors exhausted their retries")
                     reason = enrich.run(run_dir, jev, budget, calls, stop, accept_gate=args.accept_early_gate,
-                                        translator=translator, log=log, **dispatch_kw)
+                                        translator=translator, fallback_cfg=fb, log=log, **dispatch_kw)
                 st["stop_reason"] = reason
             if reason not in (None, "incomplete"):
                 log(f"stopped: {reason}. Progress is saved. Rerun the same command to resume. Budget {budget.summary()}")
@@ -256,6 +260,10 @@ def main(argv=None):
     p.add_argument("--stop-after-units", type=int, help="send at most N new enrichment requests, then stop (resume demo)")
     p.add_argument("--rubric", default="full", choices=["full", "compact"],
                    help="Jev question wording: full (original) or compact (same rules, fewer tokens)")
+    p.add_argument("--fallback", default="off", choices=["off", "standard", "batch"],
+                   help="Claude re-labels low-confidence Jev texts blind: standard API or Message Batches API (50%% price)")
+    p.add_argument("--fallback-threshold", type=float, default=0.5,
+                   help="fallback when min(topic, intent, severity confidence) is below this")
     p.add_argument("--translate", action="store_true",
                    help="translate non-English texts with Claude before Jev (part of label_config; off by default)")
     p.add_argument("--max-minutes", type=float, help="time cap: stop dispatching after this many minutes, save progress")
@@ -292,6 +300,7 @@ def main(argv=None):
     p = sub.add_parser("score-golden")
     p.add_argument("--run-dir", required=True)
     p.add_argument("--golden", required=True, help="your hand-labelled golden CSV")
+    p.add_argument("--adjudication", help="post-hoc label decisions (evals/golden/adjudication.json); reported separately")
     p.add_argument("--out-dir", default=str(REPO / "evals" / "golden"))
     p = sub.add_parser("golden-head-to-head", help="Claude labels the stripped golden texts blind; Jev vs Claude vs human")
     p.add_argument("--golden-run", default=str(REPO / "runs" / "golden"))

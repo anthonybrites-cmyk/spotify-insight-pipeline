@@ -35,6 +35,15 @@ CLAUDE_EFFORT = "medium"
 CLAUDE_MAX_TOKENS = 16000
 CLAUDE_TIMEOUT_S = 600
 
+CLAUDE_BATCH_DISCOUNT = Decimal("0.5")  # Message Batches API bills 50% of standard token prices
+
+# Claude fallback for low-confidence Jev labels (decided 2026-09-30: threshold 0.5 on the minimum of the
+# topic/intent/severity confidences). Per-review estimates are only used by the 10% early gate to project
+# fallback spend that has not happened yet; measured: $0.0645 per 50-review standard call.
+FALLBACK_THRESHOLD = 0.5
+FALLBACK_EST_USD_PER_REVIEW = {"standard": Decimal("0.0013"), "batch": Decimal("0.00065")}
+FALLBACK_BATCH_POLL_S = 60
+
 MAX_ENRICH_BATCH = 50   # contract limit; Jev uses 1 review per request
 VERIFY_BATCH = 50
 

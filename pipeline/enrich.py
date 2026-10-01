@@ -16,8 +16,8 @@ import time
 from datetime import datetime, timezone
 from decimal import Decimal
 
-from . import rubric, translate
-from .config import EARLY_GATE_FRACTION
+from . import fallback, rubric, translate
+from .config import EARLY_GATE_FRACTION, FALLBACK_EST_USD_PER_REVIEW
 from .dispatch import Task, run_tasks
 from .entities import extract
 from .ingest import load_sources, load_units
@@ -44,6 +44,31 @@ def completed_results(run_dir, config):
     return done
 
 
+def fallback_settings(run_dir):
+    """Fallback settings of the latest enrichment invocation, or None when the fallback is off."""
+    state = read_json(run_dir / "enrich" / "state.json", {})
+    return state["invocations"][-1].get("fallback") if state.get("invocations") else None
+
+
+def resolved_units(run_dir, config, done, settings=None):
+    """Units whose final labels exist: Jev done and, under a fallback config, the fallback resolved if needed."""
+    settings = settings if settings is not None else fallback_settings(run_dir)
+    if not settings:
+        return dict(done)
+    fb = fallback.saved(run_dir, config)
+    return {u: row for u, row in done.items()
+            if u in fb or not fallback.needs_fallback(row, settings["threshold"])}
+
+
+def final_results(run_dir, config):
+    """Final labels per resolved unit: Claude fallback's when it ran and succeeded, otherwise Jev's."""
+    done = completed_results(run_dir, config)
+    settings = fallback_settings(run_dir)
+    resolved = resolved_units(run_dir, config, done, settings)
+    fb = fallback.saved(run_dir, config) if settings else {}
+    return {u: fallback.merge(row, fb.get(u)) for u, row in resolved.items()}
+
+
 def completed_ids(run_dir, done_units):
     return sorted(s["review_id"] for s in load_sources(run_dir) if s["unit"] in done_units)
 
@@ -65,10 +90,14 @@ def validate(task, response):
     return labels, diagnostics
 
 
-def run(run_dir, client, budget, calls, stop, max_new=None, accept_gate=False, translator=None, log=print,
-        **dispatch_kw):
+def run(run_dir, client, budget, calls, stop, max_new=None, accept_gate=False, translator=None, fallback_cfg=None,
+        log=print, **dispatch_kw):
+    """fallback_cfg: None, or {"client": ClaudeClient, "mode": "standard"|"batch", "threshold": float}."""
     out = run_dir / "enrich"
-    config = rubric.label_config(client.model, translate.tag(translator.model) if translator else None)
+    fb_tag = fallback.tag(fallback_cfg["client"].model, fallback_cfg["threshold"]) if fallback_cfg else None
+    config = rubric.label_config(client.model, translate.tag(translator.model) if translator else None, fb_tag)
+    fb_settings = ({"threshold": fallback_cfg["threshold"], "mode": fallback_cfg["mode"],
+                    "model": fallback_cfg["client"].model, "tag": fb_tag} if fallback_cfg else None)
     write_json(out / f"questions_{config.replace('+', '_')}.json",
                {"label_config": config, "state_shape": {"review": "<review_text>"},
                 "fixed_questions": rubric.fixed_questions(),
@@ -79,7 +108,10 @@ def run(run_dir, client, budget, calls, stop, max_new=None, accept_gate=False, t
                 "translation": ({"enabled": True, "model": translator.model, "tag": translate.tag(translator.model),
                                  "system_prompt": translate.SYSTEM, "schema": translate.SCHEMA,
                                  "groups": list(translate.TRANSLATION_GROUPS), "effort": translate.EFFORT}
-                                if translator else {"enabled": False})})
+                                if translator else {"enabled": False}),
+                "fallback": ({**fb_settings, "system_prompt": fallback.system_prompt(), "schema": fallback.SCHEMA,
+                              "rule": "min(topic, intent, severity confidence) < threshold -> Claude re-labels blind"}
+                             if fb_settings else {"enabled": False})})
     state = read_json(out / "state.json", {"invocations": []})
     same_config = [inv for inv in state["invocations"] if inv["label_config"] == config]
     phase = "resume" if same_config else "initial"
@@ -91,11 +123,14 @@ def run(run_dir, client, budget, calls, stop, max_new=None, accept_gate=False, t
     gate_at = math.ceil(total * EARLY_GATE_FRACTION)
     log(f"enrich: {len(done)}/{total} units already complete; {len(pending)} pending; phase={phase}; config={config}")
     invocation = {"started": now(), "phase": phase, "label_config": config, "pending_at_start": len(pending),
-                  "completed_at_start": len(done), "spend_before_usd": str(budget.run_committed)}
+                  "completed_at_start": len(done), "spend_before_usd": str(budget.run_committed),
+                  "fallback": fb_settings}
     state["invocations"].append(invocation)
     write_json(out / "state.json", state)
     if not pending:
-        return finish(run_dir, state, invocation, done, None, log)
+        if fallback_cfg and stop.reason is None:
+            fallback_pass(run_dir, done, fallback_cfg, budget, calls, config, phase, stop, log)
+        return finish(run_dir, state, invocation, done, stop.reason, log)
 
     translations = {}
     if translator:
@@ -151,7 +186,15 @@ def run(run_dir, client, budget, calls, stop, max_new=None, accept_gate=False, t
             results.flush()
             failures.flush()
         if "early_gate" not in state and len(done) >= gate_at:
-            gate = budget.early_gate(budget.run_committed, Decimal(len(done)) / Decimal(total), EARLY_GATE_FRACTION)
+            # Fallback calls happen after the Jev pass, so project their cost for the low-confidence units seen so
+            # far (measured per-review estimate) instead of letting the gate miss it.
+            projected_fb = Decimal(0)
+            if fallback_cfg:
+                low = sum(fallback.needs_fallback(r, fallback_cfg["threshold"]) for r in done.values())
+                projected_fb = low * FALLBACK_EST_USD_PER_REVIEW[fallback_cfg["mode"]]
+            gate = budget.early_gate(budget.run_committed + projected_fb, Decimal(len(done)) / Decimal(total),
+                                     EARLY_GATE_FRACTION)
+            gate["projected_fallback_usd_included"] = str(projected_fb)
             state["early_gate"] = {**gate, "evaluated_at": now(), "accepted_override": bool(accept_gate)}
             write_json(out / "state.json", state)
             log(f"enrich: early cost gate at {len(done)}/{total} units: spend ${gate['spend_at_gate_usd']} "
@@ -175,12 +218,30 @@ def run(run_dir, client, budget, calls, stop, max_new=None, accept_gate=False, t
         reason = "stop_after"  # a deliberate stop, even when the remaining units were not yet translatable
     results.close()
     failures.close()
+    if fallback_cfg and reason is None and stop.reason is None:
+        fallback_pass(run_dir, done, fallback_cfg, budget, calls, config, phase, stop, log)
+        reason = stop.reason
     return finish(run_dir, state, invocation, done, reason, log, counters)
+
+
+def fallback_pass(run_dir, done, fallback_cfg, budget, calls, config, phase, stop, log):
+    fb = fallback.saved(run_dir, config)
+    units = {u["unit"]: u for u in load_units(run_dir)}
+    todo = [units[u] for u, row in done.items()
+            if fallback.needs_fallback(row, fallback_cfg["threshold"]) and u not in fb]
+    if not todo:
+        return
+    log(f"fallback: {len(todo)} low-confidence texts (< {fallback_cfg['threshold']}) go to "
+        f"{fallback_cfg['client'].model} ({fallback_cfg['mode']} API)")
+    runner = fallback.run_batch if fallback_cfg["mode"] == "batch" else fallback.run_standard
+    runner(run_dir, fallback_cfg["client"], budget, calls, todo, config, phase, stop, log=log)
 
 
 def finish(run_dir, state, invocation, done, reason, log, counters=None):
     out = run_dir / "enrich"
     units_total = sum(1 for _ in read_jsonl(run_dir / "ingest" / "units.jsonl"))
+    # Under a fallback config a low-confidence unit counts as completed only once the fallback resolved it.
+    done = resolved_units(run_dir, invocation["label_config"], done, invocation.get("fallback"))
     invocation.update({"ended": now(), "stop_reason": reason, "completed_at_end": len(done),
                        "succeeded_this_invocation": (counters or {}).get("ok", 0),
                        "failed_this_invocation": (counters or {}).get("failed", 0)})

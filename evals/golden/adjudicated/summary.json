@@ -1,9 +1,9 @@
 {
   "agreement": {
-    "all_three": 0.74,
+    "all_three": 0.76,
     "intent": 0.96,
     "severity_exact": 0.84,
-    "topic": 0.88
+    "topic": 0.9
   },
   "agreement_basis": "strict: one primary human label per field; missing/quarantined count as wrong",
   "ambiguous_cases": 4,
@@ -26,14 +26,14 @@
       "other->billing": 1,
       "other->catalog": 1,
       "other->other": 25,
-      "playback->playback": 2,
+      "playback->playback": 3,
       "support->support": 1,
-      "usability->playback": 2,
+      "usability->playback": 1,
       "usability->usability": 8
     }
   },
   "labelled_cases": 50,
-  "labels": "original",
+  "labels": "adjudicated (post-hoc, disclosed)",
   "missing_or_quarantined_counted_wrong": 0,
   "needs_review_as_prediction": {
     "fn": 4,
@@ -49,16 +49,16 @@
     "catalog": 6,
     "downloads": 1,
     "other": 27,
-    "playback": 2,
+    "playback": 3,
     "support": 1,
-    "usability": 10
+    "usability": 9
   },
   "run_dir": "/Users/anthonybrites/code/spotify-insight-pipeline/runs/golden",
   "secondary_lenient_agreement": {
     "intent": 0.98,
     "note": "also accepts alternatives noted in alternative_labels; reported separately, never as the headline",
     "severity_exact": 0.88,
-    "topic": 0.9
+    "topic": 0.92
   },
   "sentiment": {
     "labelled": 50,

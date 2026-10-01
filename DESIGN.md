@@ -96,9 +96,23 @@ When translation is on:
 - Translation calls are logged as `enrich` calls under the record's `label_config`.
 - A batch that fails stays pending and is never classified without its translation.
 
+## Claude fallback for low-confidence labels
+
+- **Rule.** A text is re-labelled by Claude when Jev's minimum topic/intent/severity confidence is below 0.5, which was about 14% of texts in the 500 run.
+- **Blind.** Claude never sees Jev's answer. It returns topic, intent, severity, a sentiment level, an evidence quote and `needs_review` for up to 50 reviews per request.
+- **Code checks.** Every ID and enum is checked, and the quote must be an exact substring of that review. The same severity rules as for Jev are applied, and entities still come from the lexicon.
+- **Retries.** A structurally invalid response is retried once with the error. Reviews with a bad quote are retried once in a follow-up request. Anything still invalid keeps its Jev labels and is marked `needs_review` with the reason, so coverage is never lost.
+- **Provenance.** The fallback is part of enrichment. Its calls are logged as `enrich` calls under the same `label_config`, which gains `+fallback-claude-sonnet-5-t0.5-<hash>` for **every** record in the run. A record's final labels come from Claude (`decided_by: claude_fallback`) or Jev, and the Jev labels are kept alongside for comparison.
+- **Checkpoints.** A low-confidence unit counts as completed only after its fallback resolves. An interrupted run's checkpoint therefore never claims it.
+- **Modes.** The 10k run uses the standard API. The full run uses the Message Batches API at 50% price: the batch ID is saved, and an interrupted run resumes polling instead of resubmitting. A failed batch request gets one retry through the standard API.
+- **Independence caveat.** For fallback-decided records, the verifier is the same model family as the labeller. Verification reports that stratum separately as a consistency check, not independent verification.
+- **Why, and the disclosure.** On the golden 50, in Jev's low-confidence band, Jev got all three labels right on 1 of 7 reviews and Claude on 5 of 7; above it, Jev was as good or better (`evals/golden/head_to_head.json`). Because the golden set informed this choice, it is disclosed, and the choice is re-checked on about 30 fresh held-out reviews from the 10k run, hand-labelled before predictions are shown.
+
 ## Deviation from the shared definitions: severity 5
 
 On 2026-09-30, before any model run, severity 5 was extended from "explicit serious financial, privacy or data harm" to **"explicit serious health, financial, privacy or data harm (charged wrongly, money taken, data exposed, library deleted, physical harm)"**. The rest of the definition is unchanged: an expensive plan, a crash, or angry language alone is still not level 5.
+
+Later the same day, after golden results were seen, the labeller clarified that **physical harm means an actual injury such as hearing loss**. Discomfort, or a warning that something is dangerous (such as a painfully loud ad), is not level 5. This clarification *was* informed by a golden result: Jev rated `46c0b49f…` as 5, and the labeller kept 2. It is therefore disclosed here, and checked on held-out cases.
 
 The same wording is used everywhere a label is defined:
 - the Jev severity question (`pipeline/rubric.py`)

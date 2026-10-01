@@ -24,12 +24,52 @@ class ClaudeClient:
                                           timeout=CLAUDE_TIMEOUT_S)
         self.model = model
 
-    def create(self, system, user, schema=None, max_tokens=CLAUDE_MAX_TOKENS, effort=CLAUDE_EFFORT):
+    def params(self, system, user, schema=None, max_tokens=CLAUDE_MAX_TOKENS, effort=CLAUDE_EFFORT):
         params = {"model": self.model, "max_tokens": max_tokens, "system": system,
                   "messages": [{"role": "user", "content": user}],
                   "thinking": {"type": "adaptive"}, "output_config": {"effort": effort}}
         if schema is not None:
             params["output_config"]["format"] = {"type": "json_schema", "schema": schema}
+        return params
+
+    # Message Batches API (50% price, asynchronous). Errors here are account/setup problems.
+    def create_batch(self, requests):
+        """requests: list of (custom_id, params). Returns the batch ID."""
+        from anthropic.types.message_create_params import MessageCreateParamsNonStreaming
+        from anthropic.types.messages.batch_create_params import Request
+        try:
+            batch = self.client.messages.batches.create(requests=[
+                Request(custom_id=cid, params=MessageCreateParamsNonStreaming(**p)) for cid, p in requests])
+        except anthropic.AuthenticationError as e:
+            raise AuthFailure(f"Anthropic rejected the API key: {e}")
+        except anthropic.BadRequestError as e:
+            if "credit balance" in str(e).lower():
+                raise AuthFailure(f"Anthropic: credit balance too low ({e})")
+            raise Fatal(f"batch rejected: {e}")
+        except (anthropic.APIConnectionError, anthropic.APITimeoutError, anthropic.RateLimitError,
+                anthropic.InternalServerError) as e:
+            raise Retryable(f"batch create: {e}")
+        return batch.id
+
+    def batch_status(self, batch_id):
+        batch = self.client.messages.batches.retrieve(batch_id)
+        return batch.processing_status
+
+    def batch_results(self, batch_id):
+        """Yields (custom_id, outcome dict) with the same shape create() returns, or an error."""
+        for item in self.client.messages.batches.results(batch_id):
+            r = item.result
+            if r.type == "succeeded":
+                m = r.message
+                yield item.custom_id, {"ok": True, "request_id": m.id, "model": m.model, "stop_reason": m.stop_reason,
+                                       "text": "".join(b.text for b in m.content if b.type == "text"),
+                                       "input_tokens": m.usage.input_tokens, "output_tokens": m.usage.output_tokens}
+            else:
+                detail = getattr(getattr(r, "error", None), "type", None) or r.type
+                yield item.custom_id, {"ok": False, "error": f"batch result {r.type}: {detail}"}
+
+    def create(self, system, user, schema=None, max_tokens=CLAUDE_MAX_TOKENS, effort=CLAUDE_EFFORT):
+        params = self.params(system, user, schema, max_tokens, effort)
         try:
             response = self.client.messages.create(**params)
         except anthropic.AuthenticationError as e:

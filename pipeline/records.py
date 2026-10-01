@@ -1,6 +1,6 @@
 """Assemble exactly one final record per source ID from the saved stage handoffs."""
 
-from .enrich import completed_results, current_config
+from .enrich import completed_results, current_config, final_results
 from .group import load_assignments
 from .ingest import load_sources
 from .rubric import label_config as enrich_config
@@ -11,7 +11,8 @@ LABEL_FIELDS = ("topic", "intent", "sentiment", "severity", "entities", "evidenc
 
 def build(run_dir, jev_model):
     config = current_config(run_dir, jev_model)
-    done = completed_results(run_dir, config)
+    done = final_results(run_dir, config)
+    jev_done = completed_results(run_dir, config)
     failures = {}
     for f in read_jsonl(run_dir / "enrich" / "failures.jsonl"):
         if f["label_config"] == config:
@@ -28,7 +29,9 @@ def build(run_dir, jev_model):
         row = done.get(s["unit"])
         if row is None:
             failure = failures.get(s["unit"])
-            if failure:
+            if s["unit"] in jev_done:  # Jev labelled it; the required Claude fallback has not run yet
+                records.append({**base, "status": "quarantined", "reason": "pending_fallback", "attempts": 0})
+            elif failure:
                 records.append({**base, "status": "quarantined", "reason": f"enrich_failed: {failure['reason']}",
                                 "attempts": failure.get("attempts", 0)})
             else:  # never attempted: the run is incomplete, and this row is disclosed as such
