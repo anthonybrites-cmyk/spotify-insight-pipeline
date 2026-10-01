@@ -117,7 +117,7 @@ Data: download the course ZIP from the link in the assignment brief, unzip it an
 .venv/bin/python -m unittest discover -s tests -v             # offline tests (fake providers)
 ```
 
-**Paid runs** (`DATA="$HOME/code/Final Assignment - Spotify Reviews Dataset"`; `G="--exclude-golden $DATA/golden_50_to_label.csv"`):
+**Paid runs** (`DATA="$HOME/code/NEW - Final Assignment - Spotify Reviews Dataset"`; `G="--exclude-golden $DATA/golden_50_to_label.csv"`):
 
 ```bash
 # 1) 500-review development run (done; development cap raised from $2 to $5 on 2026-09-30)

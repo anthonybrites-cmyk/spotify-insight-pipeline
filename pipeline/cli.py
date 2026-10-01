@@ -69,8 +69,14 @@ def cmd_run(args):
     rubric.use_variant(args.rubric)
     run_dir.mkdir(parents=True, exist_ok=True)
     manifest = read_json(run_dir / "run_manifest.json", {})
+    # A run directory is tied to its input by content (SHA-256), not by folder name.
+    from .store import sha256_file
+    input_sha = sha256_file(input_csv)
+    if manifest and manifest.get("input_sha256", input_sha) != input_sha:
+        raise SystemExit(f"{run_dir} belongs to a different input ({manifest.get('input')}); use a new --run-dir")
     if manifest and manifest.get("input") != str(input_csv):
-        raise SystemExit(f"{run_dir} belongs to input {manifest['input']}; use a new --run-dir")
+        manifest.setdefault("input_moves", []).append({"from": manifest.get("input"), "to": str(input_csv)})
+    manifest["input_sha256"] = input_sha
     invocation = time.strftime("%Y%m%dT%H%M%S") + "-" + uuid.uuid4().hex[:6]
     manifest.setdefault("run_id", run_dir.name + "-" + uuid.uuid4().hex[:8])
     manifest.update({"input": str(input_csv), "budget_group": args.budget_group, "budget_usd": args.budget_usd,

@@ -29,7 +29,7 @@ from pipeline.fakes import FakeJev  # noqa: E402
 from pipeline.store import JsonlAppender, read_jsonl, sha256_file  # noqa: E402
 from pipeline import ingest  # noqa: E402
 
-DATA = Path(os.environ.get("SPOTIFY_DATA", "/Users/anthonybrites/code/Final Assignment - Spotify Reviews Dataset"))
+DATA = Path(os.environ.get("SPOTIFY_DATA", "/Users/anthonybrites/code/NEW - Final Assignment - Spotify Reviews Dataset"))
 SMALL = DATA / "checkpoint_500.csv"
 FULL = DATA / "spotify_reviews_18months.csv"
 
