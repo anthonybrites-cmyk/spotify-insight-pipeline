@@ -80,6 +80,8 @@ class FakeJev:
 class FakeClaude:
     provider = "fake"
     model = "fake-claude-0"
+    effort = "medium"
+    max_tokens = 16000
 
     def __init__(self, memo_text=None, fail_with=None, bad_quote_ids=(), polls_before_end=0):
         self.memo_text = memo_text
@@ -91,7 +93,7 @@ class FakeClaude:
         self.polls_before_end = polls_before_end
         self.polls = 0
 
-    def params(self, system, user, schema=None, max_tokens=16000, effort="medium"):
+    def params(self, system, user, schema=None, max_tokens=None, effort=None):
         return {"system": system, "user": user, "schema": schema, "max_tokens": max_tokens, "effort": effort}
 
     def create_batch(self, requests):
@@ -110,7 +112,7 @@ class FakeClaude:
                         "stop_reason": r["stop_reason"], "text": r["text"], "input_tokens": r["input_tokens"],
                         "output_tokens": r["output_tokens"]}
 
-    def create(self, system, user, schema=None, max_tokens=16000, effort="medium"):
+    def create(self, system, user, schema=None, max_tokens=None, effort=None):
         if self.fail_with is not None:
             raise self.fail_with
         self.requests.append(user)

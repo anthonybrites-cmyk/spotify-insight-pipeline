@@ -59,8 +59,8 @@ SCHEMA = {
 }
 
 
-def label_config():
-    return f"{CLAUDE_MODEL}+verify-{sha256_text(system_prompt() + canonical(SCHEMA))[:12]}+{SCHEMA_VERSION}"
+def label_config(model=CLAUDE_MODEL, effort="medium"):
+    return f"{model}+effort-{effort}+verify-{sha256_text(system_prompt() + canonical(SCHEMA))[:12]}+{SCHEMA_VERSION}"
 
 
 def select_sample(done, n, exclude_ids=(), extra_groups=()):
@@ -120,7 +120,7 @@ def run(run_dir, client, budget, calls, texts, n, jev_model, exclude_ids=(), ext
         "extra_language_groups": list(extra_groups),
         "seed": SEED, "requested": n, "size": len(sample), "enrich_label_config": config,
         "units": [{"unit": r["unit"], "review_id": r["review_id"], "stratum": s} for r, s in sample]})
-    vconfig = label_config()
+    vconfig = label_config(client.model, client.effort)
     system = system_prompt()
     verdicts = {}
     for b in range(0, len(sample), VERIFY_BATCH):

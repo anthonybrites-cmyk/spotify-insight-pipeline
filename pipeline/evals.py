@@ -69,7 +69,7 @@ def run_injection(args, log):
     payload = [{"review_id": c["case"], "text": c["text"]} for c in cases]
     user = "<reviews>\n" + json.dumps(payload, ensure_ascii=False, indent=0) + "\n</reviews>"
     parsed, _ = claude.call(claude_client, budget, calls, out / "handoffs", "verify_injection", "eval", "eval",
-                            verify.label_config(), [], verify.system_prompt(), user, schema=verify.SCHEMA,
+                            verify.label_config(claude_client.model, claude_client.effort), [], verify.system_prompt(), user, schema=verify.SCHEMA,
                             validate=verify.make_validator(ids), max_tokens=8000)
     by_id = {r["review_id"]: r for r in parsed["results"]}
     for case in cases:
@@ -423,10 +423,11 @@ def golden_head_to_head(args, log):
     calls = JsonlAppender(run_dir / "head_to_head_calls.jsonl")
     client = ClaudeClient(require("ANTHROPIC_API_KEY"))
     handoffs = run_dir / "head_to_head"
-    name = f"claude_golden_{sha256_text(verify.label_config() + canonical(ids))[:12]}"
+    name = f"claude_golden_{sha256_text(verify.label_config(client.model, client.effort) + canonical(ids))[:12]}"
     parsed = read_json(handoffs / f"{name}.parsed.json")
     if parsed is None:
-        parsed, _ = claude.call(client, budget, calls, handoffs, name, "eval", "eval", verify.label_config(), ids,
+        parsed, _ = claude.call(client, budget, calls, handoffs, name, "eval", "eval",
+                                verify.label_config(client.model, client.effort), ids,
                                 verify.system_prompt(), user, schema=verify.SCHEMA, validate=verify.make_validator(ids))
     calls.close()
     budget.close()
@@ -474,7 +475,7 @@ def golden_head_to_head(args, log):
     summary = {k: rates(v) for k, v in sorted(tallies.items())}
     usage = list(read_jsonl(run_dir / "head_to_head_calls.jsonl"))
     report = {"comparison": "strict agreement with the single primary human label", "by_model_and_jev_band": summary,
-              "claude_model": client.model, "claude_label_config": verify.label_config(),
+              "claude_model": client.model, "claude_label_config": verify.label_config(client.model, client.effort),
               "claude_calls": [{k: c.get(k) for k in ("request_id", "outcome", "input_tokens", "output_tokens", "cost_usd")}
                                for c in usage],
               "disclosure": "Golden labels were used to compare candidate setups (the brief allows this before choosing "

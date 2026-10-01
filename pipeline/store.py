@@ -84,7 +84,9 @@ class JsonlAppender:
             f.truncate(cut)
 
     def write(self, obj):
+        # Hand every completed line to the OS immediately (survives a process crash); flush() also fsyncs.
         self.f.write(json.dumps(obj, ensure_ascii=False, sort_keys=True, allow_nan=False) + "\n")
+        self.f.flush()
 
     def flush(self):
         self.f.flush()
@@ -93,3 +95,14 @@ class JsonlAppender:
     def close(self):
         self.flush()
         self.f.close()
+
+
+class CallLog(JsonlAppender):
+    """calls.jsonl writer that stamps every event with the run ID, invocation and worker limit."""
+
+    def __init__(self, path, **stamp):
+        super().__init__(path)
+        self.stamp = stamp
+
+    def write(self, obj):
+        super().write({**self.stamp, **obj})

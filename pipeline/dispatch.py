@@ -10,11 +10,16 @@ import time
 import uuid
 from concurrent.futures import FIRST_COMPLETED, ThreadPoolExecutor, wait
 from dataclasses import dataclass, field
+from datetime import datetime, timezone
 from decimal import Decimal
 
 from .budget import BudgetExceeded, cost_usd
 from .config import JEV_PRICE_IN, JEV_PRICE_OUT, JEV_RPS, JEV_WORKERS
 from .retry import AuthFailure, Fatal, InvalidOutput, RateLimiter, run_with_retries
+
+
+def utc_now():
+    return datetime.now(timezone.utc).isoformat(timespec="milliseconds")
 
 
 class StopFlag:
@@ -69,6 +74,7 @@ class Outcome:
     cost: Decimal = Decimal(0)
     parsed: object = None
     attempts: int = 0
+    timing: dict = field(default_factory=dict)
 
 
 class TokenEstimator:
@@ -106,6 +112,8 @@ def run_tasks(tasks, client, budget, role, phase, label_config, validate, on_out
         def attempt(n, previous_error):
             billed.clear()
             outcome.attempts = n
+            outcome.timing = {"started_at": utc_now()}
+            t0 = time.monotonic()
             if stop.reason in ("auth", "budget"):
                 raise Fatal("stopped before sending")
             limiter.wait()
@@ -114,7 +122,9 @@ def run_tasks(tasks, client, budget, role, phase, label_config, validate, on_out
                 response = client.ask(task.state, task.questions)
             except BaseException:
                 budget.release(reservation)
+                outcome.timing["duration_ms"] = round((time.monotonic() - t0) * 1000)
                 raise
+            outcome.timing["duration_ms"] = round((time.monotonic() - t0) * 1000)
             actual = cost_usd(response.input_tokens, response.output_tokens, JEV_PRICE_IN, JEV_PRICE_OUT)
             budget.commit(reservation, actual, role, response.request_id)
             estimator.observe(task, response.input_tokens)
@@ -130,7 +140,10 @@ def run_tasks(tasks, client, budget, role, phase, label_config, validate, on_out
 
         def failed(n, error):
             event = {"request_id": billed.get("request_id") or f"local-failed-{uuid.uuid4().hex}",
-                     "attempt": n, "error": str(error)[:300]}
+                     "attempt": n, "error": str(error)[:300], **getattr(outcome, "timing", {})}
+            if "timed out" in str(error).lower() or "timeout" in str(error).lower():
+                # The provider may have processed (and billed) a request we never saw answered.
+                event["possible_unlogged_charge"] = True
             event.update({k: v for k, v in billed.items() if k != "request_id"})
             outcome.events.append(event)
 
@@ -152,13 +165,16 @@ def run_tasks(tasks, client, budget, role, phase, label_config, validate, on_out
                          "model": ev.get("model", client.model), "phase": phase, "outcome": "failed",
                          "label_config": label_config, "input_tokens": ev.get("input_tokens", 0),
                          "output_tokens": ev.get("output_tokens", 0), "usage_available": has_usage,
-                         "attempt": ev["attempt"], "error": ev["error"]})
+                         "attempt": ev["attempt"], "error": ev["error"], "started_at": ev.get("started_at"),
+                         "duration_ms": ev.get("duration_ms"),
+                         **({"possible_unlogged_charge": True} if ev.get("possible_unlogged_charge") else {})})
         if outcome.response is not None:
             r = outcome.response
             calls.write({"request_id": r.request_id, "role": role, "review_ids": [task.review_id],
                          "model": r.model, "phase": phase, "outcome": "succeeded", "label_config": label_config,
                          "input_tokens": r.input_tokens, "output_tokens": r.output_tokens,
-                         "usage_available": True, "cost_usd": str(outcome.cost)})
+                         "usage_available": True, "cost_usd": str(outcome.cost), "attempt": outcome.attempts,
+                         "started_at": outcome.timing.get("started_at"), "duration_ms": outcome.timing.get("duration_ms")})
         if outcome.fatal_auth:
             stop.set("auth")
         if outcome.budget_stop:

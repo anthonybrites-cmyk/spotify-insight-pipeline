@@ -35,6 +35,9 @@ CLAUDE_EFFORT = "medium"
 CLAUDE_MAX_TOKENS = 16000
 CLAUDE_TIMEOUT_S = 600
 
+# Only these model IDs may be called (the brief asks for a model allowlist).
+MODEL_ALLOWLIST = {"jev": ("jev-1.13.0",), "claude": ("claude-sonnet-5",)}
+
 CLAUDE_BATCH_DISCOUNT = Decimal("0.5")  # Message Batches API bills 50% of standard token prices
 
 # Claude fallback for low-confidence Jev labels (decided 2026-09-30: threshold 0.5 on the minimum of the

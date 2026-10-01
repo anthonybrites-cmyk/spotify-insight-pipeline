@@ -10,6 +10,8 @@
   eval-injection       live prompt-injection cases through the Jev rubric and the verifier
   subset               rows of a CSV in given language groups (translation test input)
   compare-translation  baseline vs translated Jev labels against the same blind verifier labels
+  cost                 100-review cost/runtime calculator: `cost` / `cost replay` (offline, default),
+                       `cost pilot` (PAID, explicit), `cost collect` (offline)
 """
 
 import argparse
@@ -22,11 +24,11 @@ from pathlib import Path
 from . import enrich, export, golden, group, ingest, memo, rank, records, verify
 from .budget import Budget, BudgetExceeded
 from .retry import AuthFailure
-from .config import CLAUDE_MODEL, JEV_MODEL, REPO, VENDOR_CHECKER
+from .config import CLAUDE_MODEL, JEV_MODEL, MODEL_ALLOWLIST, REPO, VENDOR_CHECKER
 from .dispatch import StopFlag
 from .envfile import key_status, require
 from .runlog import RunLog, summarize
-from .store import JsonlAppender, read_json, write_json
+from .store import CallLog, JsonlAppender, read_json, write_json
 
 STOP_EXIT = 3
 STAGES = ("ingest", "enrich", "verify", "group", "rank", "recommend")
@@ -36,15 +38,18 @@ def log(message):
     print(time.strftime("%H:%M:%S"), message, flush=True)
 
 
-def make_clients(fake, stages, translate=False, fallback=False):
+def make_clients(fake, stages, translate=False, fallback=False, effort="medium", max_tokens=16000):
     if fake:
         from .fakes import FakeClaude, FakeJev
-        return FakeJev(), FakeClaude()
+        claude_fake = FakeClaude()
+        claude_fake.effort, claude_fake.max_tokens = effort, max_tokens
+        return FakeJev(), claude_fake
     from .claude import ClaudeClient
     from .jev import JevClient
     jev = JevClient(require("TYPESAFE_API_KEY"), model=JEV_MODEL) if "enrich" in stages or "group" in stages else None
     needs_claude = bool({"verify", "group", "recommend"} & set(stages)) or translate or fallback
-    claude_client = ClaudeClient(require("ANTHROPIC_API_KEY"), model=CLAUDE_MODEL) if needs_claude else None
+    claude_client = (ClaudeClient(require("ANTHROPIC_API_KEY"), model=CLAUDE_MODEL, effort=effort, max_tokens=max_tokens)
+                     if needs_claude else None)
     return jev, claude_client
 
 
@@ -84,15 +89,20 @@ def cmd_run(args):
                      "workers": args.workers, "rps": args.rps, "max_minutes": args.max_minutes,
                      "exclude_golden_ids_from": args.exclude_golden, "translate": args.translate,
                      "rubric_variant": args.rubric, "fallback": args.fallback,
-                     "fallback_threshold": args.fallback_threshold})
+                     "fallback_threshold": args.fallback_threshold, "fallback_max_fraction": args.fallback_max_fraction,
+                     "claude_effort": args.claude_effort, "claude_max_tokens": args.claude_max_tokens})
     manifest.setdefault("invocations", []).append({"id": invocation, "code_version": git_commit(),
                                                   "argv": sys.argv[1:], "started": time.strftime("%Y-%m-%dT%H:%M:%S%z")})
     write_json(run_dir / "run_manifest.json", manifest)
 
-    jev, claude_client = make_clients(args.offline_fake, stages, args.translate, args.fallback != "off")
+    if CLAUDE_MODEL not in MODEL_ALLOWLIST["claude"] or JEV_MODEL not in MODEL_ALLOWLIST["jev"]:
+        raise SystemExit("configured model is not on the allowlist (config.MODEL_ALLOWLIST)")
+    jev, claude_client = make_clients(args.offline_fake, stages, args.translate, args.fallback != "off",
+                                      args.claude_effort, args.claude_max_tokens)
     budget = Budget(args.budget_group, args.budget_usd, run_dir.name,
                     ledger_dir=(run_dir / "budgets") if args.offline_fake else REPO / "budgets")
-    calls = JsonlAppender(run_dir / "calls.jsonl")
+    calls = CallLog(run_dir / "calls.jsonl", run_id=manifest["run_id"], invocation=invocation,
+                    worker_limit=args.workers)
     runlog = RunLog(run_dir, invocation)
     runlog.event("invocation_start", argv=sys.argv[1:], budget=budget.summary())
     code = None
@@ -132,7 +142,8 @@ def _stages(args, stages, run_dir, input_csv, jev, claude_client, budget, calls,
         if "enrich" in stages:
             with runlog.stage("enrich") as st:
                 translator = claude_client if args.translate else None
-                fb = ({"client": claude_client, "mode": args.fallback, "threshold": args.fallback_threshold}
+                fb = ({"client": claude_client, "mode": args.fallback, "threshold": args.fallback_threshold,
+                       "max_fraction": args.fallback_max_fraction, "workers": args.workers}
                       if args.fallback != "off" else None)
                 reason = enrich.run(run_dir, jev, budget, calls, stop, max_new=args.stop_after_units,
                                     accept_gate=args.accept_early_gate, translator=translator, fallback_cfg=fb,
@@ -270,14 +281,20 @@ def main(argv=None):
                    help="Claude re-labels low-confidence Jev texts blind: standard API or Message Batches API (50%% price)")
     p.add_argument("--fallback-threshold", type=float, default=0.5,
                    help="fallback when min(topic, intent, severity confidence) is below this")
+    p.add_argument("--fallback-max-fraction", type=float, default=0.2,
+                   help="declared cap: at most this fraction of distinct texts go to the Claude fallback")
     p.add_argument("--translate", action="store_true",
                    help="translate non-English texts with Claude before Jev (part of label_config; off by default)")
     p.add_argument("--max-minutes", type=float, help="time cap: stop dispatching after this many minutes, save progress")
     p.add_argument("--accept-early-gate", action="store_true", help="continue past a failed 10%% cost gate")
     p.add_argument("--grading-dir", help="export the grading folder here when the run finishes")
     p.add_argument("--results-dir", help="export the human-readable results folder here")
-    p.add_argument("--workers", type=int, default=24)
-    p.add_argument("--rps", type=float, default=30)
+    p.add_argument("--workers", type=int, default=1,
+                   help="concurrent requests (start at 1, then 2; raise only within measured capacity)")
+    p.add_argument("--rps", type=float, default=30, help="global request-rate limit shared by all workers")
+    p.add_argument("--claude-effort", default="medium", choices=["low", "medium", "high"],
+                   help="reasoning effort for every Claude role (part of each Claude config tag)")
+    p.add_argument("--claude-max-tokens", type=int, default=16000, help="output-token cap per Claude request")
     p.add_argument("--offline-fake", action="store_true", help="TESTS ONLY: fake providers, no network, no spend")
     p.add_argument("--allow-fake", action="store_true", help="TESTS ONLY: allow exporting fake records")
     p = sub.add_parser("rerank")
@@ -322,6 +339,8 @@ def main(argv=None):
     p.add_argument("--baseline-run", required=True)
     p.add_argument("--translated-run", required=True)
     p.add_argument("--out", default=str(REPO / "evals" / "translation_test.json"))
+    from . import costcalc
+    costcalc.add_parser(sub)
     p = sub.add_parser("eval-injection")
     p.add_argument("--budget-usd", type=float, default=0.25)
     args = parser.parse_args(argv)
@@ -331,6 +350,9 @@ def main(argv=None):
     if args.command == "golden-input":
         print("wrote", golden.strip_labels(args.golden, args.out))
         return 0
+    if args.command == "cost":
+        from . import costcalc
+        return costcalc.run(args, log)
     handlers = {"run": cmd_run, "rerank": cmd_rerank, "export": cmd_export, "check": cmd_check}
     if args.command in handlers:
         return handlers[args.command](args)

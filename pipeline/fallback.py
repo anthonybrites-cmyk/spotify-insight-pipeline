@@ -87,9 +87,11 @@ SCHEMA = {
 }
 
 
-def tag(model, threshold):
-    """Part of every record's label_config when the fallback is on (mode is not part of it: same prompt/schema)."""
-    return f"fallback-{model}-t{threshold}-{sha256_text(system_prompt() + canonical(SCHEMA))[:10]}"
+def tag(model, threshold, effort, max_fraction):
+    """Part of every record's label_config when the fallback is on: model, reasoning effort, threshold, cap and
+    prompt/schema hash. The API mode (standard vs batch) is not part of it: same model, prompt and schema."""
+    return (f"fallback-{model}-effort-{effort}-t{threshold}-cap{max_fraction}-"
+            f"{sha256_text(system_prompt() + canonical(SCHEMA))[:10]}")
 
 
 def min_confidence(row):
@@ -154,6 +156,12 @@ class Writer:
             self.f.write({"unit": u["unit"], "review_id": u["original_id"], "label_config": self.config, "status": "ok",
                           "labels": to_labels(r), "raw": r, "request_id": request_id, "attempts": attempts})
 
+    def capped(self, u, rank, limit):
+        with self.lock:
+            self.f.write({"unit": u["unit"], "review_id": u["original_id"], "label_config": self.config,
+                          "status": "capped", "reason": f"declared fallback cap reached ({limit} texts); kept Jev "
+                          f"labels and flagged needs_review", "cap_rank": rank, "attempts": 0})
+
     def failed(self, u, reason, attempts):
         with self.lock:
             self.f.write({"unit": u["unit"], "review_id": u["original_id"], "label_config": self.config,
@@ -200,7 +208,29 @@ def _finish_batch(batch, parsed, request_id, writer, client, budget, calls, hand
                   lock, attempt=2)
 
 
-def run_standard(run_dir, client, budget, calls, units, config, phase, stop, log=print):
+def apply_cap(run_dir, units, config, total_units, max_fraction, confidence, log=print):
+    """Keep at most max_fraction of all units for the fallback, lowest Jev confidence first.
+
+    Returns the units that may go to Claude; the rest are recorded as status "capped" (Jev labels kept,
+    needs_review=true). The cap counts fallback rows already saved in earlier invocations.
+    """
+    import math
+    limit = math.floor(total_units * max_fraction)
+    used = sum(1 for r in saved(run_dir, config).values() if r["status"] in ("ok", "failed"))
+    room = max(0, limit - used)
+    ranked = sorted(units, key=lambda u: (confidence[u["unit"]], u["unit"]))
+    allowed, over = ranked[:room], ranked[room:]
+    if over:
+        writer = Writer(run_dir, config)
+        for i, u in enumerate(over):
+            writer.capped(u, room + i + 1, limit)
+        writer.close()
+        log(f"fallback: cap {max_fraction:.0%} of {total_units} texts = {limit}; {len(over)} lowest-priority "
+            f"low-confidence texts keep Jev labels (needs_review)")
+    return allowed
+
+
+def run_standard(run_dir, client, budget, calls, units, config, phase, stop, log=print, workers=WORKERS):
     handoffs = run_dir / "enrich" / "fallback_handoffs"
     writer = Writer(run_dir, config)
     lock = threading.Lock()
@@ -217,7 +247,7 @@ def run_standard(run_dir, client, budget, calls, units, config, phase, stop, log
         writer.flush()
 
     done = failed = 0
-    with ThreadPoolExecutor(max_workers=WORKERS) as pool:
+    with ThreadPoolExecutor(max_workers=max(1, min(workers, WORKERS))) as pool:
         futures = {}
         for batch in batches:
             if stop.reason:
@@ -239,7 +269,7 @@ def run_standard(run_dir, client, budget, calls, units, config, phase, stop, log
 
 
 def run_batch(run_dir, client, budget, calls, units, config, phase, stop, log=print, poll_s=FALLBACK_BATCH_POLL_S,
-              sleep=time.sleep):
+              sleep=time.sleep, workers=1):
     """Message Batches API: submit once, save the batch ID, poll, then process results like standard mode."""
     out = run_dir / "enrich"
     handoffs = out / "fallback_handoffs"
@@ -344,6 +374,8 @@ def merge(jev_row, fb_row):
     """Final labels for a unit: the fallback's when it succeeded, else Jev's (flagged if the fallback failed)."""
     if fb_row is None:
         return {**jev_row, "decided_by": "jev"}
+    if fb_row["status"] == "capped":
+        return {**jev_row, "needs_review": True, "decided_by": "jev_fallback_capped"}
     if fb_row["status"] == "ok":
         merged = {**jev_row, **fb_row["labels"], "decided_by": "claude_fallback",
                   "jev_labels": {k: jev_row[k] for k in ("topic", "intent", "severity", "sentiment", "evidence_quote",

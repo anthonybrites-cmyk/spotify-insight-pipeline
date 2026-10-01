@@ -113,7 +113,8 @@ def run(run_dir, claude_client, jev_client, budget, calls, stop, texts, exclude_
     # Step A: taxonomy (cached by input hash; a rerun with identical input makes no call).
     tax_input = taxonomy_input(complaints, exclude_ids)
     user = "<topics>\n" + json.dumps(tax_input, ensure_ascii=False, indent=1) + "\n</topics>"
-    tconfig = f"{claude_client.model}+group-taxonomy-{sha256_text(SYSTEM + canonical(SCHEMA))[:12]}+{SCHEMA_VERSION}"
+    tconfig = (f"{claude_client.model}+effort-{claude_client.effort}+group-taxonomy-"
+               f"{sha256_text(SYSTEM + canonical(SCHEMA))[:12]}+{SCHEMA_VERSION}")
     name = f"taxonomy_{sha256_text(tconfig + user)[:12]}"
     write_json(out / "taxonomy_input.json", tax_input)
     parsed = read_json(out / "handoffs" / f"{name}.parsed.json")

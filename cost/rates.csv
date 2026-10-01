@@ -1,0 +1,11 @@
+provider,model,tier,item,price_usd,per_units,unit,currency,source_url,checked_on,notes
+typesafe,jev-1.13.0,standard,input_tokens,0.042,1000000,token,USD,https://docs.typesafe.ai/models,2026-09-29,"Jev 1.13: $0.042 per million input tokens"
+typesafe,jev-1.13.0,standard,output_tokens,0,1000000,token,USD,https://docs.typesafe.ai/models,2026-09-29,"output tokens are free"
+anthropic,claude-sonnet-5,standard,input_tokens,2,1000000,token,USD,https://platform.claude.com/docs/en/about-claude/pricing,2026-09-30,"base input (uncached)"
+anthropic,claude-sonnet-5,standard,cache_write_input_tokens,2.50,1000000,token,USD,https://platform.claude.com/docs/en/about-claude/pricing,2026-09-30,"5-minute cache write; prompt caching not used by this pipeline"
+anthropic,claude-sonnet-5,standard,cache_read_input_tokens,0.20,1000000,token,USD,https://platform.claude.com/docs/en/about-claude/pricing,2026-09-30,"cache hit; prompt caching not used by this pipeline"
+anthropic,claude-sonnet-5,standard,output_tokens,10,1000000,token,USD,https://platform.claude.com/docs/en/about-claude/pricing,2026-09-30,"includes thinking tokens (billed as output)"
+anthropic,claude-sonnet-5,batch_50pct,input_tokens,1,1000000,token,USD,https://platform.claude.com/docs/en/about-claude/pricing,2026-09-30,"Message Batches API"
+anthropic,claude-sonnet-5,batch_50pct,cache_write_input_tokens,1.25,1000000,token,USD,https://platform.claude.com/docs/en/about-claude/pricing,2026-09-30,"Batches API x 5-minute cache write (multipliers stack)"
+anthropic,claude-sonnet-5,batch_50pct,cache_read_input_tokens,0.10,1000000,token,USD,https://platform.claude.com/docs/en/about-claude/pricing,2026-09-30,"Batches API x cache hit (multipliers stack)"
+anthropic,claude-sonnet-5,batch_50pct,output_tokens,5,1000000,token,USD,https://platform.claude.com/docs/en/about-claude/pricing,2026-09-30,"Message Batches API; includes thinking tokens"

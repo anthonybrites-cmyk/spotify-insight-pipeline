@@ -166,7 +166,7 @@ def run(run_dir, client, budget, calls, ranking, issues, records, exclude_ids=()
     write_json(out / "memo_inputs.json", {"claims": claims, "facts": facts, "issues": issue_table, "examples": examples,
                                           "artifacts": ["rank/ranking.csv", "group/issues.json", "verify/report.json",
                                                         "ingest/summary.json", "records (aggregated in code)"]})
-    config = f"{client.model}+memo-{sha256_text(SYSTEM)[:12]}+{SCHEMA_VERSION}"
+    config = f"{client.model}+effort-{client.effort}+memo-{sha256_text(SYSTEM)[:12]}+{SCHEMA_VERSION}"
     base_user = ("<claims>\n" + json.dumps(claims, indent=0) + "\n</claims>\n<facts>\n"
                  + json.dumps({k: {"meaning": m, "value": v} for k, (m, v) in facts.items()}, indent=0)
                  + "\n</facts>\n<issues>\n" + json.dumps(issue_table, ensure_ascii=False, indent=0)

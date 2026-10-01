@@ -4,7 +4,10 @@ Every request and response is saved under <run>/<stage>/handoffs/ before it is u
 """
 
 import json
+import time
 import uuid
+from datetime import datetime, timezone
+from decimal import Decimal
 
 import anthropic
 
@@ -18,13 +21,17 @@ from .store import write_json
 class ClaudeClient:
     provider = "anthropic"
 
-    def __init__(self, api_key, model=CLAUDE_MODEL):
+    def __init__(self, api_key, model=CLAUDE_MODEL, effort=CLAUDE_EFFORT, max_tokens=CLAUDE_MAX_TOKENS):
         # Explicit base_url and api_key so a shell ANTHROPIC_BASE_URL / auth token is never picked up.
         self.client = anthropic.Anthropic(api_key=api_key, base_url=CLAUDE_BASE_URL, max_retries=0,
                                           timeout=CLAUDE_TIMEOUT_S)
         self.model = model
+        self.effort = effort          # reasoning effort for every role this client serves (part of each config tag)
+        self.max_tokens = max_tokens  # output-token cap per request (thinking tokens count as output)
 
-    def params(self, system, user, schema=None, max_tokens=CLAUDE_MAX_TOKENS, effort=CLAUDE_EFFORT):
+    def params(self, system, user, schema=None, max_tokens=None, effort=None):
+        max_tokens = max_tokens or self.max_tokens
+        effort = effort or self.effort
         params = {"model": self.model, "max_tokens": max_tokens, "system": system,
                   "messages": [{"role": "user", "content": user}],
                   "thinking": {"type": "adaptive"}, "output_config": {"effort": effort}}
@@ -68,7 +75,7 @@ class ClaudeClient:
                 detail = getattr(getattr(r, "error", None), "type", None) or r.type
                 yield item.custom_id, {"ok": False, "error": f"batch result {r.type}: {detail}"}
 
-    def create(self, system, user, schema=None, max_tokens=CLAUDE_MAX_TOKENS, effort=CLAUDE_EFFORT):
+    def create(self, system, user, schema=None, max_tokens=None, effort=None):
         params = self.params(system, user, schema, max_tokens, effort)
         try:
             response = self.client.messages.create(**params)
@@ -87,12 +94,28 @@ class ClaudeClient:
             if e.status_code >= 500 or e.status_code in (408, 409, 529):
                 raise Retryable(f"HTTP {e.status_code}: {e}")
             raise Fatal(f"HTTP {e.status_code}: {e}")
-        except (anthropic.APIConnectionError, anthropic.APITimeoutError) as e:
+        except anthropic.APITimeoutError as e:
+            raise Retryable(f"network: request timed out (may have been processed and billed): {e}")
+        except anthropic.APIConnectionError as e:
             raise Retryable(f"network: {e}")
         text = "".join(b.text for b in response.content if b.type == "text")
+        u = response.usage
         return {"request_id": getattr(response, "_request_id", None) or f"local-{uuid.uuid4().hex}",
                 "model": response.model, "stop_reason": response.stop_reason, "text": text,
-                "input_tokens": response.usage.input_tokens, "output_tokens": response.usage.output_tokens}
+                "input_tokens": u.input_tokens, "output_tokens": u.output_tokens,
+                # Mutually exclusive billing categories reported by the API (input_tokens excludes cached ones).
+                "cache_creation_input_tokens": getattr(u, "cache_creation_input_tokens", 0) or 0,
+                "cache_read_input_tokens": getattr(u, "cache_read_input_tokens", 0) or 0,
+                "effort": params["output_config"]["effort"], "max_tokens": params["max_tokens"]}
+
+
+def _utc_now():
+    return datetime.now(timezone.utc).isoformat(timespec="milliseconds")
+
+
+def _usage_fields(response):
+    return {"cache_creation_input_tokens": response.get("cache_creation_input_tokens", 0),
+            "cache_read_input_tokens": response.get("cache_read_input_tokens", 0)}
 
 
 def handoff_ref(handoff_dir, name):
@@ -113,12 +136,14 @@ class _NoLock:
 
 
 def call(client, budget, calls, handoff_dir, name, role, phase, label_config, review_ids, system, user,
-         schema=None, validate=None, max_tokens=CLAUDE_MAX_TOKENS, max_attempts=4, effort=CLAUDE_EFFORT, lock=None):
+         schema=None, validate=None, max_tokens=None, max_attempts=4, effort=None, lock=None):
     """One logical request with retries. Saves request/response handoffs; returns (parsed, response).
 
     Pass a shared `lock` when several threads write to the same call log.
     """
     lock = lock or _NoLock()
+    max_tokens = max_tokens or getattr(client, "max_tokens", CLAUDE_MAX_TOKENS)
+    effort = effort or getattr(client, "effort", CLAUDE_EFFORT)
     handoff_dir.mkdir(parents=True, exist_ok=True)
     write_json(handoff_dir / f"{name}.request.json",
                {"model": client.model, "role": role, "review_ids": review_ids, "system": system, "user": user,
@@ -127,6 +152,8 @@ def call(client, budget, calls, handoff_dir, name, role, phase, label_config, re
 
     def attempt(n, previous_error):
         state.clear()
+        state["timing"] = {"started_at": _utc_now()}
+        t0 = time.monotonic()
         prompt = user
         if isinstance(previous_error, InvalidOutput):
             # The single invalid-output retry carries the validation error back to the model.
@@ -139,11 +166,16 @@ def call(client, budget, calls, handoff_dir, name, role, phase, label_config, re
             response = client.create(system, prompt, schema, max_tokens, effort)
         except BaseException:
             budget.release(reservation)
+            state["timing"]["duration_ms"] = round((time.monotonic() - t0) * 1000)
             raise
-        cost = cost_usd(response["input_tokens"], response["output_tokens"], CLAUDE_PRICE_IN, CLAUDE_PRICE_OUT)
+        state["timing"]["duration_ms"] = round((time.monotonic() - t0) * 1000)
+        cost = cost_usd(response["input_tokens"], response["output_tokens"], CLAUDE_PRICE_IN, CLAUDE_PRICE_OUT) \
+            + cost_usd(response.get("cache_creation_input_tokens", 0), 0, CLAUDE_PRICE_IN * Decimal("1.25"), 0) \
+            + cost_usd(response.get("cache_read_input_tokens", 0), 0, CLAUDE_PRICE_IN * Decimal("0.1"), 0)
         budget.commit(reservation, cost, role, response["request_id"])
         response["cost_usd"] = str(cost)
         state["response"] = response
+        state["attempt"] = n
         write_json(handoff_dir / f"{name}.response.{n}.json", response)
         if response["stop_reason"] == "refusal":
             raise Fatal("model refused")
@@ -163,7 +195,11 @@ def call(client, budget, calls, handoff_dir, name, role, phase, label_config, re
             _log_failed(n, error, response)
 
     def _log_failed(n, error, response):
-        calls.write({"request_id": response.get("request_id") or f"local-failed-{uuid.uuid4().hex}",
+        timing = state.get("timing", {})
+        extra = {"possible_unlogged_charge": True} if "timed out" in str(error).lower() else {}
+        calls.write({**extra, **_usage_fields(response), "started_at": timing.get("started_at"),
+                     "duration_ms": timing.get("duration_ms"), "effort": effort, "max_tokens": max_tokens,
+                     "request_id": response.get("request_id") or f"local-failed-{uuid.uuid4().hex}",
                      "role": role, "review_ids": review_ids, "model": response.get("model", client.model),
                      "phase": phase, "outcome": "failed", "label_config": label_config,
                      "input_tokens": response.get("input_tokens", 0),
@@ -172,7 +208,10 @@ def call(client, budget, calls, handoff_dir, name, role, phase, label_config, re
         calls.flush()
 
     def _log_ok(response):
-        calls.write({"request_id": response["request_id"], "role": role, "review_ids": review_ids,
+        timing = state.get("timing", {})
+        calls.write({**_usage_fields(response), "started_at": timing.get("started_at"),
+                     "duration_ms": timing.get("duration_ms"), "effort": effort, "max_tokens": max_tokens,
+                     "attempt": state.get("attempt"), "request_id": response["request_id"], "role": role, "review_ids": review_ids,
                      "model": response["model"], "phase": phase, "outcome": "succeeded", "label_config": label_config,
                      "input_tokens": response["input_tokens"], "output_tokens": response["output_tokens"],
                      "usage_available": True, "cost_usd": response["cost_usd"],

@@ -94,9 +94,11 @@ def run(run_dir, client, budget, calls, stop, max_new=None, accept_gate=False, t
         log=print, **dispatch_kw):
     """fallback_cfg: None, or {"client": ClaudeClient, "mode": "standard"|"batch", "threshold": float}."""
     out = run_dir / "enrich"
-    fb_tag = fallback.tag(fallback_cfg["client"].model, fallback_cfg["threshold"]) if fallback_cfg else None
+    fb_tag = (fallback.tag(fallback_cfg["client"].model, fallback_cfg["threshold"], fallback_cfg["client"].effort,
+                           fallback_cfg["max_fraction"]) if fallback_cfg else None)
     config = rubric.label_config(client.model, translate.tag(translator.model) if translator else None, fb_tag)
     fb_settings = ({"threshold": fallback_cfg["threshold"], "mode": fallback_cfg["mode"],
+                    "max_fraction": fallback_cfg["max_fraction"], "effort": fallback_cfg["client"].effort,
                     "model": fallback_cfg["client"].model, "tag": fb_tag} if fallback_cfg else None)
     write_json(out / f"questions_{config.replace('+', '_')}.json",
                {"label_config": config, "state_shape": {"review": "<review_text>"},
@@ -226,15 +228,21 @@ def run(run_dir, client, budget, calls, stop, max_new=None, accept_gate=False, t
 
 def fallback_pass(run_dir, done, fallback_cfg, budget, calls, config, phase, stop, log):
     fb = fallback.saved(run_dir, config)
-    units = {u["unit"]: u for u in load_units(run_dir)}
+    all_units = load_units(run_dir)
+    units = {u["unit"]: u for u in all_units}
     todo = [units[u] for u, row in done.items()
             if fallback.needs_fallback(row, fallback_cfg["threshold"]) and u not in fb]
     if not todo:
         return
+    confidence = {u: fallback.min_confidence(row) for u, row in done.items()}
+    todo = fallback.apply_cap(run_dir, todo, config, len(all_units), fallback_cfg["max_fraction"], confidence, log)
+    if not todo:
+        return
     log(f"fallback: {len(todo)} low-confidence texts (< {fallback_cfg['threshold']}) go to "
-        f"{fallback_cfg['client'].model} ({fallback_cfg['mode']} API)")
+        f"{fallback_cfg['client'].model} (effort {fallback_cfg['client'].effort}, {fallback_cfg['mode']} API)")
     runner = fallback.run_batch if fallback_cfg["mode"] == "batch" else fallback.run_standard
-    runner(run_dir, fallback_cfg["client"], budget, calls, todo, config, phase, stop, log=log)
+    runner(run_dir, fallback_cfg["client"], budget, calls, todo, config, phase, stop, log=log,
+           workers=fallback_cfg.get("workers", 1))
 
 
 def finish(run_dir, state, invocation, done, reason, log, counters=None):

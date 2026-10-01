@@ -654,13 +654,22 @@ class TestFallback(unittest.TestCase):
             low = {r["unit"] for r in results if min(r["diagnostics"]["confidence"].values()) < 0.5}
             fb = {r["unit"]: r for r in read_jsonl(run / "enrich" / "fallback.jsonl")}
             self.assertTrue(low)
-            self.assertEqual(set(fb), low)  # exactly the low-confidence texts, nothing else
+            self.assertEqual(set(fb), low)  # every low-confidence text is accounted for, nothing else
             from pipeline.enrich import current_config, final_results
             config = current_config(run, "fake-jev-0")
             self.assertIn("+fallback-", config)
+            self.assertIn("effort-medium", config)
             final = final_results(run, config)
+            sent = {u for u, r in fb.items() if r["status"] == "ok"}
+            capped = {u for u, r in fb.items() if r["status"] == "capped"}
+            self.assertLessEqual(len(sent), int(479 * 0.2))  # the declared 20% cap holds
             self.assertTrue(all(final[u]["decided_by"] == "claude_fallback" and final[u]["topic"] == "playback"
-                                for u in low))
+                                for u in sent))
+            self.assertTrue(all(final[u]["decided_by"] == "jev_fallback_capped" and final[u]["needs_review"]
+                                for u in capped))
+            conf = {r["unit"]: min(r["diagnostics"]["confidence"].values()) for r in results}
+            if capped:  # lowest confidence goes first
+                self.assertLessEqual(max(conf[u] for u in sent), min(conf[u] for u in capped))
             texts = {u["unit"]: u["text"] for u in ingest.load_units(run)}
             self.assertTrue(all(final[u]["evidence_quote"] in texts[u] for u in final))
             calls = list(read_jsonl(run / "calls.jsonl"))
@@ -677,7 +686,7 @@ class TestFallback(unittest.TestCase):
         try:
             # First pass to learn which IDs are low-confidence, then rerun fresh with bad quotes planted for two.
             _, jev, _ = self.run_fake(tmp, "standard", grading=False)
-            fb_rows = list(read_jsonl(tmp / "run" / "enrich" / "fallback.jsonl"))
+            fb_rows = [r for r in read_jsonl(tmp / "run" / "enrich" / "fallback.jsonl") if r["status"] == "ok"]
             ids = [r["review_id"] for r in fb_rows[:2]]
             shutil.rmtree(tmp / "run")
             claude = fakes.FakeClaude(bad_quote_ids=ids)
@@ -688,6 +697,22 @@ class TestFallback(unittest.TestCase):
             self.assertTrue(all(rows[i]["status"] == "ok" and rows[i]["attempts"] == 2 for i in ids))
             calls = list(read_jsonl(tmp / "run" / "calls.jsonl"))
             self.assertTrue(any("fallback_quote_retry" in c.get("handoff", "") for c in calls))
+        finally:
+            shutil.rmtree(tmp, ignore_errors=True)
+
+    def test_fallback_cap_limits_claude_calls(self):
+        tmp = Path(tempfile.mkdtemp(prefix="pipeline-fb-"))
+        try:
+            code, _, claude = self.run_fake(tmp, "standard", extra=("--fallback-max-fraction", "0.05"), grading=False)
+            self.assertEqual(code, 0)
+            fb = list(read_jsonl(tmp / "run" / "enrich" / "fallback.jsonl"))
+            sent = [r for r in fb if r["status"] == "ok"]
+            self.assertEqual(len(sent), int(479 * 0.05))
+            self.assertTrue(any(r["status"] == "capped" for r in fb))
+            calls = list(read_jsonl(tmp / "run" / "calls.jsonl"))
+            fb_ids = {i for c in calls if c["role"] == "enrich" and c["model"].startswith("fake-claude")
+                      for i in c["review_ids"]}
+            self.assertEqual(fb_ids, {r["review_id"] for r in sent})  # capped texts were never sent to Claude
         finally:
             shutil.rmtree(tmp, ignore_errors=True)
 
@@ -753,3 +778,104 @@ class TestFallback(unittest.TestCase):
             self.assertEqual(check(tmp, tmp / "grading")["status"], "pass")
         finally:
             shutil.rmtree(tmp, ignore_errors=True)
+
+
+class TestCostCalculator(unittest.TestCase):
+    """Fake cold/warm pilots, then the offline calculator's arithmetic invariants."""
+
+    @classmethod
+    def setUpClass(cls):
+        from unittest import mock
+        from pipeline import costcalc
+        cls.tmp = Path(tempfile.mkdtemp(prefix="pipeline-cost-"))
+        cls.patches = [mock.patch.object(costcalc, "COST", cls.tmp / "cost"),
+                       mock.patch.object(costcalc, "RUNS", cls.tmp / "cost" / "runs")]
+        for p in cls.patches:
+            p.start()
+        cls.cost100 = DATA / "cost_100.csv"
+        base = ["cost", "pilot", "--input", str(cls.cost100), "--offline-fake", "--budget-group", "fake"]
+        assert cli.main(base + ["--label", "cold-w1", "--workers", "1"]) == 0
+        assert cli.main(base + ["--warm-of", "cold-w1", "--workers", "1"]) == 0
+        assert cli.main(base + ["--label", "cold-w2", "--workers", "2"]) == 0
+        assert cli.main(["cost", "collect", "--records-from", "cold-w1"]) == 0
+        cls.rates = cls.tmp / "rates.csv"
+        cls.rates.write_text(
+            "provider,model,tier,item,price_usd,per_units,unit,currency,source_url,checked_on,notes\n"
+            "typesafe,fake-jev-0,standard,input_tokens,0.042,1000000,token,USD,x,2026-09-30,\n"
+            "typesafe,fake-jev-0,standard,output_tokens,0,1000000,token,USD,x,2026-09-30,\n"
+            "anthropic,fake-claude-0,standard,input_tokens,2,1000000,token,USD,x,2026-09-30,\n"
+            "anthropic,fake-claude-0,standard,output_tokens,10,1000000,token,USD,x,2026-09-30,\n")
+
+    @classmethod
+    def tearDownClass(cls):
+        for p in cls.patches:
+            p.stop()
+        shutil.rmtree(cls.tmp, ignore_errors=True)
+
+    def replay(self, rates, name, *extra):
+        out = self.tmp / f"{name}.md"
+        c = self.tmp / "cost"
+        args = ["cost", "replay", "--rates", str(rates), "--usage", str(c / "usage.csv"), "--calls",
+                str(c / "pilot_calls.jsonl"), "--measurements", str(c / "measurements.json"), "--out", str(out), *extra]
+        self.assertEqual(cli.main(args), 0)
+        return json.loads(out.with_suffix(".json").read_text())
+
+    def test_pilot_records_cover_exactly_the_100_ids_with_row_hashes(self):
+        rows = list(cs.csv_rows(self.cost100))
+        recs = [json.loads(l) for l in (self.tmp / "cost" / "pilot_records.jsonl").read_text().splitlines()]
+        self.assertEqual(len(recs), 100)
+        self.assertEqual({r["review_id"]: r["source_sha256"] for r in recs},
+                         {r["review_id"]: row_sha(r) for r in rows})
+
+    def test_warm_run_makes_zero_new_calls(self):
+        m = json.loads((self.tmp / "cost" / "measurements.json").read_text())
+        warm = [r for r in m["runs"] if r["kind"] == "warm"]
+        self.assertEqual(len(warm), 1)
+        self.assertEqual(warm[0]["new_calls"], 0)
+        self.assertEqual(warm[0]["new_enrichment_calls"], 0)
+        cold = next(r for r in m["runs"] if r["label"] == "cold-w1")
+        self.assertGreater(cold["new_enrichment_calls"], 0)
+
+    def test_doubling_rates_doubles_api_spend_and_leaves_time_unchanged(self):
+        r1 = self.replay(self.rates, "r1")
+        doubled = self.tmp / "rates2.csv"
+        lines = self.rates.read_text().splitlines()
+        out = [lines[0]]
+        for line in lines[1:]:
+            cells = line.split(",")
+            cells[4] = str(Decimal(cells[4]) * 2)
+            out.append(",".join(cells))
+        doubled.write_text("\n".join(out) + "\n")
+        r2 = self.replay(doubled, "r2")
+        for label in r1["measured"]:
+            self.assertEqual(Decimal(r2["measured"][label]["api_cost_usd"]), 2 * Decimal(r1["measured"][label]["api_cost_usd"]))
+            self.assertEqual(r2["measured"][label]["wall_clock_seconds"], r1["measured"][label]["wall_clock_seconds"])
+        for s1, s2 in zip(r1["scenarios"], r2["scenarios"]):
+            self.assertEqual(Decimal(s2["total_usd"]), 2 * Decimal(s1["total_usd"]))
+        self.assertEqual(r1["local_compute"], r2["local_compute"])
+
+    def test_changing_projected_volume_does_not_change_measured_results(self):
+        a = self.replay(self.rates, "a")
+        b = self.replay(self.rates, "b", "--distinct", "1000", "--nonempty", "2000", "--verify-n", "5")
+        self.assertEqual(a["measured"], b["measured"])
+        self.assertNotEqual(a["scenarios"][0]["total_usd"], b["scenarios"][0]["total_usd"])
+
+    def test_budget_warning_and_missing_rates_are_reported(self):
+        r = self.replay(self.rates, "tight", "--budget", "0.000001")
+        self.assertTrue(all(s["over_budget"] for s in r["scenarios"]))
+        partial = self.tmp / "partial.csv"
+        partial.write_text("\n".join(self.rates.read_text().splitlines()[:3]) + "\n")  # Claude rates missing
+        r = self.replay(partial, "partial")
+        self.assertTrue(r["missing_rates"])
+
+    def test_replay_needs_no_key_and_makes_no_calls(self):
+        from unittest import mock
+        import urllib.request
+        with mock.patch.dict(os.environ, {"TYPESAFE_API_KEY": "", "ANTHROPIC_API_KEY": ""}), \
+                mock.patch.object(urllib.request, "urlopen", side_effect=AssertionError("network used")), \
+                mock.patch("pipeline.envfile.load_env", lambda *a, **k: None):
+            self.replay(self.rates, "offline")
+
+    def test_cold_pilot_refuses_a_non_empty_cache(self):
+        with self.assertRaises(SystemExit):
+            cli.main(["cost", "pilot", "--input", str(self.cost100), "--offline-fake", "--label", "cold-w1"])
