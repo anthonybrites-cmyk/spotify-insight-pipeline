@@ -127,7 +127,7 @@ Data: download the course ZIP from the link in the assignment brief, unzip it an
 # 2) 10,000-review development checkpoint with the Claude fallback (standard API); also verifies all 268
 #    non-English texts as a separate stratum
 .venv/bin/python -m pipeline run --input "$DATA/analysis_10000.csv" --run-dir runs/dev10k $G \
-  --budget-group dev --budget-usd 5 --fallback standard --verify-n 300 \
+  --budget-group dev --budget-usd 10 --fallback standard --claude-effort medium --workers 2 --verify-n 300 \
   --verify-extra-groups non_english_latin,non_latin_script \
   --grading-dir runs/dev10k/grading --results-dir runs/dev10k/results
 # 2b) Only if non-English agreement is clearly worse: translation test on those 268 texts
@@ -195,7 +195,7 @@ Full report: [`cost/report.md`](cost/report.md). Measured on `cost_100.csv` (sha
 | 2026-09-30 | Severity for paywalled controls stays on the **contract's reading**: a control explicitly locked behind Premium is a restricted function (3); ad overload alone is annoyance (2) | The contract defines 3 as "a degraded or restricted function", and the instructor's benchmark follows the contract. Your golden labels of 2 on those rows stand as your judgment and are explained in the error analysis |
 | 2026-09-30 | Declared fallback cap **20%** of distinct texts, lowest confidence first; **1 worker by default**; Claude reasoning effort and output cap are part of every Claude config tag | Updated brief and `COST_CALCULATOR.md` |
 | 2026-09-30 | Real cold and warm pilot at 1 worker, plus a cold pilot at 2 workers | Your call; the 2-worker run measured a 1.39× enrich-stage speedup |
-| pending | Low reasoning effort for the Claude roles | To be tested at the 500/10k stage (the spec says to use the lowest effort that passes evaluation) |
+| 2026-10-01 | Development cap raised to **$10**; Claude reasoning effort stays **medium** for the fallback and verifier | Effort test: low saved about 17% per review but changed 27% of fallback decisions and matched the human on 4 of 7 golden low-confidence reviews, versus 5 of 7 for medium ([`evals/effort_test/report.json`](evals/effort_test/report.json)) |
 | pending | Translation of non-English texts | Decided after the 10k language comparison |
 
 ## Development results
