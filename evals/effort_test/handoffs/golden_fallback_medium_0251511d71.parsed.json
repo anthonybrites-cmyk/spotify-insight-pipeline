@@ -1,0 +1,74 @@
+{
+  "results": [
+    {
+      "evidence_quote": "limited functionality..it's just too much",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Vague complaint about ads and limited functionality, no clear block.",
+      "review_id": "991b6b3a-f511-458a-a5b7-234f78048fb5",
+      "sentiment": "negative",
+      "severity": 2,
+      "topic": "usability"
+    },
+    {
+      "evidence_quote": "it keeps crashing every time",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "App crashes repeatedly, core function blocked, later resolved via support.",
+      "review_id": "723f07de-9881-4049-8680-1a9e25652914",
+      "sentiment": "neutral or mixed",
+      "severity": 4,
+      "topic": "playback"
+    },
+    {
+      "evidence_quote": "We are boycotting Swedish app",
+      "intent": "unclear",
+      "needs_review": true,
+      "reason": "Bare boycott statement with no product complaint.",
+      "review_id": "5de7f95b-ccad-41b2-9f63-a13f7c1d9f09",
+      "sentiment": "negative",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "evidence_quote": "lirik nya kdang gaada",
+      "intent": "complaint",
+      "needs_review": true,
+      "reason": "Complaint that lyrics are sometimes missing.",
+      "review_id": "46842184-32f8-4088-ac15-2a700a7e94ed",
+      "sentiment": "negative",
+      "severity": 3,
+      "topic": "catalog"
+    },
+    {
+      "evidence_quote": "Beth, we all got to give me a free dollar to go with 3 months",
+      "intent": "unclear",
+      "needs_review": true,
+      "reason": "Incoherent text with no clear product complaint.",
+      "review_id": "283b5843-a992-464f-b1dc-9dc7281ff390",
+      "sentiment": "neutral or mixed",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "evidence_quote": "I can't even play the songs that I like and I can't rewind songs",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "New update restricts playback control and rewind function.",
+      "review_id": "dceb14e7-2df0-422f-bb2b-73d7c373159a",
+      "sentiment": "negative",
+      "severity": 3,
+      "topic": "usability"
+    },
+    {
+      "evidence_quote": "the free version is pretty much unusable with constant ads",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Frequent ads make free version essentially unusable, blocking core use.",
+      "review_id": "d2f3874f-d15d-4a2f-bb97-4f1213defa46",
+      "sentiment": "negative",
+      "severity": 4,
+      "topic": "usability"
+    }
+  ]
+}

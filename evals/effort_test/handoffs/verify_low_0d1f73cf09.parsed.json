@@ -1,0 +1,354 @@
+{
+  "results": [
+    {
+      "intent": "praise",
+      "reason": "General positive comment about music.",
+      "review_id": "088e9ac3-8b93-4bff-8c75-032362d37b64",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "intent": "unclear",
+      "reason": "Single meaningless word.",
+      "review_id": "9ef99a2e-7d00-4d76-add9-85b0c0a06572",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "intent": "praise",
+      "reason": "General praise, no specifics.",
+      "review_id": "dba9f26e-fa2c-4f15-a211-ddc9d908f319",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "intent": "praise",
+      "reason": "General enthusiastic praise with emojis.",
+      "review_id": "6a5955ed-feb5-4941-a2fd-4cb2783899d1",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "intent": "praise",
+      "reason": "Praises ease of use and features.",
+      "review_id": "db98b02f-8a79-4b0c-af77-439171a20781",
+      "severity": 1,
+      "topic": "usability"
+    },
+    {
+      "intent": "praise",
+      "reason": "General praise, no specifics.",
+      "review_id": "985ac1da-f3d0-4f91-86ed-74869212c8fb",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "intent": "complaint",
+      "reason": "App crashes while playing music after update.",
+      "review_id": "89be32ab-664a-4647-a5e3-e4006a67e4e1",
+      "severity": 4,
+      "topic": "playback"
+    },
+    {
+      "intent": "praise",
+      "reason": "General positive comment.",
+      "review_id": "c3a06276-8d6a-408c-8d8a-000873a2ac62",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Dislikes random shuffle disrupting song order.",
+      "review_id": "5c9c17d3-9d6a-4fa1-a2a4-ae98eefbbd25",
+      "severity": 3,
+      "topic": "usability"
+    },
+    {
+      "intent": "praise",
+      "reason": "General praise word.",
+      "review_id": "277c75cb-ec6a-4387-902d-eb721d038db6",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "intent": "praise",
+      "reason": "General enjoyment statement.",
+      "review_id": "311b200f-e6bc-429e-9944-4d3a460e84ee",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Generic negative statement, no specifics.",
+      "review_id": "5fb51bd0-dbe9-4a19-a466-a77f0c14393e",
+      "severity": 2,
+      "topic": "other"
+    },
+    {
+      "intent": "cancellation",
+      "reason": "Complains about losing rewind control, threatens to delete app.",
+      "review_id": "9e5f9745-f8be-48d3-b9de-4d118507d94a",
+      "severity": 3,
+      "topic": "usability"
+    },
+    {
+      "intent": "praise",
+      "reason": "General praise word.",
+      "review_id": "16b3ba08-5722-4b8d-abbd-4da6c0cde9f2",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Too many ads before music plays.",
+      "review_id": "71095e1c-86d0-4639-8db0-9b74afdf6d4e",
+      "severity": 2,
+      "topic": "usability"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Premium feature canvas missing after update.",
+      "review_id": "384008ad-eb79-4525-a794-b0b67f7fb3f5",
+      "severity": 3,
+      "topic": "billing"
+    },
+    {
+      "intent": "praise",
+      "reason": "General praise, no specifics.",
+      "review_id": "35008b46-daf1-497c-ac9b-fe98f120f912",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Cannot log in after being logged out automatically.",
+      "review_id": "f6f9c680-0970-443f-b422-b1a6ad85e7ce",
+      "severity": 4,
+      "topic": "access"
+    },
+    {
+      "intent": "unclear",
+      "reason": "Unrelated slogan, no product content.",
+      "review_id": "94fd7069-c8e1-4f09-9651-dd9f5cfefff4",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "intent": "praise",
+      "reason": "General praise word.",
+      "review_id": "46b77196-0d17-4a48-b376-03a50b3d7440",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "intent": "praise",
+      "reason": "General positive feelings expressed.",
+      "review_id": "9f3794ed-4f4b-4430-a548-9cfd2d0c0084",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "intent": "cancellation",
+      "reason": "Downloaded content disappears, considering leaving service.",
+      "review_id": "5be3399d-dcd2-405b-a931-29b02ffc966e",
+      "severity": 4,
+      "topic": "downloads"
+    },
+    {
+      "intent": "praise",
+      "reason": "General love for app.",
+      "review_id": "7e91d976-20e5-40f0-a6f5-7312eadf7e78",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "intent": "praise",
+      "reason": "General praise, no specifics.",
+      "review_id": "4c0242ca-099a-4c89-b11b-219ef28f1e16",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "intent": "praise",
+      "reason": "Praises saving music easily.",
+      "review_id": "cc915d09-97ce-4d74-a04e-77d8f2d00e85",
+      "severity": 1,
+      "topic": "downloads"
+    },
+    {
+      "intent": "praise",
+      "reason": "General enthusiastic praise.",
+      "review_id": "e27a8abd-a52e-469b-a0db-79ce8711226c",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Features locked behind payment, limited song choice.",
+      "review_id": "9db060c5-2ff5-493a-8a19-01a3da91ff1d",
+      "severity": 4,
+      "topic": "billing"
+    },
+    {
+      "intent": "praise",
+      "reason": "General praise, no specifics.",
+      "review_id": "5db4a676-1f15-48cf-b989-a0a0fdb1c7a3",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "intent": "praise",
+      "reason": "General praise, no specifics.",
+      "review_id": "cc646d29-b636-43e2-b980-bbbed306ba6b",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "intent": "praise",
+      "reason": "General praise, no specifics.",
+      "review_id": "c76dcf3a-f9fa-4173-8129-1d0cb9fcfe6a",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "intent": "praise",
+      "reason": "Praises free tier and skip limits positively.",
+      "review_id": "15502657-31ee-440e-8df3-2c405b5da275",
+      "severity": 1,
+      "topic": "billing"
+    },
+    {
+      "intent": "praise",
+      "reason": "Praises lyrics and song quality features.",
+      "review_id": "a79455ad-854d-4fa3-9ec6-62c315feeb32",
+      "severity": 1,
+      "topic": "catalog"
+    },
+    {
+      "intent": "complaint",
+      "reason": "False no-internet error despite working connection.",
+      "review_id": "bcdf315e-c82d-41f0-9fcd-ba5933dfe77e",
+      "severity": 3,
+      "topic": "playback"
+    },
+    {
+      "intent": "complaint",
+      "reason": "App crashing since latest update.",
+      "review_id": "4a806587-0dde-4fb4-b4f1-f5c7d197c927",
+      "severity": 4,
+      "topic": "playback"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Generic negative statement, no specifics.",
+      "review_id": "19effee5-bf96-4313-8cf9-1ac996c1c4f1",
+      "severity": 2,
+      "topic": "other"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Complains app is full of ads.",
+      "review_id": "6eb64519-37d4-4591-a47a-bbb96357de36",
+      "severity": 2,
+      "topic": "usability"
+    },
+    {
+      "intent": "praise",
+      "reason": "General praise word.",
+      "review_id": "824cc977-421c-4445-898f-663acfd131f1",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "intent": "praise",
+      "reason": "General praise, no specifics.",
+      "review_id": "e760f409-29cb-4df0-a601-21534b0c7062",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "intent": "praise",
+      "reason": "General praise, no specifics.",
+      "review_id": "6884452c-d727-4c24-9511-017020f73a16",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "intent": "praise",
+      "reason": "General enjoyment statement.",
+      "review_id": "9d15352b-b78f-477b-b56f-44a6698ba55a",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "intent": "praise",
+      "reason": "General comparative praise.",
+      "review_id": "7c431748-3a85-4080-8cf9-c41f48f92ea5",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Connection error and missing songs, degraded functionality.",
+      "review_id": "3df77a78-ad9a-4456-8be8-8178ffd43d67",
+      "severity": 3,
+      "topic": "playback"
+    },
+    {
+      "intent": "unclear",
+      "reason": "Bare boycott slogan, no complaint.",
+      "review_id": "2af6b060-b468-4d20-9ad6-28e7a1d49a55",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "intent": "praise",
+      "reason": "General praise for app preference.",
+      "review_id": "ba274609-2cbc-4d6a-9624-276d1c8246e8",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Features locked behind premium, deemed useless now.",
+      "review_id": "21915fcd-9a35-48ba-b277-6296c4154603",
+      "severity": 4,
+      "topic": "billing"
+    },
+    {
+      "intent": "praise",
+      "reason": "General praise word.",
+      "review_id": "6906dfd7-a45a-4d04-aa74-5f34b1ca5ed5",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Song selection and skips restricted without premium.",
+      "review_id": "d146397f-4a94-4980-be00-ae9212eca3a7",
+      "severity": 3,
+      "topic": "billing"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Shuffle repeats same songs repeatedly.",
+      "review_id": "e393cec1-67e8-4f58-a484-8d9d76dc8fd6",
+      "severity": 3,
+      "topic": "usability"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Too many ads and irrelevant song recommendations.",
+      "review_id": "b9ae23d2-1152-4bfe-a876-afc09c005377",
+      "severity": 2,
+      "topic": "usability"
+    },
+    {
+      "intent": "unclear",
+      "reason": "Too vague to classify specifically.",
+      "review_id": "7b7b7855-cf14-4b59-bdc6-12916e833002",
+      "severity": 1,
+      "topic": "other"
+    }
+  ]
+}

@@ -1,0 +1,174 @@
+{
+  "results": [
+    {
+      "evidence_quote": "limited on the skips",
+      "intent": "request",
+      "needs_review": false,
+      "reason": "Skip limit locked behind premium, mixed with praise",
+      "review_id": "ac581cea-24f2-4251-a062-53cdd77cfed7",
+      "sentiment": "positive",
+      "severity": 3,
+      "topic": "billing"
+    },
+    {
+      "evidence_quote": "troubles getting my Playlist",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Playlist trouble degrades function",
+      "review_id": "bfda45a9-d2a3-4aa6-8530-9abe87a63df8",
+      "sentiment": "neutral or mixed",
+      "severity": 3,
+      "topic": "usability"
+    },
+    {
+      "evidence_quote": "Canvas not available after recent update, what's the point of having premium",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Premium feature missing complaint",
+      "review_id": "384008ad-eb79-4525-a794-b0b67f7fb3f5",
+      "sentiment": "negative",
+      "severity": 3,
+      "topic": "billing"
+    },
+    {
+      "evidence_quote": "so much charges to listen music or replay again the music",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Complaint about charges for replay",
+      "review_id": "58511d69-67c2-4432-84d8-f3c556592f2b",
+      "sentiment": "negative",
+      "severity": 3,
+      "topic": "billing"
+    },
+    {
+      "evidence_quote": "Too much email spam",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Annoyance with spam and switching feature",
+      "review_id": "caa9bb7e-814c-4895-b872-10637419b9ba",
+      "sentiment": "negative",
+      "severity": 2,
+      "topic": "usability"
+    },
+    {
+      "evidence_quote": "I miss premium",
+      "intent": "complaint",
+      "needs_review": true,
+      "reason": "Ambiguous meaning of missing premium",
+      "review_id": "f782a3f3-b0c8-475c-a34c-cda0fefa272e",
+      "sentiment": "neutral or mixed",
+      "severity": 2,
+      "topic": "billing"
+    },
+    {
+      "evidence_quote": "Its Alright but i did find a cougar",
+      "intent": "unclear",
+      "needs_review": true,
+      "reason": "Unintelligible unrelated content",
+      "review_id": "cd1d1b59-9de2-4181-bf4c-635a5d5f8e1e",
+      "sentiment": "neutral or mixed",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "evidence_quote": "Just move it back to the way it was😒",
+      "intent": "request",
+      "needs_review": false,
+      "reason": "Request to revert layout change",
+      "review_id": "c0f03952-e067-4f25-99fc-18a1a045ed9f",
+      "sentiment": "negative",
+      "severity": 2,
+      "topic": "usability"
+    },
+    {
+      "evidence_quote": "100 tyms asked to join premium",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Annoyance over repeated premium prompts",
+      "review_id": "be84cf74-541f-49c8-8262-fe6e9faedfb8",
+      "sentiment": "very negative",
+      "severity": 2,
+      "topic": "billing"
+    },
+    {
+      "evidence_quote": "100/10",
+      "intent": "praise",
+      "needs_review": false,
+      "reason": "General praise no specific feature",
+      "review_id": "b5c993cb-5447-409a-8ea4-b8d8b2952145",
+      "sentiment": "very positive",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "evidence_quote": "easy access to both new and old songs",
+      "intent": "praise",
+      "needs_review": false,
+      "reason": "Praise for song catalog access",
+      "review_id": "3e0f6d1b-8d2f-42e0-8ce1-021fe544b585",
+      "sentiment": "very positive",
+      "severity": 1,
+      "topic": "catalog"
+    },
+    {
+      "evidence_quote": "every couple of months... i go to listen to downloaded content and it's ALL GONE",
+      "intent": "cancellation",
+      "needs_review": false,
+      "reason": "Downloads disappearing, explicit plan to leave",
+      "review_id": "5be3399d-dcd2-405b-a931-29b02ffc966e",
+      "sentiment": "very negative",
+      "severity": 4,
+      "topic": "downloads"
+    },
+    {
+      "evidence_quote": "can't play the song I want , can't hear the same song on repeat and it doesn't let me change songs too",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Controls locked behind premium, core task blocked",
+      "review_id": "cc39673b-e332-4f1d-a6c6-ce378a715dcb",
+      "sentiment": "very negative",
+      "severity": 4,
+      "topic": "billing"
+    },
+    {
+      "evidence_quote": "I don't want to have to pay to listen to the songs I put in my playlists",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Complaint about paying for playlist control",
+      "review_id": "4f6a50a1-9440-468c-b35f-961bca94fd88",
+      "sentiment": "negative",
+      "severity": 3,
+      "topic": "billing"
+    },
+    {
+      "evidence_quote": "The musics are dowp man",
+      "intent": "complaint",
+      "needs_review": true,
+      "reason": "Unclear wording but seems playback complaint",
+      "review_id": "5a4a0f00-ce5f-448d-8425-48eeeba76b4d",
+      "sentiment": "negative",
+      "severity": 3,
+      "topic": "playback"
+    },
+    {
+      "evidence_quote": "problem while playing next song",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Playback issue with next song",
+      "review_id": "509915ba-cf86-4baa-9bea-a73af229ca48",
+      "sentiment": "negative",
+      "severity": 3,
+      "topic": "playback"
+    },
+    {
+      "evidence_quote": "Good 👍 one for listening every time and every type songs",
+      "intent": "praise",
+      "needs_review": false,
+      "reason": "Praise for variety of songs",
+      "review_id": "a6daf56e-9125-4c58-8899-b768f7df7fb1",
+      "sentiment": "positive",
+      "severity": 1,
+      "topic": "catalog"
+    }
+  ]
+}

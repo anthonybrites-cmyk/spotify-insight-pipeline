@@ -1,0 +1,111 @@
+{
+  "fallback_dev500": {
+    "by_effort": {
+      "low": {
+        "cost_per_review_usd": "0.001380",
+        "cost_usd": "0.092484",
+        "input_tokens": 9442,
+        "output_tokens": 7360,
+        "output_tokens_per_review": 109.9,
+        "quote_valid_rate": 0.9851,
+        "requests": 2,
+        "reviews": 67
+      },
+      "medium": {
+        "cost_per_review_usd": "0.001662",
+        "cost_usd": "0.111344",
+        "input_tokens": 9442,
+        "output_tokens": 9246,
+        "output_tokens_per_review": 138.0,
+        "quote_valid_rate": 0.9851,
+        "requests": 2,
+        "reviews": 67
+      }
+    },
+    "low_vs_medium_agreement": {
+      "all_three": 0.7313,
+      "intent": 0.9254,
+      "n": 67,
+      "severity": 0.8507,
+      "topic": 0.8657
+    }
+  },
+  "fallback_golden_low_band": {
+    "low": {
+      "cost_per_review_usd": "0.001995",
+      "cost_usd": "0.013968",
+      "input_tokens": 2749,
+      "output_tokens": 847,
+      "output_tokens_per_review": 121.0,
+      "quote_valid_rate": 1.0,
+      "requests": 1,
+      "reviews": 7,
+      "vs_human": {
+        "all_three": 0.5714,
+        "intent": 0.8571,
+        "n": 7,
+        "severity": 0.7143,
+        "topic": 0.7143
+      }
+    },
+    "medium": {
+      "cost_per_review_usd": "0.003355",
+      "cost_usd": "0.023488",
+      "input_tokens": 2749,
+      "output_tokens": 1799,
+      "output_tokens_per_review": 257.0,
+      "quote_valid_rate": 1.0,
+      "requests": 1,
+      "reviews": 7,
+      "vs_human": {
+        "all_three": 0.7143,
+        "intent": 0.8571,
+        "n": 7,
+        "severity": 0.7143,
+        "topic": 0.7143
+      }
+    }
+  },
+  "model": "claude-sonnet-5",
+  "note": "Agreement between two efforts is consistency, not accuracy. The golden part is tiny (diagnostic only).",
+  "spend": {
+    "cap_usd": "10",
+    "committed_usd": "1.149280534",
+    "group": "dev",
+    "remaining_usd": "8.850719466",
+    "this_run_usd": "0.334668"
+  },
+  "threshold": 0.5,
+  "verify_dev500_random_sample": {
+    "low": {
+      "cost_per_review_usd": "0.000934",
+      "cost_usd": "0.093384",
+      "input_tokens": 11212,
+      "output_tokens": 7096,
+      "requests": 2,
+      "reviews": 100
+    },
+    "low_verifier_vs_jev": {
+      "all_three": 0.77,
+      "intent": 0.95,
+      "n": 100,
+      "severity": 0.88,
+      "topic": 0.9
+    },
+    "low_vs_medium_verifier": {
+      "all_three": 0.84,
+      "intent": 0.97,
+      "n": 100,
+      "severity": 0.92,
+      "topic": 0.91
+    },
+    "medium_reference": "saved dev500 verify run (evals/dev500/run_summary.json: verify $0.112672 for 100 reviews)",
+    "medium_verifier_vs_jev": {
+      "all_three": 0.77,
+      "intent": 0.98,
+      "n": 100,
+      "severity": 0.87,
+      "topic": 0.9
+    }
+  }
+}

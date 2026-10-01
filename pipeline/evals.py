@@ -485,3 +485,144 @@ def golden_head_to_head(args, log):
     for k, v in summary.items():
         log(f"{k:22s} {v}")
     return 0
+
+
+def effort_test(args, log):
+    """Claude reasoning effort, low vs medium, on the same inputs (eval role; never part of business results).
+
+    1. Fallback prompt on the 500 run's low-confidence texts (Jev min confidence < threshold), both efforts.
+    2. Fallback prompt on the golden run's low-confidence texts, both efforts, scored against the human labels
+       (disclosed: the golden set informs this setup choice).
+    3. Verifier prompt at low effort on the 500 run's declared random verification sample; the saved medium
+       verifier labels are reused, not re-bought.
+    Reports cost per review, output tokens per review, exact-quote validity and label agreement.
+    """
+    from decimal import Decimal
+    from . import fallback
+    from .claude import ClaudeClient
+    from .ingest import load_units
+    out = Path(args.out_dir)
+    out.mkdir(parents=True, exist_ok=True)
+    budget = Budget(args.budget_group, args.budget_usd, "effort-test")
+    calls = JsonlAppender(out / "calls.jsonl")
+    key = require("ANTHROPIC_API_KEY")
+    dev, gold_run = Path(args.dev_run).resolve(), Path(args.golden_run).resolve()
+
+    def low_conf_units(run_dir):
+        texts = {u["unit"]: u for u in load_units(run_dir)}
+        rows = [r for r in read_jsonl(run_dir / "enrich" / "results.jsonl")
+                if min(r["diagnostics"]["confidence"].values()) < args.threshold]
+        seen, units = set(), []
+        for r in rows:
+            if r["unit"] not in seen:
+                seen.add(r["unit"])
+                units.append(texts[r["unit"]])
+        return units
+
+    def label(units, effort, tag):
+        client = ClaudeClient(key, effort=effort)
+        results, usage = {}, {"requests": 0, "input_tokens": 0, "output_tokens": 0, "cost": Decimal(0)}
+        for i in range(0, len(units), 50):
+            batch = units[i:i + 50]
+            ids = [u["original_id"] for u in batch]
+            payload = [{"review_id": u["original_id"], "text": u["text"]} for u in batch]
+            user = "<reviews>\n" + json.dumps(payload, ensure_ascii=False, indent=0) + "\n</reviews>"
+            name = f"{tag}_{effort}_{sha256_text(canonical(ids))[:10]}"
+            saved = read_json(out / "handoffs" / f"{name}.parsed.json")
+            if saved is None:
+                saved, resp = claude.call(client, budget, calls, out / "handoffs", name, "eval", f"effort-{effort}",
+                                          f"effort-test-{tag}-{effort}", [], fallback.system_prompt(), user,
+                                          schema=fallback.SCHEMA, validate=fallback.structural_validator(ids))
+            else:
+                resp = read_json(sorted((out / "handoffs").glob(f"{name}.response.*.json"))[-1])
+            usage["requests"] += 1
+            usage["input_tokens"] += resp["input_tokens"]
+            usage["output_tokens"] += resp["output_tokens"]
+            usage["cost"] += Decimal(resp["cost_usd"])
+            by_id = {r["review_id"]: r for r in saved["results"]}
+            for u in batch:
+                r = by_id[u["original_id"]]
+                results[u["original_id"]] = {**fallback.to_labels(r), "quote_valid": bool(r["evidence_quote"].strip())
+                                              and r["evidence_quote"] in u["text"]}
+        usage["cost_usd"] = str(usage.pop("cost"))
+        return results, usage
+
+    def summarize(usage, results):
+        n = len(results)
+        cost = Decimal(usage["cost_usd"])
+        return {"reviews": n, "requests": usage["requests"], "input_tokens": usage["input_tokens"],
+                "output_tokens": usage["output_tokens"], "cost_usd": str(cost),
+                "cost_per_review_usd": str((cost / n).quantize(Decimal("0.000001"))) if n else None,
+                "output_tokens_per_review": round(usage["output_tokens"] / n, 1) if n else None,
+                "quote_valid_rate": round(sum(r["quote_valid"] for r in results.values()) / n, 4) if n else None}
+
+    def agreement(a, b):
+        ids = sorted(set(a) & set(b))
+        n = len(ids) or 1
+        return {"n": len(ids), **{f: round(sum(a[i][f] == b[i][f] for i in ids) / n, 4)
+                                   for f in ("topic", "intent", "severity")},
+                "all_three": round(sum(all(a[i][f] == b[i][f] for f in ("topic", "intent", "severity"))
+                                       for i in ids) / n, 4)}
+
+    report = {"threshold": args.threshold, "model": "claude-sonnet-5", "note":
+              "Agreement between two efforts is consistency, not accuracy. The golden part is tiny (diagnostic only)."}
+    # 1) fallback on dev low-confidence texts
+    dev_units = low_conf_units(dev)
+    res, summ = {}, {}
+    for effort in ("medium", "low"):
+        r, u = label(dev_units, effort, "dev500_fallback")
+        res[effort], summ[effort] = r, summarize(u, r)
+        log(f"effort-test fallback dev500 {effort}: {summ[effort]}")
+    report["fallback_dev500"] = {"by_effort": summ, "low_vs_medium_agreement": agreement(res["low"], res["medium"])}
+    # 2) fallback on golden low-confidence texts, scored against the human labels
+    gold_units = low_conf_units(gold_run)
+    with Path(args.golden).open(encoding="utf-8-sig", newline="") as f:
+        human = {g["review_id"]: {"topic": g["topic"].strip(), "intent": g["intent"].strip(),
+                                  "severity": int(g["severity"])} for g in csv.DictReader(f)}
+    gsum = {}
+    for effort in ("medium", "low"):
+        r, u = label(gold_units, effort, "golden_fallback")
+        gsum[effort] = {**summarize(u, r), "vs_human": agreement(r, {i: human[i] for i in r})}
+        log(f"effort-test fallback golden {effort}: {gsum[effort]['vs_human']}")
+    report["fallback_golden_low_band"] = gsum
+    # 3) verifier at low effort on the dev500 declared random sample; medium labels reused from the saved run
+    comps = read_json(dev / "verify" / "comparisons.json")
+    units_by = {u["unit"]: u for u in load_units(dev)}
+    vunits = [units_by[c["unit"]] for c in comps]
+    vclient = ClaudeClient(key, effort="low")
+    low_v, vusage = {}, {"requests": 0, "input_tokens": 0, "output_tokens": 0, "cost": Decimal(0)}
+    for i in range(0, len(vunits), 50):
+        batch = vunits[i:i + 50]
+        ids = [u["original_id"] for u in batch]
+        payload = [{"review_id": u["original_id"], "text": u["text"]} for u in batch]
+        user = "<reviews>\n" + json.dumps(payload, ensure_ascii=False, indent=0) + "\n</reviews>"
+        name = f"verify_low_{sha256_text(canonical(ids))[:10]}"
+        parsed = read_json(out / "handoffs" / f"{name}.parsed.json")
+        if parsed is None:
+            parsed, resp = claude.call(vclient, budget, calls, out / "handoffs", name, "eval", "effort-low",
+                                       "effort-test-verify-low", [], verify.system_prompt(), user,
+                                       schema=verify.SCHEMA, validate=verify.make_validator(ids))
+        else:
+            resp = read_json(sorted((out / "handoffs").glob(f"{name}.response.*.json"))[-1])
+        vusage["requests"] += 1
+        vusage["input_tokens"] += resp["input_tokens"]
+        vusage["output_tokens"] += resp["output_tokens"]
+        vusage["cost"] += Decimal(resp["cost_usd"])
+        for r in parsed["results"]:
+            low_v[r["review_id"]] = {k: r[k] for k in ("topic", "intent", "severity")}
+    med_v = {c["review_id"]: c["verifier"] for c in comps}
+    jev = {c["review_id"]: c["jev"] for c in comps}
+    n = len(low_v)
+    report["verify_dev500_random_sample"] = {
+        "low": {"reviews": n, "requests": vusage["requests"], "input_tokens": vusage["input_tokens"],
+                "output_tokens": vusage["output_tokens"], "cost_usd": str(vusage["cost"]),
+                "cost_per_review_usd": str((vusage["cost"] / n).quantize(Decimal("0.000001")))},
+        "medium_reference": "saved dev500 verify run (evals/dev500/run_summary.json: verify $0.112672 for 100 reviews)",
+        "low_vs_medium_verifier": agreement(low_v, med_v),
+        "medium_verifier_vs_jev": agreement(med_v, jev), "low_verifier_vs_jev": agreement(low_v, jev)}
+    calls.close()
+    budget.close()
+    report["spend"] = budget.summary()
+    write_json(out / "report.json", report)
+    log(json.dumps({k: report[k] for k in ("fallback_dev500", "verify_dev500_random_sample")}, indent=1, default=str))
+    return 0

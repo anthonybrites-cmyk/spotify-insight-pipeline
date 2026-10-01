@@ -1,0 +1,174 @@
+{
+  "results": [
+    {
+      "evidence_quote": "limited on the skips",
+      "intent": "request",
+      "needs_review": false,
+      "reason": "Premium-locked skip limit, wish to change it.",
+      "review_id": "ac581cea-24f2-4251-a062-53cdd77cfed7",
+      "sentiment": "positive",
+      "severity": 3,
+      "topic": "billing"
+    },
+    {
+      "evidence_quote": "its just ads and I'm having troubles getting my Playlist",
+      "intent": "complaint",
+      "needs_review": true,
+      "reason": "Ambiguous playlist trouble, unclear feature affected.",
+      "review_id": "bfda45a9-d2a3-4aa6-8530-9abe87a63df8",
+      "sentiment": "negative",
+      "severity": 2,
+      "topic": "usability"
+    },
+    {
+      "evidence_quote": "Canvas not available after recent update",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Feature missing after update despite paying premium.",
+      "review_id": "384008ad-eb79-4525-a794-b0b67f7fb3f5",
+      "sentiment": "negative",
+      "severity": 3,
+      "topic": "usability"
+    },
+    {
+      "evidence_quote": "so much charges to listen music or replay again the music",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Paywall restricting replay of music.",
+      "review_id": "58511d69-67c2-4432-84d8-f3c556592f2b",
+      "sentiment": "negative",
+      "severity": 3,
+      "topic": "billing"
+    },
+    {
+      "evidence_quote": "Can't switch between video and audio only podcasts",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Restricted podcast format switching plus spam complaints.",
+      "review_id": "caa9bb7e-814c-4895-b872-10637419b9ba",
+      "sentiment": "negative",
+      "severity": 3,
+      "topic": "usability"
+    },
+    {
+      "evidence_quote": "I miss premium",
+      "intent": "complaint",
+      "needs_review": true,
+      "reason": "Vague mixed statement about premium, unclear meaning.",
+      "review_id": "f782a3f3-b0c8-475c-a34c-cda0fefa272e",
+      "sentiment": "neutral or mixed",
+      "severity": 3,
+      "topic": "billing"
+    },
+    {
+      "evidence_quote": "Its Alright but i did find a cougar",
+      "intent": "unclear",
+      "needs_review": true,
+      "reason": "Nonsensical statement with no clear product issue.",
+      "review_id": "cd1d1b59-9de2-4181-bf4c-635a5d5f8e1e",
+      "sentiment": "neutral or mixed",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "evidence_quote": "Just move it back to the way it was",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Complaint about interface change, no function loss stated.",
+      "review_id": "c0f03952-e067-4f25-99fc-18a1a045ed9f",
+      "sentiment": "negative",
+      "severity": 2,
+      "topic": "usability"
+    },
+    {
+      "evidence_quote": "100 tyms asked to join premium",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Annoyance from frequent premium prompts.",
+      "review_id": "be84cf74-541f-49c8-8262-fe6e9faedfb8",
+      "sentiment": "negative",
+      "severity": 2,
+      "topic": "billing"
+    },
+    {
+      "evidence_quote": "Had premium for student which was amazing",
+      "intent": "praise",
+      "needs_review": false,
+      "reason": "Positive mention of premium plan experience.",
+      "review_id": "b5c993cb-5447-409a-8ea4-b8d8b2952145",
+      "sentiment": "very positive",
+      "severity": 1,
+      "topic": "billing"
+    },
+    {
+      "evidence_quote": "easy access to both new and old songs",
+      "intent": "praise",
+      "needs_review": false,
+      "reason": "Praise for song variety and catalog access.",
+      "review_id": "3e0f6d1b-8d2f-42e0-8ce1-021fe544b585",
+      "sentiment": "very positive",
+      "severity": 1,
+      "topic": "catalog"
+    },
+    {
+      "evidence_quote": "I will soon be moving elsewhere",
+      "intent": "cancellation",
+      "needs_review": false,
+      "reason": "Downloaded content disappears, explicit intent to leave.",
+      "review_id": "5be3399d-dcd2-405b-a931-29b02ffc966e",
+      "sentiment": "very negative",
+      "severity": 4,
+      "topic": "downloads"
+    },
+    {
+      "evidence_quote": "I can't play the song I want",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Core playback function blocked after update.",
+      "review_id": "cc39673b-e332-4f1d-a6c6-ce378a715dcb",
+      "sentiment": "very negative",
+      "severity": 4,
+      "topic": "playback"
+    },
+    {
+      "evidence_quote": "I want to listen to the music I click on NOT whatever other stuff you throw into my playlists",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Frustration over forced playlist additions, restricted control.",
+      "review_id": "4f6a50a1-9440-468c-b35f-961bca94fd88",
+      "sentiment": "negative",
+      "severity": 3,
+      "topic": "usability"
+    },
+    {
+      "evidence_quote": "The musics are dowp man",
+      "intent": "unclear",
+      "needs_review": true,
+      "reason": "Gibberish text, no clear meaning.",
+      "review_id": "5a4a0f00-ce5f-448d-8425-48eeeba76b4d",
+      "sentiment": "neutral or mixed",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "evidence_quote": "I've a problem while playing next song",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Playback issue when skipping to next song.",
+      "review_id": "509915ba-cf86-4baa-9bea-a73af229ca48",
+      "sentiment": "negative",
+      "severity": 3,
+      "topic": "playback"
+    },
+    {
+      "evidence_quote": "every type songs",
+      "intent": "praise",
+      "needs_review": false,
+      "reason": "Praise for variety of songs available.",
+      "review_id": "a6daf56e-9125-4c58-8899-b768f7df7fb1",
+      "sentiment": "positive",
+      "severity": 1,
+      "topic": "catalog"
+    }
+  ]
+}

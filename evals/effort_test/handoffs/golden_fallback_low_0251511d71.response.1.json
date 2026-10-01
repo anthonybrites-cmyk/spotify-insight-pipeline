@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.013968",
+  "effort": "low",
+  "input_tokens": 2749,
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5",
+  "output_tokens": 847,
+  "request_id": "req_011Cfb6RQcp75TBqN7MhJZC6",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"991b6b3a-f511-458a-a5b7-234f78048fb5\",\"topic\":\"usability\",\"intent\":\"complaint\",\"severity\":2,\"sentiment\":\"negative\",\"evidence_quote\":\"limited functionality..it's just too much\",\"needs_review\":false,\"reason\":\"Generic complaint about ads and limited functionality.\"},{\"review_id\":\"723f07de-9881-4049-8680-1a9e25652914\",\"topic\":\"playback\",\"intent\":\"complaint\",\"severity\":4,\"sentiment\":\"neutral or mixed\",\"evidence_quote\":\"it keeps crashing every time\",\"needs_review\":false,\"reason\":\"App crashes, blocking core use, resolved via support.\"},{\"review_id\":\"5de7f95b-ccad-41b2-9f63-a13f7c1d9f09\",\"topic\":\"other\",\"intent\":\"unclear\",\"severity\":1,\"sentiment\":\"neutral or mixed\",\"evidence_quote\":\"We are boycotting Swedish app\",\"needs_review\":false,\"reason\":\"Bare boycott/political statement, no product complaint.\"},{\"review_id\":\"46842184-32f8-4088-ac15-2a700a7e94ed\",\"topic\":\"catalog\",\"intent\":\"complaint\",\"severity\":3,\"sentiment\":\"negative\",\"evidence_quote\":\"lirik nya kdang gaada\",\"needs_review\":true,\"reason\":\"Complains lyrics sometimes missing, unclear severity scope.\"},{\"review_id\":\"283b5843-a992-464f-b1dc-9dc7281ff390\",\"topic\":\"other\",\"intent\":\"unclear\",\"severity\":1,\"sentiment\":\"neutral or mixed\",\"evidence_quote\":\"Beth, we all got to give me a free dollar to go with 3 months\",\"needs_review\":true,\"reason\":\"Incoherent text, unclear meaning or intent.\"},{\"review_id\":\"dceb14e7-2df0-422f-bb2b-73d7c373159a\",\"topic\":\"billing\",\"intent\":\"complaint\",\"severity\":3,\"sentiment\":\"negative\",\"evidence_quote\":\"I can't even play the songs that I like and I can't rewind songs\",\"needs_review\":false,\"reason\":\"Controls restricted after update, likely free tier limits.\"},{\"review_id\":\"d2f3874f-d15d-4a2f-bb97-4f1213defa46\",\"topic\":\"billing\",\"intent\":\"complaint\",\"severity\":3,\"sentiment\":\"negative\",\"evidence_quote\":\"Too expensive and the free version is pretty much unusable with constant ads\",\"needs_review\":false,\"reason\":\"Complains about price and heavy ads restricting use.\"}]}"
+}

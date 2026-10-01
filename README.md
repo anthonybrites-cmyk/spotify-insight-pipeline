@@ -283,6 +283,19 @@ There are 13 synthetic reviews: 7 prompt-injection attempts and 6 controls, incl
 
 - **Compact Jev wording** ([`rubric_compact_vs_full.json`](evals/dev500/rubric_compact_vs_full.json)): 1,085 vs 1,504 tokens per review (−28%). Agreement with the same blind verifier labels was topic 87% vs 90%, intent 98% vs 98%, and severity 88% vs 87%. **Decision: keep the full wording.** The saving (~$8.50 on the full run) did not justify the small loss in topic agreement.
 - **Language:** the 500 sample has only 12 non-English candidates, so the language comparison runs at 10k (`--verify-extra-groups`).
+- **Claude reasoning effort, low vs medium** ([`evals/effort_test/report.json`](evals/effort_test/report.json), $0.33). All inputs are the same and saved:
+
+  | Test | Medium | Low |
+  |---|---|---|
+  | Fallback on the 500 run's 67 low-confidence texts (50 per request): cost per review | $0.00166 | $0.00138 (−17%) |
+  | … output tokens per review | 138 | 110 |
+  | … quotes copied exactly | 98.5% | 98.5% |
+  | … same labels as the other effort (all three) | — | 73% |
+  | Fallback on the 7 golden low-confidence reviews: all three labels match the human | 5/7 | 4/7 |
+  | Verifier on the 500 run's random 100: cost per review | $0.00113 | $0.00093 (−17%) |
+  | … all-three agreement with Jev | 77% | 77% |
+
+  Low effort saves about 17% per review, but it changed about a quarter of the fallback's decisions. On the tiny golden check it got one more review wrong. The measured fallback cost at 50 reviews per request ($0.00166) is also well below the pilot's 7-review figure ($0.0026).
 
 ### Full-run cost estimate (projected from measured rates; *not* an actual cost)
 

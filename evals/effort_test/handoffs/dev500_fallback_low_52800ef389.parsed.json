@@ -1,0 +1,504 @@
+{
+  "results": [
+    {
+      "evidence_quote": "Thik thak hi hai",
+      "intent": "unclear",
+      "needs_review": true,
+      "reason": "Vague neutral statement, no clear content",
+      "review_id": "084077ee-f9be-446a-9935-9e58550d5153",
+      "sentiment": "neutral or mixed",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "evidence_quote": "Bablu Bharti 😎😎",
+      "intent": "unclear",
+      "needs_review": true,
+      "reason": "Meaningless text",
+      "review_id": "0f2b7fd2-71a6-4657-998e-da44f5893956",
+      "sentiment": "neutral or mixed",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "evidence_quote": "it plays any song of the Playlist randomly",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Shuffle behavior complaint, degraded function",
+      "review_id": "5c9c17d3-9d6a-4fa1-a2a4-ae98eefbbd25",
+      "sentiment": "negative",
+      "severity": 3,
+      "topic": "usability"
+    },
+    {
+      "evidence_quote": "enna advertisement verudu",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Complains about ads with mixed praise",
+      "review_id": "ed15bb17-865a-492b-ba1b-268f4cab78f6",
+      "sentiment": "neutral or mixed",
+      "severity": 2,
+      "topic": "usability"
+    },
+    {
+      "evidence_quote": "many songs are not present here",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Missing songs complaint",
+      "review_id": "0658feaa-5bec-416e-b6b0-3de2a4c14580",
+      "sentiment": "neutral or mixed",
+      "severity": 3,
+      "topic": "catalog"
+    },
+    {
+      "evidence_quote": "Useless aap boycott sweden",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "General complaint plus boycott slogan",
+      "review_id": "9e3a706c-f502-4664-a23f-33f3480eca64",
+      "sentiment": "negative",
+      "severity": 2,
+      "topic": "other"
+    },
+    {
+      "evidence_quote": "Too many ads",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Ad frequency complaint",
+      "review_id": "e5e6c55f-3069-4b7c-9807-f8b5d5bf2726",
+      "sentiment": "negative",
+      "severity": 3,
+      "topic": "usability"
+    },
+    {
+      "evidence_quote": "don't like getting bombarded with playlist recommendations",
+      "intent": "request",
+      "needs_review": false,
+      "reason": "Request about recommendations and audio quality",
+      "review_id": "d26566f7-a898-4298-a06a-50bd3f7319c1",
+      "sentiment": "neutral or mixed",
+      "severity": 2,
+      "topic": "usability"
+    },
+    {
+      "evidence_quote": "everything is about premium no basic features",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Features locked behind premium",
+      "review_id": "890aeb60-e7cf-4f0d-a321-03a1c8b65757",
+      "sentiment": "negative",
+      "severity": 3,
+      "topic": "billing"
+    },
+    {
+      "evidence_quote": "need the download button on mobile to show for ever song",
+      "intent": "request",
+      "needs_review": false,
+      "reason": "Feature request for download button",
+      "review_id": "e667ab56-1b04-4596-bfd9-69f5919dcc10",
+      "sentiment": "neutral or mixed",
+      "severity": 1,
+      "topic": "downloads"
+    },
+    {
+      "evidence_quote": "Why are lyrics premium!?",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Lyrics locked behind premium",
+      "review_id": "d635d6c8-460e-452f-8d53-6cd1ea804e98",
+      "sentiment": "negative",
+      "severity": 3,
+      "topic": "billing"
+    },
+    {
+      "evidence_quote": "I love Spotify!",
+      "intent": "praise",
+      "needs_review": false,
+      "reason": "General enthusiastic praise",
+      "review_id": "15502657-31ee-440e-8df3-2c405b5da275",
+      "sentiment": "very positive",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "evidence_quote": "Too much adds🙄🥲",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Complaint about ads",
+      "review_id": "ee17dcd6-07c0-4441-8e64-e7ea57877c78",
+      "sentiment": "negative",
+      "severity": 2,
+      "topic": "usability"
+    },
+    {
+      "evidence_quote": "take money to play the song almost all features are gone",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Features restricted behind payment",
+      "review_id": "9db060c5-2ff5-493a-8a19-01a3da91ff1d",
+      "sentiment": "negative",
+      "severity": 3,
+      "topic": "billing"
+    },
+    {
+      "evidence_quote": "works very well",
+      "intent": "praise",
+      "needs_review": false,
+      "reason": "General praise, no specific feature",
+      "review_id": "f9e87b89-b080-48a2-a019-5c5dcf1689a6",
+      "sentiment": "positive",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "evidence_quote": "Disgusting noise 👎👎",
+      "intent": "complaint",
+      "needs_review": true,
+      "reason": "Vague complaint, unclear target",
+      "review_id": "d767f1af-e8eb-41af-9cc4-8bfa35253870",
+      "sentiment": "negative",
+      "severity": 2,
+      "topic": "other"
+    },
+    {
+      "evidence_quote": "Ads",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Single word ad complaint",
+      "review_id": "6a2cd434-9ad2-4e66-8968-ad066659d4df",
+      "sentiment": "negative",
+      "severity": 2,
+      "topic": "usability"
+    },
+    {
+      "evidence_quote": "I'm uninstalling successful",
+      "intent": "cancellation",
+      "needs_review": false,
+      "reason": "Explicit uninstall statement",
+      "review_id": "62b53e0a-0397-4200-826f-122d18fdde32",
+      "sentiment": "negative",
+      "severity": 2,
+      "topic": "other"
+    },
+    {
+      "evidence_quote": "Sumi tos juns,cansons de la tardo.",
+      "intent": "unclear",
+      "needs_review": true,
+      "reason": "Unintelligible text",
+      "review_id": "253a336b-ef38-49b3-beda-3758b0d6b2c2",
+      "sentiment": "neutral or mixed",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "evidence_quote": "Roasted app",
+      "intent": "complaint",
+      "needs_review": true,
+      "reason": "Vague negative slang term",
+      "review_id": "55bc2f5d-0157-467b-8f5c-2f9c7d1b0c04",
+      "sentiment": "negative",
+      "severity": 2,
+      "topic": "other"
+    },
+    {
+      "evidence_quote": "noice",
+      "intent": "praise",
+      "needs_review": false,
+      "reason": "Short positive slang",
+      "review_id": "0839f80d-e672-4954-b50e-20f85c2b8d16",
+      "sentiment": "positive",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "evidence_quote": "Please bring back the search function in my playlist",
+      "intent": "request",
+      "needs_review": false,
+      "reason": "Request to restore removed search function",
+      "review_id": "b4f4440f-d952-405d-bf7b-f19fb0adf484",
+      "sentiment": "negative",
+      "severity": 3,
+      "topic": "usability"
+    },
+    {
+      "evidence_quote": "I might uninstall soon.. it ruins all the basic music listening experience.",
+      "intent": "cancellation",
+      "needs_review": false,
+      "reason": "Threatens uninstall, usability complaint",
+      "review_id": "a06df5ff-01c8-4aff-a89c-a0c2ddc88f76",
+      "sentiment": "negative",
+      "severity": 3,
+      "topic": "usability"
+    },
+    {
+      "evidence_quote": "Like it, pretty much can enjoy what I,m hearing",
+      "intent": "praise",
+      "needs_review": false,
+      "reason": "General praise, no specific feature",
+      "review_id": "9d15352b-b78f-477b-b56f-44a6698ba55a",
+      "sentiment": "positive",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "evidence_quote": "Nice but i am not install",
+      "intent": "unclear",
+      "needs_review": true,
+      "reason": "Confusing statement, unclear meaning",
+      "review_id": "4e4c0ec8-e42b-4428-b192-d527c3384aab",
+      "sentiment": "neutral or mixed",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "evidence_quote": "now i stop using this app!!",
+      "intent": "cancellation",
+      "needs_review": false,
+      "reason": "Explicit departure, billing complaint",
+      "review_id": "6a4f84b4-18e2-47d9-adb8-2461a9319c11",
+      "sentiment": "negative",
+      "severity": 3,
+      "topic": "billing"
+    },
+    {
+      "evidence_quote": "the song keeps on shuffling .. I can't find the shuffle button to stop it",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Shuffle control malfunction, degraded use",
+      "review_id": "d218ffde-42f9-48f8-a793-832507454b35",
+      "sentiment": "negative",
+      "severity": 3,
+      "topic": "usability"
+    },
+    {
+      "evidence_quote": "I love listening to music and podcasts",
+      "intent": "praise",
+      "needs_review": false,
+      "reason": "General positive statement",
+      "review_id": "82247807-4a3b-47ac-9daa-8b085dcdd56d",
+      "sentiment": "positive",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "evidence_quote": "Buy premium lol",
+      "intent": "complaint",
+      "needs_review": true,
+      "reason": "Sarcastic brief remark about premium",
+      "review_id": "4ee5a8ba-99dd-48ce-9ad0-67034e4decba",
+      "sentiment": "negative",
+      "severity": 2,
+      "topic": "billing"
+    },
+    {
+      "evidence_quote": "it absolutely refuses to play music",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Core playback function blocked",
+      "review_id": "98d936e1-fd1d-475a-89ee-0e1517cb60d3",
+      "sentiment": "very negative",
+      "severity": 4,
+      "topic": "playback"
+    },
+    {
+      "evidence_quote": "I uninstalled this app as a form of protest",
+      "intent": "cancellation",
+      "needs_review": false,
+      "reason": "Explicit uninstall, political reason",
+      "review_id": "7fd63051-28ec-4e51-a06e-97f7010eae40",
+      "sentiment": "negative",
+      "severity": 2,
+      "topic": "other"
+    },
+    {
+      "evidence_quote": "Device band karo",
+      "intent": "unclear",
+      "needs_review": true,
+      "reason": "Unclear foreign language phrase",
+      "review_id": "99a2f218-f1e7-4341-b8cf-bfef974095f1",
+      "sentiment": "neutral or mixed",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "evidence_quote": "Kitna paisa chahiye bhai...gareebo ko lootega",
+      "intent": "complaint",
+      "needs_review": true,
+      "reason": "Angry billing complaint, unclear specifics",
+      "review_id": "08c07310-e802-4a88-bd97-2a5f240c0b44",
+      "sentiment": "very negative",
+      "severity": 3,
+      "topic": "billing"
+    },
+    {
+      "evidence_quote": "Uninstall this all",
+      "intent": "cancellation",
+      "needs_review": false,
+      "reason": "Explicit uninstall statement",
+      "review_id": "1ee942bb-a3de-4380-8c08-a15949687c6c",
+      "sentiment": "negative",
+      "severity": 2,
+      "topic": "other"
+    },
+    {
+      "evidence_quote": "App says no internet connection available",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Connection error blocking playback",
+      "review_id": "c64af4d8-ac17-48fe-ae38-fd54b41b16b1",
+      "sentiment": "negative",
+      "severity": 4,
+      "topic": "playback"
+    },
+    {
+      "evidence_quote": "again hacked ,can't even recover the playlists",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Account hacked, data loss, financial harm",
+      "review_id": "d87536c5-6fe0-4b38-b0b1-c47936e4a0d8",
+      "sentiment": "very negative",
+      "severity": 5,
+      "topic": "access"
+    },
+    {
+      "evidence_quote": "Worth",
+      "intent": "praise",
+      "needs_review": true,
+      "reason": "Too brief to be certain",
+      "review_id": "34d725ce-a365-4c28-b212-37fb9d83959a",
+      "sentiment": "positive",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "evidence_quote": "Apps automatically starts even after you have disabled all permissions.",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "App behavior complaint",
+      "review_id": "8cd35162-9223-42d1-8097-06e22fde94ea",
+      "sentiment": "negative",
+      "severity": 2,
+      "topic": "usability"
+    },
+    {
+      "evidence_quote": "w app frfr",
+      "intent": "praise",
+      "needs_review": false,
+      "reason": "Slang positive praise",
+      "review_id": "9e10d59a-0971-4af2-8125-8950bb0d5061",
+      "sentiment": "positive",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "evidence_quote": "It's aight",
+      "intent": "unclear",
+      "needs_review": false,
+      "reason": "Neutral mild statement",
+      "review_id": "62ad2462-7b07-4238-9025-8cdcaf4e7c8d",
+      "sentiment": "neutral or mixed",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "evidence_quote": "forcing us to purchase Spotify premium",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Forced premium purchase complaint",
+      "review_id": "86adc9b6-be58-400c-9a08-aa082ff0535c",
+      "sentiment": "very negative",
+      "severity": 3,
+      "topic": "billing"
+    },
+    {
+      "evidence_quote": "have many songs this make me happy",
+      "intent": "praise",
+      "needs_review": false,
+      "reason": "Praise for song selection",
+      "review_id": "32947da1-ff6a-4a53-a770-d4b4801fd553",
+      "sentiment": "very positive",
+      "severity": 1,
+      "topic": "catalog"
+    },
+    {
+      "evidence_quote": "😁😁😁😁😁😁a. Ok....",
+      "intent": "unclear",
+      "needs_review": true,
+      "reason": "Meaningless content",
+      "review_id": "e23c12dd-e6f1-469c-a6e0-506f56b7b786",
+      "sentiment": "neutral or mixed",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "evidence_quote": "Good music and selection is good too.",
+      "intent": "praise",
+      "needs_review": false,
+      "reason": "Praise for song selection",
+      "review_id": "6524068a-cff5-45b9-bd37-b91a6cb71475",
+      "sentiment": "positive",
+      "severity": 1,
+      "topic": "catalog"
+    },
+    {
+      "evidence_quote": "wish you had more control",
+      "intent": "request",
+      "needs_review": false,
+      "reason": "Request for more control",
+      "review_id": "3a88c96b-2760-4eb8-9271-6c55e2304392",
+      "sentiment": "neutral or mixed",
+      "severity": 2,
+      "topic": "usability"
+    },
+    {
+      "evidence_quote": "The new Lyrics font is so bad.",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Cosmetic complaint about lyrics display",
+      "review_id": "e5e362d7-1057-43bf-a3ca-8ffd93f80789",
+      "sentiment": "negative",
+      "severity": 2,
+      "topic": "catalog"
+    },
+    {
+      "evidence_quote": "I can't open my spotify wrap 2022...",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Feature fails to open",
+      "review_id": "c1726764-f0ce-4abc-ad9e-6cd143e1b2c7",
+      "sentiment": "negative",
+      "severity": 3,
+      "topic": "playback"
+    },
+    {
+      "evidence_quote": "a pain to connect to other devices",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Minor connection annoyance",
+      "review_id": "8b9d84a8-f650-4272-b332-4d60cb42377d",
+      "sentiment": "negative",
+      "severity": 2,
+      "topic": "playback"
+    },
+    {
+      "evidence_quote": "just a 30 second clip?",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Limited song playback complaint",
+      "review_id": "4d327494-7846-481a-bf00-f4b5abc099c4",
+      "sentiment": "negative",
+      "severity": 3,
+      "topic": "catalog"
+    },
+    {
+      "evidence_quote": "West app of the world",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "General negative criticism, no specifics",
+      "review_id": "4f0ead84-a25f-4f3b-a9ad-451dba35c49b",
+      "sentiment": "very negative",
+      "severity": 2,
+      "topic": "other"
+    }
+  ]
+}

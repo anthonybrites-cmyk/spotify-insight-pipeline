@@ -330,6 +330,14 @@ def main(argv=None):
     p.add_argument("--golden", default=str(REPO / "evals" / "golden" / "golden_50_human_labels.csv"))
     p.add_argument("--out-dir", default=str(REPO / "evals" / "golden"))
     p.add_argument("--budget-usd", type=float, default=2)
+    p = sub.add_parser("effort-test", help="Claude reasoning effort low vs medium on saved dev/golden inputs (eval)")
+    p.add_argument("--dev-run", default=str(REPO / "runs" / "dev500"))
+    p.add_argument("--golden-run", default=str(REPO / "runs" / "golden"))
+    p.add_argument("--golden", default=str(REPO / "evals" / "golden" / "golden_50_human_labels.csv"))
+    p.add_argument("--threshold", type=float, default=0.5)
+    p.add_argument("--out-dir", default=str(REPO / "evals" / "effort_test"))
+    p.add_argument("--budget-group", default="dev")
+    p.add_argument("--budget-usd", type=float, default=10)
     p = sub.add_parser("subset", help="rows of a CSV in given language groups (for the translation test)")
     p.add_argument("--input", required=True)
     p.add_argument("--groups", default="non_english_latin,non_latin_script")
@@ -365,6 +373,8 @@ def main(argv=None):
         return evals.check_golden(args, log)
     if args.command == "golden-head-to-head":
         return evals.golden_head_to_head(args, log)
+    if args.command == "effort-test":
+        return evals.effort_test(args, log)
     if args.command == "subset":
         return evals.write_subset(args, log)
     if args.command in ("compare-translation", "compare-variant"):
