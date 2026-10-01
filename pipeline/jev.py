@@ -48,6 +48,8 @@ class JevClient:
             detail = e.read()[:300].decode("utf-8", "replace")
             if e.code in (401, 403):
                 raise AuthFailure(f"TypeSafe rejected the API key ({e.code})")
+            if e.code == 402 or "credit" in detail.lower() or "balance" in detail.lower():
+                raise AuthFailure(f"TypeSafe: payment or credits problem ({e.code}): {detail}")
             if e.code in (408, 409, 429, 529) or e.code >= 500:
                 raise Retryable(f"HTTP {e.code}: {detail}", retry_after=e.headers.get("retry-after"))
             raise Fatal(f"HTTP {e.code}: {detail}")

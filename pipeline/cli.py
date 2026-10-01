@@ -20,7 +20,8 @@ import uuid
 from pathlib import Path
 
 from . import enrich, export, golden, group, ingest, memo, rank, records, verify
-from .budget import Budget
+from .budget import Budget, BudgetExceeded
+from .retry import AuthFailure
 from .config import CLAUDE_MODEL, JEV_MODEL, REPO, VENDOR_CHECKER
 from .dispatch import StopFlag
 from .envfile import key_status, require
@@ -96,6 +97,19 @@ def cmd_run(args):
 
 
 def _run_stages(args, stages, run_dir, input_csv, jev, claude_client, budget, calls, runlog, manifest):
+    try:
+        return _stages(args, stages, run_dir, input_csv, jev, claude_client, budget, calls, runlog, manifest)
+    except (BudgetExceeded, AuthFailure) as e:
+        # Account or spend stops in any stage end the invocation cleanly; every saved handoff is kept,
+        # and rerunning the same command resumes without repeating completed work.
+        kind = "spending cap" if isinstance(e, BudgetExceeded) else "provider account (key or credits)"
+        runlog.event("stopped", reason=kind, detail=str(e)[:300])
+        log(f"stopped: {kind}: {e}. Progress is saved; fix the cause and rerun the same command to resume. "
+            f"Budget {budget.summary()}")
+        return STOP_EXIT
+
+
+def _stages(args, stages, run_dir, input_csv, jev, claude_client, budget, calls, runlog, manifest):
     dispatch_kw = {"workers": args.workers, "rps": args.rps}
     exclude = golden.load_ids(args.exclude_golden)
     log(f"run: {run_dir.name}; stages {','.join(stages)}; budget {budget.summary()}")

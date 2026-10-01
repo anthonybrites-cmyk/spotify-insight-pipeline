@@ -79,11 +79,14 @@ class FakeClaude:
     provider = "fake"
     model = "fake-claude-0"
 
-    def __init__(self, memo_text=None):
+    def __init__(self, memo_text=None, fail_with=None):
         self.memo_text = memo_text
         self.requests = []
+        self.fail_with = fail_with  # an exception instance to raise (tests for clean stops)
 
     def create(self, system, user, schema=None, max_tokens=16000, effort="medium"):
+        if self.fail_with is not None:
+            raise self.fail_with
         self.requests.append(user)
         if schema is not None and "results" in schema["properties"]:
             reviews = json.loads(user.split("<reviews>\n", 1)[1].split("\n</reviews>", 1)[0])

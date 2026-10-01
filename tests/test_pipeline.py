@@ -500,6 +500,40 @@ if __name__ == "__main__":
     unittest.main()
 
 
+class TestCleanStops(unittest.TestCase):
+    """Out of credits (or our own cap) during a Claude stage stops cleanly and resumes later."""
+
+    def test_claude_account_failure_stops_cleanly_then_resumes(self):
+        from unittest import mock
+        from pipeline import fakes
+        from pipeline.retry import AuthFailure
+        tmp = Path(tempfile.mkdtemp(prefix="pipeline-stop-"))
+        try:
+            broke = fakes.FakeClaude(fail_with=AuthFailure("Anthropic: credit balance too low"))
+            with mock.patch.object(cli, "make_clients", lambda *a, **k: (FakeJev(), broke)):
+                code = fake_run(tmp, grading=False)
+            self.assertEqual(code, cli.STOP_EXIT)
+            done = sum(1 for _ in read_jsonl(tmp / "run" / "enrich" / "results.jsonl"))
+            self.assertEqual(done, 479)  # enrichment finished and was kept
+            events = [json.loads(l) for l in (tmp / "run" / "run_log.jsonl").read_text().splitlines()]
+            self.assertTrue(any(e["event"] == "stopped" for e in events))
+            self.assertEqual(fake_run(tmp), 0)  # credits restored: resume completes
+            self.assertEqual(sum(1 for _ in read_jsonl(tmp / "run" / "enrich" / "results.jsonl")), 479)
+        finally:
+            shutil.rmtree(tmp, ignore_errors=True)
+
+    def test_budget_cap_in_claude_stage_stops_cleanly(self):
+        tmp = Path(tempfile.mkdtemp(prefix="pipeline-stop-"))
+        try:
+            # Jev enrichment (~0.017) fits; the first verify reservation (16k output tokens) does not.
+            code = cli.main(["run", "--input", str(SMALL), "--run-dir", str(tmp / "run"), "--budget-group", "fake",
+                             "--budget-usd", "0.1", "--accept-early-gate", "--verify-n", "100", "--offline-fake",
+                             "--workers", "4", "--rps", "10000"])
+            self.assertEqual(code, cli.STOP_EXIT)
+        finally:
+            shutil.rmtree(tmp, ignore_errors=True)
+
+
 class TestTranslationPath(unittest.TestCase):
     """--translate with fake providers: tagging, ID-checked batches, resume, provenance, checker."""
 

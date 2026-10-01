@@ -37,6 +37,9 @@ class ClaudeClient:
         except anthropic.PermissionDeniedError as e:
             raise AuthFailure(f"Anthropic permission denied: {e}")
         except anthropic.BadRequestError as e:
+            # The API reports an exhausted prepaid balance as a 400; stop the run instead of failing one batch.
+            if "credit balance" in str(e).lower():
+                raise AuthFailure(f"Anthropic: credit balance too low ({e})")
             raise Fatal(f"bad request: {e}")
         except anthropic.RateLimitError as e:
             raise Retryable(f"rate limited: {e}", retry_after=e.response.headers.get("retry-after"))

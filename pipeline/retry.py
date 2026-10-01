@@ -22,7 +22,7 @@ class Fatal(Exception):
 
 
 class AuthFailure(Fatal):
-    """Stop the whole run: the key is missing or rejected."""
+    """Stop the whole run: the key is missing or rejected, or the account is out of credits."""
 
 
 def backoff(attempt, retry_after=None, rng=random.random):
