@@ -266,6 +266,10 @@ def main(argv=None):
     p = sub.add_parser("golden-input")
     p.add_argument("--golden", required=True)
     p.add_argument("--out", required=True)
+    p = sub.add_parser("check-golden", help="validate your hand-labelled golden CSV (no model calls)")
+    p.add_argument("--golden", default=str(REPO / "evals" / "golden" / "golden_50_human_labels.csv"))
+    p.add_argument("--source", help="the course golden_50_to_label.csv, to confirm source columns are unchanged")
+    p.add_argument("--out", default=str(REPO / "evals" / "golden" / "label_check.json"))
     p = sub.add_parser("score-golden")
     p.add_argument("--run-dir", required=True)
     p.add_argument("--golden", required=True, help="your hand-labelled golden CSV")
@@ -295,6 +299,8 @@ def main(argv=None):
         return evals.run_injection(args, log)
     if args.command == "score-golden":
         return evals.score_golden(args, log)
+    if args.command == "check-golden":
+        return evals.check_golden(args, log)
     if args.command == "subset":
         return evals.write_subset(args, log)
     if args.command == "compare-translation":

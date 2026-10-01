@@ -1,0 +1,11 @@
+{
+  "counts": {
+    "ambiguous_true": 4,
+    "needs_review_true": 6,
+    "with_label_notes": 7
+  },
+  "errors": [],
+  "file": "/Users/anthonybrites/code/spotify-insight-pipeline/evals/golden/golden_50_human_labels.csv",
+  "rows": 50,
+  "warnings": []
+}

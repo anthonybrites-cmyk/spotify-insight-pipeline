@@ -302,3 +302,77 @@ def compare_translation(args, log):
     write_json(out, report)
     log(json.dumps({k: report[k] for k in ("units_compared", "agreement_with_blind_verifier", "translation_calls")}))
     return 0
+
+
+def check_golden(args, log):
+    """Validate the hand-labelled golden file (no model calls). Errors block scoring; warnings are for review."""
+    from .checker import FIELDS, INTENTS, TOPICS, csv_rows
+    path = Path(args.golden)
+    with path.open(encoding="utf-8-sig", newline="") as f:
+        reader = csv.DictReader(f)
+        header = reader.fieldnames
+        rows = list(reader)
+    errors, warnings = [], []
+    required = list(FIELDS) + ["topic", "intent", "sentiment", "severity", "entities", "evidence_quote", "needs_review"]
+    missing_cols = [c for c in required if c not in header]
+    if missing_cols:
+        errors.append(f"missing columns: {missing_cols}")
+    source = {r["review_id"]: r for r in csv_rows(args.source)} if args.source else {}
+    if source and set(source) != {r.get("review_id") for r in rows}:
+        errors.append("review_id set differs from the course golden file")
+    for n, r in enumerate(rows, start=2):  # spreadsheet row number (header is row 1)
+        rid = r.get("review_id", "")
+        where = f"row {n} ({rid[:8]})"
+        if source.get(rid) and any(source[rid][k] != r[k] for k in FIELDS):
+            changed = [k for k in FIELDS if source[rid][k] != r[k]]
+            errors.append(f"{where}: source column(s) changed: {changed}")
+        topic, intent, sev = r.get("topic", "").strip(), r.get("intent", "").strip(), r.get("severity", "").strip()
+        if topic not in TOPICS:
+            errors.append(f"{where}: topic {topic!r} not one of the 8 labels")
+        if intent not in INTENTS:
+            errors.append(f"{where}: intent {intent!r} not allowed")
+        if sev not in ("1", "2", "3", "4", "5"):
+            errors.append(f"{where}: severity {sev!r} must be one integer 1-5")
+        try:
+            s = float(r.get("sentiment", ""))
+            if not -1 <= s <= 1:
+                errors.append(f"{where}: sentiment {s} outside -1..1")
+        except ValueError:
+            errors.append(f"{where}: sentiment {r.get('sentiment')!r} is not a number")
+        nr = r.get("needs_review", "").strip().lower()
+        if nr not in ("true", "false"):
+            errors.append(f"{where}: needs_review {r.get('needs_review')!r} must be true or false")
+        quote = r.get("evidence_quote", "")
+        if not quote.strip():
+            errors.append(f"{where}: evidence_quote is empty")
+        elif quote not in r.get("review_text", ""):
+            hint = " (matches after trimming spaces)" if quote.strip() in r.get("review_text", "") else ""
+            errors.append(f"{where}: evidence_quote is not an exact substring of review_text{hint}")
+        amb = r.get("ambiguous", "").strip().lower()
+        if amb not in ("", "true", "false"):
+            errors.append(f"{where}: ambiguous {r.get('ambiguous')!r} must be true, false or blank")
+        alts = r.get("alternative_labels", "").strip()
+        if alts:
+            for part in alts.replace("|", ";").split(";"):
+                if part.strip() and "=" not in part:
+                    errors.append(f"{where}: alternative_labels part {part.strip()!r} should look like field=value")
+            if amb != "true":
+                warnings.append(f"{where}: alternative_labels given but ambiguous is not true")
+        if "|" in topic + intent + sev:
+            errors.append(f"{where}: use one primary label; put alternatives in alternative_labels")
+        if sev in ("1", "2", "3", "4", "5") and intent in INTENTS:
+            if intent in ("praise", "request", "unclear") and sev != "1":
+                warnings.append(f"{where}: intent {intent} with severity {sev}; shared definition says severity 1")
+            if intent == "complaint" and sev == "1":
+                warnings.append(f"{where}: complaint with severity 1; shared definition puts complaints at >= 2")
+    summary = {"file": str(path), "rows": len(rows), "errors": errors, "warnings": warnings,
+               "counts": {"needs_review_true": sum(r.get("needs_review", "").strip().lower() == "true" for r in rows),
+                          "ambiguous_true": sum(r.get("ambiguous", "").strip().lower() == "true" for r in rows),
+                          "with_label_notes": sum(bool(r.get("label_notes", "").strip()) for r in rows)}}
+    write_json(Path(args.out), summary)
+    log(f"golden check: {len(rows)} rows, {len(errors)} errors, {len(warnings)} warnings")
+    for e in errors:
+        log("ERROR   " + e)
+    for w in warnings:
+        log("WARNING " + w)
+    return 0 if not errors else 1
