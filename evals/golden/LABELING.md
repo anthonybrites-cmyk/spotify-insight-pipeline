@@ -103,6 +103,16 @@ Every `topic`, `intent` and `severity` cell must contain **exactly one** value: 
 
 Headline agreement is always scored **strictly** against your single primary label. A separate "lenient" figure that also accepts your noted alternatives is reported alongside it, never instead of it. The number of ambiguous cases is reported, as the brief requires.
 
+## Non-English reviews
+
+Label by **meaning**, not language. Non-English is not the same as `unclear`, which means meaningless or unrelated text.
+- **Understanding it:** use a translator (Google Translate, DeepL) to understand the text, then apply exactly the same rules as for English.
+- **`evidence_quote`:** copy from the **original** text, never the translation; it must exactly match the review.
+- **`entities`:** use the usual English names (Premium, Playlists, Ads…).
+- **`needs_review`:** `true` if you are relying on a machine translation and aren't confident; otherwise `false`.
+- **`label_notes`:** record the language and how you read it, e.g. "Spanish; read via Google Translate".
+- **Gibberish:** only genuine gibberish that no translator can interpret is `other` / `unclear` / 1 / 0.
+
 ## Worked examples
 
 These are made-up reviews, not from the golden set.
