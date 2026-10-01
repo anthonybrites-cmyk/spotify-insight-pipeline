@@ -1,0 +1,38 @@
+issue_id,topic,name,complaint_count,severity_sum,mean_severity,priority_score,rank
+other.general,other,Other other complaints,71,143,2.014085,143,1
+usability.ad_frequency,usability,Excessive or intrusive ads,30,65,2.166667,65,2
+billing.features_locked_behind_premium,billing,Basic features locked behind premium,21,63,3.000000,63,3
+playback.general,playback,Other playback complaints,10,36,3.600000,36,4
+usability.playback_control_restrictions,usability,"Limited skip, repeat, or song selection controls",10,30,3.000000,30,5
+usability.general,usability,Other usability complaints,11,29,2.636364,29,6
+playback.app_crash_freeze,playback,App crashes or freezes,7,27,3.857143,27,7
+usability.missing_features_after_update,usability,Features removed after update,9,26,2.888889,26,8
+usability.shuffle_behavior,usability,Poor or forced shuffle behavior,7,19,2.714286,19,9
+playback.false_connection_error,playback,False no-internet error during playback,5,17,3.400000,17,10
+playback.playback_interruption,playback,Playback stops or pauses unexpectedly,5,17,3.400000,17,11
+billing.forced_premium_trial,billing,Forced or pushed premium trial,5,15,3.000000,15,12
+playback.device_casting_issues,playback,Casting or external device connection issues,4,15,3.750000,15,13
+catalog.lyrics_unavailable,catalog,Lyrics not available for songs,5,14,2.800000,14,14
+catalog.missing_content,catalog,Missing songs or artists,4,13,3.250000,13,15
+downloads.offline_mode_broken,downloads,Offline mode not working,3,13,4.333333,13,16
+billing.payment_processing_failure,billing,Payment or subscription purchase failure,3,12,4.000000,12,17
+billing.premium_not_recognized,billing,Premium subscription not recognized,3,12,4.000000,12,18
+playback.unwanted_song_change,playback,Unwanted automatic song change,4,12,3.000000,12,19
+usability.queue_playlist_management,usability,Queue and playlist management issues,3,12,4.000000,12,20
+billing.pricing_complaints,billing,Pricing too high,3,9,3.000000,9,21
+usability.redesign_navigation,usability,Disruptive redesign or navigation difficulty,4,9,2.250000,9,22
+access.general,access,Other access complaints,2,8,4.000000,8,23
+access.login_connection_error,access,Login blocked by false connection error,2,8,4.000000,8,24
+access.unexpected_logout,access,Unexpected logout,2,8,4.000000,8,25
+catalog.unwanted_recommendations,catalog,Unwanted recommendations,3,7,2.333333,7,26
+downloads.general,downloads,Other downloads complaints,2,7,3.500000,7,27
+access.password_issues,access,Password not accepted,1,4,4.000000,4,28
+access.phone_verification_problems,access,Phone number verification failure,1,4,4.000000,4,29
+downloads.cannot_download_free,downloads,Cannot download without premium,1,4,4.000000,4,30
+downloads.download_connection_error,downloads,Download blocked by false connection error,1,4,4.000000,4,31
+downloads.downloads_disappear,downloads,Downloaded songs disappear,1,4,4.000000,4,32
+catalog.search_preview_limitation,catalog,Search only returns short previews,1,3,3.000000,3,33
+billing.general,billing,Other billing complaints,1,2,2.000000,2,34
+catalog.general,catalog,Other catalog complaints,1,2,2.000000,2,35
+playback.resource_usage,playback,"High data, battery, or storage use",1,2,2.000000,2,36
+usability.lyrics_display_issues,usability,Lyrics display problems,1,2,2.000000,2,37

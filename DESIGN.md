@@ -114,7 +114,27 @@ The change produces a new `label_config` prompt hash.
 
 ## Examples of applying the shared definitions
 
-These examples show how the rules are written into the rubric. Examples from actual run output will be added after the development runs.
+### Real reviews from the 500-review run
+
+These are pipeline labels, quoted from the source data. Golden-set reviews are deliberately not used here.
+
+| Review ID | Review (abridged) | topic | intent | sev | Rule it shows |
+|---|---|---|---|---|---|
+| `686fa8a8…` | "Getting no token provided message… can't fix it and it's making me angry enough to unsusubscribe." | access | cancellation | 4 | A threat to leave → `cancellation`; can't get in → blocked core task (4); anger doesn't raise severity |
+| `035213ba…` | "…now m uninstald this app cz his premium adds are everywhere now." | usability | cancellation | 2 | Ad interruptions → `usability`; uninstalling → `cancellation`, which doesn't raise severity |
+| `66c56c76…` | "…basically impossible to play the tracks in their intended order without premium… locking basic functionality behind a paywall" | billing | complaint | 3 | An explicitly premium-only control → `billing`; restricted function with some use left (3). The Claude verifier said `usability` here, against the contract |
+| `b03d6dc9…` | "integrations buggy, offline mode USELESS, and moving storage failed and deleted everything" | downloads | complaint | 5 | Several problems → the most severe one wins; explicit data loss → 5 |
+| `4519d4b9…` | "Bring back lyrics feature 🐌" | catalog | request | 1 | Asks for a change, reports no failure → `request`, severity 1 |
+| `9f1daf2a…` | "Victor wood" | other | unclear | 1 | Unrelated or meaningless text → `unclear` |
+| `9ef99a2e…` | "Inspirirational" | other | praise | 1 | General praise → `other`. A boundary case: the verifier said `unclear` |
+| `6eb64519…` | "useless music app music k naam pe khaali ad dikhata hai." | usability | complaint | **4** | **A likely error.** Ad overload with no loss of function should be 2. The verifier said 2, so the record is flagged `needs_review` (see the README trace) |
+| `08c07310…` | Hindi: roughly "how much money do you want… looting the poor… my friend went into depression because of you" | billing | complaint | **5** | **Questionable.** It is a price complaint; whether the depression remark counts as explicit health harm is debatable. Jev's confidence was 0.48 (low band) |
+
+Two of the 500 run's three severity-5 labels fall in the low-confidence band. That is one reason severity 5 is reported with care, and why a low-confidence fallback is under consideration.
+
+### Rule illustrations (made-up reviews)
+
+These show how each rule is written into the rubric.
 
 | Review (abridged) | topic | intent | severity | Rule applied |
 |---|---|---|---|---|

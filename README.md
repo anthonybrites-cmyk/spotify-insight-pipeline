@@ -2,7 +2,7 @@
 
 Advising Spotify at the end of the May 2022 – Nov 2023 review window: **where should next quarter's product effort go — access, usability, playback, or billing/support?** This repository is a saved program that turns the 660,622-review CSV into that recommendation, with traceable evidence.
 
-> **Status: pipeline built and tested offline only.** No development run or full-corpus run has been made yet, so this README reports no results, costs or labels. Every results section below is marked *pending* until real runs fill it. Offline tests use fake providers and are **not** run evidence.
+> **Status (2026-09-30): development runs complete; the full-corpus run has not been made yet.** [Development results](#development-results) come from real model calls on the 500-review checkpoint, the hand-labelled golden 50 and 13 synthetic injection cases. Anything about the full run is marked *pending*. Offline tests use fake providers and are **not** run evidence.
 
 - Grading export: [`grading/`](grading/) *(pending: full run)*
 - Human-readable results: [`results/`](results/) *(pending: full run)*
@@ -16,10 +16,10 @@ Advising Spotify at the end of the May 2022 – Nov 2023 review window: **where 
 |---|---|
 | **Deliverable 1** Accessible code, setup and artifacts | [Setup](#setup), [Run](#run), `requirements.txt`, `.env.example` (key names only), [`results/`](results/) *(pending)* |
 | **Deliverable 2** Architecture, shared schema, provenance | [Architecture](#architecture), `pipeline/rubric.py` (Jev questions), `pipeline/verify.py` / `group.py` / `memo.py` (role prompts and schemas), `label_config` on every record and call, `run_manifest.json` (code version, argv, settings) |
-| **Deliverable 3** Memo numbers linked to calculations and evidence | `claims.csv` ↔ `ranking.csv` (course checker recomputes both), `memo_check.json` (every number cited, and every issue ID and review ID validated) *(pending)* |
-| **Deliverable 4** Recommendation, alternatives, limitations | [`results/memo.md`](results/memo.md) *(pending)*, [Limits](#limits) |
-| **Testing 1** 50 human labels, per-field comparison, error analysis | [`evals/golden/`](evals/golden/): your labels, `summary.json`, `cases.json`, `disagreements.md` *(pending: your labels, then a golden run)* |
-| **Testing 2** Independent verification, planted-error and injection tests | `results/verification_report.json` and `verification_comparisons.json` *(pending)*; `results/planted_label_test.json` *(pending)*; [`evals/offline/planted_export_errors.json`](evals/offline/planted_export_errors.json); `runs/eval-injection/results.json` → `evals/injection_results.json` *(pending)* |
+| **Deliverable 3** Memo numbers linked to calculations and evidence | `claims.csv` ↔ `ranking.csv` (course checker recomputes both), `memo_check.json` (every number cited, and every issue ID, review ID and quote validated). Development: [`evals/dev500/memo_v2.md`](evals/dev500/memo_v2.md), [`claims.csv`](evals/dev500/claims.csv), [`memo_check_v2.json`](evals/dev500/memo_check_v2.json). Final: *(pending)* |
+| **Deliverable 4** Recommendation, alternatives, limitations | Development memo [`evals/dev500/memo_v2.md`](evals/dev500/memo_v2.md); final [`results/memo.md`](results/memo.md) *(pending)*; [Limits](#limits) |
+| **Testing 1** 50 human labels, per-field comparison, error analysis | [`evals/golden/golden_50_human_labels.csv`](evals/golden/golden_50_human_labels.csv), [`summary.json`](evals/golden/summary.json), [`cases.json`](evals/golden/cases.json), [`disagreements.md`](evals/golden/disagreements.md), [`head_to_head.json`](evals/golden/head_to_head.json); [Golden set](#golden-set-50-hand-labelled-reviews) |
+| **Testing 2** Independent verification, planted-error and injection tests | [`evals/dev500/verification_report.json`](evals/dev500/verification_report.json), [`verification_comparisons.json`](evals/dev500/verification_comparisons.json), [`planted_label_test.json`](evals/dev500/planted_label_test.json), [`evals/injection_results.json`](evals/injection_results.json), [`evals/offline/planted_export_errors.json`](evals/offline/planted_export_errors.json) |
 | **Testing 3** Validation, bounded retries, failure accounting, usage, recovery | `pipeline/retry.py`, `results/run_summary.json` (retries, failures, tokens, cost, time) *(pending)*, `results/quarantine.jsonl` *(pending)*, [`evals/offline/test_report.txt`](evals/offline/test_report.txt) |
 | **Working 1** Full ingestion, coverage, classification | `results/ingestion_report.json`, `grading/ingestion.json`, self-check coverage *(pending)* |
 | **Working 2** Staged program, bounded calls, handoffs, resume | `python -m pipeline run`, `grading/calls.jsonl.gz`, `checkpoint_before.json` / `checkpoint_after.json`, recording *(pending)* |
@@ -156,13 +156,125 @@ Data: download the course ZIP from the link in the assignment brief, unzip it an
 - **Statuses.** Each record is `completed`, or `quarantined` with a `reason` and `attempts`. Reasons are `empty_review_text`, `enrich_failed: …`, or `pending_not_processed` for an incomplete run.
 - **Usage and cost.** These are provider-reported tokens times published list prices (Jev $0.042 per million input tokens, output free; Sonnet 5 $2/$10 per million), reported in `run_summary.json`. Failed attempts that returned no usage are logged with 0 tokens and `usage_available: false`; they are not estimated.
 
-## Results *(pending — filled only from real runs)*
+## Development results
 
-These are filled in from real runs; nothing here is estimated:
-- 500 run, 10k run, and full run: rows, completed, quarantined, cache reuse, verifier disagreements, measured cost and time
-- golden-set agreement
-- one review traced from source ID through enrichment, verification, issue, rank, and memo claim
-- one failed or ambiguous case and how it was handled
+Everything below comes from real API calls, as recorded in each run's `calls.jsonl`.
+- **Cost:** provider-reported tokens multiplied by list price. These are not invoices.
+- **Spend:** total development spend so far is **$0.53** of the $2 development cap.
+
+### 500-review checkpoint (`checkpoint_500.csv`)
+
+| Measure | Value |
+|---|---|
+| Source rows / completed / quarantined | 500 / **500** / 0 |
+| Distinct texts sent to Jev / exact-duplicate reuses (`cache_source_id`) | 479 / 21 |
+| Failed calls / retries | 0 / 0 |
+| `needs_review` true | 78 (15.6%) |
+| Issues ranked / complaint memberships | 37 / 248 |
+| Course checker coverage | 500/500 valid; its only flags are the missing interruption/resume evidence, which comes from the full run ([`self-check.json`](evals/dev500/self-check.json)) |
+| `rerank` from the saved export | identical ranking (sha256 `09b2b327…`) |
+| Wall-clock time by stage | enrich 16 s, verify 68 s, group 25 s, memo 106 s (three memo invocations) |
+
+**Usage and cost by role:**
+
+| Role | Model | Successful calls | Input tokens | Output tokens | Cost |
+|---|---|---|---|---|---|
+| enrich | `jev-1.13.0` | 479 | 720,534 | 107,143 | $0.0303 |
+| verify | `claude-sonnet-5` | 2 | 11,036 | 9,060 | $0.1127 |
+| group (taxonomy) | `claude-sonnet-5` | 1 | 8,446 | 2,016 | $0.0371 |
+| group (assignment) | `jev-1.13.0` | 177 | 108,049 | 16,341 | $0.0045 |
+| memo | `claude-sonnet-5` | 7 | 51,872 | 13,482 | $0.2386 |
+| **Total** | | | | | **$0.4231** |
+
+The memo was run three times. The first version used an outdated prompt structure, which was then fixed ([`memo_v1_old_prompt.md`](evals/dev500/memo_v1_old_prompt.md)). The second time, a false alarm in the money check forced a revision; the check now allows sentences that only say money data is absent. The development memo ([`memo_v2.md`](evals/dev500/memo_v2.md)) recommends **usability**: `usability.ad_frequency` (rank 2) and `usability.playback_control_restrictions`, closely tied to `billing.features_locked_behind_premium` (rank 3). Rank 1, `other.general`, holds non-specific complaints. *Development sample only; the final recommendation comes from the full run.*
+
+### Independent verification: Claude labels blind, code compares
+
+The declared random sample is 100 distinct texts; golden-50 IDs are excluded. The verifier never sees Jev's labels.
+
+| Jev confidence band | n | Topic | Intent | Severity exact | All three | Material disagreements |
+|---|---|---|---|---|---|---|
+| All (headline) | 100 | 90% | 98% | 87% | 77% | 13 |
+| High (≥0.8) | 61 | 95% | 98% | 98% | 92% | 4 |
+| Mid (0.5–0.8) | 27 | 85% | 96% | 74% | 59% | 6 |
+| Low (<0.5) | 12 | 75% | 100% | 58% | 42% | 3 |
+
+- **Planted wrong label.** In a separate copy of the comparisons, Jev's topic was deliberately changed on 25 agreeing cases. The comparison code caught **25 of 25**.
+- **Who is right varies.** On premium-only controls, the contract says `billing`. Jev followed that, while Claude chose `usability` (e.g. `66c56c76…`).
+
+### Golden set (50 hand-labelled reviews)
+
+The labels were written and committed before any model run (commit `821258d`). Enrichment ran on a copy with the label columns stripped (`golden-input`). The scoring is strict: each prediction must match the single primary human label.
+
+| | Topic | Intent | Severity exact | All three | Severity MAE |
+|---|---|---|---|---|---|
+| **Jev (pipeline)** | 88% | 96% | 84% | 74% | 0.24 |
+| Lenient: also accepts the alternatives you noted | 90% | 98% | 88% | — | — |
+
+Other measures:
+- **Sentiment:** MAE 0.118; 48 of 50 within the predeclared ±0.5 tolerance.
+- **Ambiguous cases:** 4.
+- **Missing or quarantined predictions:** 0.
+- **`needs_review` treated as a prediction:** precision 0.33, recall 0.33 (2 true positives, 4 false positives, 4 false negatives). It does not yet track human judgment well.
+
+**Error analysis.** 13 rows have a label disagreement and 1 differs only on sentiment; all are listed in [`disagreements.md`](evals/golden/disagreements.md). The main patterns:
+1. **Severity 2 vs 3 for premium restrictions and ad load.** Jev rates "basic features are premium" and "unusable with constant ads" as 3 (a restricted function). The human label is 2 (annoyance).
+2. **Usability vs playback** when an update removes controls ("can't play the songs I like / can't rewind"). Jev chose playback; the human chose usability.
+3. **Health harm.** For "my ears feel like they explode", Jev chose 5 under the amended severity-5 definition; the human label is 2. This is the case that prompted the amendment ([DESIGN.md](DESIGN.md)).
+4. **Low confidence predicts errors.** Jev got all three labels right on only 1 of the 7 golden reviews where its confidence was below 0.5.
+
+**Jev vs Claude on the same 50** ([`head_to_head.json`](evals/golden/head_to_head.json), one Claude call, $0.064). This comparison is disclosed because it informs the choice of final setup.
+
+| Jev confidence band | n | Jev all three | Claude all three |
+|---|---|---|---|
+| High (≥0.8) | 32 | **90.6%** | 84.4% |
+| Mid | 11 | **63.6%** | 54.5% |
+| Low (<0.5) | 7 | 14.3% | **71.4%** |
+| All | 50 | 74% | 76% |
+
+### Injection and control cases ([`evals/injection_results.json`](evals/injection_results.json))
+
+There are 13 synthetic reviews: 7 prompt-injection attempts and 6 controls, including a held-out physical-harm case. **All 13 passed through Jev, and all 13 passed through the Claude verifier** (one 13-review batch, with returned IDs checked). Cost: $0.018. These cases are excluded from all business results.
+
+### Design experiments
+
+- **Compact Jev wording** ([`rubric_compact_vs_full.json`](evals/dev500/rubric_compact_vs_full.json)): 1,085 vs 1,504 tokens per review (−28%). Agreement with the same blind verifier labels was topic 87% vs 90%, intent 98% vs 98%, and severity 88% vs 87%. **Decision: keep the full wording.** The saving (~$8.50 on the full run) did not justify the small loss in topic agreement.
+- **Language:** the 500 sample has only 12 non-English candidates, so the language comparison runs at 10k (`--verify-extra-groups`).
+
+### Full-run cost estimate (projected from measured rates; *not* an actual cost)
+
+| Component | Basis | Estimate |
+|---|---|---|
+| Jev labels | 484,189 texts × 1,504 tokens × $0.042/M | ~$30.60 |
+| Jev grouping | ~179k complaint texts × 610 tokens | ~$4.60 |
+| Claude verify (1,000) + taxonomy + memo | measured per-call cost | ~$1.30 |
+| **Baseline total** | | **~$36.50** |
+| Optional: Claude fallback for low-confidence texts (~14%, ~68k texts) | $0.0645 per 50-review call; Batch API halves it | +~$44 (Batch) to +~$87 (standard) |
+| Optional: translation of 18,821 non-English texts | not yet measured | decided after the 10k comparison |
+
+Runtime: about 4.5 h of Jev enrichment plus about 1.7 h of grouping at 30 requests/s. Decisions to make before the 10k run: whether to add the low-confidence fallback (likely via the Batch API), whether to translate, and the full-run cap.
+
+### Full run *(pending)*
+
+When the full run is done, this section will report:
+- rows, completed, quarantined, cache reuse, verifier disagreements, measured cost and time
+- the interruption/resume evidence
+- one review traced end to end, from source ID to memo claim
+
+### One review traced end to end (500 run)
+
+`6eb64519-37d4-4591-a47a-bbb96357de36`: "useless music app music k naam pe khaali ad dikhata hai." (Hinglish: roughly "in the name of music it only shows ads").
+
+| Stage | What happened | Saved evidence |
+|---|---|---|
+| ingest | row hash `27db8f50…`; language group `non_english_latin`; rating 1 (never sent to a model) | `ingest/sources.jsonl` |
+| enrich | Jev: `usability` / `complaint` / severity **4** (P(4)=0.67, P(2)=0.31; severity confidence 0.58); sentiment −0.975; entity `Ads`; the quote is the whole text | `enrich/results.jsonl`, `calls.jsonl` |
+| verify | in the random sample. Claude (blind): `usability` / `complaint` / severity **2**: "Complains about excessive ads interrupting music." The 2-level gap counts as a material disagreement, so `needs_review` = true | `verify/comparisons.json` |
+| group | Jev assigns it to `usability.ad_frequency` | `group/assignments.jsonl`, `membership.csv` |
+| rank | `usability.ad_frequency` is rank 2: 30 complaints, severity sum 65, mean 2.166667 | `ranking.csv` |
+| memo | cited as representative review `6eb64519…` next to claims C05–C08 | `memo_v2.md`, `claims.csv` |
+
+**This is also the ambiguous-case example.** By the shared definitions, ad overload with no stated loss of function is severity 2, so the verifier is probably right and Jev's 4 is probably too high. The record keeps Jev's label, which keeps a single `label_config`, and it is flagged `needs_review`. It is included in the ranking with severity 4. That is exactly the kind of low-confidence case a Claude fallback would re-decide.
 
 ## Tests *(offline evidence in [`evals/offline/`](evals/offline/))*
 
@@ -180,7 +292,7 @@ Offline tests use fake providers, with no network and no spend. They cover:
 - the planted wrong label caught by the verification comparison
 - nine planted export errors, each flagged by the course checker
 
-Run with `EVIDENCE_DIR=evals/offline` to refresh the saved outcomes. The live injection eval (`eval-injection`) has 12 synthetic cases: 7 adversarial and 5 controls.
+Run with `EVIDENCE_DIR=evals/offline` to refresh the saved outcomes. The live injection eval (`eval-injection`) has 13 synthetic cases: 7 adversarial and 6 controls.
 
 ## Limits
 

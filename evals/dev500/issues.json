@@ -1,0 +1,240 @@
+{
+  "issues": {
+    "access.general": {
+      "definition": "access complaints that match no more specific subtopic, or are too vague to place.",
+      "name": "Other access complaints",
+      "source": "code_catch_all",
+      "topic": "access"
+    },
+    "access.login_connection_error": {
+      "definition": "User cannot log in because the app incorrectly reports no internet connection despite having connectivity.",
+      "name": "Login blocked by false connection error",
+      "source": "model",
+      "topic": "access"
+    },
+    "access.password_issues": {
+      "definition": "Complaints that the app will not accept the user's correct password.",
+      "name": "Password not accepted",
+      "source": "model",
+      "topic": "access"
+    },
+    "access.phone_verification_problems": {
+      "definition": "Login or account recovery is blocked by repeated or failed demands to verify a phone number.",
+      "name": "Phone number verification failure",
+      "source": "model",
+      "topic": "access"
+    },
+    "access.unexpected_logout": {
+      "definition": "User is automatically logged out of their account without action on their part and cannot log back in.",
+      "name": "Unexpected logout",
+      "source": "model",
+      "topic": "access"
+    },
+    "billing.features_locked_behind_premium": {
+      "definition": "Complaints that core features like skip, repeat, queue, or lyrics now require a premium subscription.",
+      "name": "Basic features locked behind premium",
+      "source": "model",
+      "topic": "billing"
+    },
+    "billing.forced_premium_trial": {
+      "definition": "Complaints about being forced into a free trial or constantly prompted to upgrade to premium.",
+      "name": "Forced or pushed premium trial",
+      "source": "model",
+      "topic": "billing"
+    },
+    "billing.general": {
+      "definition": "billing complaints that match no more specific subtopic, or are too vague to place.",
+      "name": "Other billing complaints",
+      "source": "code_catch_all",
+      "topic": "billing"
+    },
+    "billing.payment_processing_failure": {
+      "definition": "Issues completing a premium purchase, such as blank pages or unresponsive payment prompts.",
+      "name": "Payment or subscription purchase failure",
+      "source": "model",
+      "topic": "billing"
+    },
+    "billing.premium_not_recognized": {
+      "definition": "User has paid for premium but the app still shows ads, restrictions, or a subscription-paused screen.",
+      "name": "Premium subscription not recognized",
+      "source": "model",
+      "topic": "billing"
+    },
+    "billing.pricing_complaints": {
+      "definition": "General complaints about the cost of premium or subscription pricing being too expensive.",
+      "name": "Pricing too high",
+      "source": "model",
+      "topic": "billing"
+    },
+    "catalog.general": {
+      "definition": "catalog complaints that match no more specific subtopic, or are too vague to place.",
+      "name": "Other catalog complaints",
+      "source": "code_catch_all",
+      "topic": "catalog"
+    },
+    "catalog.lyrics_unavailable": {
+      "definition": "Lyrics are missing or inconsistently available for certain songs.",
+      "name": "Lyrics not available for songs",
+      "source": "model",
+      "topic": "catalog"
+    },
+    "catalog.missing_content": {
+      "definition": "Specific songs, artists, or content are not available or have been removed from the catalog.",
+      "name": "Missing songs or artists",
+      "source": "model",
+      "topic": "catalog"
+    },
+    "catalog.search_preview_limitation": {
+      "definition": "Searching for a song only returns a short clip instead of full playback.",
+      "name": "Search only returns short previews",
+      "source": "model",
+      "topic": "catalog"
+    },
+    "catalog.unwanted_recommendations": {
+      "definition": "Complaints about recommended songs or playlist additions appearing despite being unwanted or disabled in settings.",
+      "name": "Unwanted recommendations",
+      "source": "model",
+      "topic": "catalog"
+    },
+    "downloads.cannot_download_free": {
+      "definition": "Complaints that downloading music is blocked for free users.",
+      "name": "Cannot download without premium",
+      "source": "model",
+      "topic": "downloads"
+    },
+    "downloads.download_connection_error": {
+      "definition": "App reports no internet connection preventing downloads despite having connectivity.",
+      "name": "Download blocked by false connection error",
+      "source": "model",
+      "topic": "downloads"
+    },
+    "downloads.downloads_disappear": {
+      "definition": "Previously downloaded or saved songs vanish and must be re-downloaded.",
+      "name": "Downloaded songs disappear",
+      "source": "model",
+      "topic": "downloads"
+    },
+    "downloads.general": {
+      "definition": "downloads complaints that match no more specific subtopic, or are too vague to place.",
+      "name": "Other downloads complaints",
+      "source": "code_catch_all",
+      "topic": "downloads"
+    },
+    "downloads.offline_mode_broken": {
+      "definition": "Offline listening mode fails to function or is unusable.",
+      "name": "Offline mode not working",
+      "source": "model",
+      "topic": "downloads"
+    },
+    "other.general": {
+      "definition": "other complaints that match no more specific subtopic, or are too vague to place.",
+      "name": "Other other complaints",
+      "source": "code_catch_all",
+      "topic": "other"
+    },
+    "playback.app_crash_freeze": {
+      "definition": "App crashes, freezes, gets stuck on loading screen, or shows black screen.",
+      "name": "App crashes or freezes",
+      "source": "model",
+      "topic": "playback"
+    },
+    "playback.device_casting_issues": {
+      "definition": "Problems connecting or casting to other devices like smart speakers, consoles, or Google Assistant.",
+      "name": "Casting or external device connection issues",
+      "source": "model",
+      "topic": "playback"
+    },
+    "playback.false_connection_error": {
+      "definition": "App reports no internet connection during playback despite a working connection.",
+      "name": "False no-internet error during playback",
+      "source": "model",
+      "topic": "playback"
+    },
+    "playback.general": {
+      "definition": "playback complaints that match no more specific subtopic, or are too vague to place.",
+      "name": "Other playback complaints",
+      "source": "code_catch_all",
+      "topic": "playback"
+    },
+    "playback.offline_mode_connectivity_requirement": {
+      "definition": "Offline or downloaded content still requires an internet connection to start or access.",
+      "name": "Offline mode requires connection",
+      "source": "model",
+      "topic": "playback"
+    },
+    "playback.playback_interruption": {
+      "definition": "Music or podcasts stop, pause, or halt mid-play without user action.",
+      "name": "Playback stops or pauses unexpectedly",
+      "source": "model",
+      "topic": "playback"
+    },
+    "playback.resource_usage": {
+      "definition": "Complaints about excessive data, battery, or storage consumption by the app.",
+      "name": "High data, battery, or storage use",
+      "source": "model",
+      "topic": "playback"
+    },
+    "playback.unwanted_song_change": {
+      "definition": "App automatically plays a different song than the one selected or skips unexpectedly.",
+      "name": "Unwanted automatic song change",
+      "source": "model",
+      "topic": "playback"
+    },
+    "support.general": {
+      "definition": "support complaints that match no more specific subtopic, or are too vague to place.",
+      "name": "Other support complaints",
+      "source": "code_catch_all",
+      "topic": "support"
+    },
+    "usability.ad_frequency": {
+      "definition": "Complaints about the number, length, loudness, or frequency of ads interrupting music playback.",
+      "name": "Excessive or intrusive ads",
+      "source": "model",
+      "topic": "usability"
+    },
+    "usability.general": {
+      "definition": "usability complaints that match no more specific subtopic, or are too vague to place.",
+      "name": "Other usability complaints",
+      "source": "code_catch_all",
+      "topic": "usability"
+    },
+    "usability.lyrics_display_issues": {
+      "definition": "Complaints about lyrics not showing, bad font, or lyrics missing in the interface.",
+      "name": "Lyrics display problems",
+      "source": "model",
+      "topic": "usability"
+    },
+    "usability.missing_features_after_update": {
+      "definition": "Complaints that previously available features (search in playlist, lyrics, queue, previous song) were removed in an update.",
+      "name": "Features removed after update",
+      "source": "model",
+      "topic": "usability"
+    },
+    "usability.playback_control_restrictions": {
+      "definition": "Complaints about limited skips, inability to repeat, pick, or play a specific song instead of shuffle.",
+      "name": "Limited skip, repeat, or song selection controls",
+      "source": "model",
+      "topic": "usability"
+    },
+    "usability.queue_playlist_management": {
+      "definition": "Complaints about inability to manage queue, view liked songs list, or playlist order being disrupted.",
+      "name": "Queue and playlist management issues",
+      "source": "model",
+      "topic": "usability"
+    },
+    "usability.redesign_navigation": {
+      "definition": "Complaints about new layouts, home screens, or icon sizes making the app harder to navigate or find content.",
+      "name": "Disruptive redesign or navigation difficulty",
+      "source": "model",
+      "topic": "usability"
+    },
+    "usability.shuffle_behavior": {
+      "definition": "Complaints that shuffle plays the same songs repeatedly, plays unwanted songs, or cannot be turned off (e.g. Smart Shuffle).",
+      "name": "Poor or forced shuffle behavior",
+      "source": "model",
+      "topic": "usability"
+    }
+  },
+  "taxonomy_handoff": "taxonomy_67f27b2a8d65",
+  "taxonomy_label_config": "claude-sonnet-5+group-taxonomy-af9e131d9244+schema-v1"
+}
