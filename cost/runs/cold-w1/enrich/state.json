@@ -1,0 +1,58 @@
+{
+  "early_gate": {
+    "accepted_override": false,
+    "allowed_at_gate_usd": "0.500",
+    "evaluated_at": "2026-10-01T06:55:35+00:00",
+    "fraction_done": "0.1",
+    "linear_projection_usd": "0.0193",
+    "passed": true,
+    "projected_fallback_usd_included": "0.0013",
+    "spend_at_gate_usd": "0.001926430"
+  },
+  "invocations": [
+    {
+      "completed_at_end": 100,
+      "completed_at_start": 0,
+      "ended": "2026-10-01T06:56:05+00:00",
+      "failed_this_invocation": 0,
+      "fallback": {
+        "effort": "medium",
+        "max_fraction": 0.2,
+        "mode": "standard",
+        "model": "claude-sonnet-5",
+        "tag": "fallback-claude-sonnet-5-effort-medium-t0.5-cap0.2-0b2d587959",
+        "threshold": 0.5
+      },
+      "label_config": "jev-1.13.0+prompt-1f4c113e8ac0+fallback-claude-sonnet-5-effort-medium-t0.5-cap0.2-0b2d587959+schema-v1",
+      "pending_at_start": 100,
+      "phase": "initial",
+      "snapshot": "enrich_complete.json",
+      "spend_before_usd": "0",
+      "started": "2026-10-01T06:55:33+00:00",
+      "stop_reason": null,
+      "succeeded_this_invocation": 100
+    },
+    {
+      "completed_at_end": 100,
+      "completed_at_start": 100,
+      "ended": "2026-10-01T06:58:10+00:00",
+      "failed_this_invocation": 0,
+      "fallback": {
+        "effort": "medium",
+        "max_fraction": 0.2,
+        "mode": "standard",
+        "model": "claude-sonnet-5",
+        "tag": "fallback-claude-sonnet-5-effort-medium-t0.5-cap0.2-0b2d587959",
+        "threshold": 0.5
+      },
+      "label_config": "jev-1.13.0+prompt-1f4c113e8ac0+fallback-claude-sonnet-5-effort-medium-t0.5-cap0.2-0b2d587959+schema-v1",
+      "pending_at_start": 0,
+      "phase": "resume",
+      "snapshot": "enrich_complete.json",
+      "spend_before_usd": "0.177591654",
+      "started": "2026-10-01T06:58:10+00:00",
+      "stop_reason": null,
+      "succeeded_this_invocation": 0
+    }
+  ]
+}

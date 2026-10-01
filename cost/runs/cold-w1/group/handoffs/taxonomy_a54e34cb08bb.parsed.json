@@ -1,0 +1,147 @@
+{
+  "topics": [
+    {
+      "subtopics": [
+        {
+          "definition": "User's password or login is not accepted by the app.",
+          "name": "Login credentials rejected",
+          "slug": "login_credentials_rejected"
+        },
+        {
+          "definition": "User cannot get into their account at all, preventing use of the app.",
+          "name": "Locked out of account",
+          "slug": "locked_out_of_account"
+        }
+      ],
+      "topic": "access"
+    },
+    {
+      "subtopics": [
+        {
+          "definition": "Complaints about ads playing too often, interrupting songs too quickly, or being too loud.",
+          "name": "Ad frequency and volume",
+          "slug": "ad_frequency_volume"
+        },
+        {
+          "definition": "Complaints about limited number of skips or inability to skip songs.",
+          "name": "Skip restrictions",
+          "slug": "skip_restrictions"
+        },
+        {
+          "definition": "Complaints that songs play randomly or a whole playlist must be played instead of a single chosen song.",
+          "name": "Forced shuffle or playlist play",
+          "slug": "shuffle_forced_playback"
+        },
+        {
+          "definition": "Complaints that basic controls like rewind, repeat, or playing a specific part/song are unavailable without premium.",
+          "name": "Missing basic player controls for free users",
+          "slug": "missing_free_controls"
+        },
+        {
+          "definition": "Difficulty managing the queue or playlists, such as adding or reordering songs.",
+          "name": "Queue and playlist management issues",
+          "slug": "queue_playlist_management"
+        },
+        {
+          "definition": "Complaints specifically about new homescreen or layout/design changes being confusing or worse.",
+          "name": "UI redesign complaints",
+          "slug": "ui_redesign_complaints"
+        },
+        {
+          "definition": "Complaints about automatically playing audio or video elements with no way to disable them.",
+          "name": "Unwanted autoplay audio/video",
+          "slug": "autoplay_video_audio"
+        },
+        {
+          "definition": "Bugs related to volume or audio adjustment controls not working properly.",
+          "name": "Audio adjustment bugs",
+          "slug": "audio_adjustment_bugs"
+        }
+      ],
+      "topic": "usability"
+    },
+    {
+      "subtopics": [
+        {
+          "definition": "App crashes, freezes, or gets stuck on a loading screen.",
+          "name": "App crash or freeze",
+          "slug": "app_crash_freeze"
+        },
+        {
+          "definition": "Music stops halfway, skips to a new song, or doesn't resume properly.",
+          "name": "Playback stopping or skipping unexpectedly",
+          "slug": "playback_interruption"
+        },
+        {
+          "definition": "Issues using Google Assistant or similar voice assistants to control Spotify playback.",
+          "name": "Voice assistant integration failure",
+          "slug": "voice_assistant_integration"
+        },
+        {
+          "definition": "Problems connecting to the internet or streaming over wifi/data.",
+          "name": "Connectivity and streaming errors",
+          "slug": "connectivity_streaming_errors"
+        }
+      ],
+      "topic": "playback"
+    },
+    {
+      "subtopics": [
+        {
+          "definition": "Downloaded or offline music does not work as expected.",
+          "name": "Offline playback failure",
+          "slug": "offline_playback_failure"
+        },
+        {
+          "definition": "App repeatedly asks user to download or re-download content, perceived as a bug or dark pattern.",
+          "name": "Repeated download prompts",
+          "slug": "repeated_download_prompts"
+        }
+      ],
+      "topic": "downloads"
+    },
+    {
+      "subtopics": [
+        {
+          "definition": "Complaints that specific songs, artists, or genres are not available on the platform.",
+          "name": "Missing songs or artists",
+          "slug": "missing_songs_artists"
+        },
+        {
+          "definition": "Complaints that lyrics are missing or inconsistently shown for songs.",
+          "name": "Lyrics unavailable or inconsistent",
+          "slug": "lyrics_unavailable"
+        },
+        {
+          "definition": "Complaints about the quality, relevance, or amount of personalized recommendations.",
+          "name": "Recommendation quality or frequency",
+          "slug": "recommendation_quality"
+        }
+      ],
+      "topic": "catalog"
+    },
+    {
+      "subtopics": [
+        {
+          "definition": "Complaints that basic playback features like skip, choose song, or go back were moved behind a Premium paywall.",
+          "name": "Features locked behind Premium",
+          "slug": "features_locked_behind_premium"
+        },
+        {
+          "definition": "Complaints specifically about a limited number of skips (e.g. 6 songs) for free users.",
+          "name": "Skip limit for non-subscribers",
+          "slug": "skip_limit_non_subscribers"
+        }
+      ],
+      "topic": "billing"
+    },
+    {
+      "subtopics": [],
+      "topic": "support"
+    },
+    {
+      "subtopics": [],
+      "topic": "other"
+    }
+  ]
+}

@@ -1,0 +1,64 @@
+{
+  "budget_group": "dev",
+  "budget_usd": 5.0,
+  "claude_effort": "medium",
+  "claude_max_tokens": 16000,
+  "exclude_golden_ids_from": "/Users/anthonybrites/code/NEW - Final Assignment - Spotify Reviews Dataset/golden_50_to_label.csv",
+  "fake": false,
+  "fallback": "standard",
+  "fallback_max_fraction": 0.2,
+  "fallback_threshold": 0.5,
+  "input": "/Users/anthonybrites/code/NEW - Final Assignment - Spotify Reviews Dataset/cost_100.csv",
+  "input_sha256": "c884ac3b9be5066995d5063f96ad9af6e5e082975788c1684c4f6b6ea661dd0e",
+  "invocations": [
+    {
+      "argv": [
+        "cost",
+        "pilot",
+        "--input",
+        "/Users/anthonybrites/code/NEW - Final Assignment - Spotify Reviews Dataset/cost_100.csv",
+        "--label",
+        "cold-w1",
+        "--workers",
+        "1",
+        "--exclude-golden",
+        "/Users/anthonybrites/code/NEW - Final Assignment - Spotify Reviews Dataset/golden_50_to_label.csv"
+      ],
+      "code_version": "bdc5220ebe17160b3168337351fd0f3f16768e32",
+      "id": "20260930T235533-b77ff9",
+      "started": "2026-09-30T23:55:33-0700"
+    },
+    {
+      "argv": [
+        "cost",
+        "pilot",
+        "--input",
+        "/Users/anthonybrites/code/NEW - Final Assignment - Spotify Reviews Dataset/cost_100.csv",
+        "--warm-of",
+        "cold-w1",
+        "--workers",
+        "1",
+        "--exclude-golden",
+        "/Users/anthonybrites/code/NEW - Final Assignment - Spotify Reviews Dataset/golden_50_to_label.csv"
+      ],
+      "code_version": "1a22b7ee15e9e404894ec9d733f61f2588ed3a04",
+      "id": "20260930T235810-6d43f2",
+      "started": "2026-09-30T23:58:10-0700"
+    }
+  ],
+  "max_minutes": null,
+  "rps": 30,
+  "rubric_variant": "full",
+  "run_id": "cold-w1-51f05fe7",
+  "stages": [
+    "ingest",
+    "enrich",
+    "verify",
+    "group",
+    "rank",
+    "recommend"
+  ],
+  "translate": false,
+  "verify_n": 20,
+  "workers": 1
+}

@@ -1,0 +1,25 @@
+## Recommendation
+
+Product effort for the next quarter should prioritize **usability**, which has the highest complaint volume and severity load of any topic (17 complaint/cancellation reviews, severity sum 44 [F14][F15]). Within usability, the two issues to fix first are `usability.ad_frequency_volume` (7 complaints, severity sum 16 [C05][C06]) and `usability.missing_free_controls` (3 complaints, severity sum 9 [C13][C14]), since these are the largest specific, placeable usability defects.
+
+## Evidence
+
+**`usability.ad_frequency_volume`** — 7 complaints, severity sum 16, mean severity 2.285714, priority score 16 [C05][C06][C07][C08]. Customers describe ads as too frequent and too loud, interrupting songs. Representative reviews: "The ads are so loud :'(" (ab67a772-c3b7-42ba-9b80-8d21d3857018) and "that always plays adds instead of songs ...if want to enjoy music free without adds don't download this app .." (cf6166ae-d71a-4839-9add-088645ad3b78).
+
+**`usability.missing_free_controls`** — 3 complaints, severity sum 9, mean severity 3.000000, priority score 9 [C13][C14][C15][C16]. Customers describe being unable to rewind, repeat, or play a specific part of a song. Representative review: "Can't repeat and play specific part.please solve this matter." (e16a4550-43e7-4ae1-b538-a65cc652c31b).
+
+**`usability.shuffle_forced_playback`** — 2 complaints, severity sum 6, mean severity 3.000000, priority score 6 [C21][C22][C23][C24], a related smaller usability issue worth bundling into the same workstream.
+
+For context, `other.general` (16 complaints, severity sum 33 [C01][C02]) is the single largest issue by complaint count, but it is a catch-all with no specific, placeable defect (e.g., "Useless aap", 9e3a706c-f502-4664-a23f-33f3480eca64; "Noob app", 2d5cdd20-3094-40a5-bc6e-653302b59b56), so it cannot drive concrete engineering work.
+
+## Alternatives considered
+
+- **Billing/support**: The `billing` topic has 5 complaint/cancellation reviews and severity sum 15 [F20][F21], led by `billing.features_locked_behind_premium` (5 complaints, severity sum 15, mean severity 3.000000, priority score 15 [C09][C10][C11][C12]), e.g. "This was fine till the last update, now you can't even pick a certain song without Spotify premium, and now you can only skip 6 songs..." (d146397f-4a94-4980-be00-ae9212eca3a7). This is a real and high-severity pain point, but its topic-level volume (5) is well below usability's (17 [F14]).
+- **Playback**: The `playback` topic has 5 complaint/cancellation reviews and severity sum 18 [F18][F19], with `playback.app_crash_freeze` at 2 complaints, severity sum 8, mean severity 4.000000 [C17][C18][C19]. Severity per complaint is high (e.g. "The latest update has caused my app to crash I cant open the app please fix.", 55cc3abf-c295-4591-8c3a-78085cfdefaa), but overall volume is lower than usability. If crash volume grows in a future window, this could become the top priority.
+- **Access**: The `access` topic has only 2 complaint/cancellation reviews and severity sum 8 [F24][F25], split across `access.locked_out_of_account` and `access.login_credentials_rejected` (1 complaint each, severity sum 4 each [C33][C34][C37][C38]). Volume is too small to prioritize this quarter absent new data showing growth.
+
+Usability ranks highest because it combines both the largest topic-level complaint count (17 [F14]) and a large severity sum (44 [F15]), and its top issues together account for a substantial share of ranked complaints (top 3 issues overall make up 52.8% of ranked complaint memberships [F09]).
+
+## Limits
+
+This analysis is based on a self-selected set of historical reviews (100 source reviews [F01], 100 completed classifications [F02]), not a representative or randomized sample. It contains no revenue, plan-tier, or confirmed-churn data; cancellation-intent reviews (10 [F06]) reflect stated intent, not confirmed cancellations. 10 completed reviews were flagged needs_review [F07], and these may affect topic counts. Verification agreement (topic agreement 100.0%, intent agreement 95.0%, severity mean absolute difference 0.1 [F11][F12][F13]) reflects agreement between two models on a 20-review sample [F10], not ground-truth accuracy. No reviews were quarantined for empty text or other failures (0, 0 [F03][F04]).

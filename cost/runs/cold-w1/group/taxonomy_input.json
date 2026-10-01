@@ -1,0 +1,110 @@
+[
+  {
+    "definition": "Logging in, signing up, passwords, verification codes, being logged out, or otherwise getting into the account.",
+    "distinct_complaint_texts": 2,
+    "sample_quotes": [
+      "Will not except my password",
+      "It not letting me into my account and there are to many ads"
+    ],
+    "topic": "access"
+  },
+  {
+    "definition": "Navigation, controls, layout or design changes, queue or playlist management, library organisation, shuffle or repeat behaviour, and interruptions or frequency of ads.",
+    "distinct_complaint_texts": 17,
+    "sample_quotes": [
+      "Na queue m lgte h gaane, na skip kr skte h, na random chla skte h, kya bkchodi h ye???",
+      "it's literally useless if u hv not taken premium",
+      "This app is killing it self and forcing you to pay premium for basic things like just listening to music.",
+      "We can't even go back few second to play music?",
+      "that always plays adds instead of songs ...if want to enjoy music free without adds don't download this app ..",
+      "Decent,just let me have a solid 4-5 songs without an ad bro, it's always every 1 or 2 song then instant ads, that's all thanks",
+      "The ads are so loud :'(",
+      "Soo trash wayy to many ads I don't want premium but too much ads",
+      "I am using Spotify from past two years From last update they removed basic features of music player",
+      "This app is nice but adds are too much",
+      "Rolling out big automatically playing audio elements,without any clear way to disable the automatic playing in the settings?",
+      "Can't repeat and play specific part.please solve this matter.",
+      "it plays any song of the Playlist randomly",
+      "There is some bugs like music adjustment doesn't work Perporly plz do something about this bug",
+      "I just want to listen to one song but nooo I have to go through A HOLE PLAYLIST AND I CAN ONLY SKIP 6 OF THEM 6!!!",
+      "I m using this app from 5 to 6 year but now m uninstald this app cz his premium adds are everywhere now .",
+      "Spotify is great, but the new homescreen update is horrible."
+    ],
+    "topic": "usability"
+  },
+  {
+    "definition": "Music or podcasts failing to play, stopping, pausing or skipping by themselves, crashes, freezing, lag, connection errors while streaming, audio quality, battery, data or storage use.",
+    "distinct_complaint_texts": 5,
+    "sample_quotes": [
+      "The latest update has caused my app to crash I cant open the app please fix.",
+      "App is stuck on loading/logo screen",
+      "Keep stopping halfway while playing music and it dun go back to where they stop and start playing a new song for you.",
+      "I am unable to use my Google assistant on the app.it says playing your Spotify playlist but do not play the songs",
+      "But this app if i using wifi not able to connect Internet."
+    ],
+    "topic": "playback"
+  },
+  {
+    "definition": "Downloading songs, saved or offline music, downloaded songs disappearing or needing to be downloaded again, offline listening.",
+    "distinct_complaint_texts": 2,
+    "sample_quotes": [
+      "Offline not workjng",
+      "Idk if it's clever marketing to get the user to open the app, or if it's a bug...either way it is very annoying and has forced me to consider canceling my premium after years of being a subscriber to Hulu/Spotify."
+    ],
+    "topic": "downloads"
+  },
+  {
+    "definition": "Missing or removed songs, artists or podcasts, search results, discovery, recommendations, radio or mixes, lyrics availability.",
+    "distinct_complaint_texts": 6,
+    "sample_quotes": [
+      "It's nice but gospel music isn't much",
+      "It is good but there is a problem that in some songs there is no lyrics and in some songs there is lyrics it's so confusing.",
+      "many songs are not present here",
+      "Please stop with the recommendations!",
+      "sometime the lyrics don't show",
+      "I love Spotify recommendations music type before more than now."
+    ],
+    "topic": "catalog"
+  },
+  {
+    "definition": "Price, charges, refunds, subscriptions, plans, trials, paywalls, Premium not activating or not recognised, and controls the review explicitly says are locked behind Premium. Merely mentioning Premium or being a paying customer is not billing.",
+    "distinct_complaint_texts": 5,
+    "sample_quotes": [
+      "I would request to remove all the new features .what's the point if we dont get to go back to the same song or skip songs..or choose .its not fair ..to restrict all the features jst so people would purchase premium ..its like forcing ..to d",
+      "This was fine till the last update, now you can't even pick a certain song without Spotify premium, and now you can only skip 6 songs, like please just let the songs fit my mood!",
+      "ability to skip a song or go to previous song has been removed from non subscribed users",
+      "This app the new update has made everthing premium and so usless i thought this app is good but no.",
+      "Why it requires premium just to play next music / to choose music ??"
+    ],
+    "topic": "billing"
+  },
+  {
+    "definition": "Contacting customer support and the support team's response.",
+    "distinct_complaint_texts": 0,
+    "sample_quotes": [],
+    "topic": "support"
+  },
+  {
+    "definition": "General praise or criticism with no specific feature (for example 'great app' or 'worst app'), unrelated content, political or boycott statements, gibberish, or no supported specific topic.",
+    "distinct_complaint_texts": 16,
+    "sample_quotes": [
+      "Worst app",
+      "Very bad app",
+      "Too much restrictions",
+      "Disappointing",
+      "Aakhir kar spotify ne bhi apni bhikaariyo vali aukaat dikha di \"Gadar karbe\" Chanda mangna got real Bhikaariyo ko training dena bhi shuru kardo haramiyo",
+      "I ended up on Spotify because I wanted to listen to a specific podcast I really thought I was a Pandora lover, but I haven't turned my Pandora on since I loaded Spotify.",
+      "Noob app",
+      "Used to love the app but recent update is very disappointing bye Spotify",
+      "Worst app.",
+      "Vary bad experience.i am uninstalling this app they burn quran and i will bycot this app as it is launched by swedan 🖕🖕🖕🖕🖕🖕🖕🖕🖕🖕🖕🖕🖕🖕🖕🖕🖕🖕🖕🖕🖕🖕🖕🖕🖕🖕🖕🖕",
+      "But now it's a trash 🗑️",
+      "RUDE APP , THIS APP SUPPORT GUYS 🤮🤮🤮🤮🤮🤮🤮🤮🤮🤮.",
+      "Useless aap",
+      "The update made the app useless ....",
+      "You deserve 0 star",
+      "Recent update 👎"
+    ],
+    "topic": "other"
+  }
+]

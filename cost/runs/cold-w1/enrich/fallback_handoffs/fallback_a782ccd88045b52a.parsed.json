@@ -1,0 +1,74 @@
+{
+  "results": [
+    {
+      "evidence_quote": "Useless aap",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Generic complaint plus boycott slogan, no specific feature.",
+      "review_id": "9e3a706c-f502-4664-a23f-33f3480eca64",
+      "sentiment": "negative",
+      "severity": 2,
+      "topic": "other"
+    },
+    {
+      "evidence_quote": "many songs are not present here",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Missing songs complaint mixed with praise.",
+      "review_id": "0658feaa-5bec-416e-b6b0-3de2a4c14580",
+      "sentiment": "neutral or mixed",
+      "severity": 3,
+      "topic": "catalog"
+    },
+    {
+      "evidence_quote": "Very good app enna advertisement verudu premium best",
+      "intent": "unclear",
+      "needs_review": true,
+      "reason": "Mixed language, meaning unclear, hard to parse intent.",
+      "review_id": "ed15bb17-865a-492b-ba1b-268f4cab78f6",
+      "sentiment": "positive",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "evidence_quote": "ability to skip a song or go to previous song has been removed from non subscribed users",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Premium-locked control restriction described explicitly.",
+      "review_id": "a3605554-5c3a-441d-836e-e9fdea83eb2e",
+      "sentiment": "negative",
+      "severity": 3,
+      "topic": "billing"
+    },
+    {
+      "evidence_quote": "Thik thak hi hai",
+      "intent": "unclear",
+      "needs_review": true,
+      "reason": "Vague neutral phrase, no clear sentiment or topic.",
+      "review_id": "084077ee-f9be-446a-9935-9e58550d5153",
+      "sentiment": "neutral or mixed",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "evidence_quote": "Bablu Bharti 😎😎",
+      "intent": "unclear",
+      "needs_review": true,
+      "reason": "Gibberish or name, no product content.",
+      "review_id": "0f2b7fd2-71a6-4657-998e-da44f5893956",
+      "sentiment": "neutral or mixed",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "evidence_quote": "it plays any song of the Playlist randomly",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Complaint about shuffle behavior degrading function.",
+      "review_id": "5c9c17d3-9d6a-4fa1-a2a4-ae98eefbbd25",
+      "sentiment": "negative",
+      "severity": 3,
+      "topic": "usability"
+    }
+  ]
+}

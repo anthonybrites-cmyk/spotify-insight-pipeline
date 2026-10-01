@@ -1,0 +1,115 @@
+{
+  "confusion_jev_to_verifier": {
+    "intent": {
+      "cancellation->cancellation": 2,
+      "cancellation->complaint": 1,
+      "complaint->complaint": 10,
+      "praise->praise": 7
+    },
+    "severity": {
+      "1->1": 7,
+      "2->2": 3,
+      "3->3": 7,
+      "4->2": 1,
+      "4->4": 2
+    },
+    "topic": {
+      "access->access": 1,
+      "billing->billing": 2,
+      "catalog->catalog": 1,
+      "downloads->downloads": 1,
+      "other->other": 10,
+      "playback->playback": 2,
+      "usability->usability": 3
+    }
+  },
+  "definition": "topic or intent differs, or severity differs by >= 2; these records get needs_review=true",
+  "enrich_label_config": "jev-1.13.0+prompt-1f4c113e8ac0+fallback-claude-sonnet-5-effort-medium-t0.5-cap0.2-0b2d587959+schema-v1",
+  "headline": "random:all (declared uniform random sample)",
+  "material_disagreements": 2,
+  "note": "Agreement between two models is not accuracy. random:* = declared random sample (headline); language_extra:* = all extra-language units; all_verified:language:* compares language groups across everything verified. For decided_by:claude_fallback the verifier is the same model family as the labeller, so that stratum is a consistency check, not independent verification.",
+  "strata": {
+    "all_verified:decided_by:claude_fallback": {
+      "all_three_agreement": 1.0,
+      "intent_agreement": 1.0,
+      "material_disagreements": 0,
+      "n": 2,
+      "severity_exact_agreement": 1.0,
+      "severity_mae": 0.0,
+      "topic_agreement": 1.0
+    },
+    "all_verified:decided_by:jev": {
+      "all_three_agreement": 0.8889,
+      "intent_agreement": 0.9444,
+      "material_disagreements": 2,
+      "n": 18,
+      "severity_exact_agreement": 0.9444,
+      "severity_mae": 0.1111,
+      "topic_agreement": 1.0
+    },
+    "all_verified:language:english": {
+      "all_three_agreement": 0.8947,
+      "intent_agreement": 0.9474,
+      "material_disagreements": 2,
+      "n": 19,
+      "severity_exact_agreement": 0.9474,
+      "severity_mae": 0.1053,
+      "topic_agreement": 1.0
+    },
+    "all_verified:language:short_unrecognised": {
+      "all_three_agreement": 1.0,
+      "intent_agreement": 1.0,
+      "material_disagreements": 0,
+      "n": 1,
+      "severity_exact_agreement": 1.0,
+      "severity_mae": 0.0,
+      "topic_agreement": 1.0
+    },
+    "all_verified:translated:False": {
+      "all_three_agreement": 0.9,
+      "intent_agreement": 0.95,
+      "material_disagreements": 2,
+      "n": 20,
+      "severity_exact_agreement": 0.95,
+      "severity_mae": 0.1,
+      "topic_agreement": 1.0
+    },
+    "random:all": {
+      "all_three_agreement": 0.9,
+      "intent_agreement": 0.95,
+      "material_disagreements": 2,
+      "n": 20,
+      "severity_exact_agreement": 0.95,
+      "severity_mae": 0.1,
+      "topic_agreement": 1.0
+    },
+    "random:high_confidence(>=0.8)": {
+      "all_three_agreement": 1.0,
+      "intent_agreement": 1.0,
+      "material_disagreements": 0,
+      "n": 11,
+      "severity_exact_agreement": 1.0,
+      "severity_mae": 0.0,
+      "topic_agreement": 1.0
+    },
+    "random:low_confidence(<0.5)": {
+      "all_three_agreement": 1.0,
+      "intent_agreement": 1.0,
+      "material_disagreements": 0,
+      "n": 2,
+      "severity_exact_agreement": 1.0,
+      "severity_mae": 0.0,
+      "topic_agreement": 1.0
+    },
+    "random:mid_confidence(0.5-0.8)": {
+      "all_three_agreement": 0.7143,
+      "intent_agreement": 0.8571,
+      "material_disagreements": 2,
+      "n": 7,
+      "severity_exact_agreement": 0.8571,
+      "severity_mae": 0.2857,
+      "topic_agreement": 1.0
+    }
+  },
+  "verify_label_config": "claude-sonnet-5+effort-medium+verify-0102d95afe14+schema-v1"
+}

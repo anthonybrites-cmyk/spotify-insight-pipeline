@@ -1,0 +1,402 @@
+[
+  {
+    "decided_by": "claude_fallback",
+    "evidence_quote": "it plays any song of the Playlist randomly",
+    "jev": {
+      "intent": "complaint",
+      "severity": 3,
+      "topic": "usability"
+    },
+    "jev_min_confidence": 0.42,
+    "material_disagreement": false,
+    "review_id": "5c9c17d3-9d6a-4fa1-a2a4-ae98eefbbd25",
+    "stratum": "random",
+    "unit": "1feb3562d216b2e627a20c18f5b8621dea1d18f4b4a72fc0875b648185a1cbed",
+    "verifier": {
+      "intent": "complaint",
+      "severity": 3,
+      "topic": "usability"
+    },
+    "verifier_reason": "Shuffle plays songs randomly, disrupting listening order."
+  },
+  {
+    "decided_by": "jev",
+    "evidence_quote": "Amazing",
+    "jev": {
+      "intent": "praise",
+      "severity": 1,
+      "topic": "other"
+    },
+    "jev_min_confidence": 1.0,
+    "material_disagreement": false,
+    "review_id": "277c75cb-ec6a-4387-902d-eb721d038db6",
+    "stratum": "random",
+    "unit": "60033b9c967dc874dd02f02b3fa422c8dcb2f9a24b5ab25202af7ba23ef3f8f0",
+    "verifier": {
+      "intent": "praise",
+      "severity": 1,
+      "topic": "other"
+    },
+    "verifier_reason": "General one-word praise with no specific feature."
+  },
+  {
+    "decided_by": "jev",
+    "evidence_quote": "We can't even go back few second to play music?",
+    "jev": {
+      "intent": "cancellation",
+      "severity": 3,
+      "topic": "usability"
+    },
+    "jev_min_confidence": 0.78,
+    "material_disagreement": false,
+    "review_id": "9e5f9745-f8be-48d3-b9de-4d118507d94a",
+    "stratum": "random",
+    "unit": "16148abbf0b9daa27befdb60eb1761d22e392b49f2832cde9e7b74f7c12a5e7f",
+    "verifier": {
+      "intent": "cancellation",
+      "severity": 3,
+      "topic": "usability"
+    },
+    "verifier_reason": "Cannot rewind song and threatens to delete app."
+  },
+  {
+    "decided_by": "jev",
+    "evidence_quote": "am, very thank and good for this app ......I Express feelings by listening song every song has preferred...😊🎶🎧",
+    "jev": {
+      "intent": "praise",
+      "severity": 1,
+      "topic": "other"
+    },
+    "jev_min_confidence": 0.8,
+    "material_disagreement": false,
+    "review_id": "9f3794ed-4f4b-4430-a548-9cfd2d0c0084",
+    "stratum": "random",
+    "unit": "9b85b0588e03d87fe258f06e68de0867bbf0f584539df812b87c7d2bc8b80dea",
+    "verifier": {
+      "intent": "praise",
+      "severity": 1,
+      "topic": "other"
+    },
+    "verifier_reason": "General positive feelings about app, no specific feature."
+  },
+  {
+    "decided_by": "jev",
+    "evidence_quote": "Love Spotify..",
+    "jev": {
+      "intent": "praise",
+      "severity": 1,
+      "topic": "other"
+    },
+    "jev_min_confidence": 0.67,
+    "material_disagreement": false,
+    "review_id": "7e91d976-20e5-40f0-a6f5-7312eadf7e78",
+    "stratum": "random",
+    "unit": "f7ac099f9b4eb5f98f6fddfb370ba4f5d741a0496fa3d4d342fe3aa3ad9dda05",
+    "verifier": {
+      "intent": "praise",
+      "severity": 1,
+      "topic": "other"
+    },
+    "verifier_reason": "General praise for app, no specific feature mentioned."
+  },
+  {
+    "decided_by": "jev",
+    "evidence_quote": "Love it",
+    "jev": {
+      "intent": "praise",
+      "severity": 1,
+      "topic": "other"
+    },
+    "jev_min_confidence": 1.0,
+    "material_disagreement": false,
+    "review_id": "4c0242ca-099a-4c89-b11b-219ef28f1e16",
+    "stratum": "random",
+    "unit": "f77124c3df5ebac375adbc9686260d132f30796647a3d3dae761d51db6bd832d",
+    "verifier": {
+      "intent": "praise",
+      "severity": 1,
+      "topic": "other"
+    },
+    "verifier_reason": "Short general praise, no specific feature."
+  },
+  {
+    "decided_by": "jev",
+    "evidence_quote": "I'm lovin it",
+    "jev": {
+      "intent": "praise",
+      "severity": 1,
+      "topic": "other"
+    },
+    "jev_min_confidence": 1.0,
+    "material_disagreement": false,
+    "review_id": "5db4a676-1f15-48cf-b989-a0a0fdb1c7a3",
+    "stratum": "random",
+    "unit": "ec51d9f8452c8c8c1778e693cd761a89a4d4b28b43922c79fea90c0661e286c6",
+    "verifier": {
+      "intent": "praise",
+      "severity": 1,
+      "topic": "other"
+    },
+    "verifier_reason": "Short general praise, no specific feature."
+  },
+  {
+    "decided_by": "jev",
+    "evidence_quote": "I can't use anything else but Spotify 💯👍🏼",
+    "jev": {
+      "intent": "praise",
+      "severity": 1,
+      "topic": "other"
+    },
+    "jev_min_confidence": 0.96,
+    "material_disagreement": false,
+    "review_id": "ba274609-2cbc-4d6a-9624-276d1c8246e8",
+    "stratum": "random",
+    "unit": "d38add5aac5cb1a5ac485a73a9249365b6301f05108263f033f8e6242375e6b4",
+    "verifier": {
+      "intent": "praise",
+      "severity": 1,
+      "topic": "other"
+    },
+    "verifier_reason": "General praise, no specific feature mentioned."
+  },
+  {
+    "decided_by": "jev",
+    "evidence_quote": "This app the new update has made everthing premium and so usless i thought this app is good but no.",
+    "jev": {
+      "intent": "complaint",
+      "severity": 3,
+      "topic": "billing"
+    },
+    "jev_min_confidence": 0.64,
+    "material_disagreement": false,
+    "review_id": "21915fcd-9a35-48ba-b277-6296c4154603",
+    "stratum": "random",
+    "unit": "858d4554d4c09bfcd078fef5f6941598482e9b6e83c392a4a75ed0f5633f9b66",
+    "verifier": {
+      "intent": "complaint",
+      "severity": 4,
+      "topic": "billing"
+    },
+    "verifier_reason": "Update made app nearly unusable without paying for premium."
+  },
+  {
+    "decided_by": "jev",
+    "evidence_quote": "This was fine till the last update, now you can't even pick a certain song without Spotify premium, and now you can only skip 6 songs, like please just let the songs fit my mood!",
+    "jev": {
+      "intent": "complaint",
+      "severity": 3,
+      "topic": "billing"
+    },
+    "jev_min_confidence": 0.84,
+    "material_disagreement": false,
+    "review_id": "d146397f-4a94-4980-be00-ae9212eca3a7",
+    "stratum": "random",
+    "unit": "61e79a528a613c81a1e9941e1a2d1a0aa38cdeb2adc4df9701bcb58770ce3e5e",
+    "verifier": {
+      "intent": "complaint",
+      "severity": 3,
+      "topic": "billing"
+    },
+    "verifier_reason": "Song selection locked behind premium and skip limit imposed."
+  },
+  {
+    "decided_by": "jev",
+    "evidence_quote": "The latest update has caused my app to crash I cant open the app please fix.",
+    "jev": {
+      "intent": "complaint",
+      "severity": 4,
+      "topic": "playback"
+    },
+    "jev_min_confidence": 0.86,
+    "material_disagreement": false,
+    "review_id": "55cc3abf-c295-4591-8c3a-78085cfdefaa",
+    "stratum": "random",
+    "unit": "ce24667b27b04feff74fc2ec57e9362b606817ea54041a9c617c97cb568baee8",
+    "verifier": {
+      "intent": "complaint",
+      "severity": 4,
+      "topic": "playback"
+    },
+    "verifier_reason": "App crashes and cannot be opened after update."
+  },
+  {
+    "decided_by": "claude_fallback",
+    "evidence_quote": "many songs are not present here",
+    "jev": {
+      "intent": "complaint",
+      "severity": 3,
+      "topic": "catalog"
+    },
+    "jev_min_confidence": 0.39,
+    "material_disagreement": false,
+    "review_id": "0658feaa-5bec-416e-b6b0-3de2a4c14580",
+    "stratum": "random",
+    "unit": "f4f9239e29192859af71afe30a6bbe003d82083e3fd8163a5d2452d4065cdb8c",
+    "verifier": {
+      "intent": "complaint",
+      "severity": 2,
+      "topic": "catalog"
+    },
+    "verifier_reason": "Many songs missing from catalog despite liking the app."
+  },
+  {
+    "decided_by": "jev",
+    "evidence_quote": "it's literally useless if u hv not taken premium",
+    "jev": {
+      "intent": "complaint",
+      "severity": 4,
+      "topic": "usability"
+    },
+    "jev_min_confidence": 0.52,
+    "material_disagreement": true,
+    "review_id": "e5e6c55f-3069-4b7c-9807-f8b5d5bf2726",
+    "stratum": "random",
+    "unit": "a9d22310e0430007568b74a603550ace29c0246614f3016c28355392aa667c02",
+    "verifier": {
+      "intent": "complaint",
+      "severity": 2,
+      "topic": "usability"
+    },
+    "verifier_reason": "Too many ads make free app annoying to use."
+  },
+  {
+    "decided_by": "jev",
+    "evidence_quote": "Keep stopping halfway while playing music and it dun go back to where they stop and start playing a new song for you.",
+    "jev": {
+      "intent": "complaint",
+      "severity": 3,
+      "topic": "playback"
+    },
+    "jev_min_confidence": 0.84,
+    "material_disagreement": false,
+    "review_id": "6c257eba-3dca-49f6-b7f0-4c4484d81e26",
+    "stratum": "random",
+    "unit": "fa932abc4e03717a970a150fd8d30eb101097bdd4107b2e8ebaf03818efd1376",
+    "verifier": {
+      "intent": "complaint",
+      "severity": 3,
+      "topic": "playback"
+    },
+    "verifier_reason": "Playback stops midway and jumps to a new song."
+  },
+  {
+    "decided_by": "jev",
+    "evidence_quote": "Will not except my password",
+    "jev": {
+      "intent": "complaint",
+      "severity": 4,
+      "topic": "access"
+    },
+    "jev_min_confidence": 1.0,
+    "material_disagreement": false,
+    "review_id": "de0a9cdf-8974-48bc-802f-331228df4619",
+    "stratum": "random",
+    "unit": "b2874f9aad12ff6ec7738631d1924c3d5579f358a0b3f2a136582b16cf068603",
+    "verifier": {
+      "intent": "complaint",
+      "severity": 4,
+      "topic": "access"
+    },
+    "verifier_reason": "Password not accepted, preventing login entirely."
+  },
+  {
+    "decided_by": "jev",
+    "evidence_quote": "Disappointing",
+    "jev": {
+      "intent": "complaint",
+      "severity": 2,
+      "topic": "other"
+    },
+    "jev_min_confidence": 0.9,
+    "material_disagreement": false,
+    "review_id": "51bfd887-24a0-4741-8b59-68e0a726dd7a",
+    "stratum": "random",
+    "unit": "a18b6c9a47b262f6f62f09ef7db6af428bfe6649412a3582f0f07e26c0df99fe",
+    "verifier": {
+      "intent": "complaint",
+      "severity": 2,
+      "topic": "other"
+    },
+    "verifier_reason": "Generic disappointment with no specific defect mentioned."
+  },
+  {
+    "decided_by": "jev",
+    "evidence_quote": "Used to love the app but recent update is very disappointing bye Spotify",
+    "jev": {
+      "intent": "cancellation",
+      "severity": 2,
+      "topic": "other"
+    },
+    "jev_min_confidence": 0.95,
+    "material_disagreement": false,
+    "review_id": "b47c203f-366e-4409-922d-cd52aa8bbef6",
+    "stratum": "random",
+    "unit": "99a38a85c69bd738d35953abb0d8886adcfc04f63e2aed17716c368dd1868612",
+    "verifier": {
+      "intent": "cancellation",
+      "severity": 2,
+      "topic": "other"
+    },
+    "verifier_reason": "Explicitly says goodbye to Spotify after disappointing update."
+  },
+  {
+    "decided_by": "jev",
+    "evidence_quote": "Best music app there is.",
+    "jev": {
+      "intent": "praise",
+      "severity": 1,
+      "topic": "other"
+    },
+    "jev_min_confidence": 1.0,
+    "material_disagreement": false,
+    "review_id": "23de7958-ccb0-4356-bc12-094935e6857d",
+    "stratum": "random",
+    "unit": "dab77c23dbef1b01aceeda4b28cdb77dea6c964bea6711b091e6a893d97848a4",
+    "verifier": {
+      "intent": "praise",
+      "severity": 1,
+      "topic": "other"
+    },
+    "verifier_reason": "General praise calling it the best music app."
+  },
+  {
+    "decided_by": "jev",
+    "evidence_quote": "You deserve 0 star",
+    "jev": {
+      "intent": "complaint",
+      "severity": 2,
+      "topic": "other"
+    },
+    "jev_min_confidence": 0.51,
+    "material_disagreement": false,
+    "review_id": "b92a7381-b5cd-4c77-9176-e5c4b4818c8a",
+    "stratum": "random",
+    "unit": "f5a202fdf305d07463d2e0751fc9b531fd644c7db2c3a4761e551621a2af89c8",
+    "verifier": {
+      "intent": "complaint",
+      "severity": 2,
+      "topic": "other"
+    },
+    "verifier_reason": "Generic negative rating with no specific issue described."
+  },
+  {
+    "decided_by": "jev",
+    "evidence_quote": "Idk if it's clever marketing to get the user to open the app, or if it's a bug...either way it is very annoying and has forced me to consider canceling my premium after years of being a subscriber to Hulu/Spotify.",
+    "jev": {
+      "intent": "cancellation",
+      "severity": 3,
+      "topic": "downloads"
+    },
+    "jev_min_confidence": 0.76,
+    "material_disagreement": true,
+    "review_id": "2ffdf599-a0d5-4c01-bf26-025215d44c06",
+    "stratum": "random",
+    "unit": "fd01d45c8a95114613d713f56d372f6b973f449386b8faf8c06e6d694e04698a",
+    "verifier": {
+      "intent": "complaint",
+      "severity": 3,
+      "topic": "downloads"
+    },
+    "verifier_reason": "App stuck downloading songs in background, forcing manual intervention."
+  }
+]

@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.018524",
+  "effort": "medium",
+  "input_tokens": 2632,
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5",
+  "output_tokens": 1326,
+  "request_id": "req_011Cfb5bW3AHeT3rqkNRRTwJ",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"9e3a706c-f502-4664-a23f-33f3480eca64\",\"topic\":\"other\",\"intent\":\"complaint\",\"severity\":2,\"sentiment\":\"negative\",\"evidence_quote\":\"Useless aap\",\"needs_review\":false,\"reason\":\"Generic complaint plus boycott slogan, no specific feature.\"},{\"review_id\":\"0658feaa-5bec-416e-b6b0-3de2a4c14580\",\"topic\":\"catalog\",\"intent\":\"complaint\",\"severity\":3,\"sentiment\":\"neutral or mixed\",\"evidence_quote\":\"many songs are not present here\",\"needs_review\":false,\"reason\":\"Missing songs complaint mixed with praise.\"},{\"review_id\":\"ed15bb17-865a-492b-ba1b-268f4cab78f6\",\"topic\":\"other\",\"intent\":\"unclear\",\"severity\":1,\"sentiment\":\"positive\",\"evidence_quote\":\"Very good app enna advertisement verudu premium best\",\"needs_review\":true,\"reason\":\"Mixed language, meaning unclear, hard to parse intent.\"},{\"review_id\":\"a3605554-5c3a-441d-836e-e9fdea83eb2e\",\"topic\":\"billing\",\"intent\":\"complaint\",\"severity\":3,\"sentiment\":\"negative\",\"evidence_quote\":\"ability to skip a song or go to previous song has been removed from non subscribed users\",\"needs_review\":false,\"reason\":\"Premium-locked control restriction described explicitly.\"},{\"review_id\":\"084077ee-f9be-446a-9935-9e58550d5153\",\"topic\":\"other\",\"intent\":\"unclear\",\"severity\":1,\"sentiment\":\"neutral or mixed\",\"evidence_quote\":\"Thik thak hi hai\",\"needs_review\":true,\"reason\":\"Vague neutral phrase, no clear sentiment or topic.\"},{\"review_id\":\"0f2b7fd2-71a6-4657-998e-da44f5893956\",\"topic\":\"other\",\"intent\":\"unclear\",\"severity\":1,\"sentiment\":\"neutral or mixed\",\"evidence_quote\":\"Bablu Bharti 😎😎\",\"needs_review\":true,\"reason\":\"Gibberish or name, no product content.\"},{\"review_id\":\"5c9c17d3-9d6a-4fa1-a2a4-ae98eefbbd25\",\"topic\":\"usability\",\"intent\":\"complaint\",\"severity\":3,\"sentiment\":\"negative\",\"evidence_quote\":\"it plays any song of the Playlist randomly\",\"needs_review\":false,\"reason\":\"Complaint about shuffle behavior degrading function.\"}]}"
+}

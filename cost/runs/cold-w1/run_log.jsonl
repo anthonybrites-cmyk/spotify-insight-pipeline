@@ -1,0 +1,28 @@
+{"argv": ["cost", "pilot", "--input", "/Users/anthonybrites/code/NEW - Final Assignment - Spotify Reviews Dataset/cost_100.csv", "--label", "cold-w1", "--workers", "1", "--exclude-golden", "/Users/anthonybrites/code/NEW - Final Assignment - Spotify Reviews Dataset/golden_50_to_label.csv"], "at": "2026-10-01T06:55:33+00:00", "budget": {"cap_usd": "5.0", "committed_usd": "0.530712718", "group": "dev", "remaining_usd": "4.469287282", "this_run_usd": "0"}, "event": "invocation_start", "invocation": "20260930T235533-b77ff9"}
+{"at": "2026-10-01T06:55:33+00:00", "event": "stage_start", "invocation": "20260930T235533-b77ff9", "stage": "ingest"}
+{"at": "2026-10-01T06:55:33+00:00", "elapsed_s": 0.0, "event": "stage_end", "invocation": "20260930T235533-b77ff9", "stage": "ingest", "status": "ok"}
+{"at": "2026-10-01T06:55:33+00:00", "event": "stage_start", "invocation": "20260930T235533-b77ff9", "stage": "enrich"}
+{"at": "2026-10-01T06:56:05+00:00", "elapsed_s": 31.8, "event": "stage_end", "invocation": "20260930T235533-b77ff9", "stage": "enrich", "status": "ok", "stop_reason": null}
+{"at": "2026-10-01T06:56:05+00:00", "event": "stage_start", "invocation": "20260930T235533-b77ff9", "stage": "verify"}
+{"at": "2026-10-01T06:56:25+00:00", "elapsed_s": 20.1, "event": "stage_end", "invocation": "20260930T235533-b77ff9", "stage": "verify", "status": "ok"}
+{"at": "2026-10-01T06:56:25+00:00", "event": "stage_start", "invocation": "20260930T235533-b77ff9", "stage": "group"}
+{"at": "2026-10-01T06:56:44+00:00", "elapsed_s": 19.3, "event": "stage_end", "invocation": "20260930T235533-b77ff9", "stage": "group", "status": "ok", "stop_reason": null}
+{"at": "2026-10-01T06:56:44+00:00", "event": "stage_start", "invocation": "20260930T235533-b77ff9", "stage": "rank"}
+{"at": "2026-10-01T06:56:44+00:00", "elapsed_s": 0.0, "event": "stage_end", "invocation": "20260930T235533-b77ff9", "stage": "rank", "status": "ok"}
+{"at": "2026-10-01T06:56:44+00:00", "event": "stage_start", "invocation": "20260930T235533-b77ff9", "stage": "recommend"}
+{"at": "2026-10-01T06:57:24+00:00", "elapsed_s": 39.3, "event": "stage_end", "invocation": "20260930T235533-b77ff9", "memo_check_errors": 3, "stage": "recommend", "status": "ok"}
+{"at": "2026-10-01T06:57:24+00:00", "budget": {"cap_usd": "5.0", "committed_usd": "0.708304372", "group": "dev", "remaining_usd": "4.291695628", "this_run_usd": "0.177591654"}, "event": "invocation_end", "exit_code": 0, "invocation": "20260930T235533-b77ff9"}
+{"argv": ["cost", "pilot", "--input", "/Users/anthonybrites/code/NEW - Final Assignment - Spotify Reviews Dataset/cost_100.csv", "--warm-of", "cold-w1", "--workers", "1", "--exclude-golden", "/Users/anthonybrites/code/NEW - Final Assignment - Spotify Reviews Dataset/golden_50_to_label.csv"], "at": "2026-10-01T06:58:10+00:00", "budget": {"cap_usd": "5.0", "committed_usd": "0.708304372", "group": "dev", "remaining_usd": "4.291695628", "this_run_usd": "0.177591654"}, "event": "invocation_start", "invocation": "20260930T235810-6d43f2"}
+{"at": "2026-10-01T06:58:10+00:00", "event": "stage_start", "invocation": "20260930T235810-6d43f2", "stage": "ingest"}
+{"at": "2026-10-01T06:58:10+00:00", "elapsed_s": 0.0, "event": "stage_end", "invocation": "20260930T235810-6d43f2", "stage": "ingest", "status": "ok"}
+{"at": "2026-10-01T06:58:10+00:00", "event": "stage_start", "invocation": "20260930T235810-6d43f2", "stage": "enrich"}
+{"at": "2026-10-01T06:58:10+00:00", "elapsed_s": 0.0, "event": "stage_end", "invocation": "20260930T235810-6d43f2", "stage": "enrich", "status": "ok", "stop_reason": null}
+{"at": "2026-10-01T06:58:10+00:00", "event": "stage_start", "invocation": "20260930T235810-6d43f2", "stage": "verify"}
+{"at": "2026-10-01T06:58:10+00:00", "elapsed_s": 0.0, "event": "stage_end", "invocation": "20260930T235810-6d43f2", "stage": "verify", "status": "ok"}
+{"at": "2026-10-01T06:58:10+00:00", "event": "stage_start", "invocation": "20260930T235810-6d43f2", "stage": "group"}
+{"at": "2026-10-01T06:58:10+00:00", "elapsed_s": 0.0, "event": "stage_end", "invocation": "20260930T235810-6d43f2", "stage": "group", "status": "ok", "stop_reason": null}
+{"at": "2026-10-01T06:58:10+00:00", "event": "stage_start", "invocation": "20260930T235810-6d43f2", "stage": "rank"}
+{"at": "2026-10-01T06:58:10+00:00", "elapsed_s": 0.0, "event": "stage_end", "invocation": "20260930T235810-6d43f2", "stage": "rank", "status": "ok"}
+{"at": "2026-10-01T06:58:10+00:00", "event": "stage_start", "invocation": "20260930T235810-6d43f2", "stage": "recommend"}
+{"at": "2026-10-01T06:58:10+00:00", "elapsed_s": 0.0, "event": "stage_end", "invocation": "20260930T235810-6d43f2", "memo_check_errors": 0, "stage": "recommend", "status": "ok"}
+{"at": "2026-10-01T06:58:10+00:00", "budget": {"cap_usd": "5.0", "committed_usd": "0.708304372", "group": "dev", "remaining_usd": "4.291695628", "this_run_usd": "0.177591654"}, "event": "invocation_end", "exit_code": 0, "invocation": "20260930T235810-6d43f2"}

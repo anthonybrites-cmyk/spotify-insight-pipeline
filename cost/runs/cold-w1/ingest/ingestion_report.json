@@ -1,0 +1,93 @@
+{
+  "course_profile": {
+    "counts": {
+      "duplicate_review_ids": 0,
+      "empty_review_text": 0,
+      "missing_app_version": 18,
+      "records": 100
+    },
+    "file_sha256": "c884ac3b9be5066995d5063f96ad9af6e5e082975788c1684c4f6b6ea661dd0e",
+    "first_review": "2022-06-02 10:30:18",
+    "last_review": "2023-11-13 15:07:19",
+    "parsed_rows_sha256": "23f840350257c058a03a508754384902373a593c09dbac3d1bd0481651fa1733",
+    "reviews_by_month": {
+      "2022-06": 5,
+      "2022-07": 5,
+      "2022-08": 6,
+      "2022-09": 5,
+      "2022-10": 4,
+      "2022-11": 1,
+      "2022-12": 2,
+      "2023-01": 4,
+      "2023-02": 4,
+      "2023-03": 7,
+      "2023-04": 4,
+      "2023-05": 5,
+      "2023-06": 4,
+      "2023-07": 11,
+      "2023-08": 3,
+      "2023-09": 6,
+      "2023-10": 19,
+      "2023-11": 5
+    },
+    "reviews_by_rating": {
+      "1": 33,
+      "2": 8,
+      "3": 6,
+      "4": 10,
+      "5": 43
+    }
+  },
+  "expected_checks": "not the course full file",
+  "input_bytes": 15466,
+  "input_sha256": "c884ac3b9be5066995d5063f96ad9af6e5e082975788c1684c4f6b6ea661dd0e",
+  "language_groups": {
+    "distinct_texts": {
+      "english": 90,
+      "non_english_latin": 6,
+      "short_unrecognised": 4
+    },
+    "method": "deterministic heuristic (pipeline/language.py, version a532ed5052)",
+    "rows": {
+      "english": 90,
+      "non_english_latin": 6,
+      "short_unrecognised": 4
+    }
+  },
+  "missing_app_version_rule": "kept and classified; app_version is never a model input",
+  "missing_values_by_field": {
+    "app_version": 18,
+    "review_id": 0,
+    "review_likes": 0,
+    "review_rating": 0,
+    "review_text": 0,
+    "review_timestamp": 0
+  },
+  "observed": {
+    "distinct_nonempty_texts": 100,
+    "duplicate_review_ids": 0,
+    "empty_review_text": 0,
+    "missing_app_version": 18,
+    "records": 100
+  },
+  "quarantine_rule": "review_text empty after stripping whitespace -> quarantined, reason empty_review_text",
+  "review_text_length_chars": {
+    "histogram": {
+      "0-0": 0,
+      "1-10": 14,
+      "1001+": 0,
+      "101-200": 21,
+      "11-20": 18,
+      "201-500": 9,
+      "21-50": 20,
+      "501-1000": 0,
+      "51-100": 18
+    },
+    "max": 486,
+    "median": 46,
+    "min": 4,
+    "p90": 186,
+    "p99": 486
+  },
+  "row_hash": "check_submission.row_sha: SHA-256 of compact JSON of the six original fields, no normalization"
+}

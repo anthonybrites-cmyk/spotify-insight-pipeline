@@ -1,0 +1,19 @@
+{
+  "dataset": {
+    "course_extract_window": "2022-05-17 inclusive to 2023-11-17 exclusive",
+    "full_csv_sha256": "1fc85de68a304dd8978b537cfa58793d5f41cbaf417fa32cb53899f83a2fcef6",
+    "source": "BwandoWando, 3.4 Million Spotify Google Store Reviews, Kaggle, version 2 (CC0)"
+  },
+  "fields": [
+    "review_id",
+    "review_text",
+    "review_rating",
+    "review_likes",
+    "app_version",
+    "review_timestamp"
+  ],
+  "input_bytes": 15466,
+  "input_path": "/Users/anthonybrites/code/NEW - Final Assignment - Spotify Reviews Dataset/cost_100.csv",
+  "input_sha256": "c884ac3b9be5066995d5063f96ad9af6e5e082975788c1684c4f6b6ea661dd0e",
+  "is_course_full_file": false
+}

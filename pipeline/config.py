@@ -42,9 +42,10 @@ CLAUDE_BATCH_DISCOUNT = Decimal("0.5")  # Message Batches API bills 50% of stand
 
 # Claude fallback for low-confidence Jev labels (decided 2026-09-30: threshold 0.5 on the minimum of the
 # topic/intent/severity confidences). Per-review estimates are only used by the 10% early gate to project
-# fallback spend that has not happened yet; measured: $0.0645 per 50-review standard call.
+# fallback spend that has not happened yet. Measured in the cold 100-review pilot (cost/report.md):
+# $0.0185 for a 7-review standard request = $0.0026 per review; Batch API bills half. Refresh after 10k.
 FALLBACK_THRESHOLD = 0.5
-FALLBACK_EST_USD_PER_REVIEW = {"standard": Decimal("0.0013"), "batch": Decimal("0.00065")}
+FALLBACK_EST_USD_PER_REVIEW = {"standard": Decimal("0.0026"), "batch": Decimal("0.0013")}
 FALLBACK_BATCH_POLL_S = 60
 
 MAX_ENRICH_BATCH = 50   # contract limit; Jev uses 1 review per request

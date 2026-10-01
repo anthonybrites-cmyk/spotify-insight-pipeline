@@ -1,0 +1,124 @@
+{
+  "cache_reuse_records": 0,
+  "collected_at": "2026-10-01T06:59:31+00:00",
+  "decided_by": {
+    "claude_fallback": 7,
+    "jev": 93
+  },
+  "input": {
+    "distinct_texts": 100,
+    "empty_quarantined": 0,
+    "file": "cost_100.csv",
+    "rows": 100,
+    "sha256": "c884ac3b9be5066995d5063f96ad9af6e5e082975788c1684c4f6b6ea661dd0e"
+  },
+  "record_status": {
+    "completed": 100,
+    "quarantined": 0
+  },
+  "records_from": "cold-w1",
+  "runs": [
+    {
+      "exit_code": 0,
+      "invocation": "20260930T235533-b77ff9",
+      "kind": "cold",
+      "label": "cold-w1",
+      "new_calls": 143,
+      "new_downstream_calls": {
+        "group": 38,
+        "memo": 3,
+        "verify": 1
+      },
+      "new_enrichment_calls": 101,
+      "run_folder": "cold-w1",
+      "settings": {
+        "budget_group": "dev",
+        "budget_usd": 5,
+        "claude_effort": "medium",
+        "fallback": "standard",
+        "fallback_max_fraction": 0.2,
+        "input": "cost_100.csv",
+        "verify_n": 20
+      },
+      "stage_seconds": {
+        "enrich": 31.8,
+        "group": 19.3,
+        "ingest": 0.0,
+        "rank": 0.0,
+        "recommend": 39.3,
+        "verify": 20.1
+      },
+      "started_at": "2026-10-01T06:55:33+00:00",
+      "wall_clock_seconds": 110.588,
+      "workers": 1
+    },
+    {
+      "exit_code": 0,
+      "invocation": "20260930T235810-6d43f2",
+      "kind": "warm",
+      "label": "cold-w1-warm",
+      "new_calls": 0,
+      "new_downstream_calls": {
+        "group": 0,
+        "memo": 0,
+        "verify": 0
+      },
+      "new_enrichment_calls": 0,
+      "run_folder": "cold-w1",
+      "settings": {
+        "budget_group": "dev",
+        "budget_usd": 5,
+        "claude_effort": "medium",
+        "fallback": "standard",
+        "fallback_max_fraction": 0.2,
+        "input": "cost_100.csv",
+        "verify_n": 20
+      },
+      "stage_seconds": {
+        "enrich": 0.0,
+        "group": 0.0,
+        "ingest": 0.0,
+        "rank": 0.0,
+        "recommend": 0.0,
+        "verify": 0.0
+      },
+      "started_at": "2026-10-01T06:58:10+00:00",
+      "wall_clock_seconds": 0.06,
+      "workers": 1
+    },
+    {
+      "exit_code": 0,
+      "invocation": "20260930T235815-4c6e9f",
+      "kind": "cold",
+      "label": "cold-w2",
+      "new_calls": 139,
+      "new_downstream_calls": {
+        "group": 36,
+        "memo": 1,
+        "verify": 1
+      },
+      "new_enrichment_calls": 101,
+      "run_folder": "cold-w2",
+      "settings": {
+        "budget_group": "dev",
+        "budget_usd": 5,
+        "claude_effort": "medium",
+        "fallback": "standard",
+        "fallback_max_fraction": 0.2,
+        "input": "cost_100.csv",
+        "verify_n": 20
+      },
+      "stage_seconds": {
+        "enrich": 22.8,
+        "group": 14.6,
+        "ingest": 0.0,
+        "rank": 0.0,
+        "recommend": 14.8,
+        "verify": 18.3
+      },
+      "started_at": "2026-10-01T06:58:15+00:00",
+      "wall_clock_seconds": 70.433,
+      "workers": 2
+    }
+  ]
+}

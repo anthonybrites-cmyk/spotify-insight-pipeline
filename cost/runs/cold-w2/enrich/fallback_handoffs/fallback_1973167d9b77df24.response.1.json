@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.020398",
+  "effort": "medium",
+  "input_tokens": 2629,
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5",
+  "output_tokens": 1514,
+  "request_id": "req_011Cfb5ni5G6Yb9ygYDwfcUX",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"9e3a706c-f502-4664-a23f-33f3480eca64\",\"topic\":\"other\",\"intent\":\"complaint\",\"severity\":2,\"sentiment\":\"negative\",\"evidence_quote\":\"Useless aap\",\"needs_review\":true,\"reason\":\"Generic complaint mixed with boycott slogan, unclear context\"},{\"review_id\":\"084077ee-f9be-446a-9935-9e58550d5153\",\"topic\":\"other\",\"intent\":\"unclear\",\"severity\":1,\"sentiment\":\"neutral or mixed\",\"evidence_quote\":\"Thik thak hi hai\",\"needs_review\":true,\"reason\":\"Short vague Hindi phrase, ambiguous meaning\"},{\"review_id\":\"0658feaa-5bec-416e-b6b0-3de2a4c14580\",\"topic\":\"catalog\",\"intent\":\"complaint\",\"severity\":3,\"sentiment\":\"neutral or mixed\",\"evidence_quote\":\"many songs are not present here\",\"needs_review\":false,\"reason\":\"Mixed praise and catalog complaint about missing songs\"},{\"review_id\":\"5c9c17d3-9d6a-4fa1-a2a4-ae98eefbbd25\",\"topic\":\"usability\",\"intent\":\"complaint\",\"severity\":3,\"sentiment\":\"negative\",\"evidence_quote\":\"it plays any song of the Playlist randomly\",\"needs_review\":false,\"reason\":\"Complaint about shuffle behavior disrupting playlist order\"},{\"review_id\":\"ed15bb17-865a-492b-ba1b-268f4cab78f6\",\"topic\":\"other\",\"intent\":\"praise\",\"severity\":1,\"sentiment\":\"positive\",\"evidence_quote\":\"Very good app enna advertisement verudu premium best\",\"needs_review\":true,\"reason\":\"Mixed language praise, unclear ad complaint context\"},{\"review_id\":\"a3605554-5c3a-441d-836e-e9fdea83eb2e\",\"topic\":\"billing\",\"intent\":\"complaint\",\"severity\":3,\"sentiment\":\"negative\",\"evidence_quote\":\"ability to skip a song or go to previous song has been removed from non subscribed users\",\"needs_review\":false,\"reason\":\"Premium-locked skip control complaint for free users\"},{\"review_id\":\"a1a28752-3256-4f81-b888-3e943343529f\",\"topic\":\"catalog\",\"intent\":\"complaint\",\"severity\":2,\"sentiment\":\"neutral or mixed\",\"evidence_quote\":\"gospel music isn't much\",\"needs_review\":false,\"reason\":\"Minor complaint about limited gospel music catalog\"}]}"
+}

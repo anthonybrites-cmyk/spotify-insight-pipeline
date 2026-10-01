@@ -1,0 +1,551 @@
+{
+  "artifacts": [
+    "rank/ranking.csv",
+    "group/issues.json",
+    "verify/report.json",
+    "ingest/summary.json",
+    "records (aggregated in code)"
+  ],
+  "claims": [
+    {
+      "claim_id": "C01",
+      "issue_id": "other.general",
+      "metric": "complaint_count",
+      "value": "16"
+    },
+    {
+      "claim_id": "C02",
+      "issue_id": "other.general",
+      "metric": "severity_sum",
+      "value": "33"
+    },
+    {
+      "claim_id": "C03",
+      "issue_id": "other.general",
+      "metric": "mean_severity",
+      "value": "2.062500"
+    },
+    {
+      "claim_id": "C04",
+      "issue_id": "other.general",
+      "metric": "priority_score",
+      "value": "33"
+    },
+    {
+      "claim_id": "C05",
+      "issue_id": "usability.ad_frequency_volume",
+      "metric": "complaint_count",
+      "value": "7"
+    },
+    {
+      "claim_id": "C06",
+      "issue_id": "usability.ad_frequency_volume",
+      "metric": "severity_sum",
+      "value": "16"
+    },
+    {
+      "claim_id": "C07",
+      "issue_id": "usability.ad_frequency_volume",
+      "metric": "mean_severity",
+      "value": "2.285714"
+    },
+    {
+      "claim_id": "C08",
+      "issue_id": "usability.ad_frequency_volume",
+      "metric": "priority_score",
+      "value": "16"
+    },
+    {
+      "claim_id": "C09",
+      "issue_id": "billing.features_locked_behind_premium",
+      "metric": "complaint_count",
+      "value": "5"
+    },
+    {
+      "claim_id": "C10",
+      "issue_id": "billing.features_locked_behind_premium",
+      "metric": "severity_sum",
+      "value": "15"
+    },
+    {
+      "claim_id": "C11",
+      "issue_id": "billing.features_locked_behind_premium",
+      "metric": "mean_severity",
+      "value": "3.000000"
+    },
+    {
+      "claim_id": "C12",
+      "issue_id": "billing.features_locked_behind_premium",
+      "metric": "priority_score",
+      "value": "15"
+    },
+    {
+      "claim_id": "C13",
+      "issue_id": "usability.missing_free_controls",
+      "metric": "complaint_count",
+      "value": "3"
+    },
+    {
+      "claim_id": "C14",
+      "issue_id": "usability.missing_free_controls",
+      "metric": "severity_sum",
+      "value": "9"
+    },
+    {
+      "claim_id": "C15",
+      "issue_id": "usability.missing_free_controls",
+      "metric": "mean_severity",
+      "value": "3.000000"
+    },
+    {
+      "claim_id": "C16",
+      "issue_id": "usability.missing_free_controls",
+      "metric": "priority_score",
+      "value": "9"
+    },
+    {
+      "claim_id": "C17",
+      "issue_id": "playback.app_crash_freeze",
+      "metric": "complaint_count",
+      "value": "2"
+    },
+    {
+      "claim_id": "C18",
+      "issue_id": "playback.app_crash_freeze",
+      "metric": "severity_sum",
+      "value": "8"
+    },
+    {
+      "claim_id": "C19",
+      "issue_id": "playback.app_crash_freeze",
+      "metric": "mean_severity",
+      "value": "4.000000"
+    },
+    {
+      "claim_id": "C20",
+      "issue_id": "playback.app_crash_freeze",
+      "metric": "priority_score",
+      "value": "8"
+    },
+    {
+      "claim_id": "C21",
+      "issue_id": "usability.shuffle_forced_playback",
+      "metric": "complaint_count",
+      "value": "2"
+    },
+    {
+      "claim_id": "C22",
+      "issue_id": "usability.shuffle_forced_playback",
+      "metric": "severity_sum",
+      "value": "6"
+    },
+    {
+      "claim_id": "C23",
+      "issue_id": "usability.shuffle_forced_playback",
+      "metric": "mean_severity",
+      "value": "3.000000"
+    },
+    {
+      "claim_id": "C24",
+      "issue_id": "usability.shuffle_forced_playback",
+      "metric": "priority_score",
+      "value": "6"
+    },
+    {
+      "claim_id": "C25",
+      "issue_id": "catalog.lyrics_unavailable",
+      "metric": "complaint_count",
+      "value": "2"
+    },
+    {
+      "claim_id": "C26",
+      "issue_id": "catalog.lyrics_unavailable",
+      "metric": "severity_sum",
+      "value": "5"
+    },
+    {
+      "claim_id": "C27",
+      "issue_id": "catalog.lyrics_unavailable",
+      "metric": "mean_severity",
+      "value": "2.500000"
+    },
+    {
+      "claim_id": "C28",
+      "issue_id": "catalog.lyrics_unavailable",
+      "metric": "priority_score",
+      "value": "5"
+    },
+    {
+      "claim_id": "C29",
+      "issue_id": "catalog.missing_songs_artists",
+      "metric": "complaint_count",
+      "value": "2"
+    },
+    {
+      "claim_id": "C30",
+      "issue_id": "catalog.missing_songs_artists",
+      "metric": "severity_sum",
+      "value": "5"
+    },
+    {
+      "claim_id": "C31",
+      "issue_id": "catalog.missing_songs_artists",
+      "metric": "mean_severity",
+      "value": "2.500000"
+    },
+    {
+      "claim_id": "C32",
+      "issue_id": "catalog.missing_songs_artists",
+      "metric": "priority_score",
+      "value": "5"
+    },
+    {
+      "claim_id": "C33",
+      "issue_id": "access.locked_out_of_account",
+      "metric": "complaint_count",
+      "value": "1"
+    },
+    {
+      "claim_id": "C34",
+      "issue_id": "access.locked_out_of_account",
+      "metric": "severity_sum",
+      "value": "4"
+    },
+    {
+      "claim_id": "C35",
+      "issue_id": "access.locked_out_of_account",
+      "metric": "mean_severity",
+      "value": "4.000000"
+    },
+    {
+      "claim_id": "C36",
+      "issue_id": "access.locked_out_of_account",
+      "metric": "priority_score",
+      "value": "4"
+    },
+    {
+      "claim_id": "C37",
+      "issue_id": "access.login_credentials_rejected",
+      "metric": "complaint_count",
+      "value": "1"
+    },
+    {
+      "claim_id": "C38",
+      "issue_id": "access.login_credentials_rejected",
+      "metric": "severity_sum",
+      "value": "4"
+    },
+    {
+      "claim_id": "C39",
+      "issue_id": "access.login_credentials_rejected",
+      "metric": "mean_severity",
+      "value": "4.000000"
+    },
+    {
+      "claim_id": "C40",
+      "issue_id": "access.login_credentials_rejected",
+      "metric": "priority_score",
+      "value": "4"
+    }
+  ],
+  "examples": {
+    "billing.features_locked_behind_premium": [
+      {
+        "quote": "This was fine till the last update, now you can't even pick a certain song without Spotify premium, and now you can only skip 6 songs, like please just let the songs fit my mood!",
+        "review_id": "d146397f-4a94-4980-be00-ae9212eca3a7"
+      },
+      {
+        "quote": "This app the new update has made everthing premium and so usless i thought this app is good but no.",
+        "review_id": "21915fcd-9a35-48ba-b277-6296c4154603"
+      },
+      {
+        "quote": "I would request to remove all the new features .what's the point if we dont get to go back to the same song or skip songs..or choose .its not fair ..to restrict all the features jst so people would purchase premium ..its like forcing ..to do it ..and day by day it's getting more annoying..I g I'll s",
+        "review_id": "88439ec2-7c49-4c57-bedb-c5e098692aff"
+      }
+    ],
+    "other.general": [
+      {
+        "quote": "The update made the app useless ....",
+        "review_id": "45c561b9-cc47-4d80-95d3-f0d20bc84af3"
+      },
+      {
+        "quote": "Useless aap",
+        "review_id": "9e3a706c-f502-4664-a23f-33f3480eca64"
+      },
+      {
+        "quote": "Noob app",
+        "review_id": "2d5cdd20-3094-40a5-bc6e-653302b59b56"
+      }
+    ],
+    "playback.app_crash_freeze": [
+      {
+        "quote": "The latest update has caused my app to crash I cant open the app please fix.",
+        "review_id": "55cc3abf-c295-4591-8c3a-78085cfdefaa"
+      },
+      {
+        "quote": "App is stuck on loading/logo screen",
+        "review_id": "66a29b3c-c14d-440e-b722-b23e0c99ae82"
+      }
+    ],
+    "usability.ad_frequency_volume": [
+      {
+        "quote": "it's literally useless if u hv not taken premium",
+        "review_id": "e5e6c55f-3069-4b7c-9807-f8b5d5bf2726"
+      },
+      {
+        "quote": "The ads are so loud :'(",
+        "review_id": "ab67a772-c3b7-42ba-9b80-8d21d3857018"
+      },
+      {
+        "quote": "that always plays adds instead of songs ...if want to enjoy music free without adds don't download this app ..",
+        "review_id": "cf6166ae-d71a-4839-9add-088645ad3b78"
+      }
+    ],
+    "usability.missing_free_controls": [
+      {
+        "quote": "Can't repeat and play specific part.please solve this matter.",
+        "review_id": "e16a4550-43e7-4ae1-b538-a65cc652c31b"
+      },
+      {
+        "quote": "We can't even go back few second to play music?",
+        "review_id": "9e5f9745-f8be-48d3-b9de-4d118507d94a"
+      },
+      {
+        "quote": "Na queue m lgte h gaane, na skip kr skte h, na random chla skte h, kya bkchodi h ye???",
+        "review_id": "89ea2c30-db8b-459d-8ab7-bbcb7f92c774"
+      }
+    ]
+  },
+  "facts": {
+    "F01": [
+      "source reviews in the input file",
+      "100"
+    ],
+    "F02": [
+      "reviews with a completed classification",
+      "100"
+    ],
+    "F03": [
+      "reviews quarantined for empty text",
+      "0"
+    ],
+    "F04": [
+      "reviews quarantined for other failures",
+      "0"
+    ],
+    "F05": [
+      "complaint or cancellation-intent reviews (ranked)",
+      "53"
+    ],
+    "F06": [
+      "cancellation-intent reviews",
+      "10"
+    ],
+    "F07": [
+      "completed reviews flagged needs_review",
+      "10"
+    ],
+    "F08": [
+      "distinct review texts sent to the classifier; exact duplicates reuse that result, and every original review ID is still counted separately in all totals",
+      "100"
+    ],
+    "F09": [
+      "share of ranked complaint memberships in the top 3 issues, percent (1 dp)",
+      "52.8"
+    ],
+    "F10": [
+      "verification random-sample size (distinct texts)",
+      "20"
+    ],
+    "F11": [
+      "verification random-sample topic agreement, percent (1 dp)",
+      "100.0"
+    ],
+    "F12": [
+      "verification random-sample intent agreement, percent (1 dp)",
+      "95.0"
+    ],
+    "F13": [
+      "verification random-sample severity mean absolute difference (levels)",
+      "0.1"
+    ],
+    "F14": [
+      "topic 'usability': complaint/cancellation reviews",
+      "17"
+    ],
+    "F15": [
+      "topic 'usability': severity sum",
+      "44"
+    ],
+    "F16": [
+      "topic 'other': complaint/cancellation reviews",
+      "16"
+    ],
+    "F17": [
+      "topic 'other': severity sum",
+      "33"
+    ],
+    "F18": [
+      "topic 'playback': complaint/cancellation reviews",
+      "5"
+    ],
+    "F19": [
+      "topic 'playback': severity sum",
+      "18"
+    ],
+    "F20": [
+      "topic 'billing': complaint/cancellation reviews",
+      "5"
+    ],
+    "F21": [
+      "topic 'billing': severity sum",
+      "15"
+    ],
+    "F22": [
+      "topic 'catalog': complaint/cancellation reviews",
+      "6"
+    ],
+    "F23": [
+      "topic 'catalog': severity sum",
+      "14"
+    ],
+    "F24": [
+      "topic 'access': complaint/cancellation reviews",
+      "2"
+    ],
+    "F25": [
+      "topic 'access': severity sum",
+      "8"
+    ],
+    "F26": [
+      "topic 'downloads': complaint/cancellation reviews",
+      "2"
+    ],
+    "F27": [
+      "topic 'downloads': severity sum",
+      "7"
+    ]
+  },
+  "issues": [
+    {
+      "claims": {
+        "complaint_count": "C01",
+        "mean_severity": "C03",
+        "priority_score": "C04",
+        "severity_sum": "C02"
+      },
+      "definition": "other complaints that match no more specific subtopic, or are too vague to place.",
+      "issue_id": "other.general",
+      "name": "Other other complaints",
+      "rank": 1
+    },
+    {
+      "claims": {
+        "complaint_count": "C05",
+        "mean_severity": "C07",
+        "priority_score": "C08",
+        "severity_sum": "C06"
+      },
+      "definition": "Complaints about ads playing too often, interrupting songs too quickly, or being too loud.",
+      "issue_id": "usability.ad_frequency_volume",
+      "name": "Ad frequency and volume",
+      "rank": 2
+    },
+    {
+      "claims": {
+        "complaint_count": "C09",
+        "mean_severity": "C11",
+        "priority_score": "C12",
+        "severity_sum": "C10"
+      },
+      "definition": "Complaints that basic playback features like skip, choose song, or go back were moved behind a Premium paywall.",
+      "issue_id": "billing.features_locked_behind_premium",
+      "name": "Features locked behind Premium",
+      "rank": 3
+    },
+    {
+      "claims": {
+        "complaint_count": "C13",
+        "mean_severity": "C15",
+        "priority_score": "C16",
+        "severity_sum": "C14"
+      },
+      "definition": "Complaints that basic controls like rewind, repeat, or playing a specific part/song are unavailable without premium.",
+      "issue_id": "usability.missing_free_controls",
+      "name": "Missing basic player controls for free users",
+      "rank": 4
+    },
+    {
+      "claims": {
+        "complaint_count": "C17",
+        "mean_severity": "C19",
+        "priority_score": "C20",
+        "severity_sum": "C18"
+      },
+      "definition": "App crashes, freezes, or gets stuck on a loading screen.",
+      "issue_id": "playback.app_crash_freeze",
+      "name": "App crash or freeze",
+      "rank": 5
+    },
+    {
+      "claims": {
+        "complaint_count": "C21",
+        "mean_severity": "C23",
+        "priority_score": "C24",
+        "severity_sum": "C22"
+      },
+      "definition": "Complaints that songs play randomly or a whole playlist must be played instead of a single chosen song.",
+      "issue_id": "usability.shuffle_forced_playback",
+      "name": "Forced shuffle or playlist play",
+      "rank": 6
+    },
+    {
+      "claims": {
+        "complaint_count": "C25",
+        "mean_severity": "C27",
+        "priority_score": "C28",
+        "severity_sum": "C26"
+      },
+      "definition": "Complaints that lyrics are missing or inconsistently shown for songs.",
+      "issue_id": "catalog.lyrics_unavailable",
+      "name": "Lyrics unavailable or inconsistent",
+      "rank": 7
+    },
+    {
+      "claims": {
+        "complaint_count": "C29",
+        "mean_severity": "C31",
+        "priority_score": "C32",
+        "severity_sum": "C30"
+      },
+      "definition": "Complaints that specific songs, artists, or genres are not available on the platform.",
+      "issue_id": "catalog.missing_songs_artists",
+      "name": "Missing songs or artists",
+      "rank": 8
+    },
+    {
+      "claims": {
+        "complaint_count": "C33",
+        "mean_severity": "C35",
+        "priority_score": "C36",
+        "severity_sum": "C34"
+      },
+      "definition": "User cannot get into their account at all, preventing use of the app.",
+      "issue_id": "access.locked_out_of_account",
+      "name": "Locked out of account",
+      "rank": 9
+    },
+    {
+      "claims": {
+        "complaint_count": "C37",
+        "mean_severity": "C39",
+        "priority_score": "C40",
+        "severity_sum": "C38"
+      },
+      "definition": "User's password or login is not accepted by the app.",
+      "issue_id": "access.login_credentials_rejected",
+      "name": "Login credentials rejected",
+      "rank": 10
+    }
+  ]
+}

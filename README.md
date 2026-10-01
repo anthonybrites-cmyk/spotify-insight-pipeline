@@ -9,6 +9,7 @@ Advising Spotify at the end of the May 2022 – Nov 2023 review window: **where 
 - Decision memo: [`results/memo.md`](results/memo.md) *(pending)*
 - Design choices and label examples: [`DESIGN.md`](DESIGN.md)
 - Golden-set labelling instructions: [`evals/golden/LABELING.md`](evals/golden/LABELING.md)
+- **100-review cost/runtime calculator:** [`cost/`](cost/), with a [measured report](cost/report.md) and [offline replay instructions](cost/README.md)
 
 ## Rubric → evidence map
 
@@ -20,7 +21,7 @@ Advising Spotify at the end of the May 2022 – Nov 2023 review window: **where 
 | **Deliverable 4** Recommendation, alternatives, limitations | Development memo [`evals/dev500/memo_v2.md`](evals/dev500/memo_v2.md); final [`results/memo.md`](results/memo.md) *(pending)*; [Limits](#limits) |
 | **Testing 1** 50 human labels, per-field comparison, error analysis | [`evals/golden/golden_50_human_labels.csv`](evals/golden/golden_50_human_labels.csv), [`summary.json`](evals/golden/summary.json), [`cases.json`](evals/golden/cases.json), [`disagreements.md`](evals/golden/disagreements.md), [`head_to_head.json`](evals/golden/head_to_head.json); [Golden set](#golden-set-50-hand-labelled-reviews) |
 | **Testing 2** Independent verification, planted-error and injection tests | [`evals/dev500/verification_report.json`](evals/dev500/verification_report.json), [`verification_comparisons.json`](evals/dev500/verification_comparisons.json), [`planted_label_test.json`](evals/dev500/planted_label_test.json), [`evals/injection_results.json`](evals/injection_results.json), [`evals/offline/planted_export_errors.json`](evals/offline/planted_export_errors.json) |
-| **Testing 3** Validation, bounded retries, failure accounting, usage, recovery | `pipeline/retry.py`, `results/run_summary.json` (retries, failures, tokens, cost, time) *(pending)*, `results/quarantine.jsonl` *(pending)*, [`evals/offline/test_report.txt`](evals/offline/test_report.txt) |
+| **Testing 3** Real 100-review cold/warm pilot, offline calculator, retry/spending/recovery controls | [`cost/report.md`](cost/report.md): measured cold, warm and 2-worker pilot. [`cost/README.md`](cost/README.md): offline `python -m pipeline cost` replay. Evidence: [`cost/pilot_calls.jsonl`](cost/pilot_calls.jsonl), [`usage.csv`](cost/usage.csv), [`rates.csv`](cost/rates.csv), [`pilot_records.jsonl`](cost/pilot_records.jsonl). Controls: `pipeline/retry.py`, `pipeline/budget.py`, [`evals/offline/test_report.txt`](evals/offline/test_report.txt); `results/run_summary.json` *(pending, full run)* |
 | **Working 1** Full ingestion, coverage, classification | `results/ingestion_report.json`, `grading/ingestion.json`, self-check coverage *(pending)* |
 | **Working 2** Staged program, bounded calls, handoffs, resume | `python -m pipeline run`, `grading/calls.jsonl.gz`, `checkpoint_before.json` / `checkpoint_after.json`, recording *(pending)* |
 | **Working 3** Reproducible ranking, grounded output | `python -m pipeline rerank --grading-dir grading` (no model calls), `results/aggregates.csv`, memo *(pending)* |
@@ -166,6 +167,21 @@ Data: download the course ZIP from the link in the assignment brief, unzip it an
 - **Statuses.** Each record is `completed`, or `quarantined` with a `reason` and `attempts`. Reasons are `empty_review_text`, `enrich_failed: …`, or `pending_not_processed` for an incomplete run.
 - **Usage and cost.** These are provider-reported tokens times published list prices (Jev $0.042 per million input tokens, output free; Sonnet 5 $2/$10 per million), reported in `run_summary.json`. Failed attempts that returned no usage are logged with 0 tokens and `usage_available: false`; they are not estimated.
 
+## 100-review cost and runtime pilot
+
+Full report: [`cost/report.md`](cost/report.md). Measured on `cost_100.csv` (sha256 `c884ac3b…`, unchanged). Every stage ran: Jev enrichment with the capped Claude fallback, a declared 20-review verification sample, grouping, ranking and the memo.
+
+| Run | Workers | Wall-clock | New calls | API cost |
+|---|---|---|---|---|
+| cold | 1 | 110.6 s | 143 (101 enrichment) | $0.1776 |
+| warm (saved results) | 1 | 0.06 s | **0** | $0 |
+| cold | 2 | 70.4 s | 139 (101 enrichment) | $0.1063 |
+
+- **Records:** all 100 completed and 0 failed, with 0 retries. 7 of the 100 texts went to the Claude fallback, under the 20% cap.
+- **Cold-run memo cost:** the one-worker cold run spent $0.10 on the memo across 3 rounds. Rounds 2–3 were caused by a quote-check bug the pilot exposed, now fixed; all three drafts pass the corrected check.
+- **Measured cost per review:** Jev $0.0000642 per distinct text, the Claude fallback $0.0026, and verification $0.0016.
+- **Full-run projection** at the measured rates, with the planned Batch-API fallback: **~$82 base** (under the $90 cap) and ~$207 conservative (fallback at the full 20% cap and variable costs ×1.25). The projection is refreshed after the 500 and 10,000 runs.
+
 ## Decisions log
 
 | Date | Decision | Evidence / reason |
@@ -177,6 +193,9 @@ Data: download the course ZIP from the link in the assignment brief, unzip it an
 | 2026-09-30 | **Claude fallback for every text with Jev confidence below 0.5**: standard API for the 10k run, Batch API for the full run; full-run cap **$90**; development cap **$5** | Golden head-to-head in the low band: Jev 1/7 vs Claude 5/7 all-correct (disclosed); to be checked on ~30 fresh held-out 10k reviews |
 | 2026-09-30 | Premium-locked controls → `billing` (verifier and fallback prompts state it explicitly); your adjudication of golden disagreements recorded separately | Your answers (a)–(d); [`evals/golden/adjudication.json`](evals/golden/adjudication.json) |
 | 2026-09-30 | Severity for paywalled controls stays on the **contract's reading**: a control explicitly locked behind Premium is a restricted function (3); ad overload alone is annoyance (2) | The contract defines 3 as "a degraded or restricted function", and the instructor's benchmark follows the contract. Your golden labels of 2 on those rows stand as your judgment and are explained in the error analysis |
+| 2026-09-30 | Declared fallback cap **20%** of distinct texts, lowest confidence first; **1 worker by default**; Claude reasoning effort and output cap are part of every Claude config tag | Updated brief and `COST_CALCULATOR.md` |
+| 2026-09-30 | Real cold and warm pilot at 1 worker, plus a cold pilot at 2 workers | Your call; the 2-worker run measured a 1.39× enrich-stage speedup |
+| pending | Low reasoning effort for the Claude roles | To be tested at the 500/10k stage (the spec says to use the lowest effort that passes evaluation) |
 | pending | Translation of non-English texts | Decided after the 10k language comparison |
 
 ## Development results

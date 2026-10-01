@@ -1,0 +1,174 @@
+{
+  "issues": {
+    "access.general": {
+      "definition": "access complaints that match no more specific subtopic, or are too vague to place.",
+      "name": "Other access complaints",
+      "source": "code_catch_all",
+      "topic": "access"
+    },
+    "billing.features_behind_premium": {
+      "definition": "Complaints that basic playback features like skip or song choice now require a Premium subscription.",
+      "name": "Core features locked behind Premium",
+      "source": "model",
+      "topic": "billing"
+    },
+    "billing.general": {
+      "definition": "billing complaints that match no more specific subtopic, or are too vague to place.",
+      "name": "Other billing complaints",
+      "source": "code_catch_all",
+      "topic": "billing"
+    },
+    "billing.skip_limit": {
+      "definition": "Complaints specifically about a numeric cap on how many songs can be skipped without Premium.",
+      "name": "Skip limit for free users",
+      "source": "model",
+      "topic": "billing"
+    },
+    "billing.update_removed_free_features": {
+      "definition": "Complaints that a recent app update removed features that used to be available without paying.",
+      "name": "Update removed previously free features",
+      "source": "model",
+      "topic": "billing"
+    },
+    "catalog.general": {
+      "definition": "catalog complaints that match no more specific subtopic, or are too vague to place.",
+      "name": "Other catalog complaints",
+      "source": "code_catch_all",
+      "topic": "catalog"
+    },
+    "catalog.genre_gaps": {
+      "definition": "Complaints about insufficient variety within a specific music genre, such as gospel.",
+      "name": "Limited genre selection",
+      "source": "model",
+      "topic": "catalog"
+    },
+    "catalog.lyrics_inconsistent": {
+      "definition": "Complaints that lyrics are missing or inconsistently shown for songs.",
+      "name": "Inconsistent lyrics availability",
+      "source": "model",
+      "topic": "catalog"
+    },
+    "catalog.missing_content": {
+      "definition": "Complaints that specific songs or artists are not available in the catalog.",
+      "name": "Missing songs or artists",
+      "source": "model",
+      "topic": "catalog"
+    },
+    "catalog.recommendation_quality": {
+      "definition": "Complaints about unwanted, excessive, or declining quality of personalized recommendations.",
+      "name": "Recommendation and discovery quality",
+      "source": "model",
+      "topic": "catalog"
+    },
+    "downloads.general": {
+      "definition": "downloads complaints that match no more specific subtopic, or are too vague to place.",
+      "name": "Other downloads complaints",
+      "source": "code_catch_all",
+      "topic": "downloads"
+    },
+    "downloads.offline_mode_failure": {
+      "definition": "Complaints that offline or downloaded music playback does not function.",
+      "name": "Offline mode not working",
+      "source": "model",
+      "topic": "downloads"
+    },
+    "downloads.redownload_required": {
+      "definition": "Complaints about downloaded songs disappearing or needing to be redownloaded repeatedly.",
+      "name": "Forced re-downloading",
+      "source": "model",
+      "topic": "downloads"
+    },
+    "other.general": {
+      "definition": "other complaints that match no more specific subtopic, or are too vague to place.",
+      "name": "Other other complaints",
+      "source": "code_catch_all",
+      "topic": "other"
+    },
+    "playback.app_crash_freeze": {
+      "definition": "Complaints about the app crashing, freezing, or getting stuck on loading screens.",
+      "name": "App crashes or freezes",
+      "source": "model",
+      "topic": "playback"
+    },
+    "playback.connectivity_issues": {
+      "definition": "Complaints about failure to connect or stream over certain networks like wifi.",
+      "name": "Network connectivity issues",
+      "source": "model",
+      "topic": "playback"
+    },
+    "playback.general": {
+      "definition": "playback complaints that match no more specific subtopic, or are too vague to place.",
+      "name": "Other playback complaints",
+      "source": "code_catch_all",
+      "topic": "playback"
+    },
+    "playback.playback_interruption": {
+      "definition": "Complaints about music stopping halfway, not resuming, or skipping to a new song unexpectedly.",
+      "name": "Playback stopping or skipping unexpectedly",
+      "source": "model",
+      "topic": "playback"
+    },
+    "playback.voice_assistant_integration": {
+      "definition": "Complaints about Spotify not playing music when triggered via Google Assistant or similar voice assistants.",
+      "name": "Voice assistant integration failure",
+      "source": "model",
+      "topic": "playback"
+    },
+    "support.general": {
+      "definition": "support complaints that match no more specific subtopic, or are too vague to place.",
+      "name": "Other support complaints",
+      "source": "code_catch_all",
+      "topic": "support"
+    },
+    "usability.autoplay_video": {
+      "definition": "Complaints about automatically playing audio/video elements with no way to disable them.",
+      "name": "Unwanted autoplay audio/video",
+      "source": "model",
+      "topic": "usability"
+    },
+    "usability.excessive_ads": {
+      "definition": "Complaints about too many ads, ad frequency, or ad volume interrupting music.",
+      "name": "Excessive or loud ads",
+      "source": "model",
+      "topic": "usability"
+    },
+    "usability.general": {
+      "definition": "usability complaints that match no more specific subtopic, or are too vague to place.",
+      "name": "Other usability complaints",
+      "source": "code_catch_all",
+      "topic": "usability"
+    },
+    "usability.playback_controls_locked": {
+      "definition": "Complaints that basic controls like skip, previous, shuffle, or queue access are blocked or limited for free users.",
+      "name": "Restricted playback controls",
+      "source": "model",
+      "topic": "usability"
+    },
+    "usability.seek_repeat_issues": {
+      "definition": "Complaints about inability to rewind, seek to a specific part, or repeat a song section.",
+      "name": "Seeking and repeat problems",
+      "source": "model",
+      "topic": "usability"
+    },
+    "usability.shuffle_behavior": {
+      "definition": "Complaints that songs play in random order or that specific song selection is not possible.",
+      "name": "Forced or random shuffle",
+      "source": "model",
+      "topic": "usability"
+    },
+    "usability.ui_bugs": {
+      "definition": "Complaints about broken features like volume adjustment not working properly.",
+      "name": "UI/control bugs",
+      "source": "model",
+      "topic": "usability"
+    },
+    "usability.ui_redesign_complaints": {
+      "definition": "Complaints about disliking new layout, design, or homescreen update changes.",
+      "name": "UI or homescreen redesign complaints",
+      "source": "model",
+      "topic": "usability"
+    }
+  },
+  "taxonomy_handoff": "taxonomy_6dbbc8138b94",
+  "taxonomy_label_config": "claude-sonnet-5+effort-medium+group-taxonomy-af9e131d9244+schema-v1"
+}
