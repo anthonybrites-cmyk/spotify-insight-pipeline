@@ -84,6 +84,21 @@ Every handoff is saved, and each stage has its own stop condition:
 | rank | records + membership | ranking.csv, membership.csv | invalid severity or duplicate pair → abort | — |
 | recommend | aggregates + evidence pack | memo.md, claims, check | check errors fed back, up to 2 revisions, then saved with the failing check | check passes or 3 rounds |
 
+## How this is a multi-agent pipeline
+
+The brief defines it this way: distinct roles with inspectable handoffs, coordinated by code. Unrestricted autonomy and multiple providers are not required. Each agent below has its own instructions, inputs, output schema, saved evidence and stop rule. Every model call is logged with its role in `calls.jsonl`. The **code orchestrator** (`pipeline/cli.py`, `pipeline/dispatch.py`) runs a fixed sequence. It chooses the next step, enforces budgets and retries, validates every handoff, and owns all record accounting and arithmetic.
+
+| Agent (role in `calls.jsonl`) | Model | Instructions | Reads | Writes (saved handoff) | Stops / on failure |
+|---|---|---|---|---|---|
+| Enricher (`enrich`) | `jev-1.13.0` | question set in `pipeline/rubric.py` | one review's text | `enrich/results.jsonl` | all texts done, or a cap; invalid output → 1 retry → quarantine |
+| Fallback enricher (`enrich`) | `claude-sonnet-5` | `pipeline/fallback.py` | low-confidence texts only, blind, ≤50 per request, ≤20% of texts | `enrich/fallback.jsonl` | cap reached; bad quote → 1 retry → keep Jev's labels, flagged `needs_review` |
+| Verifier (`verify`) | `claude-sonnet-5` | `pipeline/verify.py` | declared random sample, blind to the enricher | `verify/comparisons.json`, `verify/report.json` | sample done; invalid → 1 retry with the error |
+| Issue designer (`group`) | `claude-sonnet-5` | `pipeline/group.py` | a bounded sample of complaint quotes | `group/issues.json` | one request, schema-checked |
+| Issue assigner (`group`) | `jev-1.13.0` | one Choice question per topic | one complaint's text | `group/assignments.jsonl` | all complaints assigned; failure → catch-all issue, recorded |
+| Memo writer (`memo`) | `claude-sonnet-5` | `pipeline/memo.py` | saved aggregates plus a bounded evidence pack only | `memo/memo.md`, `memo/check.json` | code check passes, up to 2 revisions |
+
+The same program and the same agents run at every scale: the 100-review pilot, the 500 and 10,000 checkpoints, and the final run. "Workers" (`--workers`) is concurrency *within* an agent, several requests in flight at once sharing one rate limiter and one spend ledger. It is not additional agents.
+
 ## Dashboard, backend and database
 
 **Live:** https://spotify-insight-dashboard.vercel.app. It's public and read-only, with no account needed, and viewing it never calls a model.
@@ -218,6 +233,7 @@ Full report: [`cost/report.md`](cost/report.md). Measured on `cost_100.csv` (sha
 | 2026-09-30 | Declared fallback cap **20%** of distinct texts, lowest confidence first; **1 worker by default**; Claude reasoning effort and output cap are part of every Claude config tag | Updated brief and `COST_CALCULATOR.md` |
 | 2026-09-30 | Real cold and warm pilot at 1 worker, plus a cold pilot at 2 workers | Your call; the 2-worker run measured a 1.39× enrich-stage speedup |
 | 2026-10-01 | Development cap raised to **$10**; Claude reasoning effort stays **medium** for the fallback and verifier | Effort test: low saved about 17% per review but changed 27% of fallback decisions and matched the human on 4 of 7 golden low-confidence reviews, versus 5 of 7 for medium ([`evals/effort_test/report.json`](evals/effort_test/report.json)) |
+| 2026-10-06 | **Final run scope: a seeded random sample of 100,000 review IDs** (the updated brief accepts ≥100,000), **sampled IDs only**: exact-duplicate copies outside the sample are quarantined as out of scope, not completed by reuse | Projected ~$11–16 against ~$65–93 for the full corpus. Sample-only keeps the business aggregates a fair random sample; including copies would complete about 238,000 rows but over-weight repeated short texts. All 660,622 rows are still ingested, profiled and accounted for. |
 | pending | Translation of non-English texts | Decided after the 10k language comparison |
 
 ## Development results
