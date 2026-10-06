@@ -92,7 +92,8 @@ def finalize_taxonomy(parsed):
         for s in proposed.get(t, []):
             issues[f"{t}.{s['slug']}"] = {"topic": t, "name": s["name"], "definition": s["definition"],
                                           "source": "model"}
-        issues[f"{t}.general"] = {"topic": t, "name": f"Other {t} complaints",
+        issues[f"{t}.general"] = {"topic": t, "name": ("General complaints (no specific feature)" if t == "other"
+                                                       else f"Other {t} complaints"),
                                   "definition": f"{t} complaints that match no more specific subtopic, or are too vague to place.",
                                   "source": "code_catch_all"}
     return issues

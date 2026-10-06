@@ -29,12 +29,13 @@ export function Memo({ markdown, claims, facts, run, issueIds }: {
         const f = factMap.get(id);
         return <span key={key} className="chip num" title={f ? `${f.meaning} = ${f.value}` : "unknown"}>{id}</span>;
       }
-      if (part.startsWith("**")) return <strong key={key}>{part.slice(2, -2)}</strong>;
+      if (part.startsWith("**")) return <strong key={key}>{inline(part.slice(2, -2), key)}</strong>;
       if (part.startsWith("`")) {
         const inner = part.slice(1, -1);
-        return issueIds.has(inner)
-          ? <Link key={key} href={withRun(`/issues/${inner}`, run)} className="link"><code>{inner}</code></Link>
-          : <code key={key}>{inner}</code>;
+        if (issueIds.has(inner)) return <Link key={key} href={withRun(`/issues/${inner}`, run)} className="link"><code>{inner}</code></Link>;
+        if (/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/.test(inner))
+          return <Link key={key} href={withRun(`/reviews/${inner}`, run)} className="link num">{inner.slice(0, 8)}…</Link>;
+        return <code key={key}>{inner}</code>;
       }
       if (/^[0-9a-f]{8}-/.test(part)) return <Link key={key} href={withRun(`/reviews/${part}`, run)} className="link num">{part.slice(0, 8)}…</Link>;
       if (issueIds.has(part)) return <Link key={key} href={withRun(`/issues/${part}`, run)} className="link"><code>{part}</code></Link>;

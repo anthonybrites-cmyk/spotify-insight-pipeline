@@ -4,7 +4,8 @@ Advising Spotify at the end of the May 2022 – Nov 2023 review window: **where 
 
 > **Status (2026-09-30): development runs complete; the full-corpus run has not been made yet.** [Development results](#development-results) come from real model calls on the 500-review checkpoint, the hand-labelled golden 50 and 13 synthetic injection cases. Anything about the full run is marked *pending*. Offline tests use fake providers and are **not** run evidence.
 
-- Grading export: [`grading/`](grading/) *(pending: full run)*
+- **Live dashboard: https://spotify-insight-dashboard.vercel.app** (public, read-only, no login). It currently shows the 500-review development run; the final run replaces it.
+- Grading export: [`grading/`](grading/) *(pending: final run)*
 - Human-readable results: [`results/`](results/) *(pending: full run)*
 - Decision memo: [`results/memo.md`](results/memo.md) *(pending)*
 - Design choices and label examples: [`DESIGN.md`](DESIGN.md)
@@ -24,7 +25,7 @@ Advising Spotify at the end of the May 2022 – Nov 2023 review window: **where 
 | **Testing 3** Real 100-review cold/warm pilot, offline calculator, retry/spending/recovery controls | [`cost/report.md`](cost/report.md): measured cold, warm and 2-worker pilot. [`cost/README.md`](cost/README.md): offline `python -m pipeline cost` replay. Evidence: [`cost/pilot_calls.jsonl`](cost/pilot_calls.jsonl), [`usage.csv`](cost/usage.csv), [`rates.csv`](cost/rates.csv), [`pilot_records.jsonl`](cost/pilot_records.jsonl). Controls: `pipeline/retry.py`, `pipeline/budget.py`, [`evals/offline/test_report.txt`](evals/offline/test_report.txt); `results/run_summary.json` *(pending, full run)* |
 | **Working 1** Full ingestion, coverage, classification | `results/ingestion_report.json`, `grading/ingestion.json`, self-check coverage *(pending)* |
 | **Working 2** Staged program, bounded calls, handoffs, resume | `python -m pipeline run`, `grading/calls.jsonl.gz`, `checkpoint_before.json` / `checkpoint_after.json`, recording *(pending)* |
-| **Working 3** Reproducible ranking, grounded output | `python -m pipeline rerank --grading-dir grading` (no model calls), `results/aggregates.csv`, memo *(pending)* |
+| **Working 3** Reproducible ranking; deployed dashboard backed by a database, with grounded AI recommendations | `python -m pipeline rerank --grading-dir grading` (no model calls); live dashboard https://spotify-insight-dashboard.vercel.app ([Dashboard, backend and database](#dashboard-backend-and-database)); memo *(final run pending)* |
 
 ## Architecture
 
@@ -82,6 +83,27 @@ Every handoff is saved, and each stage has its own stop condition:
 | group | complaint quotes → taxonomy; complaint texts → Jev | issues.json, assignments.jsonl | failed assignment → `<topic>.general` with the reason recorded | all complaints assigned |
 | rank | records + membership | ranking.csv, membership.csv | invalid severity or duplicate pair → abort | — |
 | recommend | aggregates + evidence pack | memo.md, claims, check | check errors fed back, up to 2 revisions, then saved with the failing check | check passes or 3 rounds |
+
+## Dashboard, backend and database
+
+**Live:** https://spotify-insight-dashboard.vercel.app. It's public and read-only, with no account needed, and viewing it never calls a model.
+
+```mermaid
+flowchart LR
+    R[("finished run folder<br/>records, ranking, issues,<br/>claims, facts, memo")] -->|"python -m pipeline publish<br/>(owner role, local)"| DB[("Neon Postgres<br/>runs, reviews, issues, topic_metrics,<br/>claims, facts, recommendations")]
+    DB -->|"SELECT-only role<br/>dashboard_reader"| API["Backend: Next.js API routes on Vercel<br/>/api/overview, /api/issues, /api/issues/[id],<br/>/api/reviews/[id], /api/recommendation, /api/runs"]
+    API -->|JSON| UI["Dashboard pages (browser)<br/>overview metrics, topic chart, issue ranking,<br/>issue members + evidence quotes, review lookup,<br/>AI recommendation with linked claims/issues/reviews"]
+```
+
+- **Database** (`db/schema.sql`): `python -m pipeline publish` loads a finished run's saved outputs: every review record with its source text and labels, plus issues, the ranking, per-topic metrics, claims, facts and the AI-generated memo. `python -m pipeline db-setup` creates the tables and a **SELECT-only** role for the dashboard; its password is generated straight into `.env` and never printed.
+- **Backend** (`dashboard/app/api/*`): route handlers query Postgres at request time. Every parameter is validated against a strict pattern, and queries are parameterised. The read-only connection string exists only as a server-side Vercel secret.
+- **Dashboard** (`dashboard/app/*`): pages fetch only from the backend API.
+- **AI recommendation:** the memo written by `claude-sonnet-5` from the saved aggregates. Every claim ID links to its issue and number, every issue ID to its member reviews, and every review ID to the original text with the evidence quote highlighted.
+- **Why the numbers match:** the dashboard shows exactly what is in `ranking.csv`, `claims.csv` and the records that the course checker recomputes.
+- **Run it locally:**
+  ```bash
+  cd dashboard && npm install && echo "DASHBOARD_DATABASE_URL=..." > .env.local && npm run dev
+  ```
 
 ## Models, settings and roles
 
