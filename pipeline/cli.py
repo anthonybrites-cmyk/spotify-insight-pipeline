@@ -349,6 +349,14 @@ def main(argv=None):
     p.add_argument("--out", default=str(REPO / "evals" / "translation_test.json"))
     from . import costcalc
     costcalc.add_parser(sub)
+    p = sub.add_parser("db-setup", help="create dashboard tables and a SELECT-only role (DATABASE_URL in .env)")
+    p.add_argument("--rotate", action="store_true", help="issue a new read-only password")
+    p = sub.add_parser("publish", help="load a finished run's saved outputs into the dashboard database")
+    p.add_argument("--run-dir", required=True)
+    p.add_argument("--label", required=True)
+    p.add_argument("--scope", required=True)
+    p.add_argument("--input", help="the run's input CSV (default: the path in run_manifest.json)")
+    p.add_argument("--current", action="store_true", help="make this the run the dashboard shows by default")
     p = sub.add_parser("eval-injection")
     p.add_argument("--budget-usd", type=float, default=0.25)
     args = parser.parse_args(argv)
@@ -358,6 +366,9 @@ def main(argv=None):
     if args.command == "golden-input":
         print("wrote", golden.strip_labels(args.golden, args.out))
         return 0
+    if args.command in ("db-setup", "publish"):
+        from . import publish
+        return publish.db_setup(args, log) if args.command == "db-setup" else publish.publish(args, log)
     if args.command == "cost":
         from . import costcalc
         return costcalc.run(args, log)
