@@ -519,15 +519,15 @@ def effort_test(args, log):
                 units.append(texts[r["unit"]])
         return units
 
-    def label(units, effort, tag):
-        client = ClaudeClient(key, effort=effort)
+    def label(units, effort, tag, model="claude-sonnet-5"):
+        client = ClaudeClient(key, model=model, effort=effort)
         results, usage = {}, {"requests": 0, "input_tokens": 0, "output_tokens": 0, "cost": Decimal(0)}
         for i in range(0, len(units), 50):
             batch = units[i:i + 50]
             ids = [u["original_id"] for u in batch]
             payload = [{"review_id": u["original_id"], "text": u["text"]} for u in batch]
             user = "<reviews>\n" + json.dumps(payload, ensure_ascii=False, indent=0) + "\n</reviews>"
-            name = f"{tag}_{effort}_{sha256_text(canonical(ids))[:10]}"
+            name = f"{tag}_{effort}_{sha256_text(canonical(ids))[:10]}" + ("" if model == "claude-sonnet-5" else f"_{model}")
             saved = read_json(out / "handoffs" / f"{name}.parsed.json")
             if saved is None:
                 saved, resp = claude.call(client, budget, calls, out / "handoffs", name, "eval", f"effort-{effort}",
@@ -564,6 +564,9 @@ def effort_test(args, log):
                 "all_three": round(sum(all(a[i][f] == b[i][f] for f in ("topic", "intent", "severity"))
                                        for i in ids) / n, 4)}
 
+    if getattr(args, "candidate", None):
+        return model_comparison(args, log, label, low_conf_units, summarize, agreement, out, budget, calls,
+                                Path(args.dev_run).resolve(), Path(args.golden_run).resolve())
     report = {"threshold": args.threshold, "model": "claude-sonnet-5", "note":
               "Agreement between two efforts is consistency, not accuracy. The golden part is tiny (diagnostic only)."}
     # 1) fallback on dev low-confidence texts
@@ -625,4 +628,31 @@ def effort_test(args, log):
     report["spend"] = budget.summary()
     write_json(out / "report.json", report)
     log(json.dumps({k: report[k] for k in ("fallback_dev500", "verify_dev500_random_sample")}, indent=1, default=str))
+    return 0
+
+
+def model_comparison(args, log, label, low_conf_units, summarize, agreement, out, budget, calls, dev, gold_run):
+    """Candidate fallback model (e.g. Haiku 4.5 without thinking) vs the saved Sonnet 5 medium results."""
+    dev_units = low_conf_units(dev)
+    gold_units = low_conf_units(gold_run)
+    with Path(args.golden).open(encoding="utf-8-sig", newline="") as f:
+        human = {g["review_id"]: {"topic": g["topic"].strip(), "intent": g["intent"].strip(),
+                                  "severity": int(g["severity"])} for g in csv.DictReader(f)}
+    sonnet_dev, s_dev = label(dev_units, "medium", "dev500_fallback")      # saved: no new calls
+    sonnet_gold, s_gold = label(gold_units, "medium", "golden_fallback")   # saved: no new calls
+    cand_dev, c_dev = label(dev_units, args.candidate_effort, "dev500_fallback", args.candidate)
+    cand_gold, c_gold = label(gold_units, args.candidate_effort, "golden_fallback", args.candidate)
+    report = {"candidate": args.candidate, "candidate_effort": args.candidate_effort, "reference": "claude-sonnet-5 medium",
+              "fallback_dev500": {"reference": summarize(s_dev, sonnet_dev), "candidate": summarize(c_dev, cand_dev),
+                                  "candidate_vs_reference": agreement(cand_dev, sonnet_dev)},
+              "fallback_golden_low_band": {"reference_vs_human": agreement(sonnet_gold, {i: human[i] for i in sonnet_gold}),
+                                           "candidate_vs_human": agreement(cand_gold, {i: human[i] for i in cand_gold}),
+                                           "candidate": summarize(c_gold, cand_gold)},
+              "note": "Reference results are the saved effort-test outputs (no new Sonnet calls). Agreement is not accuracy; "
+                      "the golden low band is tiny (diagnostic only, disclosed)."}
+    calls.close()
+    budget.close()
+    report["spend"] = budget.summary()
+    write_json(out / f"model_{args.candidate}_{args.candidate_effort}.json", report)
+    log(json.dumps(report, indent=1, default=str))
     return 0

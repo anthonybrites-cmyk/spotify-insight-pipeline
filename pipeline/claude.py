@@ -12,7 +12,7 @@ from decimal import Decimal
 import anthropic
 
 from .budget import cost_usd
-from .config import (CLAUDE_BASE_URL, CLAUDE_EFFORT, CLAUDE_MAX_TOKENS, CLAUDE_MODEL, CLAUDE_PRICE_IN,
+from .config import (CLAUDE_PRICES, CLAUDE_BASE_URL, CLAUDE_EFFORT, CLAUDE_MAX_TOKENS, CLAUDE_MODEL, CLAUDE_PRICE_IN,
                      CLAUDE_PRICE_OUT, CLAUDE_TIMEOUT_S)
 from .retry import AuthFailure, Fatal, InvalidOutput, Retryable, run_with_retries
 from .store import write_json
@@ -33,10 +33,17 @@ class ClaudeClient:
         max_tokens = max_tokens or self.max_tokens
         effort = effort or self.effort
         params = {"model": self.model, "max_tokens": max_tokens, "system": system,
-                  "messages": [{"role": "user", "content": user}],
-                  "thinking": {"type": "adaptive"}, "output_config": {"effort": effort}}
+                  "messages": [{"role": "user", "content": user}], "output_config": {}}
+        if effort == "none":
+            # Haiku 4.5 rejects the effort parameter; running it without extended thinking is its cheapest setting.
+            pass
+        else:
+            params["thinking"] = {"type": "adaptive"}
+            params["output_config"]["effort"] = effort
         if schema is not None:
             params["output_config"]["format"] = {"type": "json_schema", "schema": schema}
+        if not params["output_config"]:
+            del params["output_config"]
         return params
 
     # Message Batches API (50% price, asynchronous). Errors here are account/setup problems.
@@ -106,7 +113,7 @@ class ClaudeClient:
                 # Mutually exclusive billing categories reported by the API (input_tokens excludes cached ones).
                 "cache_creation_input_tokens": getattr(u, "cache_creation_input_tokens", 0) or 0,
                 "cache_read_input_tokens": getattr(u, "cache_read_input_tokens", 0) or 0,
-                "effort": params["output_config"]["effort"], "max_tokens": params["max_tokens"]}
+                "effort": params.get("output_config", {}).get("effort", "none"), "max_tokens": params["max_tokens"]}
 
 
 def _utc_now():
@@ -142,6 +149,7 @@ def call(client, budget, calls, handoff_dir, name, role, phase, label_config, re
     Pass a shared `lock` when several threads write to the same call log.
     """
     lock = lock or _NoLock()
+    price_in, price_out = CLAUDE_PRICES.get(client.model, (CLAUDE_PRICE_IN, CLAUDE_PRICE_OUT))
     max_tokens = max_tokens or getattr(client, "max_tokens", CLAUDE_MAX_TOKENS)
     effort = effort or getattr(client, "effort", CLAUDE_EFFORT)
     handoff_dir.mkdir(parents=True, exist_ok=True)
@@ -161,7 +169,7 @@ def call(client, budget, calls, handoff_dir, name, role, phase, label_config, re
                       + "\nReturn a corrected, complete response.")
         # Reserve the worst case: full input estimate plus max_tokens of output.
         reservation = budget.reserve(cost_usd(estimate_tokens(system + prompt), max_tokens,
-                                              CLAUDE_PRICE_IN, CLAUDE_PRICE_OUT))
+                                              price_in, price_out))
         try:
             response = client.create(system, prompt, schema, max_tokens, effort)
         except BaseException:
@@ -169,9 +177,9 @@ def call(client, budget, calls, handoff_dir, name, role, phase, label_config, re
             state["timing"]["duration_ms"] = round((time.monotonic() - t0) * 1000)
             raise
         state["timing"]["duration_ms"] = round((time.monotonic() - t0) * 1000)
-        cost = cost_usd(response["input_tokens"], response["output_tokens"], CLAUDE_PRICE_IN, CLAUDE_PRICE_OUT) \
-            + cost_usd(response.get("cache_creation_input_tokens", 0), 0, CLAUDE_PRICE_IN * Decimal("1.25"), 0) \
-            + cost_usd(response.get("cache_read_input_tokens", 0), 0, CLAUDE_PRICE_IN * Decimal("0.1"), 0)
+        cost = cost_usd(response["input_tokens"], response["output_tokens"], price_in, price_out) \
+            + cost_usd(response.get("cache_creation_input_tokens", 0), 0, price_in * Decimal("1.25"), 0) \
+            + cost_usd(response.get("cache_read_input_tokens", 0), 0, price_in * Decimal("0.1"), 0)
         budget.commit(reservation, cost, role, response["request_id"])
         response["cost_usd"] = str(cost)
         state["response"] = response

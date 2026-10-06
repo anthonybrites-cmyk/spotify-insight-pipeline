@@ -1,0 +1,68 @@
+{
+  "candidate": "claude-haiku-4-5",
+  "candidate_effort": "none",
+  "fallback_dev500": {
+    "candidate": {
+      "cost_per_review_usd": "0.000521",
+      "cost_usd": "0.034884",
+      "input_tokens": 7634,
+      "output_tokens": 5450,
+      "output_tokens_per_review": 81.3,
+      "quote_valid_rate": 1.0,
+      "requests": 2,
+      "reviews": 67
+    },
+    "candidate_vs_reference": {
+      "all_three": 0.6716,
+      "intent": 0.8955,
+      "n": 67,
+      "severity": 0.806,
+      "topic": 0.8358
+    },
+    "reference": {
+      "cost_per_review_usd": "0.001662",
+      "cost_usd": "0.111344",
+      "input_tokens": 9442,
+      "output_tokens": 9246,
+      "output_tokens_per_review": 138.0,
+      "quote_valid_rate": 0.9851,
+      "requests": 2,
+      "reviews": 67
+    }
+  },
+  "fallback_golden_low_band": {
+    "candidate": {
+      "cost_per_review_usd": "0.000763",
+      "cost_usd": "0.005338",
+      "input_tokens": 2108,
+      "output_tokens": 646,
+      "output_tokens_per_review": 92.3,
+      "quote_valid_rate": 1.0,
+      "requests": 1,
+      "reviews": 7
+    },
+    "candidate_vs_human": {
+      "all_three": 0.4286,
+      "intent": 1.0,
+      "n": 7,
+      "severity": 0.7143,
+      "topic": 0.7143
+    },
+    "reference_vs_human": {
+      "all_three": 0.7143,
+      "intent": 0.8571,
+      "n": 7,
+      "severity": 0.7143,
+      "topic": 0.7143
+    }
+  },
+  "note": "Reference results are the saved effort-test outputs (no new Sonnet calls). Agreement is not accuracy; the golden low band is tiny (diagnostic only, disclosed).",
+  "reference": "claude-sonnet-5 medium",
+  "spend": {
+    "cap_usd": "10",
+    "committed_usd": "5.042756568",
+    "group": "dev",
+    "remaining_usd": "4.957243432",
+    "this_run_usd": "0.374890"
+  }
+}

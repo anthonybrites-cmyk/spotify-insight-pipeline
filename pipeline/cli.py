@@ -351,6 +351,8 @@ def main(argv=None):
     p.add_argument("--golden", default=str(REPO / "evals" / "golden" / "golden_50_human_labels.csv"))
     p.add_argument("--threshold", type=float, default=0.5)
     p.add_argument("--out-dir", default=str(REPO / "evals" / "effort_test"))
+    p.add_argument("--candidate", help="compare this fallback model against the saved Sonnet 5 medium results")
+    p.add_argument("--candidate-effort", default="none", help="'none' = no extended thinking (Haiku 4.5)")
     p.add_argument("--budget-group", default="dev")
     p.add_argument("--budget-usd", type=float, default=10)
     p = sub.add_parser("subset", help="rows of a CSV in given language groups (for the translation test)")

@@ -31,7 +31,7 @@ from decimal import Decimal
 from . import claude
 from .budget import BudgetExceeded, cost_usd
 from .checker import INTENTS, TOPICS
-from .config import (CLAUDE_BATCH_DISCOUNT, CLAUDE_MAX_TOKENS, CLAUDE_PRICE_IN, CLAUDE_PRICE_OUT, SCHEMA_VERSION,
+from .config import (CLAUDE_PRICES, CLAUDE_BATCH_DISCOUNT, CLAUDE_MAX_TOKENS, CLAUDE_PRICE_IN, CLAUDE_PRICE_OUT, SCHEMA_VERSION,
                      FALLBACK_BATCH_POLL_S)
 from .retry import AuthFailure, Fatal, InvalidOutput
 from .rubric import INTENT_CRITERIA, SEVERITY_CRITERIA, TOPIC_CRITERIA
@@ -284,7 +284,7 @@ def run_batch(run_dir, client, budget, calls, units, config, phase, stop, log=pr
             cid = f"fb-{sha256_text(config + canonical(ids))[:24]}"
             user = _user(g)
             est = cost_usd(claude.estimate_tokens(system_prompt() + user), CLAUDE_MAX_TOKENS,
-                           CLAUDE_PRICE_IN, CLAUDE_PRICE_OUT) * CLAUDE_BATCH_DISCOUNT
+                           *CLAUDE_PRICES.get(client.model, (CLAUDE_PRICE_IN, CLAUDE_PRICE_OUT))) * CLAUDE_BATCH_DISCOUNT
             budget.reserve(est)  # raises BudgetExceeded before anything is submitted
             reserved += est
             write_json(handoffs / f"{cid}.request.json", {"model": client.model, "role": "enrich", "review_ids": ids,
@@ -323,7 +323,8 @@ def run_batch(run_dir, client, budget, calls, units, config, phase, stop, log=pr
                          "error": res["error"], "handoff": f"enrich/fallback_handoffs/{cid}", "mode": "batch"})
             retry_groups.append((group, res["error"]))
             continue
-        cost = cost_usd(res["input_tokens"], res["output_tokens"], CLAUDE_PRICE_IN, CLAUDE_PRICE_OUT) * CLAUDE_BATCH_DISCOUNT
+        cost = cost_usd(res["input_tokens"], res["output_tokens"],
+                        *CLAUDE_PRICES.get(client.model, (CLAUDE_PRICE_IN, CLAUDE_PRICE_OUT))) * CLAUDE_BATCH_DISCOUNT
         budget.commit(Decimal(0), cost, "enrich", res["request_id"])
         write_json(handoffs / f"{cid}.response.1.json", {**res, "cost_usd": str(cost)})
         try:

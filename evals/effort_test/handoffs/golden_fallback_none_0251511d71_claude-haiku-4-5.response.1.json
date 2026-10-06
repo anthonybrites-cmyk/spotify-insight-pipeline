@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.005338",
+  "effort": "none",
+  "input_tokens": 2108,
+  "max_tokens": 16000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 646,
+  "request_id": "req_011CfmtYDrkfHUwUoaowUwpu",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"991b6b3a-f511-458a-a5b7-234f78048fb5\",\"topic\":\"usability\",\"intent\":\"complaint\",\"severity\":2,\"sentiment\":\"negative\",\"evidence_quote\":\"limited functionality..it's just too much\",\"needs_review\":false,\"reason\":\"Generic criticism of limited features; no specific function blocked.\"},{\"review_id\":\"723f07de-9881-4049-8680-1a9e25652914\",\"topic\":\"playback\",\"intent\":\"praise\",\"severity\":1,\"sentiment\":\"very positive\",\"evidence_quote\":\"the app works great, and I use it constantly\",\"needs_review\":false,\"reason\":\"Update resolves crash; overall praise for app performance.\"},{\"review_id\":\"5de7f95b-ccad-41b2-9f63-a13f7c1d9f09\",\"topic\":\"other\",\"intent\":\"unclear\",\"severity\":1,\"sentiment\":\"very negative\",\"evidence_quote\":\"We are boycotting Swedish app in our protest against Sweden for their desrecpect & desceration of our holy book Qur'an\",\"needs_review\":false,\"reason\":\"Bare boycott slogan; no product complaint or personal departure.\"},{\"review_id\":\"46842184-32f8-4088-ac15-2a700a7e94ed\",\"topic\":\"catalog\",\"intent\":\"complaint\",\"severity\":2,\"sentiment\":\"negative\",\"evidence_quote\":\"lirik nya kdang gaada kek mana??\",\"needs_review\":true,\"reason\":\"Non-English review; appears to reference missing lyrics; unclear severity.\"},{\"review_id\":\"283b5843-a992-464f-b1dc-9dc7281ff390\",\"topic\":\"other\",\"intent\":\"unclear\",\"severity\":1,\"sentiment\":\"neutral or mixed\",\"evidence_quote\":\"Beth, we all got to give me a free dollar to go with 3 months, bro I can't be like\",\"needs_review\":false,\"reason\":\"Incoherent text; no clear product complaint or intent.\"},{\"review_id\":\"dceb14e7-2df0-422f-bb2b-73d7c373159a\",\"topic\":\"billing\",\"intent\":\"complaint\",\"severity\":3,\"sentiment\":\"very negative\",\"evidence_quote\":\"I can't even play the songs that I like and I can't rewind songs\",\"needs_review\":false,\"reason\":\"Cannot rewind (Premium control); cannot play liked songs (restricted for free).\"},{\"review_id\":\"d2f3874f-d15d-4a2f-bb97-4f1213defa46\",\"topic\":\"billing\",\"intent\":\"complaint\",\"severity\":3,\"sentiment\":\"very negative\",\"evidence_quote\":\"Too expensive and the free version is pretty much unusable with constant ads\",\"needs_review\":false,\"reason\":\"High price and free version restricted by ads; functionality degraded without payment.\"}]}"
+}
