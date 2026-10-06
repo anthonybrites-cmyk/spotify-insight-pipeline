@@ -89,6 +89,7 @@ def cmd_run(args):
                      "workers": args.workers, "rps": args.rps, "max_minutes": args.max_minutes,
                      "exclude_golden_ids_from": args.exclude_golden, "translate": args.translate,
                      "rubric_variant": args.rubric, "fallback": args.fallback,
+                     "scope_sample": args.scope_sample, "scope_include_duplicates": args.scope_include_duplicates,
                      "fallback_threshold": args.fallback_threshold, "fallback_max_fraction": args.fallback_max_fraction,
                      "claude_effort": args.claude_effort, "claude_max_tokens": args.claude_max_tokens})
     manifest.setdefault("invocations", []).append({"id": invocation, "code_version": git_commit(),
@@ -136,6 +137,16 @@ def _stages(args, stages, run_dir, input_csv, jev, claude_client, budget, calls,
 
     with runlog.stage("ingest"):
         ingest.run(input_csv, run_dir, log=log)
+        if args.scope_sample:
+            from . import scope as scope_mod
+            existing = scope_mod.load(run_dir)
+            wanted = {"sample_size": args.scope_sample, "include_duplicates": args.scope_include_duplicates}
+            if existing and {k: existing["settings"][k] for k in wanted} != wanted:
+                raise SystemExit(f"{run_dir} already has scope {existing['settings']}; use a new --run-dir")
+            sc = scope_mod.build(run_dir, args.scope_sample, args.scope_include_duplicates)
+            log(f"scope: {scope_mod.describe(sc)}; {len(sc['representative']):,} distinct texts to classify")
+        elif (run_dir / "ingest" / "scope.json").exists():
+            raise SystemExit(f"{run_dir} was started with a sample scope; pass the same --scope-sample to resume")
     texts = {u["unit"]: u["text"] for u in ingest.load_units(run_dir)}
 
     with StopFlag(max_minutes=args.max_minutes) as stop:
@@ -272,6 +283,10 @@ def main(argv=None):
     p.add_argument("--verify-n", type=int, default=1000, help="declared random verification sample size")
     p.add_argument("--verify-extra-groups", help="also verify every unit in these language groups, as a separate "
                    "stratum (e.g. non_english_latin,non_latin_script for the 10k language comparison)")
+    p.add_argument("--scope-sample", type=int, help="classify a seeded random sample of this many review IDs "
+                   "(all rows are still ingested; the rest are exported as quarantined out of scope)")
+    p.add_argument("--scope-include-duplicates", action="store_true",
+                   help="also complete every exact-duplicate copy of a sampled text (reuse, no extra model cost)")
     p.add_argument("--stages", help=f"comma list, default all: {','.join(STAGES)}")
     p.add_argument("--exclude-golden", help="golden_50 CSV: its review IDs (only) are kept out of prompt examples")
     p.add_argument("--stop-after-units", type=int, help="send at most N new enrichment requests, then stop (resume demo)")

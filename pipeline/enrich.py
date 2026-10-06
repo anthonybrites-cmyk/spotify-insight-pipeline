@@ -70,7 +70,11 @@ def final_results(run_dir, config):
 
 
 def completed_ids(run_dir, done_units):
-    return sorted(s["review_id"] for s in load_sources(run_dir) if s["unit"] in done_units)
+    from . import scope as scope_mod
+    sc = scope_mod.load(run_dir)
+    sampled = set(sc["sampled_ids"]) if sc and not sc["settings"]["include_duplicates"] else None
+    return sorted(s["review_id"] for s in load_sources(run_dir)
+                  if s["unit"] in done_units and (sampled is None or s["review_id"] in sampled))
 
 
 def snapshot(run_dir, name, done_units, meta):
@@ -247,7 +251,7 @@ def fallback_pass(run_dir, done, fallback_cfg, budget, calls, config, phase, sto
 
 def finish(run_dir, state, invocation, done, reason, log, counters=None):
     out = run_dir / "enrich"
-    units_total = sum(1 for _ in read_jsonl(run_dir / "ingest" / "units.jsonl"))
+    units_total = len(load_units(run_dir))  # in-scope distinct texts
     # Under a fallback config a low-confidence unit counts as completed only once the fallback resolved it.
     done = resolved_units(run_dir, invocation["label_config"], done, invocation.get("fallback"))
     invocation.update({"ended": now(), "stop_reason": reason, "completed_at_end": len(done),

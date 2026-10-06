@@ -5,6 +5,7 @@ from .group import load_assignments
 from .ingest import load_sources
 from .rubric import label_config as enrich_config
 from .store import read_json, read_jsonl
+from . import scope as scope_mod
 
 LABEL_FIELDS = ("topic", "intent", "sentiment", "severity", "entities", "evidence_quote", "needs_review")
 
@@ -20,11 +21,19 @@ def build(run_dir, jev_model):
     disagreements = set(read_json(run_dir / "verify" / "disagreement_units.json", []))
     assignments, _ = load_assignments(run_dir) if (run_dir / "group" / "issues.json").exists() else ({}, None)
 
+    sc = scope_mod.load(run_dir)
+    in_scope_units = set(sc["representative"]) if sc else None
+    sampled = set(sc["sampled_ids"]) if sc and not sc["settings"]["include_duplicates"] else None
+    out_of_scope = f"out_of_scope: not in the {scope_mod.describe(sc)}" if sc else None
+
     records = []
     for s in load_sources(run_dir):
         base = {"review_id": s["review_id"], "source_sha256": s["source_sha256"]}
         if s["unit"] is None:
             records.append({**base, "status": "quarantined", "reason": s["quarantine_reason"], "attempts": 0})
+            continue
+        if sc and (s["unit"] not in in_scope_units or (sampled is not None and s["review_id"] not in sampled)):
+            records.append({**base, "status": "quarantined", "reason": out_of_scope, "attempts": 0})
             continue
         row = done.get(s["unit"])
         if row is None:

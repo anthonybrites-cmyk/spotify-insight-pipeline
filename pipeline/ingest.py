@@ -121,8 +121,15 @@ def run(input_csv, run_dir, log=print):
 
 
 def load_units(run_dir):
-    from .store import read_jsonl
-    return list(read_jsonl(run_dir / "ingest" / "units.jsonl"))
+    """Distinct texts to classify. Under a saved scope (ingest/scope.json) only in-scope texts are returned,
+    each represented by its first sampled review ID so cache provenance always points at a sampled record."""
+    from .store import read_json, read_jsonl
+    units = list(read_jsonl(run_dir / "ingest" / "units.jsonl"))
+    scope = read_json(run_dir / "ingest" / "scope.json")
+    if scope is None:
+        return units
+    rep = scope["representative"]
+    return [{**u, "original_id": rep[u["unit"]]} for u in units if u["unit"] in rep]
 
 
 def load_sources(run_dir):

@@ -883,3 +883,58 @@ class TestCostCalculator(unittest.TestCase):
     def test_cold_pilot_refuses_a_non_empty_cache(self):
         with self.assertRaises(SystemExit):
             cli.main(["cost", "pilot", "--input", str(self.cost100), "--offline-fake", "--label", "cold-w1"])
+
+
+class TestScope(unittest.TestCase):
+    """A sampled classification scope: every row accounted for, only sampled IDs classified, valid reuse."""
+
+    def run_scoped(self, tmp, *extra):
+        args = ["run", "--input", str(SMALL), "--run-dir", str(tmp / "run"), "--budget-group", "fake",
+                "--budget-usd", "1", "--verify-n", "20", "--offline-fake", "--workers", "2", "--rps", "10000",
+                "--scope-sample", "200", *extra, "--grading-dir", str(tmp / "grading"), "--allow-fake"]
+        return cli.main(args)
+
+    def test_sample_without_duplicates(self):
+        tmp = Path(tempfile.mkdtemp(prefix="pipeline-scope-"))
+        try:
+            self.assertEqual(self.run_scoped(tmp), 0)
+            from pipeline import records as rec, scope
+            sc = scope.load(tmp / "run")
+            final = rec.build(tmp / "run", "fake-jev-0")
+            done = {r["review_id"] for r in final if r["status"] == "completed"}
+            self.assertEqual(done, set(sc["sampled_ids"]))  # exactly the sampled IDs
+            out = [r for r in final if r["status"] == "quarantined"]
+            self.assertEqual(len(out), 300)
+            self.assertTrue(all(r["reason"].startswith("out_of_scope") for r in out))
+            calls = list(read_jsonl(tmp / "run" / "calls.jsonl"))
+            sent = {i for c in calls if c["role"] == "enrich" for i in c["review_ids"]}
+            self.assertTrue(sent <= set(sc["sampled_ids"]))  # only sampled representatives are sent
+            report = check(tmp, tmp / "grading")
+            # A sample run is expected to show unfinished_classification (out-of-scope rows); nothing else.
+            self.assertTrue(set(report["issue_counts"]) <= RESUME_ONLY | {"unfinished_classification"}, report["issue_counts"])
+            self.assertEqual(report["coverage"]["valid_completed"], 200)
+            self.assertEqual(report["coverage"]["quarantined"], 300)
+            self.assertEqual(report["coverage"]["accounted_fraction"], 1.0)
+        finally:
+            shutil.rmtree(tmp, ignore_errors=True)
+
+    def test_sample_with_duplicates_reuses_exact_texts(self):
+        tmp = Path(tempfile.mkdtemp(prefix="pipeline-scope-"))
+        try:
+            self.assertEqual(self.run_scoped(tmp, "--scope-include-duplicates"), 0)
+            report = check(tmp, tmp / "grading")
+            self.assertTrue(set(report["issue_counts"]) <= RESUME_ONLY | {"unfinished_classification"}, report["issue_counts"])
+            self.assertGreaterEqual(report["coverage"]["valid_completed"], 200)
+            self.assertGreater(report["coverage"]["valid_cache_reuses"], 0)
+        finally:
+            shutil.rmtree(tmp, ignore_errors=True)
+
+    def test_scope_cannot_change_on_resume(self):
+        tmp = Path(tempfile.mkdtemp(prefix="pipeline-scope-"))
+        try:
+            self.assertEqual(self.run_scoped(tmp), 0)
+            with self.assertRaises(SystemExit):
+                cli.main(["run", "--input", str(SMALL), "--run-dir", str(tmp / "run"), "--budget-group", "fake",
+                          "--budget-usd", "1", "--offline-fake"])  # resuming without the scope is refused
+        finally:
+            shutil.rmtree(tmp, ignore_errors=True)

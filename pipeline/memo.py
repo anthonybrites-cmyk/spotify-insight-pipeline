@@ -48,10 +48,16 @@ def build_inputs(ranking, issues, records, verify_report, ingest_summary, exclud
     top3 = sum(int(r["complaint_count"]) for r in ranking[:3])
     random = (verify_report or {}).get("strata", {}).get("random:all", {})
     facts = {
+        "F00": ("classification scope (all rows ingested and accounted for)",
+                "full" if not any(str(r.get("reason", "")).startswith("out_of_scope") for r in records) else
+                "sample"),
         "F01": ("source reviews in the input file", str(len(records))),
         "F02": ("reviews with a completed classification", str(len(completed))),
         "F03": ("reviews quarantined for empty text", str(sum(r.get("reason") == "empty_review_text" for r in records))),
-        "F04": ("reviews quarantined for other failures", str(sum(r["status"] == "quarantined" and r.get("reason") != "empty_review_text" for r in records))),
+        "F04": ("reviews quarantined for other failures", str(sum(r["status"] == "quarantined" and r.get("reason") != "empty_review_text"
+                                                                  and not str(r.get("reason", "")).startswith("out_of_scope") for r in records))),
+        "F99": ("reviews outside the classification scope (ingested and accounted for, not classified)",
+                str(sum(str(r.get("reason", "")).startswith("out_of_scope") for r in records))),
         "F05": ("complaint or cancellation-intent reviews (ranked)", str(len(complaints))),
         "F06": ("cancellation-intent reviews", str(sum(r["intent"] == "cancellation" for r in completed))),
         "F07": ("completed reviews flagged needs_review", str(sum(r["needs_review"] for r in completed))),
