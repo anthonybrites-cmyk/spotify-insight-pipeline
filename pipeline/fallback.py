@@ -308,12 +308,19 @@ def run_batch(run_dir, client, budget, calls, units, config, phase, stop, log=pr
         if stop.reason:
             log(f"fallback: stopping while batch {state['batch_id']} is still processing; rerun to resume polling")
             return
+        counts = getattr(client, "last_batch_counts", None)
+        log(f"fallback: batch {state['batch_id']} still processing" + (f" ({counts})" if counts else "")
+            + f"; next check in {poll_s:g} s")
         sleep(poll_s)
 
     writer = Writer(run_dir, config)
     lock = threading.Lock()
     retry_groups = []
-    for cid, res in client.batch_results(state["batch_id"]):
+    total = len(state["members"])
+    for n, (cid, res) in enumerate(client.batch_results(state["batch_id"]), 1):
+        if n % 25 == 0 or n == total:
+            log(f"fallback: collected {n}/{total} batch results (exact-quote retries run one at a time); "
+                f"run spend ${budget.run_committed:.4f}")
         ids = state["members"].get(cid, [])
         group = [unit_by_id[i] for i in ids if i in unit_by_id]
         if not res["ok"]:

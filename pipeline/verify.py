@@ -196,6 +196,9 @@ def run_batch(out, client, budget, calls, groups, vconfig, system, stop, log, po
             if stop.reason:
                 log(f"verify: stopping while batch {state['batch_id']} is still processing; rerun to resume polling")
                 return None
+        counts = getattr(client, "last_batch_counts", None)
+        log(f"verify: batch {state['batch_id']} still processing" + (f" ({counts})" if counts else "")
+            + f"; next check in {poll_s:g} s")
         sleep(poll_s)
     errors = {}
     for name, res in client.batch_results(state["batch_id"]):

@@ -67,6 +67,9 @@ class ClaudeClient:
 
     def batch_status(self, batch_id):
         batch = self.client.messages.batches.retrieve(batch_id)
+        c = batch.request_counts
+        self.last_batch_counts = {"processing": c.processing, "succeeded": c.succeeded, "errored": c.errored,
+                                  "canceled": c.canceled, "expired": c.expired}
         return batch.processing_status
 
     def batch_results(self, batch_id):
