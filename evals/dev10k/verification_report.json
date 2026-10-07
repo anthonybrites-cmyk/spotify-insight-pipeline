@@ -1,0 +1,226 @@
+{
+  "confusion_jev_to_verifier": {
+    "intent": {
+      "cancellation->cancellation": 25,
+      "cancellation->complaint": 4,
+      "cancellation->praise": 1,
+      "cancellation->unclear": 1,
+      "complaint->cancellation": 1,
+      "complaint->complaint": 247,
+      "complaint->praise": 1,
+      "complaint->request": 1,
+      "complaint->unclear": 6,
+      "praise->praise": 147,
+      "praise->unclear": 7,
+      "request->complaint": 2,
+      "request->request": 18,
+      "request->unclear": 1,
+      "unclear->complaint": 13,
+      "unclear->praise": 1,
+      "unclear->request": 2,
+      "unclear->unclear": 82
+    },
+    "severity": {
+      "1->1": 261,
+      "1->2": 15,
+      "1->3": 1,
+      "1->4": 1,
+      "2->1": 9,
+      "2->2": 130,
+      "2->3": 6,
+      "3->2": 6,
+      "3->3": 76,
+      "3->4": 11,
+      "4->2": 2,
+      "4->3": 7,
+      "4->4": 30,
+      "5->2": 1,
+      "5->3": 2,
+      "5->5": 2
+    },
+    "topic": {
+      "access->access": 9,
+      "access->billing": 1,
+      "access->support": 1,
+      "access->usability": 1,
+      "billing->billing": 54,
+      "billing->other": 2,
+      "billing->usability": 1,
+      "catalog->catalog": 34,
+      "catalog->other": 1,
+      "catalog->playback": 1,
+      "downloads->downloads": 8,
+      "downloads->playback": 1,
+      "other->billing": 6,
+      "other->catalog": 13,
+      "other->other": 272,
+      "other->playback": 4,
+      "other->usability": 7,
+      "playback->billing": 1,
+      "playback->catalog": 2,
+      "playback->other": 1,
+      "playback->playback": 28,
+      "playback->usability": 3,
+      "support->support": 1,
+      "support->usability": 1,
+      "usability->billing": 14,
+      "usability->catalog": 3,
+      "usability->downloads": 2,
+      "usability->other": 2,
+      "usability->playback": 5,
+      "usability->usability": 81
+    }
+  },
+  "definition": "topic or intent differs, or severity differs by >= 2; these records get needs_review=true",
+  "enrich_label_config": "jev-1.13.0+prompt-1f4c113e8ac0+fallback-claude-sonnet-5-effort-medium-t0.5-cap0.2-0b2d587959+schema-v1",
+  "headline": "random:all (declared uniform random sample)",
+  "material_disagreements": 110,
+  "note": "Agreement between two models is not accuracy. random:* = declared random sample (headline); language_extra:* = all extra-language units; all_verified:language:* compares language groups across everything verified. For decided_by:claude_fallback the verifier is the same model family as the labeller, so that stratum is a consistency check, not independent verification.",
+  "strata": {
+    "all_verified:decided_by:claude_fallback": {
+      "all_three_agreement": 0.7227,
+      "intent_agreement": 0.8739,
+      "material_disagreements": 26,
+      "n": 119,
+      "severity_exact_agreement": 0.8571,
+      "severity_mae": 0.1681,
+      "topic_agreement": 0.8655
+    },
+    "all_verified:decided_by:jev": {
+      "all_three_agreement": 0.7664,
+      "intent_agreement": 0.941,
+      "material_disagreements": 84,
+      "n": 441,
+      "severity_exact_agreement": 0.9002,
+      "severity_mae": 0.1134,
+      "topic_agreement": 0.8707
+    },
+    "all_verified:language:english": {
+      "all_three_agreement": 0.7698,
+      "intent_agreement": 0.9736,
+      "material_disagreements": 46,
+      "n": 265,
+      "severity_exact_agreement": 0.917,
+      "severity_mae": 0.0906,
+      "topic_agreement": 0.8566
+    },
+    "all_verified:language:no_letters": {
+      "all_three_agreement": 0.4,
+      "intent_agreement": 0.4,
+      "material_disagreements": 3,
+      "n": 5,
+      "severity_exact_agreement": 0.6,
+      "severity_mae": 0.4,
+      "topic_agreement": 1.0
+    },
+    "all_verified:language:non_english_latin": {
+      "all_three_agreement": 0.7156,
+      "intent_agreement": 0.8889,
+      "material_disagreements": 54,
+      "n": 225,
+      "severity_exact_agreement": 0.8533,
+      "severity_mae": 0.1778,
+      "topic_agreement": 0.8533
+    },
+    "all_verified:language:non_latin_script": {
+      "all_three_agreement": 0.8837,
+      "intent_agreement": 0.907,
+      "material_disagreements": 4,
+      "n": 43,
+      "severity_exact_agreement": 0.907,
+      "severity_mae": 0.093,
+      "topic_agreement": 0.9767
+    },
+    "all_verified:language:short_unrecognised": {
+      "all_three_agreement": 0.8636,
+      "intent_agreement": 0.9091,
+      "material_disagreements": 3,
+      "n": 22,
+      "severity_exact_agreement": 1.0,
+      "severity_mae": 0.0,
+      "topic_agreement": 0.9545
+    },
+    "all_verified:translated:False": {
+      "all_three_agreement": 0.7571,
+      "intent_agreement": 0.9268,
+      "material_disagreements": 110,
+      "n": 560,
+      "severity_exact_agreement": 0.8911,
+      "severity_mae": 0.125,
+      "topic_agreement": 0.8696
+    },
+    "language_extra:all": {
+      "all_three_agreement": 0.7462,
+      "intent_agreement": 0.8962,
+      "material_disagreements": 55,
+      "n": 260,
+      "severity_exact_agreement": 0.8654,
+      "severity_mae": 0.1615,
+      "topic_agreement": 0.8769
+    },
+    "language_extra:high_confidence(>=0.8)": {
+      "all_three_agreement": 0.899,
+      "intent_agreement": 0.9495,
+      "material_disagreements": 8,
+      "n": 99,
+      "severity_exact_agreement": 0.9495,
+      "severity_mae": 0.0606,
+      "topic_agreement": 0.9798
+    },
+    "language_extra:low_confidence(<0.5)": {
+      "all_three_agreement": 0.7324,
+      "intent_agreement": 0.8592,
+      "material_disagreements": 16,
+      "n": 71,
+      "severity_exact_agreement": 0.8592,
+      "severity_mae": 0.169,
+      "topic_agreement": 0.8451
+    },
+    "language_extra:mid_confidence(0.5-0.8)": {
+      "all_three_agreement": 0.5889,
+      "intent_agreement": 0.8667,
+      "material_disagreements": 31,
+      "n": 90,
+      "severity_exact_agreement": 0.7778,
+      "severity_mae": 0.2667,
+      "topic_agreement": 0.7889
+    },
+    "random:all": {
+      "all_three_agreement": 0.7667,
+      "intent_agreement": 0.9533,
+      "material_disagreements": 55,
+      "n": 300,
+      "severity_exact_agreement": 0.9133,
+      "severity_mae": 0.0933,
+      "topic_agreement": 0.8633
+    },
+    "random:high_confidence(>=0.8)": {
+      "all_three_agreement": 0.8876,
+      "intent_agreement": 0.9882,
+      "material_disagreements": 14,
+      "n": 169,
+      "severity_exact_agreement": 0.9704,
+      "severity_mae": 0.0296,
+      "topic_agreement": 0.929
+    },
+    "random:low_confidence(<0.5)": {
+      "all_three_agreement": 0.7083,
+      "intent_agreement": 0.8958,
+      "material_disagreements": 10,
+      "n": 48,
+      "severity_exact_agreement": 0.8542,
+      "severity_mae": 0.1667,
+      "topic_agreement": 0.8958
+    },
+    "random:mid_confidence(0.5-0.8)": {
+      "all_three_agreement": 0.5542,
+      "intent_agreement": 0.9157,
+      "material_disagreements": 31,
+      "n": 83,
+      "severity_exact_agreement": 0.8313,
+      "severity_mae": 0.1807,
+      "topic_agreement": 0.7108
+    }
+  },
+  "verify_label_config": "claude-sonnet-5+effort-medium+verify-0102d95afe14+schema-v1"
+}

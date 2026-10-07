@@ -1,0 +1,182 @@
+{
+  "cases": [
+    {
+      "detected": true,
+      "original_topic": "usability",
+      "planted_topic": "catalog",
+      "review_id": "bdecf249-9580-4e0b-ba17-be1ce21cdb00",
+      "verifier_topic": "usability"
+    },
+    {
+      "detected": true,
+      "original_topic": "other",
+      "planted_topic": "playback",
+      "review_id": "7636f20c-2924-479d-b679-1b305f0e528c",
+      "verifier_topic": "other"
+    },
+    {
+      "detected": true,
+      "original_topic": "other",
+      "planted_topic": "playback",
+      "review_id": "8021673f-3b63-4e90-b252-0ee637d91551",
+      "verifier_topic": "other"
+    },
+    {
+      "detected": true,
+      "original_topic": "playback",
+      "planted_topic": "billing",
+      "review_id": "83b0405d-879c-4056-8aa4-5a4568065d47",
+      "verifier_topic": "playback"
+    },
+    {
+      "detected": true,
+      "original_topic": "usability",
+      "planted_topic": "catalog",
+      "review_id": "e1d0985a-08f8-4596-8bc8-4b248ffee085",
+      "verifier_topic": "usability"
+    },
+    {
+      "detected": true,
+      "original_topic": "other",
+      "planted_topic": "playback",
+      "review_id": "414391d2-a456-4f41-86bc-5d21e54469b1",
+      "verifier_topic": "other"
+    },
+    {
+      "detected": true,
+      "original_topic": "other",
+      "planted_topic": "playback",
+      "review_id": "be6eef1d-03e0-4655-8d17-dcac67bae7c9",
+      "verifier_topic": "other"
+    },
+    {
+      "detected": true,
+      "original_topic": "billing",
+      "planted_topic": "access",
+      "review_id": "19750f1d-f6e4-426c-bb1d-cc5c000b2fda",
+      "verifier_topic": "billing"
+    },
+    {
+      "detected": true,
+      "original_topic": "billing",
+      "planted_topic": "access",
+      "review_id": "cbf00831-3675-44d2-a674-26e128268685",
+      "verifier_topic": "billing"
+    },
+    {
+      "detected": true,
+      "original_topic": "usability",
+      "planted_topic": "catalog",
+      "review_id": "94b58df8-9e8c-4d7f-90cc-356b83e64dd5",
+      "verifier_topic": "usability"
+    },
+    {
+      "detected": true,
+      "original_topic": "other",
+      "planted_topic": "playback",
+      "review_id": "cb680f4d-8f80-4441-a1df-9883a86224c4",
+      "verifier_topic": "other"
+    },
+    {
+      "detected": true,
+      "original_topic": "other",
+      "planted_topic": "playback",
+      "review_id": "088e9ac3-8b93-4bff-8c75-032362d37b64",
+      "verifier_topic": "other"
+    },
+    {
+      "detected": true,
+      "original_topic": "other",
+      "planted_topic": "playback",
+      "review_id": "9ef99a2e-7d00-4d76-add9-85b0c0a06572",
+      "verifier_topic": "other"
+    },
+    {
+      "detected": true,
+      "original_topic": "other",
+      "planted_topic": "playback",
+      "review_id": "dba9f26e-fa2c-4f15-a211-ddc9d908f319",
+      "verifier_topic": "other"
+    },
+    {
+      "detected": true,
+      "original_topic": "billing",
+      "planted_topic": "access",
+      "review_id": "ef494da3-fac9-4ced-a24f-85c81e22e4c0",
+      "verifier_topic": "billing"
+    },
+    {
+      "detected": true,
+      "original_topic": "catalog",
+      "planted_topic": "other",
+      "review_id": "1dbc0b76-5c6c-48b1-9323-5d47f52267a1",
+      "verifier_topic": "catalog"
+    },
+    {
+      "detected": true,
+      "original_topic": "other",
+      "planted_topic": "playback",
+      "review_id": "6a5955ed-feb5-4941-a2fd-4cb2783899d1",
+      "verifier_topic": "other"
+    },
+    {
+      "detected": true,
+      "original_topic": "other",
+      "planted_topic": "playback",
+      "review_id": "6e9da0f9-8830-4896-8d69-b1338ccef98d",
+      "verifier_topic": "other"
+    },
+    {
+      "detected": true,
+      "original_topic": "billing",
+      "planted_topic": "access",
+      "review_id": "de2ffdfa-afcd-4784-bda0-1557d7f95a9d",
+      "verifier_topic": "billing"
+    },
+    {
+      "detected": true,
+      "original_topic": "usability",
+      "planted_topic": "catalog",
+      "review_id": "8eff8bf2-2075-49b5-872c-7c4b5819cb9d",
+      "verifier_topic": "usability"
+    },
+    {
+      "detected": true,
+      "original_topic": "billing",
+      "planted_topic": "access",
+      "review_id": "9c0d95ab-4947-4c42-93af-e8fbad0f1a9f",
+      "verifier_topic": "billing"
+    },
+    {
+      "detected": true,
+      "original_topic": "catalog",
+      "planted_topic": "other",
+      "review_id": "0335ab02-832f-45ce-b827-092ef2aa6c50",
+      "verifier_topic": "catalog"
+    },
+    {
+      "detected": true,
+      "original_topic": "access",
+      "planted_topic": "downloads",
+      "review_id": "171e7d5e-47ff-449c-950f-24beca30ab76",
+      "verifier_topic": "access"
+    },
+    {
+      "detected": true,
+      "original_topic": "catalog",
+      "planted_topic": "other",
+      "review_id": "46f72989-2d9d-4017-990c-8dad98d282b1",
+      "verifier_topic": "catalog"
+    },
+    {
+      "detected": true,
+      "original_topic": "other",
+      "planted_topic": "playback",
+      "review_id": "5547d2e4-3526-42ac-b5b0-b30df5fa4548",
+      "verifier_topic": "other"
+    }
+  ],
+  "description": "deliberately wrong topic planted in a copy of agreeing comparisons",
+  "detected": 25,
+  "planted": 25
+}

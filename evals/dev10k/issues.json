@@ -1,0 +1,312 @@
+{
+  "issues": {
+    "access.account_hacked_security": {
+      "definition": "Complaints that the account was accessed by someone else or hijacked.",
+      "name": "Account hacked or compromised",
+      "source": "model",
+      "topic": "access"
+    },
+    "access.app_wont_open": {
+      "definition": "The app itself won't launch, install, or gets stuck before reaching login.",
+      "name": "App fails to open or install",
+      "source": "model",
+      "topic": "access"
+    },
+    "access.false_no_internet_error": {
+      "definition": "App reports no internet connection during login despite a working connection.",
+      "name": "False 'no internet connection' error at login",
+      "source": "model",
+      "topic": "access"
+    },
+    "access.general": {
+      "definition": "access complaints that match no more specific subtopic, or are too vague to place.",
+      "name": "Other access complaints",
+      "source": "code_catch_all",
+      "topic": "access"
+    },
+    "access.login_failure": {
+      "definition": "User enters correct credentials but the app fails to log them in or shows a generic error.",
+      "name": "Login failures",
+      "source": "model",
+      "topic": "access"
+    },
+    "access.otp_phone_verification": {
+      "definition": "Problems receiving or validating OTP codes or phone numbers during sign-in or sign-up.",
+      "name": "OTP/phone number verification issues",
+      "source": "model",
+      "topic": "access"
+    },
+    "access.password_reset": {
+      "definition": "Issues changing, recovering, or resetting a forgotten password.",
+      "name": "Password reset/recovery problems",
+      "source": "model",
+      "topic": "access"
+    },
+    "access.signup_registration": {
+      "definition": "Problems creating a new account, including age or email/phone requirements.",
+      "name": "Sign-up/registration errors",
+      "source": "model",
+      "topic": "access"
+    },
+    "access.unexpected_logout": {
+      "definition": "User is logged out automatically (often after an update) and cannot log back in.",
+      "name": "Unexpected logout",
+      "source": "model",
+      "topic": "access"
+    },
+    "billing.charged_after_cancel": {
+      "definition": "User continues to be billed after cancelling their subscription.",
+      "name": "Charged despite cancellation",
+      "source": "model",
+      "topic": "billing"
+    },
+    "billing.features_locked_premium": {
+      "definition": "Previously free features like repeat, skip, or lyrics now require a Premium subscription.",
+      "name": "Basic features locked behind Premium",
+      "source": "model",
+      "topic": "billing"
+    },
+    "billing.general": {
+      "definition": "billing complaints that match no more specific subtopic, or are too vague to place.",
+      "name": "Other billing complaints",
+      "source": "code_catch_all",
+      "topic": "billing"
+    },
+    "billing.plan_eligibility": {
+      "definition": "Problems subscribing to specific plans like student or family/duo due to eligibility checks.",
+      "name": "Plan eligibility or trial issues",
+      "source": "model",
+      "topic": "billing"
+    },
+    "billing.premium_not_recognized": {
+      "definition": "User paid for Premium but the app still shows ads or restricts features as if free.",
+      "name": "Premium subscription not recognized or activated",
+      "source": "model",
+      "topic": "billing"
+    },
+    "billing.price_too_high": {
+      "definition": "Complaints that subscription cost is too expensive or not worth the value.",
+      "name": "Price too high or unaffordable",
+      "source": "model",
+      "topic": "billing"
+    },
+    "billing.refund_issues": {
+      "definition": "Issues obtaining a refund or problems with payment transactions being charged incorrectly.",
+      "name": "Refund or payment processing problems",
+      "source": "model",
+      "topic": "billing"
+    },
+    "billing.skip_limit": {
+      "definition": "Complaints about being restricted to a limited number of song skips per hour.",
+      "name": "Skip limits on free tier",
+      "source": "model",
+      "topic": "billing"
+    },
+    "catalog.content_censorship_bias": {
+      "definition": "Complaints that certain artists or songs are restricted due to perceived political or company bias.",
+      "name": "Perceived censorship or bias in content availability",
+      "source": "model",
+      "topic": "catalog"
+    },
+    "catalog.general": {
+      "definition": "catalog complaints that match no more specific subtopic, or are too vague to place.",
+      "name": "Other catalog complaints",
+      "source": "code_catch_all",
+      "topic": "catalog"
+    },
+    "catalog.missing_catalog_gaps": {
+      "definition": "Specific genres, languages, or regional music are not available in the catalog.",
+      "name": "General catalog gaps (regional/genre)",
+      "source": "model",
+      "topic": "catalog"
+    },
+    "catalog.missing_lyrics": {
+      "definition": "Song lyrics fail to display, load incorrectly, or are absent entirely.",
+      "name": "Lyrics missing or not loading",
+      "source": "model",
+      "topic": "catalog"
+    },
+    "catalog.poor_recommendations": {
+      "definition": "Complaints about recommendation algorithms, radio, or mixes repeating or being irrelevant.",
+      "name": "Poor or repetitive recommendations",
+      "source": "model",
+      "topic": "catalog"
+    },
+    "catalog.removed_content": {
+      "definition": "Previously available content has been taken down or is no longer accessible.",
+      "name": "Songs, artists, or podcasts removed",
+      "source": "model",
+      "topic": "catalog"
+    },
+    "catalog.search_not_working": {
+      "definition": "Searching for songs or artists fails to return results or errors out.",
+      "name": "Search function not working",
+      "source": "model",
+      "topic": "catalog"
+    },
+    "catalog.wrapped_unavailable": {
+      "definition": "User cannot access or view their yearly Spotify Wrapped summary.",
+      "name": "Spotify Wrapped feature unavailable",
+      "source": "model",
+      "topic": "catalog"
+    },
+    "downloads.cannot_download": {
+      "definition": "User cannot initiate or complete downloading of songs, albums, or podcasts.",
+      "name": "Unable to download content",
+      "source": "model",
+      "topic": "downloads"
+    },
+    "downloads.download_management": {
+      "definition": "No easy way to remove or manage single downloaded songs without affecting the whole playlist.",
+      "name": "Difficulty managing individual downloads",
+      "source": "model",
+      "topic": "downloads"
+    },
+    "downloads.download_requires_premium": {
+      "definition": "Complaints that downloading is locked behind a paid subscription.",
+      "name": "Download restricted to Premium",
+      "source": "model",
+      "topic": "downloads"
+    },
+    "downloads.downloads_disappearing": {
+      "definition": "Previously downloaded songs or playlists vanish and must be re-downloaded.",
+      "name": "Downloaded songs disappearing",
+      "source": "model",
+      "topic": "downloads"
+    },
+    "downloads.general": {
+      "definition": "downloads complaints that match no more specific subtopic, or are too vague to place.",
+      "name": "Other downloads complaints",
+      "source": "code_catch_all",
+      "topic": "downloads"
+    },
+    "downloads.offline_mode_broken": {
+      "definition": "Downloaded content fails to play when offline despite being marked as downloaded.",
+      "name": "Offline mode not working",
+      "source": "model",
+      "topic": "downloads"
+    },
+    "downloads.storage_location_control": {
+      "definition": "Inability to save downloads to SD card or manage where downloaded files are stored.",
+      "name": "Lack of storage location control",
+      "source": "model",
+      "topic": "downloads"
+    },
+    "other.general": {
+      "definition": "other complaints that match no more specific subtopic, or are too vague to place.",
+      "name": "Other other complaints",
+      "source": "code_catch_all",
+      "topic": "other"
+    },
+    "playback.app_crash_freeze": {
+      "definition": "The app closes unexpectedly, freezes, or becomes unresponsive during use.",
+      "name": "App crashing or freezing",
+      "source": "model",
+      "topic": "playback"
+    },
+    "playback.audio_quality": {
+      "definition": "Complaints about low sound quality or degraded audio fidelity.",
+      "name": "Poor audio quality",
+      "source": "model",
+      "topic": "playback"
+    },
+    "playback.buffering_loading": {
+      "definition": "Songs take a long time to load or constantly buffer despite good connectivity.",
+      "name": "Buffering or slow loading",
+      "source": "model",
+      "topic": "playback"
+    },
+    "playback.connectivity_errors": {
+      "definition": "App shows offline or no-connection errors while streaming despite active internet.",
+      "name": "False connectivity/network errors during playback",
+      "source": "model",
+      "topic": "playback"
+    },
+    "playback.general": {
+      "definition": "playback complaints that match no more specific subtopic, or are too vague to place.",
+      "name": "Other playback complaints",
+      "source": "code_catch_all",
+      "topic": "playback"
+    },
+    "playback.high_resource_usage": {
+      "definition": "App uses excessive mobile data, storage space, or battery life.",
+      "name": "High data, battery, or storage consumption",
+      "source": "model",
+      "topic": "playback"
+    },
+    "playback.playback_failure": {
+      "definition": "Tapping play results in nothing happening or the song never starts.",
+      "name": "Songs fail to play or won't start",
+      "source": "model",
+      "topic": "playback"
+    },
+    "playback.random_pause_skip": {
+      "definition": "Playback stops, pauses, or skips tracks on its own without user input.",
+      "name": "Random pausing, stopping, or skipping",
+      "source": "model",
+      "topic": "playback"
+    },
+    "playback.wrong_song_played": {
+      "definition": "Selecting one track results in a different track playing.",
+      "name": "Wrong song plays",
+      "source": "model",
+      "topic": "playback"
+    },
+    "support.general": {
+      "definition": "support complaints that match no more specific subtopic, or are too vague to place.",
+      "name": "Other support complaints",
+      "source": "code_catch_all",
+      "topic": "support"
+    },
+    "usability.ad_frequency": {
+      "definition": "Complaints about too many ads or ads interrupting playback too often.",
+      "name": "Excessive or frequent ads",
+      "source": "model",
+      "topic": "usability"
+    },
+    "usability.autoplay_unwanted": {
+      "definition": "App automatically plays music, inserts unrequested songs, or resumes playback without user action.",
+      "name": "Unwanted autoplay or random song insertion",
+      "source": "model",
+      "topic": "usability"
+    },
+    "usability.general": {
+      "definition": "usability complaints that match no more specific subtopic, or are too vague to place.",
+      "name": "Other usability complaints",
+      "source": "code_catch_all",
+      "topic": "usability"
+    },
+    "usability.library_organization": {
+      "definition": "Difficulty organizing, finding, or managing playlists and the music library.",
+      "name": "Library and playlist organization problems",
+      "source": "model",
+      "topic": "usability"
+    },
+    "usability.navigation_layout": {
+      "definition": "Complaints about redesigned UI, oversized icons, or difficulty finding features after an update.",
+      "name": "Confusing navigation or layout changes",
+      "source": "model",
+      "topic": "usability"
+    },
+    "usability.playback_controls_missing": {
+      "definition": "Loss of ability to repeat, rewind, or go to previous track within the app.",
+      "name": "Missing playback controls (repeat, rewind, skip back)",
+      "source": "model",
+      "topic": "usability"
+    },
+    "usability.popup_interruptions": {
+      "definition": "Unwanted popups like rating requests or feature promotions interrupting the experience.",
+      "name": "Intrusive popups or prompts",
+      "source": "model",
+      "topic": "usability"
+    },
+    "usability.shuffle_forced": {
+      "definition": "Inability to play a playlist or liked songs in the chosen order without shuffle.",
+      "name": "Forced shuffle/cannot play in order",
+      "source": "model",
+      "topic": "usability"
+    }
+  },
+  "taxonomy_handoff": "taxonomy_76c3deb8f899",
+  "taxonomy_label_config": "claude-sonnet-5+effort-medium+group-taxonomy-af9e131d9244+schema-v1"
+}

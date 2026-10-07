@@ -1,0 +1,127 @@
+{
+  "budget": {
+    "cap_usd": "10.0",
+    "committed_usd": "5.582074206",
+    "group": "dev",
+    "remaining_usd": "4.417925794",
+    "this_run_usd": "4.432793672"
+  },
+  "caps": {
+    "budget_group": "dev",
+    "budget_usd": 10.0,
+    "early_gate_fraction": "0.10",
+    "max_minutes": null,
+    "rps": 30,
+    "workers": 2
+  },
+  "cost_basis": "provider-reported tokens x published list prices; not an invoice",
+  "early_gate": {
+    "accepted_override": false,
+    "allowed_at_gate_usd": "1.000",
+    "evaluated_at": "2026-10-06T23:22:52+00:00",
+    "fraction_done": "0.1000236742424242424242424242",
+    "linear_projection_usd": "3.7387",
+    "passed": true,
+    "projected_fallback_usd_included": "0.3198",
+    "spend_at_gate_usd": "0.373954338"
+  },
+  "elapsed_seconds_by_stage_all_invocations": {
+    "enrich": 1758.3,
+    "group": 316.7,
+    "ingest": 0.2,
+    "rank": 0.0,
+    "recommend": 17.5,
+    "verify": 608.8
+  },
+  "elapsed_seconds_total": 2701.5,
+  "enrich_invocations": [
+    {
+      "completed_at_end": 8448,
+      "completed_at_start": 0,
+      "ended": "2026-10-06T23:51:07+00:00",
+      "failed_this_invocation": 0,
+      "fallback": {
+        "effort": "medium",
+        "max_fraction": 0.2,
+        "mode": "standard",
+        "model": "claude-sonnet-5",
+        "tag": "fallback-claude-sonnet-5-effort-medium-t0.5-cap0.2-0b2d587959",
+        "threshold": 0.5
+      },
+      "label_config": "jev-1.13.0+prompt-1f4c113e8ac0+fallback-claude-sonnet-5-effort-medium-t0.5-cap0.2-0b2d587959+schema-v1",
+      "pending_at_start": 8448,
+      "phase": "initial",
+      "snapshot": "enrich_complete.json",
+      "spend_before_usd": "0",
+      "started": "2026-10-06T23:21:49+00:00",
+      "stop_reason": null,
+      "succeeded_this_invocation": 8448
+    }
+  ],
+  "generated_at": "2026-10-07T00:06:51+00:00",
+  "invocations": 1,
+  "records": {
+    "by_status": {
+      "completed": 10000
+    },
+    "completed_via_cache_reuse": 1552,
+    "needs_review": 1510,
+    "quarantine_reasons": {},
+    "total": 10000
+  },
+  "resume_evidence": {
+    "first_stop_snapshot": null
+  },
+  "total_cost_usd_list_price": "4.323639672",
+  "usage_by_role_model": {
+    "enrich|claude-sonnet-5": {
+      "calls_failed": 1,
+      "calls_succeeded": 38,
+      "cost_usd_list_price": "2.778404",
+      "failed_attempts_without_usage": 0,
+      "input_tokens": 200534,
+      "output_tokens": 248649,
+      "review_ids_sent": 1424
+    },
+    "enrich|jev-1.13.0": {
+      "calls_succeeded": 8448,
+      "cost_usd_list_price": "0.544046034",
+      "failed_attempts_without_usage": 0,
+      "input_tokens": 12953477,
+      "output_tokens": 1899099,
+      "review_ids_sent": 8448
+    },
+    "group|claude-sonnet-5": {
+      "calls_succeeded": 1,
+      "cost_usd_list_price": "0.05786",
+      "failed_attempts_without_usage": 0,
+      "input_tokens": 16020,
+      "output_tokens": 2582,
+      "review_ids_sent": 0
+    },
+    "group|jev-1.13.0": {
+      "calls_succeeded": 3169,
+      "cost_usd_list_price": "0.082783638",
+      "failed_attempts_without_usage": 0,
+      "input_tokens": 1971039,
+      "output_tokens": 315335,
+      "review_ids_sent": 3169
+    },
+    "memo|claude-sonnet-5": {
+      "calls_succeeded": 1,
+      "cost_usd_list_price": "0.031268",
+      "failed_attempts_without_usage": 0,
+      "input_tokens": 6244,
+      "output_tokens": 1878,
+      "review_ids_sent": 0
+    },
+    "verify|claude-sonnet-5": {
+      "calls_succeeded": 12,
+      "cost_usd_list_price": "0.829278",
+      "failed_attempts_without_usage": 0,
+      "input_tokens": 67129,
+      "output_tokens": 69502,
+      "review_ids_sent": 560
+    }
+  }
+}
