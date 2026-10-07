@@ -85,7 +85,7 @@ def cmd_run(args):
     invocation = time.strftime("%Y%m%dT%H%M%S") + "-" + uuid.uuid4().hex[:6]
     manifest.setdefault("run_id", run_dir.name + "-" + uuid.uuid4().hex[:8])
     manifest.update({"input": str(input_csv), "budget_group": args.budget_group, "budget_usd": args.budget_usd,
-                     "verify_n": args.verify_n, "fake": args.offline_fake, "stages": list(stages),
+                     "verify_n": args.verify_n, "verify_mode": args.verify_mode, "fake": args.offline_fake, "stages": list(stages),
                      "workers": args.workers, "rps": args.rps, "max_minutes": args.max_minutes,
                      "exclude_golden_ids_from": args.exclude_golden, "translate": args.translate,
                      "rubric_variant": args.rubric, "fallback": args.fallback,
@@ -186,8 +186,12 @@ def _stages(args, stages, run_dir, input_csv, jev, claude_client, budget, calls,
         if "verify" in stages:
             with runlog.stage("verify"):
                 extra = tuple(g.strip() for g in args.verify_extra_groups.split(",")) if args.verify_extra_groups else ()
-                verify.run(run_dir, claude_client, budget, calls, texts, args.verify_n, jev.model,
-                           exclude_ids=exclude, extra_groups=extra, log=log)
+                report = verify.run(run_dir, claude_client, budget, calls, texts, args.verify_n, jev.model,
+                                    exclude_ids=exclude, extra_groups=extra, log=log, mode=args.verify_mode,
+                                    stop=stop)
+            if report is None:
+                log(f"stopped during verification: {stop.reason}. Rerun the same command to resume the saved batch.")
+                return STOP_EXIT
         if "group" in stages:
             with runlog.stage("group") as st:
                 reason = group.run(run_dir, claude_client, jev, budget, calls, stop, texts, exclude_ids=exclude,
@@ -295,6 +299,8 @@ def main(argv=None):
     p.add_argument("--budget-group", required=True, help="ledger shared across runs, e.g. dev or full")
     p.add_argument("--budget-usd", required=True, type=float, help="hard cap for the budget group")
     p.add_argument("--verify-n", type=int, default=1000, help="declared random verification sample size")
+    p.add_argument("--verify-mode", default="standard", choices=["standard", "batch"],
+                   help="verification through the standard API or the Message Batches API (50%% price, asynchronous)")
     p.add_argument("--verify-extra-groups", help="also verify every unit in these language groups, as a separate "
                    "stratum (e.g. non_english_latin,non_latin_script for the 10k language comparison)")
     p.add_argument("--scope-sample", type=int, help="classify a seeded random sample of this many review IDs "

@@ -438,6 +438,239 @@ def render(r):
     return "\n".join(L)
 
 
+# ----------------------------------------------------------------------------- checkpoint refresh (offline)
+
+def _rate_model(model):
+    """Provider-returned model IDs can carry a date suffix (claude-haiku-4-5-20251001); rates use the alias."""
+    import re
+    return re.sub(r"-\d{8}$", "", model)
+
+
+def _price_call(c, rates, missing):
+    tier = "batch_50pct" if c.get("mode") == "batch" else "standard"
+    model = _rate_model(c["model"])
+    total = D(0)
+    for item, units in (("input_tokens", c.get("input_tokens", 0)), ("output_tokens", c.get("output_tokens", 0)),
+                        ("cache_write_input_tokens", c.get("cache_creation_input_tokens", 0)),
+                        ("cache_read_input_tokens", c.get("cache_read_input_tokens", 0))):
+        if not units:
+            continue
+        key = (provider_of(model), model, tier, item)
+        if key not in rates:
+            missing.add(key)
+            continue
+        total += D(units) * rates[key]["price"] / rates[key]["per"]
+    return total
+
+
+def measure_run(run_dir, rates, missing):
+    """Per-stage usage, cost and timing of a finished development run, from its saved call log (no calls)."""
+    from statistics import mean, median
+    run_dir = Path(run_dir)
+    summary = read_json(run_dir / "run_summary.json")
+    manifest = read_json(run_dir / "run_manifest.json")
+    if (run_dir / "calls.jsonl").exists():
+        calls = list(read_jsonl(run_dir / "calls.jsonl"))
+    else:  # committed evidence copy in evals/<run>/
+        import gzip
+        with gzip.open(run_dir / "calls.jsonl.gz", "rt", encoding="utf-8") as f:
+            calls = [json.loads(line) for line in f if line.strip()]
+    stages = defaultdict(lambda: {"attempts": 0, "succeeded": 0, "reviews_sent": 0, "input_tokens": 0,
+                                  "output_tokens": 0, "cost_usd": D(0), "durations_ms": [], "models": set(),
+                                  "modes": set()})
+    for c in calls:
+        st = stages[stage_of(c)]
+        st["attempts"] += 1
+        st["succeeded"] += c["outcome"] == "succeeded"
+        if c["outcome"] == "succeeded":
+            st["reviews_sent"] += len(c.get("review_ids") or [])
+        st["input_tokens"] += c.get("input_tokens", 0)
+        st["output_tokens"] += c.get("output_tokens", 0)
+        st["cost_usd"] += _price_call(c, rates, missing)
+        if c.get("duration_ms"):
+            st["durations_ms"].append(c["duration_ms"])
+        st["models"].add(_rate_model(c["model"]))
+        st["modes"].add(c.get("mode", "standard"))
+    out = {}
+    for name, st in sorted(stages.items()):
+        d = st.pop("durations_ms")
+        out[name] = {**st, "models": sorted(st["models"]), "modes": sorted(st["modes"]),
+                     "median_call_ms": median(d) if d else None, "mean_call_ms": round(mean(d), 1) if d else None}
+    ingest = read_json(run_dir / "ingest" / "summary.json") or read_json(run_dir / "ingest_summary.json", {})
+    distinct = ingest.get("distinct_nonempty_texts")
+    return {"run_id": manifest["run_id"], "input": Path(manifest["input"]).name, "input_sha256": manifest["input_sha256"],
+            "workers": manifest.get("workers"), "rps": manifest.get("rps"), "fallback": manifest.get("fallback"),
+            "verify_n": manifest.get("verify_n"), "distinct_texts": distinct,
+            "jev_texts": out.get("enrich_jev", {}).get("succeeded", 0),
+            "stage_seconds": summary.get("elapsed_seconds_by_stage_all_invocations", {}),
+            "wall_clock_seconds": summary.get("elapsed_seconds_total"), "stages": out,
+            "api_cost_usd": sum((v["cost_usd"] for v in out.values()), D(0)),
+            "provider_reported_total_usd": summary.get("total_cost_usd_list_price")}
+
+
+def _rel(path):
+    try:
+        return str(Path(path).resolve().relative_to(REPO))
+    except ValueError:
+        return str(path)
+
+
+def _reviews_in_request(log_dir, call):
+    """Eval calls log no review IDs; count the reviews in the saved request handoff instead."""
+    name = call.get("handoff", "").rsplit("/", 1)[-1]
+    req = read_json(log_dir / "handoffs" / f"{name}.request.json") or {}
+    user = req.get("user", "")
+    if "<reviews>" not in user:
+        return 0
+    return len(json.loads(user.split("<reviews>\n", 1)[1].split("\n</reviews>", 1)[0]))
+
+
+def refresh(args, log):
+    """Checkpoint refresh after the 500 and 10,000 runs: measured rates from their call logs, then a projection
+    of the planned final setup. Offline: reads saved logs and cost/rates.csv only."""
+    rates = load_rates(args.rates)
+    missing = set()
+    runs = {label: measure_run(d, rates, missing) for label, d in zip(args.labels, args.run_dirs)}
+    # Candidate fallback model, measured outside the runs (evals): cost per review on the standard API.
+    cand = {"model": args.fallback_model, "reviews": 0, "cost_usd": D(0), "sources": []}
+    for f in args.fallback_evidence:
+        for c in read_jsonl(Path(f)):
+            if _rate_model(c["model"]) == args.fallback_model and c["outcome"] == "succeeded":
+                cand["reviews"] += len(c.get("review_ids") or []) or _reviews_in_request(Path(f).parent, c)
+                cand["cost_usd"] += _price_call(c, rates, missing)
+        cand["sources"].append(_rel(f))
+    cand["cost_per_review_standard"] = cand["cost_usd"] / cand["reviews"] if cand["reviews"] else None
+
+    base = runs[args.base]
+    st = base["stages"]
+    texts = base["jev_texts"]
+    per = lambda name: (st[name]["cost_usd"] / st[name]["reviews_sent"]) if st.get(name, {}).get("reviews_sent") else D(0)
+    jev_per_text = per("enrich_jev") * D(st["enrich_jev"]["attempts"]) / D(st["enrich_jev"]["succeeded"])
+    fb_rate = D(st.get("enrich_fallback", {}).get("reviews_sent", 0)) / D(texts)
+    assign_rate = D(st["group_assign"]["succeeded"]) / D(texts)
+    assign_per = per("group_assign")
+    verify_per = per("verify")
+    fixed = {"group_taxonomy": st.get("group_taxonomy", {}).get("cost_usd", D(0)), "memo": st.get("memo", {}).get("cost_usd", D(0))}
+    batch = D("0.5")
+    target = args.target_distinct
+    cap = D(str(args.fallback_max_fraction))
+
+    def scenario(name, fb_fraction, factor, fb_per, verify_tier, note):
+        fb_fraction = min(fb_fraction, cap)
+        items = {"enrich_jev": jev_per_text * target * factor,
+                 "enrich_fallback": fb_per * target * fb_fraction * factor,
+                 "verify": verify_per * args.verify_n * verify_tier * factor,
+                 "group_taxonomy": fixed["group_taxonomy"], "group_assign": assign_per * target * assign_rate * factor,
+                 "memo": fixed["memo"] * factor}
+        total = sum(items.values(), D(0))
+        return {"name": name, "fallback_fraction": fb_fraction, "items_usd": items, "total_usd": total,
+                "within_cap": total <= D(str(args.budget)), "note": note}
+
+    cand_batch = (cand["cost_per_review_standard"] or D(0)) * batch
+    sonnet_fb = per("enrich_fallback")
+    factor = D(str(args.conservative_factor))
+    scenarios = [
+        scenario("planned: Haiku Batch fallback, Sonnet Batch verify", fb_rate, D(1), cand_batch, batch,
+                 f"measured {args.base} rates; Haiku cost from evals at Batch price (est. 50%)"),
+        scenario("conservative: same, fallback at cap, x" + str(factor), cap, factor, cand_batch, batch,
+                 "fallback at the declared 20% cap; variable costs x1.25 for retries/longer texts"),
+        scenario("reference: Sonnet Batch fallback, Sonnet Batch verify", fb_rate, D(1), sonnet_fb * batch, batch,
+                 "the setup before the Haiku decision"),
+        scenario("reference: Haiku Batch fallback, Sonnet standard verify", fb_rate, D(1), cand_batch, D(1),
+                 "before verification moved to the Batch API"),
+    ]
+    jev = st["enrich_jev"]
+    lat_s = D(str(jev["mean_call_ms"])) / 1000
+    measured_rate = None
+    if base["stage_seconds"].get("enrich") and base.get("workers"):
+        measured_rate = D(texts) / D(str(base["stage_seconds"]["enrich"]))
+    def modeled(workers):
+        return min(D(workers) / lat_s, D(str(args.rps_cap)))
+    rate = modeled(args.workers)
+    time_proj = {"jev_mean_call_s": lat_s, "jev_median_call_ms": jev["median_call_ms"],
+                 "base_workers": base["workers"], "planned_workers": args.workers, "rps_cap": args.rps_cap,
+                 "modeled_texts_per_s_planned": rate, "modeled_texts_per_s_base_workers": modeled(base["workers"] or 1),
+                 "enrich_jev_hours": D(target) / rate / 3600,
+                 "group_assign_hours": D(target) * assign_rate / rate / 3600,
+                 "verify": "Batch API: provider turnaround (most batches finish within 1 h; up to 24 h)",
+                 "fallback": "Batch API: provider turnaround (most batches finish within 1 h; up to 24 h)",
+                 "note": "modelled from the measured mean Jev call time x workers, capped at the request-rate limit; "
+                         "the first slice of the final run (interruption demo) measures the planned worker count"}
+    report = {"generated_at": now(), "rates_file": _rel(args.rates), "missing_rates": sorted(list(k) for k in missing),
+              "checkpoints": runs, "candidate_fallback": cand,
+              "projection_inputs": {"base": args.base, "jev_cost_per_text_incl_retries": jev_per_text,
+                                    "fallback_rate_measured": fb_rate, "fallback_max_fraction": cap,
+                                    "sonnet_fallback_cost_per_review_standard": sonnet_fb,
+                                    "haiku_fallback_cost_per_review_standard": cand["cost_per_review_standard"],
+                                    "verify_cost_per_review_standard": verify_per, "verify_n": args.verify_n,
+                                    "group_assign_rate": assign_rate, "group_assign_cost_per_text": assign_per,
+                                    "fixed_overhead_once": fixed, "target_distinct_texts": target,
+                                    "target_scope": args.target_scope, "budget_usd": args.budget},
+              "scenarios": scenarios, "time": time_proj}
+    out = Path(args.out)
+    out.with_suffix(".json").write_text(json.dumps(report, default=str, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    out.write_text(render_refresh(report), encoding="utf-8")
+    log(f"refresh: wrote {out} and {out.with_suffix('.json')} (offline; no provider calls)")
+    for s in scenarios:
+        log(f"  {s['name']:<58} ${money(s['total_usd'], '0.01')}")
+    return 0
+
+
+def render_refresh(r):
+    pi = r["projection_inputs"]
+    L = ["# Cost calculator refresh: 500 and 10,000 checkpoints", "",
+         f"Generated {r['generated_at']} by `python -m pipeline cost refresh` from the saved call logs of the development "
+         f"runs and `{Path(r['rates_file']).name}`. Offline: no provider calls. Measured values are billed units × "
+         "editable rates; projections are estimates.", ""]
+    if r["missing_rates"]:
+        L += ["**Unpriced usage (rate missing; not zero):** " + ", ".join("/".join(k) for k in r["missing_rates"]), ""]
+    L += ["## Measured checkpoints", "",
+          "| Checkpoint | Input | Distinct texts | Workers | Wall-clock s | API cost (rates.csv) | Provider-reported total |",
+          "|---|---|---|---|---|---|---|"]
+    for label, m in r["checkpoints"].items():
+        L.append(f"| {label} | `{m['input']}` | {m['distinct_texts']:,} | {m['workers']} | {m['wall_clock_seconds']} | "
+                 f"${money(m['api_cost_usd'], '0.0001')} | ${money(m['provider_reported_total_usd'] or 0, '0.0001')} |")
+    L += ["", "The rates.csv column prices every billed attempt, including failed attempts that returned usage; the "
+          "provider-reported total in the run summary counts successful calls only, so the two can differ slightly."]
+    for label, m in r["checkpoints"].items():
+        L += ["", f"### Stages: {label}", "",
+              "| Stage | Model | Mode | Requests ok / attempts | Reviews sent | Input tokens | Output tokens | USD | Median call ms |",
+              "|---|---|---|---|---|---|---|---|---|"]
+        for name, s in m["stages"].items():
+            L.append(f"| {name} | `{'/'.join(s['models'])}` | {'/'.join(s['modes'])} | {s['succeeded']} / {s['attempts']} | "
+                     f"{s['reviews_sent']:,} | {s['input_tokens']:,} | {s['output_tokens']:,} | {money(s['cost_usd'])} | "
+                     f"{s['median_call_ms'] if s['median_call_ms'] is not None else '-'} |")
+        L.append(f"\nStage wall-clock seconds: {m['stage_seconds']}.")
+    c = r["candidate_fallback"]
+    L += ["", "## Fallback model measured in evals", "",
+          f"`{c['model']}` without extended thinking: {c['reviews']} reviews, ${money(c['cost_usd'])} on the standard API "
+          f"→ ${money(c['cost_per_review_standard'] or 0)} per review (sources: {', '.join(f'`{x}`' for x in c['sources'])}).",
+          "", f"## Projection: {pi['target_scope']} ({pi['target_distinct_texts']:,} distinct texts)", "",
+          f"From the `{pi['base']}` checkpoint: Jev ${money(pi['jev_cost_per_text_incl_retries'], '0.0000001')} per text "
+          f"(retries included); fallback rate {money(pi['fallback_rate_measured'], '0.001')} (cap {pi['fallback_max_fraction']}); "
+          f"verify ${money(pi['verify_cost_per_review_standard'])} per review standard × {pi['verify_n']:,}; grouping assigns "
+          f"{money(pi['group_assign_rate'], '0.001')} of texts at ${money(pi['group_assign_cost_per_text'], '0.0000001')}; "
+          f"fixed once: taxonomy ${money(pi['fixed_overhead_once']['group_taxonomy'])}, memo ${money(pi['fixed_overhead_once']['memo'])}. "
+          f"Batch API prices are 50% of standard (estimate until the final run measures them).", "",
+          "| Scenario | Fallback fraction | Jev | Fallback | Verify | Taxonomy | Assign | Memo | **Total** | Cap |",
+          "|---|---|---|---|---|---|---|---|---|---|"]
+    for s in r["scenarios"]:
+        i = s["items_usd"]
+        L.append(f"| {s['name']} | {money(s['fallback_fraction'], '0.001')} | {money(i['enrich_jev'], '0.01')} | "
+                 f"{money(i['enrich_fallback'], '0.01')} | {money(i['verify'], '0.01')} | {money(i['group_taxonomy'], '0.01')} | "
+                 f"{money(i['group_assign'], '0.01')} | {money(i['memo'], '0.01')} | **{money(s['total_usd'], '0.01')}** | "
+                 f"{'within' if s['within_cap'] else 'OVER'} ${pi['budget_usd']} |")
+    L += ["", "Notes: " + "; ".join(f"*{s['name']}*: {s['note']}" for s in r["scenarios"]) + "."]
+    t = r["time"]
+    L += ["", "## Time projection (modelled)", "",
+          f"Measured Jev call: median {t['jev_median_call_ms']} ms, mean {money(t['jev_mean_call_s'] * 1000, '0.1')} ms. "
+          f"At {t['base_workers']} workers that models {money(t['modeled_texts_per_s_base_workers'], '0.1')} texts/s; at "
+          f"{t['planned_workers']} workers, capped at {t['rps_cap']} requests/s: {money(t['modeled_texts_per_s_planned'], '0.1')} texts/s → "
+          f"Jev enrichment ≈ {money(t['enrich_jev_hours'], '0.01')} h, grouping ≈ {money(t['group_assign_hours'], '0.01')} h. "
+          f"Fallback and verification: {t['fallback']}. {t['note']}.", ""]
+    return "\n".join(L)
+
+
 # ----------------------------------------------------------------------------- CLI wiring
 
 def add_parser(sub):
@@ -457,6 +690,24 @@ def add_parser(sub):
     pl.add_argument("--budget-group", default="dev")
     pl.add_argument("--budget-usd", type=float, default=5)
     pl.add_argument("--offline-fake", action="store_true", help="TESTS ONLY: fake providers")
+    rf = cs.add_parser("refresh", help="offline: measured rates from the 500/10,000 run logs + final-run projection")
+    rf.add_argument("--rates", default=str(COST / "rates.csv"))
+    rf.add_argument("--run-dirs", nargs="+", default=[str(REPO / "evals" / "dev500"), str(REPO / "evals" / "dev10k")],
+                    help="run folders, or the committed evidence copies in evals/ (calls.jsonl.gz, manifest, summaries)")
+    rf.add_argument("--labels", nargs="+", default=["500", "10000"])
+    rf.add_argument("--base", default="10000", help="checkpoint whose measured rates drive the projection")
+    rf.add_argument("--fallback-model", default="claude-haiku-4-5")
+    rf.add_argument("--fallback-evidence", nargs="+", default=[str(REPO / "evals" / "effort_test" / "calls.jsonl"),
+                                                               str(REPO / "evals" / "heldout" / "calls.jsonl")])
+    rf.add_argument("--fallback-max-fraction", type=float, default=0.2)
+    rf.add_argument("--target-distinct", type=int, default=78146, help="distinct texts in the final scope")
+    rf.add_argument("--target-scope", default="100,000-review seeded sample")
+    rf.add_argument("--verify-n", type=int, default=1000)
+    rf.add_argument("--budget", type=float, default=15)
+    rf.add_argument("--workers", type=int, default=5)
+    rf.add_argument("--rps-cap", type=float, default=30)
+    rf.add_argument("--conservative-factor", type=float, default=1.25)
+    rf.add_argument("--out", default=str(COST / "refresh.md"))
     c = cs.add_parser("collect", help="offline: build cost/ evidence files from the pilot folders")
     c.add_argument("--records-from", default="cold-w1", help="pilot folder whose records become pilot_records.jsonl")
 
@@ -492,4 +743,6 @@ def run(args, log):
         return pilot(args, log)
     if cmd == "collect":
         return collect(args, log)
+    if cmd == "refresh":
+        return refresh(args, log)
     raise SystemExit(f"unknown cost command {cmd}")

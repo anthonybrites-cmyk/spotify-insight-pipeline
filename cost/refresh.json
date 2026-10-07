@@ -1,0 +1,336 @@
+{
+  "candidate_fallback": {
+    "cost_per_review_standard": "0.0005405",
+    "cost_usd": "0.056212",
+    "model": "claude-haiku-4-5",
+    "reviews": 104,
+    "sources": [
+      "evals/effort_test/calls.jsonl",
+      "evals/heldout/calls.jsonl"
+    ]
+  },
+  "checkpoints": {
+    "10000": {
+      "api_cost_usd": "4.432793672",
+      "distinct_texts": 8448,
+      "fallback": "standard",
+      "input": "analysis_10000.csv",
+      "input_sha256": "eaa62ca6d44d717302904a9c922e99b0b4584d174309cb45295ecbc2ba2a91b5",
+      "jev_texts": 8448,
+      "provider_reported_total_usd": "4.323639672",
+      "rps": 30,
+      "run_id": "dev10k-b5355bd9",
+      "stage_seconds": {
+        "enrich": 1758.3,
+        "group": 316.7,
+        "ingest": 0.2,
+        "rank": 0.0,
+        "recommend": 17.5,
+        "verify": 608.8
+      },
+      "stages": {
+        "enrich_fallback": {
+          "attempts": 39,
+          "cost_usd": "2.887558",
+          "input_tokens": 200534,
+          "mean_call_ms": 54352.5,
+          "median_call_ms": 72713,
+          "models": [
+            "claude-sonnet-5"
+          ],
+          "modes": [
+            "standard"
+          ],
+          "output_tokens": 248649,
+          "reviews_sent": 1374,
+          "succeeded": 38
+        },
+        "enrich_jev": {
+          "attempts": 8448,
+          "cost_usd": "0.544046034",
+          "input_tokens": 12953477,
+          "mean_call_ms": 163.3,
+          "median_call_ms": 147.0,
+          "models": [
+            "jev-1.13.0"
+          ],
+          "modes": [
+            "standard"
+          ],
+          "output_tokens": 1899099,
+          "reviews_sent": 8448,
+          "succeeded": 8448
+        },
+        "group_assign": {
+          "attempts": 3169,
+          "cost_usd": "0.082783638",
+          "input_tokens": 1971039,
+          "mean_call_ms": 183.0,
+          "median_call_ms": 186,
+          "models": [
+            "jev-1.13.0"
+          ],
+          "modes": [
+            "standard"
+          ],
+          "output_tokens": 315335,
+          "reviews_sent": 3169,
+          "succeeded": 3169
+        },
+        "group_taxonomy": {
+          "attempts": 1,
+          "cost_usd": "0.05786",
+          "input_tokens": 16020,
+          "mean_call_ms": 25934,
+          "median_call_ms": 25934,
+          "models": [
+            "claude-sonnet-5"
+          ],
+          "modes": [
+            "standard"
+          ],
+          "output_tokens": 2582,
+          "reviews_sent": 0,
+          "succeeded": 1
+        },
+        "memo": {
+          "attempts": 1,
+          "cost_usd": "0.031268",
+          "input_tokens": 6244,
+          "mean_call_ms": 17493,
+          "median_call_ms": 17493,
+          "models": [
+            "claude-sonnet-5"
+          ],
+          "modes": [
+            "standard"
+          ],
+          "output_tokens": 1878,
+          "reviews_sent": 0,
+          "succeeded": 1
+        },
+        "verify": {
+          "attempts": 12,
+          "cost_usd": "0.829278",
+          "input_tokens": 67129,
+          "mean_call_ms": 50711,
+          "median_call_ms": 53002.5,
+          "models": [
+            "claude-sonnet-5"
+          ],
+          "modes": [
+            "standard"
+          ],
+          "output_tokens": 69502,
+          "reviews_sent": 560,
+          "succeeded": 12
+        }
+      },
+      "verify_n": 300,
+      "wall_clock_seconds": 2701.5,
+      "workers": 2
+    },
+    "500": {
+      "api_cost_usd": "0.423088486",
+      "distinct_texts": 479,
+      "fallback": null,
+      "input": "checkpoint_500.csv",
+      "input_sha256": "a94e31663ee7b7eaa77e23b7a8425b530cc0c866ed5e714953172a0afef6a12f",
+      "jev_texts": 479,
+      "provider_reported_total_usd": "0.423088486",
+      "rps": 30,
+      "run_id": "dev500-3588011e",
+      "stage_seconds": {
+        "enrich": 16.1,
+        "group": 24.6,
+        "ingest": 0.0,
+        "rank": 0.0,
+        "recommend": 105.8,
+        "verify": 68.1
+      },
+      "stages": {
+        "enrich_jev": {
+          "attempts": 479,
+          "cost_usd": "0.030262428",
+          "input_tokens": 720534,
+          "mean_call_ms": null,
+          "median_call_ms": null,
+          "models": [
+            "jev-1.13.0"
+          ],
+          "modes": [
+            "standard"
+          ],
+          "output_tokens": 107143,
+          "reviews_sent": 479,
+          "succeeded": 479
+        },
+        "group_assign": {
+          "attempts": 177,
+          "cost_usd": "0.004538058",
+          "input_tokens": 108049,
+          "mean_call_ms": null,
+          "median_call_ms": null,
+          "models": [
+            "jev-1.13.0"
+          ],
+          "modes": [
+            "standard"
+          ],
+          "output_tokens": 16341,
+          "reviews_sent": 177,
+          "succeeded": 177
+        },
+        "group_taxonomy": {
+          "attempts": 1,
+          "cost_usd": "0.037052",
+          "input_tokens": 8446,
+          "mean_call_ms": null,
+          "median_call_ms": null,
+          "models": [
+            "claude-sonnet-5"
+          ],
+          "modes": [
+            "standard"
+          ],
+          "output_tokens": 2016,
+          "reviews_sent": 0,
+          "succeeded": 1
+        },
+        "memo": {
+          "attempts": 7,
+          "cost_usd": "0.238564",
+          "input_tokens": 51872,
+          "mean_call_ms": null,
+          "median_call_ms": null,
+          "models": [
+            "claude-sonnet-5"
+          ],
+          "modes": [
+            "standard"
+          ],
+          "output_tokens": 13482,
+          "reviews_sent": 0,
+          "succeeded": 7
+        },
+        "verify": {
+          "attempts": 2,
+          "cost_usd": "0.112672",
+          "input_tokens": 11036,
+          "mean_call_ms": null,
+          "median_call_ms": null,
+          "models": [
+            "claude-sonnet-5"
+          ],
+          "modes": [
+            "standard"
+          ],
+          "output_tokens": 9060,
+          "reviews_sent": 100,
+          "succeeded": 2
+        }
+      },
+      "verify_n": 1000,
+      "wall_clock_seconds": 214.6,
+      "workers": 24
+    }
+  },
+  "generated_at": "2026-10-07T01:46:06+00:00",
+  "missing_rates": [],
+  "projection_inputs": {
+    "base": "10000",
+    "budget_usd": 15,
+    "fallback_max_fraction": "0.2",
+    "fallback_rate_measured": "0.1626420454545454545454545455",
+    "fixed_overhead_once": {
+      "group_taxonomy": "0.05786",
+      "memo": "0.031268"
+    },
+    "group_assign_cost_per_text": "0.00002612295298201325339223729883",
+    "group_assign_rate": "0.3751183712121212121212121212",
+    "haiku_fallback_cost_per_review_standard": "0.0005405",
+    "jev_cost_per_text_incl_retries": "0.00006439938849431818181818181818",
+    "sonnet_fallback_cost_per_review_standard": "0.002101570596797671033478893741",
+    "target_distinct_texts": 78146,
+    "target_scope": "100,000-review seeded sample",
+    "verify_cost_per_review_standard": "0.001480853571428571428571428571",
+    "verify_n": 1000
+  },
+  "rates_file": "cost/rates.csv",
+  "scenarios": [
+    {
+      "fallback_fraction": "0.1626420454545454545454545455",
+      "items_usd": {
+        "enrich_fallback": "3.434830283025568181818181819",
+        "enrich_jev": "5.032554613276988636363636363",
+        "group_assign": "0.7657682498991477272727272725",
+        "group_taxonomy": "0.05786",
+        "memo": "0.031268",
+        "verify": "0.7404267857142857142857142855"
+      },
+      "name": "planned: Haiku Batch fallback, Sonnet Batch verify",
+      "note": "measured 10000 rates; Haiku cost from evals at Batch price (est. 50%)",
+      "total_usd": "10.06270793191599025974025974",
+      "within_cap": true
+    },
+    {
+      "fallback_fraction": "0.2",
+      "items_usd": {
+        "enrich_fallback": "5.27973912500",
+        "enrich_jev": "6.290693266596235795454545454",
+        "group_assign": "0.9572103123739346590909090906",
+        "group_taxonomy": "0.05786",
+        "memo": "0.03908500",
+        "verify": "0.9255334821428571428571428569"
+      },
+      "name": "conservative: same, fallback at cap, x1.25",
+      "note": "fallback at the declared 20% cap; variable costs x1.25 for retries/longer texts",
+      "total_usd": "13.55012118611302759740259740",
+      "within_cap": true
+    },
+    {
+      "fallback_fraction": "0.1626420454545454545454545455",
+      "items_usd": {
+        "enrich_fallback": "13.35529755374053030303030303",
+        "enrich_jev": "5.032554613276988636363636363",
+        "group_assign": "0.7657682498991477272727272725",
+        "group_taxonomy": "0.05786",
+        "memo": "0.031268",
+        "verify": "0.7404267857142857142857142855"
+      },
+      "name": "reference: Sonnet Batch fallback, Sonnet Batch verify",
+      "note": "the setup before the Haiku decision",
+      "total_usd": "19.98317520263095238095238095",
+      "within_cap": false
+    },
+    {
+      "fallback_fraction": "0.1626420454545454545454545455",
+      "items_usd": {
+        "enrich_fallback": "3.434830283025568181818181819",
+        "enrich_jev": "5.032554613276988636363636363",
+        "group_assign": "0.7657682498991477272727272725",
+        "group_taxonomy": "0.05786",
+        "memo": "0.031268",
+        "verify": "1.480853571428571428571428571"
+      },
+      "name": "reference: Haiku Batch fallback, Sonnet standard verify",
+      "note": "before verification moved to the Batch API",
+      "total_usd": "10.80313471763027597402597402",
+      "within_cap": true
+    }
+  ],
+  "time": {
+    "base_workers": 2,
+    "enrich_jev_hours": "0.7235740740740740740740740742",
+    "fallback": "Batch API: provider turnaround (most batches finish within 1 h; up to 24 h)",
+    "group_assign_hours": "0.2714259281179854096520763187",
+    "jev_mean_call_s": "0.1633",
+    "jev_median_call_ms": 147.0,
+    "modeled_texts_per_s_base_workers": "12.24739742804654011022657685",
+    "modeled_texts_per_s_planned": "30",
+    "note": "modelled from the measured mean Jev call time x workers, capped at the request-rate limit; the first slice of the final run (interruption demo) measures the planned worker count",
+    "planned_workers": 5,
+    "rps_cap": 30,
+    "verify": "Batch API: provider turnaround (most batches finish within 1 h; up to 24 h)"
+  }
+}

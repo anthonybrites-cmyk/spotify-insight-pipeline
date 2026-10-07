@@ -1,0 +1,91 @@
+{
+  "budget_group": "dev",
+  "budget_usd": 2.0,
+  "exclude_golden_ids_from": "/Users/anthonybrites/code/Final Assignment - Spotify Reviews Dataset/golden_50_to_label.csv",
+  "fake": false,
+  "input": "/Users/anthonybrites/code/Final Assignment - Spotify Reviews Dataset/checkpoint_500.csv",
+  "input_sha256": "a94e31663ee7b7eaa77e23b7a8425b530cc0c866ed5e714953172a0afef6a12f",
+  "invocations": [
+    {
+      "argv": [
+        "run",
+        "--input",
+        "/Users/anthonybrites/code/Final Assignment - Spotify Reviews Dataset/checkpoint_500.csv",
+        "--run-dir",
+        "runs/dev500",
+        "--exclude-golden",
+        "/Users/anthonybrites/code/Final Assignment - Spotify Reviews Dataset/golden_50_to_label.csv",
+        "--budget-group",
+        "dev",
+        "--budget-usd",
+        "2",
+        "--verify-n",
+        "100",
+        "--grading-dir",
+        "runs/dev500/grading",
+        "--results-dir",
+        "runs/dev500/results"
+      ],
+      "code_version": "2970177f934cdb911399989f37f2ee37fb0ba25b+uncommitted-pipeline-changes",
+      "id": "20260930T183940-360d47",
+      "started": "2026-09-30T18:39:40-0700"
+    },
+    {
+      "argv": [
+        "run",
+        "--input",
+        "/Users/anthonybrites/code/Final Assignment - Spotify Reviews Dataset/checkpoint_500.csv",
+        "--run-dir",
+        "runs/dev500",
+        "--exclude-golden",
+        "/Users/anthonybrites/code/Final Assignment - Spotify Reviews Dataset/golden_50_to_label.csv",
+        "--stages",
+        "recommend",
+        "--budget-group",
+        "dev",
+        "--budget-usd",
+        "2",
+        "--grading-dir",
+        "runs/dev500/grading",
+        "--results-dir",
+        "runs/dev500/results"
+      ],
+      "code_version": "6ae93a0b179b7e94da2ebdebcdc359176752284a",
+      "id": "20260930T203145-fe1fd9",
+      "started": "2026-09-30T20:31:45-0700"
+    },
+    {
+      "argv": [
+        "run",
+        "--input",
+        "/Users/anthonybrites/code/Final Assignment - Spotify Reviews Dataset/checkpoint_500.csv",
+        "--run-dir",
+        "runs/dev500",
+        "--exclude-golden",
+        "/Users/anthonybrites/code/Final Assignment - Spotify Reviews Dataset/golden_50_to_label.csv",
+        "--stages",
+        "recommend",
+        "--budget-group",
+        "dev",
+        "--budget-usd",
+        "2",
+        "--grading-dir",
+        "runs/dev500/grading",
+        "--results-dir",
+        "runs/dev500/results"
+      ],
+      "code_version": "6ae93a0b179b7e94da2ebdebcdc359176752284a+uncommitted-pipeline-changes",
+      "id": "20260930T203255-32152c",
+      "started": "2026-09-30T20:32:55-0700"
+    }
+  ],
+  "max_minutes": null,
+  "rps": 30,
+  "run_id": "dev500-3588011e",
+  "stages": [
+    "recommend"
+  ],
+  "translate": false,
+  "verify_n": 1000,
+  "workers": 24
+}

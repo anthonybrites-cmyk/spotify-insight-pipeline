@@ -180,17 +180,21 @@ Data: download the course ZIP from the link in the assignment brief, unzip it an
 .venv/bin/python -m pipeline score-golden --run-dir runs/golden --golden evals/golden/golden_50_human_labels.csv
 .venv/bin/python -m pipeline score-golden --run-dir runs/golden --golden evals/golden/golden_50_human_labels.csv \
   --adjudication evals/golden/adjudication.json --out-dir evals/golden/adjudicated   # post-hoc labels, reported separately
-# 4) Full run with the Claude fallback via the Message Batches API: interrupt after 5,000 enrichment
-#    requests (recorded), then resume to completion
-.venv/bin/python -m pipeline run --input "$DATA/spotify_reviews_18months.csv" --run-dir runs/full $G \
-  --budget-group full --budget-usd 90 --fallback batch --verify-n 1000 --stop-after-units 5000
-.venv/bin/python -m pipeline run --input "$DATA/spotify_reviews_18months.csv" --run-dir runs/full $G \
-  --budget-group full --budget-usd 90 --fallback batch --verify-n 1000 --grading-dir grading --results-dir results
+# 4) Final run: a seeded 100,000-review sample of the full corpus (every row is still ingested; the rest are
+#    quarantined "out of scope"). Haiku 4.5 fallback and Sonnet 5 verification both via the Message Batches API,
+#    5 workers (Jev at <= 30 requests/s), hard cap $15. First invocation: interruption demo (recorded), then resume.
+F="--input $DATA/spotify_reviews_18months.csv --run-dir runs/final100k $G --scope-sample 100000 \
+  --budget-group full --budget-usd 15 --fallback batch --fallback-model claude-haiku-4-5 --fallback-effort none \
+  --verify-n 1000 --verify-mode batch --workers 5"
+.venv/bin/python -m pipeline run $F --stop-after-units 5000
+.venv/bin/python -m pipeline run $F --grading-dir grading --results-dir results
 # 5) Live prompt-injection cases (synthetic, excluded from business results)
 .venv/bin/python -m pipeline eval-injection
 ```
 
 **Resume:** rerun the same command. Completed units under the same `label_config` are never sent again. Calls made after the first invocation are logged as `phase: "resume"`.
+
+**Stopping for the day:** `--max-minutes N` stops dispatching after N minutes and saves; a Batch API job keeps processing on Anthropic's side and the saved batch ID is polled on the next run, from any network.
 
 **Interrupt:** press Ctrl-C once for a graceful stop. The program finishes in-flight requests, saves them, and writes a `completed_ids` snapshot. A second Ctrl-C aborts immediately.
 
@@ -219,6 +223,19 @@ Full report: [`cost/report.md`](cost/report.md). Measured on `cost_100.csv` (sha
 - **Measured cost per review:** Jev $0.0000642 per distinct text, the Claude fallback $0.0026, and verification $0.0016.
 - **Full-run projection** at the measured rates, with the planned Batch-API fallback: **~$82 base** (under the $90 cap) and ~$207 conservative (fallback at the full 20% cap and variable costs ×1.25). The projection is refreshed after the 500 and 10,000 runs.
 
+### Checkpoint refresh after the 500 and 10,000 runs ([`cost/refresh.md`](cost/refresh.md))
+
+`python -m pipeline cost refresh` (offline) re-prices the saved call logs of both development runs (committed as `evals/dev500/` and `evals/dev10k/calls.jsonl.gz`) with `cost/rates.csv`, adds the Haiku fallback cost measured in the evals ($0.000541 per review over 104 reviews), and projects the final 100,000-review scope (78,146 distinct texts):
+
+| Scenario | Projected cost |
+|---|---|
+| **Planned:** Haiku Batch fallback (16.3% of texts, measured), Sonnet Batch verification of 1,000 | **~$10.06** |
+| Conservative: fallback at the 20% cap, variable costs ×1.25 | ~$13.55 |
+| Reference: Sonnet Batch fallback | ~$19.98 |
+| Reference: Haiku fallback, verification on the standard API | ~$10.80 |
+
+Time (modelled from the measured 147 ms median Jev call): 5 workers, capped at 30 requests/s, gives ≈ 0.7 h of Jev enrichment and ≈ 0.3 h of grouping (2 workers measured 12.2 texts/s in the 10k run), plus Batch API turnaround for the fallback and verification (usually under an hour). The interruption-demo slice of the final run measures the 5-worker rate.
+
 ## Decisions log
 
 | Date | Decision | Evidence / reason |
@@ -235,6 +252,7 @@ Full report: [`cost/report.md`](cost/report.md). Measured on `cost_100.csv` (sha
 | 2026-10-01 | Development cap raised to **$10**; Claude reasoning effort stays **medium** for the fallback and verifier | Effort test: low saved about 17% per review but changed 27% of fallback decisions and matched the human on 4 of 7 golden low-confidence reviews, versus 5 of 7 for medium ([`evals/effort_test/report.json`](evals/effort_test/report.json)) |
 | 2026-10-06 | **Final run scope: a seeded random sample of 100,000 review IDs** (the updated brief accepts ≥100,000), **sampled IDs only**: exact-duplicate copies outside the sample are quarantined as out of scope, not completed by reuse | Projected ~$11–16 against ~$65–93 for the full corpus. Sample-only keeps the business aggregates a fair random sample; including copies would complete about 238,000 rows but over-weight repeated short texts. All 660,622 rows are still ingested, profiled and accounted for. |
 | 2026-10-06 | **Fallback model: Claude Haiku 4.5 without extended thinking, via the Batch API, for every qualifying text (≤20% cap)**; verification (1,000), taxonomy and memo stay on Sonnet 5; final-run hard cap **$15** | Sonnet fallback measured at $0.00204 per review vs Haiku $0.00052. Projected 100k run: ~$10.65 with Haiku vs ~$20 with Sonnet (both Batch). Haiku got all three labels right on 3 of 7 golden low-confidence reviews, vs 5 of 7 for Sonnet and 1 of 7 for Jev ([`evals/effort_test/`](evals/effort_test/)) |
+| 2026-10-06 | **Class 7 review (parallel, caching, batching):** verification moves to the Batch API (`--verify-mode batch`, saves ~$0.74); 5 workers instead of 2 (same cost, ≈2.5× faster, within the 30 requests/s cap under TypeSafe's 40); no prompt caching (Haiku 4.5 caches only prompts of 4,096+ tokens and ours are ~1,200; Sonnet verification would save cents; Jev has no prompt cache and already asks all questions in one request); no reuse of 10k results (only 2,054 of 78,146 texts overlap, ~$0.13) | Class 7 slides 50–70; [`cost/refresh.md`](cost/refresh.md) |
 | 2026-10-06 | No translation | 10k language strata, all-three agreement with the verifier: English 77.0%, Latin-script non-English 71.6%, non-Latin script 88.4%. A modest gap, and translation would add cost |
 
 ## Development results
@@ -348,7 +366,7 @@ There are 13 synthetic reviews: 7 prompt-injection attempts and 6 controls, incl
 
   Low effort saves about 17% per review, but it changed about a quarter of the fallback's decisions. On the tiny golden check it got one more review wrong. The measured fallback cost at 50 reviews per request ($0.00166) is also well below the pilot's 7-review figure ($0.0026).
 
-### Full-run cost estimate (projected from measured rates; *not* an actual cost)
+### Full-corpus cost estimate (superseded: the final scope is the 100,000-review sample; see the checkpoint refresh)
 
 | Component | Basis | Estimate |
 |---|---|---|

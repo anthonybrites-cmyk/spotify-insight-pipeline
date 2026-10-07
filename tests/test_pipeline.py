@@ -26,7 +26,7 @@ from pipeline.checker import cs, row_sha  # noqa: E402
 from pipeline.config import CHECKER_SHA256, VENDOR_CHECKER  # noqa: E402
 from pipeline.dispatch import StopFlag  # noqa: E402
 from pipeline.fakes import FakeJev  # noqa: E402
-from pipeline.store import JsonlAppender, read_jsonl, sha256_file  # noqa: E402
+from pipeline.store import JsonlAppender, read_json, read_jsonl, sha256_file  # noqa: E402
 from pipeline import ingest  # noqa: E402
 
 DATA = Path(os.environ.get("SPOTIFY_DATA", "/Users/anthonybrites/code/NEW - Final Assignment - Spotify Reviews Dataset"))
@@ -959,5 +959,77 @@ class TestFallbackModel(unittest.TestCase):
             others = {c["model"] for c in calls if c["role"] in ("verify", "memo")}
             self.assertTrue(fb and all(c.get("mode") == "batch" for c in fb))
             self.assertEqual(others, {"fake-claude-0"})  # verifier and memo keep the main Claude model
+        finally:
+            shutil.rmtree(tmp, ignore_errors=True)
+
+
+class TestVerifyBatch(unittest.TestCase):
+    def test_batch_verification_matches_standard_and_resumes(self):
+        from unittest import mock
+        from pipeline import fakes
+        tmp = Path(tempfile.mkdtemp(prefix="pipeline-vb-"))
+        try:
+            reports = {}
+            for mode in ("standard", "batch"):
+                d = tmp / mode
+                with mock.patch.object(cli, "make_clients", lambda *a, **k: (FakeJev(), fakes.FakeClaude())):
+                    self.assertEqual(fake_run(d, "--verify-mode", mode, grading=False), 0)
+                reports[mode] = read_json(d / "run" / "verify" / "report.json")
+                vcalls = [c for c in read_jsonl(d / "run" / "calls.jsonl") if c["role"] == "verify"]
+                self.assertTrue(vcalls)
+                self.assertEqual({c.get("mode", "standard") for c in vcalls}, {mode})
+            self.assertEqual(reports["standard"]["strata"], reports["batch"]["strata"])
+
+            # A stop while the batch is still processing saves the batch ID; the rerun polls it, not a new batch.
+            d = tmp / "resume"
+            claude_fake = fakes.FakeClaude(polls_before_end=10 ** 6)
+            with mock.patch.object(cli, "make_clients", lambda *a, **k: (FakeJev(), claude_fake)), \
+                    mock.patch("pipeline.verify.FALLBACK_BATCH_POLL_S", 0), \
+                    mock.patch.object(cli.verify, "run", wraps=cli.verify.run) as vrun:
+                stop_after = {"n": 0}
+                real_status = claude_fake.batch_status
+
+                def status(batch_id):
+                    stop_after["n"] += 1
+                    if stop_after["n"] == 3:
+                        import signal
+                        os.kill(os.getpid(), signal.SIGINT)  # graceful stop, as with Ctrl-C
+                    return real_status(batch_id)
+                claude_fake.batch_status = status
+                code = fake_run(d, "--verify-mode", "batch", "--stages", "ingest,enrich,verify", grading=False)
+                self.assertEqual(code, cli.STOP_EXIT)
+                first = read_json(d / "run" / "verify" / "verify_batch.json")
+                self.assertFalse(first["collected"])
+                claude_fake.polls_before_end = 0
+                claude_fake.batch_status = real_status
+                self.assertEqual(fake_run(d, "--verify-mode", "batch", "--stages", "ingest,enrich,verify",
+                                          grading=False), 0)
+            second = read_json(d / "run" / "verify" / "verify_batch.json")
+            self.assertEqual(first["batch_id"], second["batch_id"])
+            self.assertTrue(second["collected"])
+            self.assertEqual(len(claude_fake.batches), 1)
+        finally:
+            shutil.rmtree(tmp, ignore_errors=True)
+
+
+class TestCalculatorRefresh(unittest.TestCase):
+    def test_refresh_replays_offline_from_committed_evidence(self):
+        tmp = Path(tempfile.mkdtemp(prefix="pipeline-refresh-"))
+        try:
+            out = tmp / "refresh.md"
+            self.assertEqual(cli.main(["cost", "refresh", "--out", str(out)]), 0)
+            r = json.loads(out.with_suffix(".json").read_text())
+            self.assertEqual(r["missing_rates"], [])
+            self.assertEqual(set(r["checkpoints"]), {"500", "10000"})
+            planned = r["scenarios"][0]
+            self.assertTrue(planned["within_cap"])
+            # Doubling the volume doubles every variable item; fixed overhead (taxonomy) is unchanged.
+            out2 = tmp / "double.md"
+            cli.main(["cost", "refresh", "--out", str(out2), "--target-distinct", str(2 * 78146)])
+            r2 = json.loads(out2.with_suffix(".json").read_text())
+            self.assertEqual(Decimal(r2["scenarios"][0]["items_usd"]["enrich_jev"]),
+                             2 * Decimal(planned["items_usd"]["enrich_jev"]))
+            self.assertEqual(r2["scenarios"][0]["items_usd"]["group_taxonomy"], planned["items_usd"]["group_taxonomy"])
+            self.assertEqual(r2["checkpoints"], r["checkpoints"])  # measured results never change
         finally:
             shutil.rmtree(tmp, ignore_errors=True)

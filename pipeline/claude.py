@@ -143,10 +143,11 @@ class _NoLock:
 
 
 def call(client, budget, calls, handoff_dir, name, role, phase, label_config, review_ids, system, user,
-         schema=None, validate=None, max_tokens=None, max_attempts=4, effort=None, lock=None):
+         schema=None, validate=None, max_tokens=None, max_attempts=4, effort=None, lock=None, max_invalid_retries=1):
     """One logical request with retries. Saves request/response handoffs; returns (parsed, response).
 
-    Pass a shared `lock` when several threads write to the same call log.
+    Pass a shared `lock` when several threads write to the same call log. Pass max_invalid_retries=0 when this
+    call is itself the single retry of an invalid answer (e.g. from a Batch API request).
     """
     lock = lock or _NoLock()
     price_in, price_out = CLAUDE_PRICES.get(client.model, (CLAUDE_PRICE_IN, CLAUDE_PRICE_OUT))
@@ -227,7 +228,7 @@ def call(client, budget, calls, handoff_dir, name, role, phase, label_config, re
         calls.flush()
         budget.flush()
 
-    parsed = run_with_retries(attempt, failed, max_attempts=max_attempts)
+    parsed = run_with_retries(attempt, failed, max_attempts=max_attempts, max_invalid_retries=max_invalid_retries)
     response = state["response"]
     with lock:
         _log_ok(response)

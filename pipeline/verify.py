@@ -10,11 +10,16 @@ copy of the comparison and must be caught by the same comparison code.
 
 import hashlib
 import json
+import time
+import uuid
 from collections import Counter
+from decimal import Decimal
 
 from . import claude
+from .budget import cost_usd
 from .checker import INTENTS, TOPICS
-from .config import CLAUDE_MODEL, SCHEMA_VERSION, VERIFY_BATCH
+from .config import (CLAUDE_BATCH_DISCOUNT, CLAUDE_MAX_TOKENS, CLAUDE_MODEL, CLAUDE_PRICE_IN, CLAUDE_PRICE_OUT,
+                     CLAUDE_PRICES, FALLBACK_BATCH_POLL_S, SCHEMA_VERSION, VERIFY_BATCH)
 from .enrich import current_config, final_results
 from .rubric import INTENT_CRITERIA, SEVERITY_CRITERIA, TOPIC_CRITERIA, label_config as enrich_config
 from . import language
@@ -109,7 +114,9 @@ def make_validator(sent_ids):
     return validate
 
 
-def run(run_dir, client, budget, calls, texts, n, jev_model, exclude_ids=(), extra_groups=(), log=print):
+def run(run_dir, client, budget, calls, texts, n, jev_model, exclude_ids=(), extra_groups=(), log=print,
+        mode="standard", stop=None, poll_s=None, sleep=time.sleep):
+    """Returns the report, or None when a stop was requested while a Batch API job was still processing."""
     out = run_dir / "verify"
     config = current_config(run_dir, jev_model)
     done = final_results(run_dir, config)
@@ -122,22 +129,106 @@ def run(run_dir, client, budget, calls, texts, n, jev_model, exclude_ids=(), ext
         "units": [{"unit": r["unit"], "review_id": r["review_id"], "stratum": s} for r, s in sample]})
     vconfig = label_config(client.model, client.effort)
     system = system_prompt()
-    verdicts = {}
+    groups = []
     for b in range(0, len(sample), VERIFY_BATCH):
         batch = sample[b:b + VERIFY_BATCH]
         ids = [r["review_id"] for r, _ in batch]
         payload = [{"review_id": r["review_id"], "text": texts[r["unit"]]} for r, _ in batch]
         user = "<reviews>\n" + json.dumps(payload, ensure_ascii=False, indent=0) + "\n</reviews>"
-        name = f"batch_{b // VERIFY_BATCH:04d}_{sha256_text(vconfig + canonical(ids))[:10]}"
+        groups.append((f"batch_{b // VERIFY_BATCH:04d}_{sha256_text(vconfig + canonical(ids))[:10]}", ids, user))
+    errors = {}
+    pending = [g for g in groups if read_json(out / "handoffs" / f"{g[0]}.parsed.json") is None]
+    if pending and mode == "batch":
+        errors = run_batch(out, client, budget, calls, pending, vconfig, system, stop, log,
+                           FALLBACK_BATCH_POLL_S if poll_s is None else poll_s, sleep)
+        if errors is None:
+            return None
+    verdicts = {}
+    for i, (name, ids, user) in enumerate(groups):
         saved = read_json(out / "handoffs" / f"{name}.parsed.json")
         if saved is None:
+            # Standard API; after a failed Batch API request this is that request's single retry.
+            error = errors.get(name)
+            prompt = user + (f"\n\nA previous attempt failed: {error}" if error else "")
             saved, _ = claude.call(client, budget, calls, out / "handoffs", name, "verify", "verify", vconfig, ids,
-                                   system, user, schema=SCHEMA, validate=make_validator(ids))
-            log(f"verify: batch {b // VERIFY_BATCH + 1}/{-(-len(sample) // VERIFY_BATCH)} done; "
-                f"run spend ${budget.run_committed:.4f}")
+                                   system, prompt, schema=SCHEMA, validate=make_validator(ids),
+                                   max_invalid_retries=0 if (error or "").startswith("invalid output") else 1)
+            log(f"verify: request {i + 1}/{len(groups)} done; run spend ${budget.run_committed:.4f}")
         for r in saved["results"]:
             verdicts[r["review_id"]] = r
     return write_report(out, sample, verdicts, vconfig, config)
+
+
+def run_batch(out, client, budget, calls, groups, vconfig, system, stop, log, poll_s, sleep):
+    """Message Batches API (50% price): submit the pending requests once, save the batch ID, poll, save results.
+
+    Returns {name: error} for requests that still need their single standard-API retry, or None when stopped
+    while the batch is processing (rerun to resume polling the saved batch instead of resubmitting).
+    """
+    handoffs = out / "handoffs"
+    state_path = out / "verify_batch.json"
+    state = read_json(state_path)
+    price = CLAUDE_PRICES.get(client.model, (CLAUDE_PRICE_IN, CLAUDE_PRICE_OUT))
+    if state is None or state.get("label_config") != vconfig or state.get("collected"):
+        requests, reserved = [], Decimal(0)
+        for name, ids, user in groups:
+            est = cost_usd(claude.estimate_tokens(system + user), getattr(client, "max_tokens", CLAUDE_MAX_TOKENS),
+                           *price) * CLAUDE_BATCH_DISCOUNT
+            budget.reserve(est)  # raises BudgetExceeded before anything is submitted
+            reserved += est
+            write_json(handoffs / f"{name}.request.json", {"model": client.model, "role": "verify", "review_ids": ids,
+                                                           "system": system, "user": user, "schema": SCHEMA,
+                                                           "mode": "batch", "label_config": vconfig})
+            requests.append((name, client.params(system, user, SCHEMA)))
+        try:
+            batch_id = client.create_batch(requests)
+        finally:
+            budget.release(reserved)  # actual usage is committed per result below
+        state = {"batch_id": batch_id, "label_config": vconfig, "members": {name: ids for name, ids, _ in groups},
+                 "submitted_at": time.strftime("%Y-%m-%dT%H:%M:%S%z"), "collected": False}
+        write_json(state_path, state)
+        log(f"verify: submitted batch {batch_id} with {len(requests)} requests")
+    else:
+        log(f"verify: resuming batch {state['batch_id']} submitted {state['submitted_at']}")
+    while client.batch_status(state["batch_id"]) != "ended":
+        if stop is not None:
+            stop.check_deadline()
+            if stop.reason:
+                log(f"verify: stopping while batch {state['batch_id']} is still processing; rerun to resume polling")
+                return None
+        sleep(poll_s)
+    errors = {}
+    for name, res in client.batch_results(state["batch_id"]):
+        ids = state["members"].get(name, [])
+        base = {"role": "verify", "review_ids": ids, "phase": "verify", "label_config": vconfig, "attempt": 1,
+                "handoff": f"verify/handoffs/{name}", "mode": "batch"}
+        if not res["ok"]:
+            calls.write({**base, "request_id": f"local-failed-{uuid.uuid4().hex}", "model": client.model,
+                         "outcome": "failed", "input_tokens": 0, "output_tokens": 0, "usage_available": False,
+                         "error": res["error"]})
+            errors[name] = res["error"]
+            continue
+        cost = cost_usd(res["input_tokens"], res["output_tokens"], *price) * CLAUDE_BATCH_DISCOUNT
+        budget.commit(Decimal(0), cost, "verify", res["request_id"])
+        write_json(handoffs / f"{name}.response.1.json", {**res, "cost_usd": str(cost)})
+        usage = {"request_id": res["request_id"], "model": res["model"], "input_tokens": res["input_tokens"],
+                 "output_tokens": res["output_tokens"], "usage_available": True, "cost_usd": str(cost)}
+        try:
+            if res["stop_reason"] == "max_tokens":
+                raise ValueError("truncated at max_tokens")
+            parsed = make_validator(ids)(json.loads(res["text"]))
+        except ValueError as e:  # includes JSON errors
+            calls.write({**base, **usage, "outcome": "failed", "error": f"invalid output: {e}"[:300]})
+            errors[name] = f"invalid output: {e}"[:500]
+            continue
+        calls.write({**base, **usage, "outcome": "succeeded"})
+        write_json(handoffs / f"{name}.parsed.json", parsed)
+    calls.flush()
+    state["collected"] = True
+    write_json(state_path, state)
+    log(f"verify: batch {state['batch_id']} collected; {len(errors)} request(s) need a retry; "
+        f"run spend ${budget.run_committed:.4f}")
+    return errors
 
 
 def band(conf):

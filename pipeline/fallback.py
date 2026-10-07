@@ -356,7 +356,8 @@ def run_batch(run_dir, client, budget, calls, units, config, phase, stop, log=pr
         try:
             parsed, response = claude.call(client, budget, calls, handoffs, name, "enrich", phase, config, ids,
                                            system_prompt(), _user(group) + f"\n\nA previous attempt failed: {error}",
-                                           schema=SCHEMA, validate=structural_validator(ids), lock=lock, max_attempts=4)
+                                           schema=SCHEMA, validate=structural_validator(ids), lock=lock, max_attempts=4,
+                                           max_invalid_retries=0 if error.startswith("invalid output") else 1)
             _finish_batch(group, parsed, response["request_id"], writer, client, budget, calls, handoffs, config,
                           phase, lock, attempt=2)
         except (BudgetExceeded, AuthFailure) as e:
