@@ -17,7 +17,7 @@ from datetime import datetime, timezone
 from decimal import Decimal
 
 from . import fallback, rubric, translate
-from .config import EARLY_GATE_FRACTION, FALLBACK_EST_USD_PER_REVIEW
+from .config import EARLY_GATE_FRACTION, FALLBACK_EST_BY_MODEL, FALLBACK_EST_USD_PER_REVIEW
 from .dispatch import Task, run_tasks
 from .entities import extract
 from .ingest import load_sources, load_units
@@ -197,7 +197,13 @@ def run(run_dir, client, budget, calls, stop, max_new=None, accept_gate=False, t
             projected_fb = Decimal(0)
             if fallback_cfg:
                 low = sum(fallback.needs_fallback(r, fallback_cfg["threshold"]) for r in done.values())
-                projected_fb = low * FALLBACK_EST_USD_PER_REVIEW[fallback_cfg["mode"]]
+                model = fallback_cfg["client"].model.removeprefix("fake-")
+                per = FALLBACK_EST_BY_MODEL.get(model)
+                if per is None:
+                    per = FALLBACK_EST_USD_PER_REVIEW[fallback_cfg["mode"]]
+                elif fallback_cfg["mode"] == "batch":
+                    per = per / 2
+                projected_fb = low * per
             gate = budget.early_gate(budget.run_committed + projected_fb, Decimal(len(done)) / Decimal(total),
                                      EARLY_GATE_FRACTION)
             gate["projected_fallback_usd_included"] = str(projected_fb)

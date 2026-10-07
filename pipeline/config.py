@@ -47,7 +47,10 @@ CLAUDE_BATCH_DISCOUNT = Decimal("0.5")  # Message Batches API bills 50% of stand
 # fallback spend that has not happened yet. Measured in the cold 100-review pilot (cost/report.md):
 # $0.0185 for a 7-review standard request = $0.0026 per review; Batch API bills half. Refresh after 10k.
 FALLBACK_THRESHOLD = 0.5
-FALLBACK_EST_USD_PER_REVIEW = {"standard": Decimal("0.0026"), "batch": Decimal("0.0013")}
+FALLBACK_EST_USD_PER_REVIEW = {"standard": Decimal("0.0026"), "batch": Decimal("0.0013")}  # claude-sonnet-5
+# Measured per-review fallback cost by model (standard API; the Batch API bills half):
+# Sonnet 5 medium $0.00204 (10k run), Haiku 4.5 without thinking $0.00052 (evals/effort_test).
+FALLBACK_EST_BY_MODEL = {"claude-sonnet-5": Decimal("0.0021"), "claude-haiku-4-5": Decimal("0.00055")}
 FALLBACK_BATCH_POLL_S = 60
 
 MAX_ENRICH_BATCH = 50   # contract limit; Jev uses 1 review per request

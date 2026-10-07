@@ -234,7 +234,8 @@ Full report: [`cost/report.md`](cost/report.md). Measured on `cost_100.csv` (sha
 | 2026-09-30 | Real cold and warm pilot at 1 worker, plus a cold pilot at 2 workers | Your call; the 2-worker run measured a 1.39× enrich-stage speedup |
 | 2026-10-01 | Development cap raised to **$10**; Claude reasoning effort stays **medium** for the fallback and verifier | Effort test: low saved about 17% per review but changed 27% of fallback decisions and matched the human on 4 of 7 golden low-confidence reviews, versus 5 of 7 for medium ([`evals/effort_test/report.json`](evals/effort_test/report.json)) |
 | 2026-10-06 | **Final run scope: a seeded random sample of 100,000 review IDs** (the updated brief accepts ≥100,000), **sampled IDs only**: exact-duplicate copies outside the sample are quarantined as out of scope, not completed by reuse | Projected ~$11–16 against ~$65–93 for the full corpus. Sample-only keeps the business aggregates a fair random sample; including copies would complete about 238,000 rows but over-weight repeated short texts. All 660,622 rows are still ingested, profiled and accounted for. |
-| pending | Translation of non-English texts | Decided after the 10k language comparison |
+| 2026-10-06 | **Fallback model: Claude Haiku 4.5 without extended thinking, via the Batch API, for every qualifying text (≤20% cap)**; verification (1,000), taxonomy and memo stay on Sonnet 5; final-run hard cap **$15** | Sonnet fallback measured at $0.00204 per review vs Haiku $0.00052. Projected 100k run: ~$10.65 with Haiku vs ~$20 with Sonnet (both Batch). Haiku got all three labels right on 3 of 7 golden low-confidence reviews, vs 5 of 7 for Sonnet and 1 of 7 for Jev ([`evals/effort_test/`](evals/effort_test/)) |
+| 2026-10-06 | No translation | 10k language strata, all-three agreement with the verifier: English 77.0%, Latin-script non-English 71.6%, non-Latin script 88.4%. A modest gap, and translation would add cost |
 
 ## Development results
 

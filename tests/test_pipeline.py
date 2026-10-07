@@ -938,3 +938,26 @@ class TestScope(unittest.TestCase):
                           "--budget-usd", "1", "--offline-fake"])  # resuming without the scope is refused
         finally:
             shutil.rmtree(tmp, ignore_errors=True)
+
+
+class TestFallbackModel(unittest.TestCase):
+    def test_separate_fallback_model_is_tagged_and_logged(self):
+        from unittest import mock
+        from pipeline import fakes
+        tmp = Path(tempfile.mkdtemp(prefix="pipeline-fbm-"))
+        try:
+            jev = FakeJev(low_conf_every=5)
+            with mock.patch.object(cli, "make_clients", lambda *a, **k: (jev, fakes.FakeClaude())):
+                code = fake_run(tmp, "--fallback", "batch", "--fallback-model", "claude-haiku-4-5",
+                                "--fallback-effort", "none", grading=False)
+            self.assertEqual(code, 0)
+            from pipeline.enrich import current_config
+            config = current_config(tmp / "run", "fake-jev-0")
+            self.assertIn("fallback-fake-claude-haiku-4-5-effort-none", config)
+            calls = list(read_jsonl(tmp / "run" / "calls.jsonl"))
+            fb = [c for c in calls if c["role"] == "enrich" and "haiku" in c["model"]]
+            others = {c["model"] for c in calls if c["role"] in ("verify", "memo")}
+            self.assertTrue(fb and all(c.get("mode") == "batch" for c in fb))
+            self.assertEqual(others, {"fake-claude-0"})  # verifier and memo keep the main Claude model
+        finally:
+            shutil.rmtree(tmp, ignore_errors=True)

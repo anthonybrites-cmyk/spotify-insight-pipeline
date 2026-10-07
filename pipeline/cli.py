@@ -91,6 +91,7 @@ def cmd_run(args):
                      "rubric_variant": args.rubric, "fallback": args.fallback,
                      "scope_sample": args.scope_sample, "scope_include_duplicates": args.scope_include_duplicates,
                      "fallback_threshold": args.fallback_threshold, "fallback_max_fraction": args.fallback_max_fraction,
+                     "fallback_model": args.fallback_model, "fallback_effort": args.fallback_effort,
                      "claude_effort": args.claude_effort, "claude_max_tokens": args.claude_max_tokens})
     manifest.setdefault("invocations", []).append({"id": invocation, "code_version": git_commit(),
                                                   "argv": sys.argv[1:], "started": time.strftime("%Y-%m-%dT%H:%M:%S%z")})
@@ -153,7 +154,20 @@ def _stages(args, stages, run_dir, input_csv, jev, claude_client, budget, calls,
         if "enrich" in stages:
             with runlog.stage("enrich") as st:
                 translator = claude_client if args.translate else None
-                fb = ({"client": claude_client, "mode": args.fallback, "threshold": args.fallback_threshold,
+                fb_client = claude_client
+                if args.fallback != "off" and args.fallback_model and args.fallback_model != getattr(claude_client, "model", None):
+                    if args.fallback_model not in MODEL_ALLOWLIST["claude"]:
+                        raise SystemExit(f"fallback model {args.fallback_model} is not on the allowlist")
+                    if args.offline_fake:
+                        from .fakes import FakeClaude
+                        fb_client = FakeClaude()
+                        fb_client.model = "fake-" + args.fallback_model
+                    else:
+                        from .claude import ClaudeClient
+                        fb_client = ClaudeClient(require("ANTHROPIC_API_KEY"), model=args.fallback_model,
+                                                 effort=args.fallback_effort, max_tokens=args.claude_max_tokens)
+                    fb_client.effort = args.fallback_effort
+                fb = ({"client": fb_client, "mode": args.fallback, "threshold": args.fallback_threshold,
                        "max_fraction": args.fallback_max_fraction, "workers": args.workers}
                       if args.fallback != "off" else None)
                 reason = enrich.run(run_dir, jev, budget, calls, stop, max_new=args.stop_after_units,
@@ -296,6 +310,10 @@ def main(argv=None):
                    help="Claude re-labels low-confidence Jev texts blind: standard API or Message Batches API (50%% price)")
     p.add_argument("--fallback-threshold", type=float, default=0.5,
                    help="fallback when min(topic, intent, severity confidence) is below this")
+    p.add_argument("--fallback-model", help="Claude model for the fallback only (e.g. claude-haiku-4-5); "
+                   "verification, taxonomy and memo keep --claude-effort on claude-sonnet-5")
+    p.add_argument("--fallback-effort", default="medium", choices=["none", "low", "medium", "high"],
+                   help="'none' = no extended thinking (required for claude-haiku-4-5)")
     p.add_argument("--fallback-max-fraction", type=float, default=0.2,
                    help="declared cap: at most this fraction of distinct texts go to the Claude fallback")
     p.add_argument("--translate", action="store_true",
