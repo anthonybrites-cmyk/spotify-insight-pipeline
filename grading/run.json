@@ -1,0 +1,38 @@
+{
+  "allow_multi_issue": false,
+  "analysis_count": 660622,
+  "analysis_sha256": "1fc85de68a304dd8978b537cfa58793d5f41cbaf417fa32cb53899f83a2fcef6",
+  "classification_input_fields": [
+    "review_text"
+  ],
+  "declared_scope": {
+    "classify_nonempty": 660609,
+    "distinct_texts_sent_to_model": 484189,
+    "quarantine_empty": 13,
+    "records": 660622
+  },
+  "grouping": {
+    "assign_label_config": "jev-1.13.0+group-assign-82704dc8af0c+schema-v1"
+  },
+  "input_file": "spotify_reviews_18months.csv",
+  "label_configs": [
+    "jev-1.13.0+prompt-1f4c113e8ac0+fallback-claude-haiku-4-5-effort-none-t0.5-cap0.2-0b2d587959+schema-v1"
+  ],
+  "resume_snapshots": {
+    "after": "enrich_complete.json",
+    "before": "enrich_stop_20261007T015903_stop_after.json"
+  },
+  "stages": [
+    "ingest",
+    "enrich",
+    "verify",
+    "group",
+    "rank",
+    "recommend"
+  ],
+  "verification": {
+    "label_config": "claude-sonnet-5+effort-medium+verify-0102d95afe14+schema-v1",
+    "sample": null
+  },
+  "version": "a5-audit-v1"
+}

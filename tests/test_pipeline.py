@@ -493,7 +493,7 @@ class TestExportAndPlantedErrors(Fixture):
 
     def test_results_folder_and_logs(self):
         results = self.tmp / "results"
-        for name in ("enriched.jsonl.gz", "quarantine.jsonl", "issues.json", "aggregates.csv", "ranking.csv",
+        for name in ("enriched.jsonl.gz", "quarantine.jsonl.gz", "issues.json", "aggregates.csv", "ranking.csv",
                      "data_manifest.json", "ingestion_report.json", "run_log.jsonl", "run_summary.json", "memo.md",
                      "verification_report.json", "planted_label_test.json", "claims.csv"):
             self.assertTrue((results / name).exists(), name)

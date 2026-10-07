@@ -107,7 +107,8 @@ def export_results(run_dir, out, records, claims, log=print):
             f.write(canonical({**r, "jev_confidence": diag.get("confidence"),
                                "severity_rule_applied": diag.get("severity_rule_applied"),
                                "decided_by": final.get(units[r["review_id"]], {}).get("decided_by", "jev")}) + "\n")
-    with (out / "quarantine.jsonl").open("w", encoding="utf-8") as f:
+    (out / "quarantine.jsonl").unlink(missing_ok=True)  # older exports wrote it uncompressed
+    with gzip.open(out / "quarantine.jsonl.gz", "wt", encoding="utf-8") as f:  # 150 MB raw for a sample run
         for r in records:
             if r["status"] == "quarantined":
                 f.write(canonical(r) + "\n")

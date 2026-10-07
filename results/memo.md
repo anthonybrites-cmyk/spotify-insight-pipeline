@@ -1,0 +1,31 @@
+## Recommendation
+
+Product effort should prioritize **usability**, specifically `usability.ad_frequency` and the cluster of control-related issues (`usability.playback_controls_limited`, `usability.shuffle_control`, `usability.queue_playlist_management`), alongside the closely related `billing.features_locked_behind_premium` issue, since these together represent the largest named, actionable complaint volumes outside the catch-all bucket. Fixing ad frequency and restoring basic playback controls addresses the two biggest specific pain points customers describe.
+
+## Evidence
+
+- **billing.features_locked_behind_premium**: 4490 complaints, severity sum 13442, mean severity 2.993764 [C05][C06][C07]. Customers describe losing free functionality: "I can only 6 skip 6 stacks per hour now I can't play a song which i searched up everything is removed you need premium to do anything I am planning on switching to yt music instead of this now" (review a0d2ccd3-ebb3-46b9-bbf7-212bb0ec8e84); also "I wish I could give this app minus stars, it has started charging money for even playing the playlist normally" (review 33a171b5-b930-48c3-8560-97b8deb538be).
+
+- **usability.ad_frequency**: 5488 complaints, severity sum 11849, mean severity 2.159074 [C09][C10][C11] — the largest named usability issue by count. Representative illustration of the topic bucket includes review 08a1f178-3e7a-4d65-9da3-dee293dd0061 ("Today I almost got into an accident because of unexpected loud ad music").
+
+- **usability.general**: 1862 complaints, severity sum 4859, mean severity 2.609560 [C13][C14][C15], including comments like "and stop deleting albums!!!" (review 7df5d56c-0461-45cf-8e85-0cb5563f6325).
+
+- **usability.playback_controls_limited**: 1592 complaints, severity sum 4797, mean severity 3.013191 [C17][C18][C19], with a high mean severity reflecting strong frustration, e.g. "The new update is so bad I can't even swith the previous song back and I can't even listen to my playlist." (review 9a2f9235-5c31-4726-baf5-dbb5910e345c).
+
+- **usability.shuffle_control** (1679 complaints, severity sum 4787, mean severity 2.851102 [C21][C22][C23]) and **usability.queue_playlist_management** (1357 complaints, severity sum 4121, mean severity 3.036846 [C25][C26][C27]) round out the control-related cluster, each with higher-than-average mean severity.
+
+Together, the top 3 ranked issues account for 53.9 percent of ranked complaint memberships [F09], underscoring how concentrated the complaint volume is in a small number of named issues.
+
+## Alternatives considered
+
+- **Access**: topic-level totals show 1610 complaints and severity sum 6291 [F22][F23] — notably smaller than usability (13163 complaints, severity sum 33278 [F14][F15]) or billing (6875 complaints, severity sum 20158 [F18][F19]). No access-specific issue appears in the top 10 ranked list, so it ranks lower this quarter. This would change if future runs surface a concentrated access-specific issue with high priority_score.
+
+- **Playback**: topic-level totals are 5615 complaints, severity sum 18451 [F20][F21], driven mainly by `playback.app_crashes_freezes` (1160 complaints, severity sum 4062, mean severity 3.501724 [C29][C30][C31] — the highest mean severity of any named issue) and `playback.general` (1222 complaints, severity sum 3953, mean severity 3.234861 [C37][C38][C39]). These are serious per-incident but lower in volume than ad_frequency or features_locked_behind_premium; crash fixes could be fast-followed given the high mean severity.
+
+- **Billing/support**: billing topic totals (6875 complaints, severity sum 20158 [F18][F19]) are substantial, driven largely by `billing.features_locked_behind_premium` (above) with `billing.general` contributing 1496 complaints, severity sum 3975 [C33][C34]. Support topic is comparatively small (118 complaints, severity sum 362 [F28][F29]), so support itself is not a near-term priority.
+
+- **other.general** (catch-all) is the single largest bucket at 14039 complaints, severity sum 28433 [C01][C02], but it is explicitly a non-placeable catch-all (illustrated by vague complaints like "Very bad this application wasted my important time ,time consuming,causes illness," review 0077f010-0436-4a94-abaf-50782a8c0f16) and should not itself drive a specific engineering priority; it does, however, warrant further sub-classification work to see if a specific issue is hiding inside it.
+
+## Limits
+
+This analysis is based on a self-selected sample of historical reviews (660622 source reviews [F01], 100000 completed classifications [F02]) and cannot establish revenue, plan tier, or confirmed churn. Reviews expressing intent to cancel (4327 cancellation-intent reviews [F06]) are intent only, not confirmed churn. 13974 completed reviews were flagged needs_review [F07] and are not reflected in the issue counts above; 13 reviews were quarantined for empty text [F03]. Verification agreement (topic agreement 84.6 percent [F11], intent agreement 91.2 percent [F12], severity mean absolute difference 0.155 [F13]) reflects agreement between two models, not ground-truth accuracy.

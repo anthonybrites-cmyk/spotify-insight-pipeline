@@ -404,6 +404,9 @@ def main(argv=None):
     p.add_argument("--scope", required=True)
     p.add_argument("--input", help="the run's input CSV (default: the path in run_manifest.json)")
     p.add_argument("--current", action="store_true", help="make this the run the dashboard shows by default")
+    p.add_argument("--omit-out-of-scope-rows", action="store_true",
+                   help="store only in-scope rows (completed + empty-text quarantines); out-of-scope rows stay counted "
+                        "in runs.quarantine_reasons (keeps a sample run within the database's free-tier storage)")
     p = sub.add_parser("heldout-sheet", help="blank labeling sheet of fresh low-confidence reviews from a run (no model calls)")
     p.add_argument("--run-dir", required=True)
     p.add_argument("--n", type=int, default=30)

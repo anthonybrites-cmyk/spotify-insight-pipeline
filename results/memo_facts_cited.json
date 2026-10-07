@@ -1,0 +1,78 @@
+{
+  "F01": {
+    "meaning": "source reviews in the input file",
+    "value": "660622"
+  },
+  "F02": {
+    "meaning": "reviews with a completed classification",
+    "value": "100000"
+  },
+  "F03": {
+    "meaning": "reviews quarantined for empty text",
+    "value": "13"
+  },
+  "F06": {
+    "meaning": "cancellation-intent reviews",
+    "value": "4327"
+  },
+  "F07": {
+    "meaning": "completed reviews flagged needs_review",
+    "value": "13974"
+  },
+  "F09": {
+    "meaning": "share of ranked complaint memberships in the top 3 issues, percent (1 dp)",
+    "value": "53.9"
+  },
+  "F11": {
+    "meaning": "verification random-sample topic agreement, percent (1 dp)",
+    "value": "84.6"
+  },
+  "F12": {
+    "meaning": "verification random-sample intent agreement, percent (1 dp)",
+    "value": "91.2"
+  },
+  "F13": {
+    "meaning": "verification random-sample severity mean absolute difference (levels)",
+    "value": "0.155"
+  },
+  "F14": {
+    "meaning": "topic 'usability': complaint/cancellation reviews",
+    "value": "13163"
+  },
+  "F15": {
+    "meaning": "topic 'usability': severity sum",
+    "value": "33278"
+  },
+  "F18": {
+    "meaning": "topic 'billing': complaint/cancellation reviews",
+    "value": "6875"
+  },
+  "F19": {
+    "meaning": "topic 'billing': severity sum",
+    "value": "20158"
+  },
+  "F20": {
+    "meaning": "topic 'playback': complaint/cancellation reviews",
+    "value": "5615"
+  },
+  "F21": {
+    "meaning": "topic 'playback': severity sum",
+    "value": "18451"
+  },
+  "F22": {
+    "meaning": "topic 'access': complaint/cancellation reviews",
+    "value": "1610"
+  },
+  "F23": {
+    "meaning": "topic 'access': severity sum",
+    "value": "6291"
+  },
+  "F28": {
+    "meaning": "topic 'support': complaint/cancellation reviews",
+    "value": "118"
+  },
+  "F29": {
+    "meaning": "topic 'support': severity sum",
+    "value": "362"
+  }
+}

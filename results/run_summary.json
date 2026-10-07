@@ -1,0 +1,213 @@
+{
+  "budget": {
+    "cap_usd": "15.0",
+    "committed_usd": "10.625496164",
+    "group": "full",
+    "remaining_usd": "4.374503836",
+    "this_run_usd": "10.625496164"
+  },
+  "caps": {
+    "budget_group": "full",
+    "budget_usd": 15.0,
+    "early_gate_fraction": "0.10",
+    "max_minutes": 65.0,
+    "rps": 30,
+    "workers": 5
+  },
+  "cost_basis": "provider-reported tokens x published list prices; not an invoice",
+  "early_gate": {
+    "accepted_override": false,
+    "allowed_at_gate_usd": "1.500",
+    "evaluated_at": "2026-10-07T02:01:11+00:00",
+    "fraction_done": "0.1000051186241138382002917616",
+    "linear_projection_usd": "7.7595",
+    "passed": true,
+    "projected_fallback_usd_included": "0.277750",
+    "spend_at_gate_usd": "0.775993816"
+  },
+  "elapsed_seconds_by_stage_all_invocations": {
+    "enrich": 4028.5,
+    "group": 1198.6,
+    "ingest": 15.8,
+    "rank": 0.1,
+    "recommend": 18.4,
+    "verify": 184.5
+  },
+  "elapsed_seconds_total": 5445.9,
+  "enrich_invocations": [
+    {
+      "completed_at_end": 4420,
+      "completed_at_start": 0,
+      "ended": "2026-10-07T01:59:03+00:00",
+      "failed_this_invocation": 0,
+      "fallback": {
+        "effort": "none",
+        "max_fraction": 0.2,
+        "mode": "batch",
+        "model": "claude-haiku-4-5",
+        "tag": "fallback-claude-haiku-4-5-effort-none-t0.5-cap0.2-0b2d587959",
+        "threshold": 0.5
+      },
+      "label_config": "jev-1.13.0+prompt-1f4c113e8ac0+fallback-claude-haiku-4-5-effort-none-t0.5-cap0.2-0b2d587959+schema-v1",
+      "pending_at_start": 78146,
+      "phase": "initial",
+      "snapshot": "enrich_stop_20261007T015903_stop_after.json",
+      "spend_before_usd": "0",
+      "started": "2026-10-07T01:55:50+00:00",
+      "stop_reason": "stop_after",
+      "succeeded_this_invocation": 5000
+    },
+    {
+      "completed_at_end": 7098,
+      "completed_at_start": 5000,
+      "ended": "2026-10-07T02:01:31+00:00",
+      "failed_this_invocation": 0,
+      "fallback": {
+        "effort": "none",
+        "max_fraction": 0.2,
+        "mode": "batch",
+        "model": "claude-haiku-4-5",
+        "tag": "fallback-claude-haiku-4-5-effort-none-t0.5-cap0.2-0b2d587959",
+        "threshold": 0.5
+      },
+      "label_config": "jev-1.13.0+prompt-1f4c113e8ac0+fallback-claude-haiku-4-5-effort-none-t0.5-cap0.2-0b2d587959+schema-v1",
+      "pending_at_start": 73146,
+      "phase": "resume",
+      "snapshot": "enrich_stop_20261007T020131_interrupted.json",
+      "spend_before_usd": "0.318103968",
+      "started": "2026-10-07T01:59:23+00:00",
+      "stop_reason": "interrupted",
+      "succeeded_this_invocation": 3168
+    },
+    {
+      "completed_at_end": 15471,
+      "completed_at_start": 8168,
+      "ended": "2026-10-07T02:09:45+00:00",
+      "failed_this_invocation": 0,
+      "fallback": {
+        "effort": "none",
+        "max_fraction": 0.2,
+        "mode": "batch",
+        "model": "claude-haiku-4-5",
+        "tag": "fallback-claude-haiku-4-5-effort-none-t0.5-cap0.2-0b2d587959",
+        "threshold": 0.5
+      },
+      "label_config": "jev-1.13.0+prompt-1f4c113e8ac0+fallback-claude-haiku-4-5-effort-none-t0.5-cap0.2-0b2d587959+schema-v1",
+      "pending_at_start": 69978,
+      "phase": "resume",
+      "snapshot": "enrich_stop_20261007T020945_interrupted.json",
+      "spend_before_usd": "0.520920246",
+      "started": "2026-10-07T02:01:46+00:00",
+      "stop_reason": "interrupted",
+      "succeeded_this_invocation": 9894
+    },
+    {
+      "completed_at_start": 18062,
+      "fallback": {
+        "effort": "none",
+        "max_fraction": 0.2,
+        "mode": "batch",
+        "model": "claude-haiku-4-5",
+        "tag": "fallback-claude-haiku-4-5-effort-none-t0.5-cap0.2-0b2d587959",
+        "threshold": 0.5
+      },
+      "label_config": "jev-1.13.0+prompt-1f4c113e8ac0+fallback-claude-haiku-4-5-effort-none-t0.5-cap0.2-0b2d587959+schema-v1",
+      "pending_at_start": 60084,
+      "phase": "resume",
+      "spend_before_usd": "1.157374638",
+      "started": "2026-10-07T02:09:55+00:00"
+    },
+    {
+      "completed_at_end": 78146,
+      "completed_at_start": 78146,
+      "ended": "2026-10-07T03:05:03+00:00",
+      "failed_this_invocation": 0,
+      "fallback": {
+        "effort": "none",
+        "max_fraction": 0.2,
+        "mode": "batch",
+        "model": "claude-haiku-4-5",
+        "tag": "fallback-claude-haiku-4-5-effort-none-t0.5-cap0.2-0b2d587959",
+        "threshold": 0.5
+      },
+      "label_config": "jev-1.13.0+prompt-1f4c113e8ac0+fallback-claude-haiku-4-5-effort-none-t0.5-cap0.2-0b2d587959+schema-v1",
+      "pending_at_start": 0,
+      "phase": "resume",
+      "snapshot": "enrich_complete.json",
+      "spend_before_usd": "5.044449228",
+      "started": "2026-10-07T02:51:20+00:00",
+      "stop_reason": null,
+      "succeeded_this_invocation": 0
+    }
+  ],
+  "generated_at": "2026-10-07T03:28:31+00:00",
+  "invocations": 5,
+  "records": {
+    "by_status": {
+      "completed": 100000,
+      "quarantined": 560622
+    },
+    "completed_via_cache_reuse": 21854,
+    "needs_review": 13974,
+    "quarantine_reasons": {
+      "empty_review_text": 13,
+      "out_of_scope": 560609
+    },
+    "total": 660622
+  },
+  "resume_evidence": {
+    "first_stop_snapshot": "enrich_stop_20261007T015903_stop_after.json"
+  },
+  "total_cost_usd_list_price": "10.625496164",
+  "usage_by_role_model": {
+    "enrich|claude-haiku-4-5-20251001": {
+      "calls_failed": 4,
+      "calls_succeeded": 391,
+      "cost_usd_list_price": "3.9847250",
+      "failed_attempts_without_usage": 0,
+      "input_tokens": 1622419,
+      "output_tokens": 1180774,
+      "review_ids_sent": 13853
+    },
+    "enrich|jev-1.13.0": {
+      "calls_succeeded": 78146,
+      "cost_usd_list_price": "5.044449228",
+      "failed_attempts_without_usage": 0,
+      "input_tokens": 120105934,
+      "output_tokens": 17608748,
+      "review_ids_sent": 78146
+    },
+    "group|claude-sonnet-5": {
+      "calls_succeeded": 1,
+      "cost_usd_list_price": "0.067662",
+      "failed_attempts_without_usage": 0,
+      "input_tokens": 20231,
+      "output_tokens": 2720,
+      "review_ids_sent": 0
+    },
+    "group|jev-1.13.0": {
+      "calls_succeeded": 30147,
+      "cost_usd_list_price": "0.792006936",
+      "failed_attempts_without_usage": 0,
+      "input_tokens": 18857308,
+      "output_tokens": 2967807,
+      "review_ids_sent": 30147
+    },
+    "memo|claude-sonnet-5": {
+      "calls_succeeded": 1,
+      "cost_usd_list_price": "0.032122",
+      "failed_attempts_without_usage": 0,
+      "input_tokens": 6586,
+      "output_tokens": 1895,
+      "review_ids_sent": 0
+    },
+    "verify|claude-sonnet-5": {
+      "calls_succeeded": 20,
+      "cost_usd_list_price": "0.7045310",
+      "failed_attempts_without_usage": 0,
+      "input_tokens": 110641,
+      "output_tokens": 118778,
+      "review_ids_sent": 1000
+    }
+  }
+}

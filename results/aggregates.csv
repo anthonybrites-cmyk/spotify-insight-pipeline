@@ -1,0 +1,51 @@
+issue_id,topic,name,complaint_count,severity_sum,mean_severity,priority_score,rank
+other.general,other,General complaints (no specific feature),14039,28433,2.025287,28433,1
+billing.features_locked_behind_premium,billing,Basic features locked behind Premium,4490,13442,2.993764,13442,2
+usability.ad_frequency,usability,Excessive or frequent ads,5488,11849,2.159074,11849,3
+usability.general,usability,Other usability complaints,1862,4859,2.609560,4859,4
+usability.playback_controls_limited,usability,Limited playback controls,1592,4797,3.013191,4797,5
+usability.shuffle_control,usability,Shuffle mode problems,1679,4787,2.851102,4787,6
+usability.queue_playlist_management,usability,Queue and playlist management issues,1357,4121,3.036846,4121,7
+playback.app_crashes_freezes,playback,App crashes or freezes,1160,4062,3.501724,4062,8
+billing.general,billing,Other billing complaints,1496,3975,2.657086,3975,9
+playback.general,playback,Other playback complaints,1222,3953,3.234861,3953,10
+playback.song_stops_or_skips,playback,"Songs stop, pause, or skip unexpectedly",1106,3474,3.141049,3474,11
+access.login_failure,access,Login failures,676,2701,3.995562,2701,12
+usability.ui_redesign_complaints,usability,UI/design change complaints,1112,2658,2.390288,2658,13
+playback.post_update_playback_break,playback,Playback broken after update,639,2196,3.436620,2196,14
+catalog.missing_songs_artists,catalog,Missing or removed songs and artists,689,1961,2.846154,1961,15
+catalog.lyrics_unavailable,catalog,Lyrics not loading or removed,665,1843,2.771429,1843,16
+playback.connection_errors,playback,False or persistent connection errors,422,1526,3.616114,1526,17
+playback.wrong_track_played,playback,Wrong track plays,391,1265,3.235294,1265,18
+access.phone_number_login,access,Phone number login issues,313,1251,3.996805,1251,19
+access.general,access,Other access complaints,288,1033,3.586806,1033,20
+playback.audio_lag_quality,playback,Audio lag or quality issues,370,991,2.678378,991,21
+playback.device_bluetooth_integration,playback,"Device, Bluetooth, and car integration issues",305,984,3.226230,984,22
+billing.payment_processing_failure,billing,Payment or subscription processing failure,230,960,4.173913,960,23
+downloads.offline_playback_failure,downloads,Offline playback not working,262,942,3.595420,942,24
+downloads.download_failure,downloads,Songs fail to download,214,805,3.761682,805,25
+catalog.poor_recommendations,catalog,Poor recommendations or radio/mix quality,339,796,2.348083,796,26
+billing.price_too_high,billing,Price or cost complaints,357,783,2.193277,783,27
+catalog.general,catalog,Other catalog complaints,293,718,2.450512,718,28
+downloads.general,downloads,Other downloads complaints,233,681,2.922747,681,29
+access.logged_out_unexpectedly,access,Unexpected logouts,174,658,3.781609,658,30
+downloads.downloads_disappearing,downloads,Downloaded content disappearing,149,576,3.865772,576,31
+billing.premium_not_recognized,billing,Premium not recognized or not activating,137,477,3.481752,477,32
+catalog.search_not_working,catalog,Search function problems,127,423,3.330709,423,33
+billing.skip_limit_restrictions,billing,Skip limit restrictions for free users,90,267,2.966667,267,34
+billing.ads_despite_premium,billing,Ads despite paying for Premium,75,254,3.386667,254,35
+access.lost_data_after_login_issue,access,Lost playlists or data after login issue,46,200,4.347826,200,36
+access.account_hacked_or_banned,access,"Account hacked, banned, or terminated",40,178,4.450000,178,37
+downloads.download_storage_management,downloads,Download storage and settings issues,54,170,3.148148,170,38
+catalog.regional_language_content_gap,catalog,Regional or language content gaps,69,166,2.405797,166,39
+usability.history_recently_played,usability,History and recently played issues,53,155,2.924528,155,40
+access.signup_issues,access,Account creation/signup problems,41,152,3.707317,152,41
+support.ineffective_resolution,support,Support fails to resolve issue,34,121,3.558824,121,42
+access.password_reset,access,Password reset problems,32,118,3.687500,118,43
+downloads.offline_podcast_issues,downloads,Offline podcast playback issues,23,85,3.695652,85,44
+support.unresponsive_support,support,Unresponsive or no customer support,20,62,3.100000,62,45
+support.general,support,Other support complaints,25,59,2.360000,59,46
+support.difficult_to_reach_support,support,Difficult to reach support channel,18,54,3.000000,54,47
+usability.wrapped_feature,usability,Wrapped feature issues,20,52,2.600000,52,48
+support.poor_support_quality,support,Rude or low-quality support interactions,16,48,3.000000,48,49
+support.account_deletion_difficulty,support,Difficulty canceling or deleting account,5,18,3.600000,18,50

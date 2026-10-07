@@ -79,7 +79,11 @@ def publish(args, log):
     if not input_csv.exists():
         raise SystemExit(f"input CSV {input_csv} not found; pass --input")
     from .checker import csv_rows
-    wanted = {r["review_id"] for r in records}
+    omit = getattr(args, "omit_out_of_scope_rows", False)
+    is_oos = lambda r: r["status"] != "completed" and str(r.get("reason", "")).startswith("out_of_scope")
+    omitted = sum(1 for r in records if is_oos(r)) if omit else 0
+    stored = [r for r in records if not (omit and is_oos(r))]
+    wanted = {r["review_id"] for r in stored}
     for row in csv_rows(input_csv):
         if row["review_id"] in wanted:
             source[row["review_id"]] = row
@@ -123,7 +127,7 @@ def publish(args, log):
                               sentiment, needs_review, issue_id, evidence_quote, entities, decided_by,
                               cache_source_id, review_text, review_rating, review_timestamp, app_version)
                               from stdin""") as copy:
-                for r in records:
+                for r in stored:
                     s = source[r["review_id"]]
                     fr = final.get(unit_of.get(r["review_id"]), {})
                     done = r["status"] == "completed"
@@ -157,6 +161,8 @@ def publish(args, log):
             conn.execute("update runs set is_current = (run_id = %s)", (run_id,))
         conn.commit()
         n = conn.execute("select count(*) from reviews where run_id = %s", (run_id,)).fetchone()[0]
-    log(f"publish: {run_id} ({args.label}): {n} reviews, {len(issues)} issues, {len(claims)} claims"
+    log(f"publish: {run_id} ({args.label}): {n} review rows stored"
+        + (f" ({omitted:,} out-of-scope rows counted in runs.quarantine_reasons, not stored)" if omitted else "")
+        + f", {len(issues)} issues, {len(claims)} claims"
         f"{' (current)' if args.current else ''}")
     return 0

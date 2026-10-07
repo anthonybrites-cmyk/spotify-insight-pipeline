@@ -1,0 +1,306 @@
+{
+  "issues": {
+    "access.account_hacked_or_banned": {
+      "definition": "Account was compromised by another user, or was suspended/banned/terminated by Spotify without clear reason.",
+      "name": "Account hacked, banned, or terminated",
+      "source": "model",
+      "topic": "access"
+    },
+    "access.general": {
+      "definition": "access complaints that match no more specific subtopic, or are too vague to place.",
+      "name": "Other access complaints",
+      "source": "code_catch_all",
+      "topic": "access"
+    },
+    "access.logged_out_unexpectedly": {
+      "definition": "User is logged out of their account without action on their part and cannot easily log back in.",
+      "name": "Unexpected logouts",
+      "source": "model",
+      "topic": "access"
+    },
+    "access.login_failure": {
+      "definition": "User cannot log in despite entering correct credentials, or the app shows errors like 'something went wrong' during sign-in.",
+      "name": "Login failures",
+      "source": "model",
+      "topic": "access"
+    },
+    "access.lost_data_after_login_issue": {
+      "definition": "User lost playlists, liked songs, or account data as a result of a login or account access problem.",
+      "name": "Lost playlists or data after login issue",
+      "source": "model",
+      "topic": "access"
+    },
+    "access.password_reset": {
+      "definition": "Issues resetting or changing password, including forced resets due to suspicious activity flags.",
+      "name": "Password reset problems",
+      "source": "model",
+      "topic": "access"
+    },
+    "access.phone_number_login": {
+      "definition": "Problems specifically logging in or signing up using a mobile phone number, including OTP/verification code failures.",
+      "name": "Phone number login issues",
+      "source": "model",
+      "topic": "access"
+    },
+    "access.signup_issues": {
+      "definition": "Difficulty creating a new account, including regional restrictions preventing signup.",
+      "name": "Account creation/signup problems",
+      "source": "model",
+      "topic": "access"
+    },
+    "billing.ads_despite_premium": {
+      "definition": "User reports still receiving ads, especially on podcasts, while subscribed to Premium.",
+      "name": "Ads despite paying for Premium",
+      "source": "model",
+      "topic": "billing"
+    },
+    "billing.features_locked_behind_premium": {
+      "definition": "Previously free features such as skipping, repeating, or seeking within a song now require a Premium subscription.",
+      "name": "Basic features locked behind Premium",
+      "source": "model",
+      "topic": "billing"
+    },
+    "billing.general": {
+      "definition": "billing complaints that match no more specific subtopic, or are too vague to place.",
+      "name": "Other billing complaints",
+      "source": "code_catch_all",
+      "topic": "billing"
+    },
+    "billing.payment_processing_failure": {
+      "definition": "Payment attempts for Premium fail, get stuck pending, or money is charged without activating the subscription.",
+      "name": "Payment or subscription processing failure",
+      "source": "model",
+      "topic": "billing"
+    },
+    "billing.premium_not_recognized": {
+      "definition": "User has paid for Premium but the app still shows ads, limits, or free-tier restrictions.",
+      "name": "Premium not recognized or not activating",
+      "source": "model",
+      "topic": "billing"
+    },
+    "billing.price_too_high": {
+      "definition": "Complaints that subscription price is too expensive or not worth the cost.",
+      "name": "Price or cost complaints",
+      "source": "model",
+      "topic": "billing"
+    },
+    "billing.skip_limit_restrictions": {
+      "definition": "Complaints about limited number of song skips allowed per hour for non-premium users.",
+      "name": "Skip limit restrictions for free users",
+      "source": "model",
+      "topic": "billing"
+    },
+    "catalog.general": {
+      "definition": "catalog complaints that match no more specific subtopic, or are too vague to place.",
+      "name": "Other catalog complaints",
+      "source": "code_catch_all",
+      "topic": "catalog"
+    },
+    "catalog.lyrics_unavailable": {
+      "definition": "Lyrics fail to load, display incorrectly, or were removed as a feature.",
+      "name": "Lyrics not loading or removed",
+      "source": "model",
+      "topic": "catalog"
+    },
+    "catalog.missing_songs_artists": {
+      "definition": "Specific songs, albums, or artists are unavailable, removed, or restricted on Spotify.",
+      "name": "Missing or removed songs and artists",
+      "source": "model",
+      "topic": "catalog"
+    },
+    "catalog.poor_recommendations": {
+      "definition": "Complaints about irrelevant, repetitive, or low-quality personalized recommendations, radio, or mix playlists.",
+      "name": "Poor recommendations or radio/mix quality",
+      "source": "model",
+      "topic": "catalog"
+    },
+    "catalog.regional_language_content_gap": {
+      "definition": "Lack of sufficient content in a specific regional language or genre.",
+      "name": "Regional or language content gaps",
+      "source": "model",
+      "topic": "catalog"
+    },
+    "catalog.search_not_working": {
+      "definition": "Searching for songs, artists, or podcasts returns no results or fails to work.",
+      "name": "Search function problems",
+      "source": "model",
+      "topic": "catalog"
+    },
+    "downloads.download_failure": {
+      "definition": "Attempting to download tracks, albums, or playlists does not complete or produces errors.",
+      "name": "Songs fail to download",
+      "source": "model",
+      "topic": "downloads"
+    },
+    "downloads.download_storage_management": {
+      "definition": "Problems controlling storage location, automatic downloading on metered data, or managing download space.",
+      "name": "Download storage and settings issues",
+      "source": "model",
+      "topic": "downloads"
+    },
+    "downloads.downloads_disappearing": {
+      "definition": "Previously downloaded songs or playlists vanish and must be re-downloaded.",
+      "name": "Downloaded content disappearing",
+      "source": "model",
+      "topic": "downloads"
+    },
+    "downloads.general": {
+      "definition": "downloads complaints that match no more specific subtopic, or are too vague to place.",
+      "name": "Other downloads complaints",
+      "source": "code_catch_all",
+      "topic": "downloads"
+    },
+    "downloads.offline_playback_failure": {
+      "definition": "Downloaded songs or podcasts fail to play when the device is offline despite being marked as downloaded.",
+      "name": "Offline playback not working",
+      "source": "model",
+      "topic": "downloads"
+    },
+    "downloads.offline_podcast_issues": {
+      "definition": "Specific problems downloading or playing podcast episodes offline.",
+      "name": "Offline podcast playback issues",
+      "source": "model",
+      "topic": "downloads"
+    },
+    "other.general": {
+      "definition": "other complaints that match no more specific subtopic, or are too vague to place.",
+      "name": "General complaints (no specific feature)",
+      "source": "code_catch_all",
+      "topic": "other"
+    },
+    "playback.app_crashes_freezes": {
+      "definition": "The app crashes, freezes, or becomes unresponsive and requires restarting.",
+      "name": "App crashes or freezes",
+      "source": "model",
+      "topic": "playback"
+    },
+    "playback.audio_lag_quality": {
+      "definition": "Delays before playback starts, audio lag, or poor sound quality during streaming.",
+      "name": "Audio lag or quality issues",
+      "source": "model",
+      "topic": "playback"
+    },
+    "playback.connection_errors": {
+      "definition": "App reports no internet connection or fails to connect despite a working network.",
+      "name": "False or persistent connection errors",
+      "source": "model",
+      "topic": "playback"
+    },
+    "playback.device_bluetooth_integration": {
+      "definition": "Problems with Spotify Connect, Bluetooth devices, Android Auto, or smart device integration during playback.",
+      "name": "Device, Bluetooth, and car integration issues",
+      "source": "model",
+      "topic": "playback"
+    },
+    "playback.general": {
+      "definition": "playback complaints that match no more specific subtopic, or are too vague to place.",
+      "name": "Other playback complaints",
+      "source": "code_catch_all",
+      "topic": "playback"
+    },
+    "playback.post_update_playback_break": {
+      "definition": "Playback stopped working correctly specifically after installing a recent app update.",
+      "name": "Playback broken after update",
+      "source": "model",
+      "topic": "playback"
+    },
+    "playback.song_stops_or_skips": {
+      "definition": "Music or podcasts stop playing, pause themselves, or skip to a different track without user action.",
+      "name": "Songs stop, pause, or skip unexpectedly",
+      "source": "model",
+      "topic": "playback"
+    },
+    "playback.wrong_track_played": {
+      "definition": "Selecting one song or podcast results in a different one playing instead.",
+      "name": "Wrong track plays",
+      "source": "model",
+      "topic": "playback"
+    },
+    "support.account_deletion_difficulty": {
+      "definition": "Support does not help, or it is difficult, to cancel a subscription or delete an account.",
+      "name": "Difficulty canceling or deleting account",
+      "source": "model",
+      "topic": "support"
+    },
+    "support.difficult_to_reach_support": {
+      "definition": "User struggles to find any way to contact a live support agent, being redirected to forums or self-service only.",
+      "name": "Difficult to reach support channel",
+      "source": "model",
+      "topic": "support"
+    },
+    "support.general": {
+      "definition": "support complaints that match no more specific subtopic, or are too vague to place.",
+      "name": "Other support complaints",
+      "source": "code_catch_all",
+      "topic": "support"
+    },
+    "support.ineffective_resolution": {
+      "definition": "Support is contacted but the reported problem is never actually fixed or resolved.",
+      "name": "Support fails to resolve issue",
+      "source": "model",
+      "topic": "support"
+    },
+    "support.poor_support_quality": {
+      "definition": "Support interactions described as rude, scripted, automated, or otherwise unhelpful in manner.",
+      "name": "Rude or low-quality support interactions",
+      "source": "model",
+      "topic": "support"
+    },
+    "support.unresponsive_support": {
+      "definition": "Customer support does not reply at all or takes an excessive amount of time to respond.",
+      "name": "Unresponsive or no customer support",
+      "source": "model",
+      "topic": "support"
+    },
+    "usability.ad_frequency": {
+      "definition": "Complaints about too many ads, ads playing too often, or ad breaks being too long for free users.",
+      "name": "Excessive or frequent ads",
+      "source": "model",
+      "topic": "usability"
+    },
+    "usability.general": {
+      "definition": "usability complaints that match no more specific subtopic, or are too vague to place.",
+      "name": "Other usability complaints",
+      "source": "code_catch_all",
+      "topic": "usability"
+    },
+    "usability.history_recently_played": {
+      "definition": "Inability to remove listening history or find the recently played section after it was moved or removed.",
+      "name": "History and recently played issues",
+      "source": "model",
+      "topic": "usability"
+    },
+    "usability.playback_controls_limited": {
+      "definition": "Missing ability to skip, repeat, seek to a specific part of a song, or control playback precisely.",
+      "name": "Limited playback controls",
+      "source": "model",
+      "topic": "usability"
+    },
+    "usability.queue_playlist_management": {
+      "definition": "Problems managing, editing, viewing, or losing the play queue or playlists through the interface.",
+      "name": "Queue and playlist management issues",
+      "source": "model",
+      "topic": "usability"
+    },
+    "usability.shuffle_control": {
+      "definition": "Inability to turn off shuffle, shuffle getting stuck on, or songs playing in unwanted random order.",
+      "name": "Shuffle mode problems",
+      "source": "model",
+      "topic": "usability"
+    },
+    "usability.ui_redesign_complaints": {
+      "definition": "Dislike of a new interface layout, navigation changes, or requests to revert to a previous design.",
+      "name": "UI/design change complaints",
+      "source": "model",
+      "topic": "usability"
+    },
+    "usability.wrapped_feature": {
+      "definition": "Problems accessing or viewing the annual Spotify Wrapped feature.",
+      "name": "Wrapped feature issues",
+      "source": "model",
+      "topic": "usability"
+    }
+  },
+  "taxonomy_handoff": "taxonomy_410eb5935776",
+  "taxonomy_label_config": "claude-sonnet-5+effort-medium+group-taxonomy-af9e131d9244+schema-v1"
+}
