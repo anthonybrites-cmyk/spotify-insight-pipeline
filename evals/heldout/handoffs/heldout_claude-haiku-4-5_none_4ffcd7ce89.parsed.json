@@ -1,0 +1,304 @@
+{
+  "results": [
+    {
+      "evidence_quote": "u can't listen song while u were offline",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Offline listening fails for some songs.",
+      "review_id": "056236f6-68cd-4fa5-9df6-c1dc42b12eed",
+      "sentiment": "very negative",
+      "severity": 3,
+      "topic": "downloads"
+    },
+    {
+      "evidence_quote": "i was unable to open my liked songs and play list and i am not able to play songs",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Cannot play songs; core function blocked.",
+      "review_id": "06c29b5c-0f1d-4f5f-8771-17afc368340c",
+      "sentiment": "negative",
+      "severity": 4,
+      "topic": "playback"
+    },
+    {
+      "evidence_quote": "I think to join you guys",
+      "intent": "unclear",
+      "needs_review": true,
+      "reason": "Ambiguous intent; unclear if joining or reviewing.",
+      "review_id": "0aa39bb1-2017-4f17-8d86-0a6b3b13357d",
+      "sentiment": "neutral or mixed",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "evidence_quote": "I like having free access to music I like",
+      "intent": "praise",
+      "needs_review": false,
+      "reason": "General praise for music access and discovery.",
+      "review_id": "0d97492b-660c-44ea-938a-77d15d738a02",
+      "sentiment": "very positive",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "evidence_quote": "Update premium plan mairu Mari iruku",
+      "intent": "unclear",
+      "needs_review": true,
+      "reason": "Text in non-English language; unclear meaning.",
+      "review_id": "0eac6778-233d-43a0-b1f7-8c728cdb10a2",
+      "sentiment": "neutral or mixed",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "evidence_quote": "W App, W devs",
+      "intent": "praise",
+      "needs_review": false,
+      "reason": "General praise with slang; no specific feature.",
+      "review_id": "20309e1d-c971-4497-a7ed-04987f5e7170",
+      "sentiment": "very positive",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "evidence_quote": "it's not so fun for paying for premium",
+      "intent": "complaint",
+      "needs_review": true,
+      "reason": "Birthday message complaint unclear if app feature or personal.",
+      "review_id": "2501fcdd-e530-4ff2-8f4a-990beccef1b9",
+      "sentiment": "negative",
+      "severity": 2,
+      "topic": "other"
+    },
+    {
+      "evidence_quote": "🤘🫵👌👌 I r",
+      "intent": "unclear",
+      "needs_review": true,
+      "reason": "Gibberish text; incomprehensible meaning.",
+      "review_id": "2882d1e3-35cc-4dfb-bc7e-65e41794a7bc",
+      "sentiment": "neutral or mixed",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "evidence_quote": "Nowhere in the blend Playlist does it say that it's limited to 50 songs",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Blend Playlist limit not disclosed; usability issue.",
+      "review_id": "30e002be-ad0a-40ef-9a05-9d28eedbcde6",
+      "sentiment": "negative",
+      "severity": 3,
+      "topic": "usability"
+    },
+    {
+      "evidence_quote": "For only Premium members",
+      "intent": "unclear",
+      "needs_review": true,
+      "reason": "Fragment unclear if complaint, praise, or note.",
+      "review_id": "31a2150c-e99f-4851-83f1-bbe560649131",
+      "sentiment": "neutral or mixed",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "evidence_quote": "Latest updates seem to have fixed glitches",
+      "intent": "praise",
+      "needs_review": true,
+      "reason": "Conditional praise; content complaint about podcaster.",
+      "review_id": "3352112b-a49f-4baa-b332-6be416f67995",
+      "sentiment": "positive",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "evidence_quote": "why mine didn't have the lyrics ??",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Lyrics unavailable for song; minor feature issue.",
+      "review_id": "49fef2ca-3aed-4fbc-b9e6-3acbcef8d056",
+      "sentiment": "negative",
+      "severity": 2,
+      "topic": "catalog"
+    },
+    {
+      "evidence_quote": "🤬🤬🤬🤬😡😡😡😡 💔",
+      "intent": "unclear",
+      "needs_review": true,
+      "reason": "Only emojis; no identifiable complaint or topic.",
+      "review_id": "4f7c14ec-3b4e-4e20-acb9-028bc160ad74",
+      "sentiment": "very negative",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "evidence_quote": "Next time no Quran burning",
+      "intent": "unclear",
+      "needs_review": true,
+      "reason": "Political/boycott statement unrelated to app features.",
+      "review_id": "5ad4b092-1557-43c7-a445-c2e0a8ad8feb",
+      "sentiment": "neutral or mixed",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "evidence_quote": "It's time to use cracked version I guess",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Suggests using pirated version; app complaint implied.",
+      "review_id": "66364079-d0b8-441c-a63b-c879570b0a91",
+      "sentiment": "very negative",
+      "severity": 2,
+      "topic": "other"
+    },
+    {
+      "evidence_quote": "Albums won't load or play, the app runs extremely slowly",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Playback and performance issues; some use possible.",
+      "review_id": "6ce7255a-5ad7-4dab-9884-f3f5f5fe45be",
+      "sentiment": "very negative",
+      "severity": 3,
+      "topic": "playback"
+    },
+    {
+      "evidence_quote": "We will erase you and your app from the world",
+      "intent": "unclear",
+      "needs_review": true,
+      "reason": "Boycott threat with political flags; no product complaint.",
+      "review_id": "71410649-d5db-4900-8752-dfdd44f897e7",
+      "sentiment": "very negative",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "evidence_quote": "Zee music songs are not available on Spotify",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Missing music catalog for specific label.",
+      "review_id": "794e324a-2735-481e-93f5-4219fb25bfc7",
+      "sentiment": "negative",
+      "severity": 3,
+      "topic": "catalog"
+    },
+    {
+      "evidence_quote": "listen listen to music no matter where you are is fantastic",
+      "intent": "praise",
+      "needs_review": false,
+      "reason": "General praise for music listening capability.",
+      "review_id": "8203183d-69d6-402a-b48f-89fc839ff92a",
+      "sentiment": "very positive",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "evidence_quote": "Um modo session que não funciona",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Session mode feature not working; playback affected.",
+      "review_id": "82c28ce3-e8ef-405d-b532-3d41765d8e68",
+      "sentiment": "very negative",
+      "severity": 3,
+      "topic": "playback"
+    },
+    {
+      "evidence_quote": "Awesome music web,with eclectic artist platforms",
+      "intent": "praise",
+      "needs_review": false,
+      "reason": "General praise; no specific feature mentioned.",
+      "review_id": "8ced144b-b230-4f13-a568-40a33974bb74",
+      "sentiment": "positive",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "evidence_quote": "Taking away basic things and you have to pay for that",
+      "intent": "complaint",
+      "needs_review": true,
+      "reason": "Features behind paywall; may reference specific controls.",
+      "review_id": "9582a026-e21a-4357-bf18-51e8aef3b217",
+      "sentiment": "negative",
+      "severity": 2,
+      "topic": "billing"
+    },
+    {
+      "evidence_quote": "spotify owner has destroyed so many qurans",
+      "intent": "unclear",
+      "needs_review": true,
+      "reason": "Religious/political complaint unrelated to app.",
+      "review_id": "b1492d81-6a4f-4b16-a9c5-9d1aff9ead7b",
+      "sentiment": "very negative",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "evidence_quote": "Had premium for student which was amazing",
+      "intent": "praise",
+      "needs_review": false,
+      "reason": "General praise for subscription and usage.",
+      "review_id": "b5c993cb-5447-409a-8ea4-b8d8b2952145",
+      "sentiment": "very positive",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "evidence_quote": "new updates with shorts and removing... all easy accessibility makes for an unpleasant experience",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Usability degraded; new features reduce accessibility.",
+      "review_id": "be611e95-12eb-48e4-8b1b-2af991ca0d91",
+      "sentiment": "negative",
+      "severity": 2,
+      "topic": "usability"
+    },
+    {
+      "evidence_quote": "🤢🤢",
+      "intent": "unclear",
+      "needs_review": true,
+      "reason": "Only emojis expressing disgust; no content.",
+      "review_id": "e56291cf-d655-4e2c-95ef-8111bfe24775",
+      "sentiment": "very negative",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "evidence_quote": "i tak supr",
+      "intent": "praise",
+      "needs_review": true,
+      "reason": "Mixed language; unclear but appears positive overall.",
+      "review_id": "e5905ad0-34ed-405b-ab21-63eadad0e3fc",
+      "sentiment": "positive",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "evidence_quote": "everytime i download music from my phone before the next day all the music i download is gone",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Downloaded music disappears; core download function fails.",
+      "review_id": "e8b8ced6-5849-4be4-be9a-18a4c7c7993f",
+      "sentiment": "negative",
+      "severity": 4,
+      "topic": "downloads"
+    },
+    {
+      "evidence_quote": "I have great full time with it also fun with liryc",
+      "intent": "praise",
+      "needs_review": false,
+      "reason": "General praise; mentions music and lyrics enjoyment.",
+      "review_id": "edd95892-72ec-448e-ac72-ee63812848ec",
+      "sentiment": "positive",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "evidence_quote": "Constantly having to clear the cache in Spotify to make it stream song info",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Streaming issues; casting fails repeatedly; core function blocked.",
+      "review_id": "fafbd439-2426-4bf5-b79a-cd00a32b1f43",
+      "sentiment": "very negative",
+      "severity": 4,
+      "topic": "playback"
+    }
+  ]
+}

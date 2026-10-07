@@ -314,6 +314,18 @@ Other measures:
 | Low (<0.5) | 7 | 14.3% | **71.4%** |
 | All | 50 | 74% | 76% |
 
+### Held-out check of the fallback choice ([`evals/heldout/`](evals/heldout/))
+
+The golden set influenced two choices: adding a Claude fallback, and choosing Haiku for it. So both were re-checked on **30 fresh reviews** the golden set never touched. They were drawn with a seeded random sample from the 1,362 texts in the 10k run where Jev's confidence was below 0.5, with golden IDs excluded. The user hand-labelled them blind (no model output shown). Three emoji-only reviews were changed from `complaint` to `unclear` after a reminder of the written rubric rule, still blind. Scoring is strict: the primary human label only.
+
+| Labeller on these 30 hard reviews | Topic | Intent | Severity | All three |
+|---|---|---|---|---|
+| Jev alone | 25 | 17 | 17 | **12** |
+| Sonnet 5 fallback (saved from the 10k run) | 27 | 23 | 20 | **17** |
+| **Haiku 4.5 fallback** (no thinking; the final-run setting) | 21 | 26 | 23 | **16** |
+
+Haiku cost $0.016 for the 30 reviews on the standard API (the final run uses Batch at half price). All 30 of its quotes were exact. The result supports the decision: in the low-confidence band, the fallback beats Jev alone, and Haiku is close to Sonnet at about a quarter of the cost. It is weaker on topic and stronger on intent and severity. Thirty cases are a diagnostic, not a population estimate. This is the last hand-labelled set: all later quality checks are automated (the blind Sonnet verifier on 1,000 random reviews, planted errors, injection cases).
+
 ### Injection and control cases ([`evals/injection_results.json`](evals/injection_results.json))
 
 There are 13 synthetic reviews: 7 prompt-injection attempts and 6 controls, including a held-out physical-harm case. **All 13 passed through Jev, and all 13 passed through the Claude verifier** (one 13-review batch, with returned IDs checked). Cost: $0.018. These cases are excluded from all business results.

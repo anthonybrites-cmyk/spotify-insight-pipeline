@@ -397,6 +397,14 @@ def main(argv=None):
     p.add_argument("--n", type=int, default=30)
     p.add_argument("--out", default="evals/heldout/heldout_30_to_label.csv")
     p.add_argument("--exclude-golden", default=None)
+    p = sub.add_parser("heldout-score", help="score Jev, saved Sonnet fallback and a candidate model on held-out labels")
+    p.add_argument("--run-dir", required=True)
+    p.add_argument("--labels", default=str(REPO / "evals" / "heldout" / "heldout_30_to_label.csv"))
+    p.add_argument("--model", default="claude-haiku-4-5")
+    p.add_argument("--effort", default="none")
+    p.add_argument("--out-dir", default=str(REPO / "evals" / "heldout"))
+    p.add_argument("--budget-group", default="dev")
+    p.add_argument("--budget-usd", type=float, default=10)
     p = sub.add_parser("eval-injection")
     p.add_argument("--budget-usd", type=float, default=0.25)
     args = parser.parse_args(argv)
@@ -411,6 +419,9 @@ def main(argv=None):
         out, n, eligible = heldout.build_sheet(args.run_dir, args.n, args.out, args.exclude_golden)
         print(f"wrote {out}: {n} of {eligible} eligible low-confidence texts")
         return 0
+    if args.command == "heldout-score":
+        from . import heldout
+        return heldout.score(args, log)
     if args.command in ("db-setup", "publish"):
         from . import publish
         return publish.db_setup(args, log) if args.command == "db-setup" else publish.publish(args, log)

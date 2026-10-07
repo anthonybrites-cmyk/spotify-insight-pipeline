@@ -1,0 +1,722 @@
+[
+  {
+    "claude-haiku-4-5": {
+      "intent": "complaint",
+      "severity": 3,
+      "topic": "downloads"
+    },
+    "human": {
+      "intent": "complaint",
+      "severity": 4,
+      "topic": "downloads"
+    },
+    "jev": {
+      "intent": "complaint",
+      "severity": 3,
+      "topic": "downloads"
+    },
+    "review_id": "056236f6-68cd-4fa5-9df6-c1dc42b12eed",
+    "sonnet": {
+      "intent": "complaint",
+      "severity": 4,
+      "topic": "downloads"
+    },
+    "text": "Don't download this app Because u can't listen song while u were offline. I can the song that song can't played the other song plays I hate this app 🤬😡😡 Spotify my foot"
+  },
+  {
+    "claude-haiku-4-5": {
+      "intent": "complaint",
+      "severity": 4,
+      "topic": "playback"
+    },
+    "human": {
+      "intent": "complaint",
+      "severity": 4,
+      "topic": "playback"
+    },
+    "jev": {
+      "intent": "complaint",
+      "severity": 4,
+      "topic": "playback"
+    },
+    "review_id": "06c29b5c-0f1d-4f5f-8771-17afc368340c",
+    "sonnet": {
+      "intent": "complaint",
+      "severity": 4,
+      "topic": "playback"
+    },
+    "text": "All the experience is good but i was unable to open my liked songs and play list and i am not able to play songs so i request spotify to rectify this and make sure with everyone this problem is been f"
+  },
+  {
+    "claude-haiku-4-5": {
+      "intent": "unclear",
+      "severity": 1,
+      "topic": "other"
+    },
+    "human": {
+      "intent": "unclear",
+      "severity": 1,
+      "topic": "other"
+    },
+    "jev": {
+      "intent": "unclear",
+      "severity": 1,
+      "topic": "other"
+    },
+    "review_id": "0aa39bb1-2017-4f17-8d86-0a6b3b13357d",
+    "sonnet": {
+      "intent": "unclear",
+      "severity": 1,
+      "topic": "other"
+    },
+    "text": "I think to join you guys"
+  },
+  {
+    "claude-haiku-4-5": {
+      "intent": "praise",
+      "severity": 1,
+      "topic": "other"
+    },
+    "human": {
+      "intent": "praise",
+      "severity": 1,
+      "topic": "catalog"
+    },
+    "jev": {
+      "intent": "praise",
+      "severity": 1,
+      "topic": "catalog"
+    },
+    "review_id": "0d97492b-660c-44ea-938a-77d15d738a02",
+    "sonnet": {
+      "intent": "praise",
+      "severity": 1,
+      "topic": "catalog"
+    },
+    "text": "I like having free access to music I like, and have found even more artists that I like through Spotify."
+  },
+  {
+    "claude-haiku-4-5": {
+      "intent": "unclear",
+      "severity": 1,
+      "topic": "other"
+    },
+    "human": {
+      "intent": "complaint",
+      "severity": 2,
+      "topic": "billing"
+    },
+    "jev": {
+      "intent": "cancellation",
+      "severity": 1,
+      "topic": "billing"
+    },
+    "review_id": "0eac6778-233d-43a0-b1f7-8c728cdb10a2",
+    "sonnet": {
+      "intent": "complaint",
+      "severity": 2,
+      "topic": "billing"
+    },
+    "text": "Update premium plan mairu Mari iruku"
+  },
+  {
+    "claude-haiku-4-5": {
+      "intent": "praise",
+      "severity": 1,
+      "topic": "other"
+    },
+    "human": {
+      "intent": "praise",
+      "severity": 1,
+      "topic": "other"
+    },
+    "jev": {
+      "intent": "unclear",
+      "severity": 1,
+      "topic": "other"
+    },
+    "review_id": "20309e1d-c971-4497-a7ed-04987f5e7170",
+    "sonnet": {
+      "intent": "praise",
+      "severity": 1,
+      "topic": "other"
+    },
+    "text": "W App, W devs"
+  },
+  {
+    "claude-haiku-4-5": {
+      "intent": "complaint",
+      "severity": 2,
+      "topic": "other"
+    },
+    "human": {
+      "intent": "complaint",
+      "severity": 2,
+      "topic": "billing"
+    },
+    "jev": {
+      "intent": "complaint",
+      "severity": 2,
+      "topic": "other"
+    },
+    "review_id": "2501fcdd-e530-4ff2-8f4a-990beccef1b9",
+    "sonnet": {
+      "intent": "complaint",
+      "severity": 2,
+      "topic": "other"
+    },
+    "text": "Amazing But it's not so fun for paying for premium Spotify futsi didn't wish me a happy birthday"
+  },
+  {
+    "claude-haiku-4-5": {
+      "intent": "unclear",
+      "severity": 1,
+      "topic": "other"
+    },
+    "human": {
+      "intent": "unclear",
+      "severity": 1,
+      "topic": "other"
+    },
+    "jev": {
+      "intent": "praise",
+      "severity": 1,
+      "topic": "other"
+    },
+    "review_id": "2882d1e3-35cc-4dfb-bc7e-65e41794a7bc",
+    "sonnet": {
+      "intent": "unclear",
+      "severity": 1,
+      "topic": "other"
+    },
+    "text": "🤘🫵👌👌 I r"
+  },
+  {
+    "claude-haiku-4-5": {
+      "intent": "complaint",
+      "severity": 3,
+      "topic": "usability"
+    },
+    "human": {
+      "intent": "complaint",
+      "severity": 3,
+      "topic": "usability"
+    },
+    "jev": {
+      "intent": "complaint",
+      "severity": 3,
+      "topic": "usability"
+    },
+    "review_id": "30e002be-ad0a-40ef-9a05-9d28eedbcde6",
+    "sonnet": {
+      "intent": "complaint",
+      "severity": 3,
+      "topic": "usability"
+    },
+    "text": "Nowhere in the blend Playlist does it say that it's limited to 50 songs. Added 50 songs and killed my friends joint Playlist. Fix the concept you developed to help us share music with friends and I'll"
+  },
+  {
+    "claude-haiku-4-5": {
+      "intent": "unclear",
+      "severity": 1,
+      "topic": "other"
+    },
+    "human": {
+      "intent": "complaint",
+      "severity": 2,
+      "topic": "billing"
+    },
+    "jev": {
+      "intent": "unclear",
+      "severity": 1,
+      "topic": "billing"
+    },
+    "review_id": "31a2150c-e99f-4851-83f1-bbe560649131",
+    "sonnet": {
+      "intent": "unclear",
+      "severity": 1,
+      "topic": "billing"
+    },
+    "text": "For only Premium members"
+  },
+  {
+    "claude-haiku-4-5": {
+      "intent": "praise",
+      "severity": 1,
+      "topic": "other"
+    },
+    "human": {
+      "intent": "request",
+      "severity": 1,
+      "topic": "catalog"
+    },
+    "jev": {
+      "intent": "complaint",
+      "severity": 2,
+      "topic": "other"
+    },
+    "review_id": "3352112b-a49f-4baa-b332-6be416f67995",
+    "sonnet": {
+      "intent": "complaint",
+      "severity": 2,
+      "topic": "other"
+    },
+    "text": "Latest updates seem to have fixed glitches. Now just rid of Rogan and I'll move this to five stars."
+  },
+  {
+    "claude-haiku-4-5": {
+      "intent": "complaint",
+      "severity": 2,
+      "topic": "catalog"
+    },
+    "human": {
+      "intent": "complaint",
+      "severity": 3,
+      "topic": "catalog"
+    },
+    "jev": {
+      "intent": "complaint",
+      "severity": 3,
+      "topic": "catalog"
+    },
+    "review_id": "49fef2ca-3aed-4fbc-b9e6-3acbcef8d056",
+    "sonnet": {
+      "intent": "request",
+      "severity": 1,
+      "topic": "catalog"
+    },
+    "text": "why mine didn't have the lyrics ??"
+  },
+  {
+    "claude-haiku-4-5": {
+      "intent": "unclear",
+      "severity": 1,
+      "topic": "other"
+    },
+    "human": {
+      "intent": "unclear",
+      "severity": 1,
+      "topic": "other"
+    },
+    "jev": {
+      "intent": "complaint",
+      "severity": 2,
+      "topic": "other"
+    },
+    "review_id": "4f7c14ec-3b4e-4e20-acb9-028bc160ad74",
+    "sonnet": {
+      "intent": "unclear",
+      "severity": 1,
+      "topic": "other"
+    },
+    "text": "🤬🤬🤬🤬😡😡😡😡 💔"
+  },
+  {
+    "claude-haiku-4-5": {
+      "intent": "unclear",
+      "severity": 1,
+      "topic": "other"
+    },
+    "human": {
+      "intent": "unclear",
+      "severity": 1,
+      "topic": "other"
+    },
+    "jev": {
+      "intent": "unclear",
+      "severity": 1,
+      "topic": "other"
+    },
+    "review_id": "5ad4b092-1557-43c7-a445-c2e0a8ad8feb",
+    "sonnet": {
+      "intent": "unclear",
+      "severity": 1,
+      "topic": "other"
+    },
+    "text": "Next time no Quran burning"
+  },
+  {
+    "claude-haiku-4-5": {
+      "intent": "complaint",
+      "severity": 2,
+      "topic": "other"
+    },
+    "human": {
+      "intent": "complaint",
+      "severity": 2,
+      "topic": "other"
+    },
+    "jev": {
+      "intent": "cancellation",
+      "severity": 1,
+      "topic": "billing"
+    },
+    "review_id": "66364079-d0b8-441c-a63b-c879570b0a91",
+    "sonnet": {
+      "intent": "cancellation",
+      "severity": 2,
+      "topic": "other"
+    },
+    "text": "It's time to use cracked version I guess. 🙂. Thanks Spotify 👏"
+  },
+  {
+    "claude-haiku-4-5": {
+      "intent": "complaint",
+      "severity": 3,
+      "topic": "playback"
+    },
+    "human": {
+      "intent": "complaint",
+      "severity": 3,
+      "topic": "playback"
+    },
+    "jev": {
+      "intent": "complaint",
+      "severity": 4,
+      "topic": "playback"
+    },
+    "review_id": "6ce7255a-5ad7-4dab-9884-f3f5f5fe45be",
+    "sonnet": {
+      "intent": "complaint",
+      "severity": 4,
+      "topic": "playback"
+    },
+    "text": "So glitchy, even on a premium subscription. Albums won't load or play, the app runs extremely slowly and the controls are really buggy. Barely a week goes by without some sort of issue."
+  },
+  {
+    "claude-haiku-4-5": {
+      "intent": "unclear",
+      "severity": 1,
+      "topic": "other"
+    },
+    "human": {
+      "intent": "unclear",
+      "severity": 1,
+      "topic": "other"
+    },
+    "jev": {
+      "intent": "cancellation",
+      "severity": 1,
+      "topic": "other"
+    },
+    "review_id": "71410649-d5db-4900-8752-dfdd44f897e7",
+    "sonnet": {
+      "intent": "complaint",
+      "severity": 2,
+      "topic": "other"
+    },
+    "text": "We will erase you and your app from the world.😡😡😡😡😡😡😡😡😡😡😡🇩🇿🇩🇿🇩🇿🇩🇿🇩🇿🇩🇿🇩🇿🇩🇿🇩🇿🇩🇿💪💪💪🤜💪"
+  },
+  {
+    "claude-haiku-4-5": {
+      "intent": "complaint",
+      "severity": 3,
+      "topic": "catalog"
+    },
+    "human": {
+      "intent": "complaint",
+      "severity": 2,
+      "topic": "catalog"
+    },
+    "jev": {
+      "intent": "complaint",
+      "severity": 3,
+      "topic": "catalog"
+    },
+    "review_id": "794e324a-2735-481e-93f5-4219fb25bfc7",
+    "sonnet": {
+      "intent": "complaint",
+      "severity": 3,
+      "topic": "catalog"
+    },
+    "text": "Zee music songs are not available on Spotify"
+  },
+  {
+    "claude-haiku-4-5": {
+      "intent": "praise",
+      "severity": 1,
+      "topic": "other"
+    },
+    "human": {
+      "intent": "praise",
+      "severity": 1,
+      "topic": "other"
+    },
+    "jev": {
+      "intent": "praise",
+      "severity": 1,
+      "topic": "other"
+    },
+    "review_id": "8203183d-69d6-402a-b48f-89fc839ff92a",
+    "sonnet": {
+      "intent": "praise",
+      "severity": 1,
+      "topic": "other"
+    },
+    "text": "Using the Spotify app listen listen to music no matter where you are is fantastic , especially if you if you have really good quality ear plugs or an ear headset Spotify rocks 😀"
+  },
+  {
+    "claude-haiku-4-5": {
+      "intent": "complaint",
+      "severity": 3,
+      "topic": "playback"
+    },
+    "human": {
+      "intent": "complaint",
+      "severity": 3,
+      "topic": "usability"
+    },
+    "jev": {
+      "intent": "complaint",
+      "severity": 4,
+      "topic": "access"
+    },
+    "review_id": "82c28ce3-e8ef-405d-b532-3d41765d8e68",
+    "sonnet": {
+      "intent": "complaint",
+      "severity": 3,
+      "topic": "usability"
+    },
+    "text": "Um modo session que não funciona, parabéns aos envolvidos. Trouxa sou eu que pago essa tranqueira"
+  },
+  {
+    "claude-haiku-4-5": {
+      "intent": "praise",
+      "severity": 1,
+      "topic": "other"
+    },
+    "human": {
+      "intent": "praise",
+      "severity": 1,
+      "topic": "catalog"
+    },
+    "jev": {
+      "intent": "praise",
+      "severity": 1,
+      "topic": "catalog"
+    },
+    "review_id": "8ced144b-b230-4f13-a568-40a33974bb74",
+    "sonnet": {
+      "intent": "praise",
+      "severity": 1,
+      "topic": "catalog"
+    },
+    "text": "Awesome music web,with eclectic artist platforms."
+  },
+  {
+    "claude-haiku-4-5": {
+      "intent": "complaint",
+      "severity": 2,
+      "topic": "billing"
+    },
+    "human": {
+      "intent": "complaint",
+      "severity": 2,
+      "topic": "billing"
+    },
+    "jev": {
+      "intent": "complaint",
+      "severity": 2,
+      "topic": "billing"
+    },
+    "review_id": "9582a026-e21a-4357-bf18-51e8aef3b217",
+    "sonnet": {
+      "intent": "complaint",
+      "severity": 3,
+      "topic": "billing"
+    },
+    "text": "What is this company doing. Taking away basic things and you have to pay for that"
+  },
+  {
+    "claude-haiku-4-5": {
+      "intent": "unclear",
+      "severity": 1,
+      "topic": "other"
+    },
+    "human": {
+      "intent": "unclear",
+      "severity": 1,
+      "topic": "other"
+    },
+    "jev": {
+      "intent": "complaint",
+      "severity": 2,
+      "topic": "other"
+    },
+    "review_id": "b1492d81-6a4f-4b16-a9c5-9d1aff9ead7b",
+    "sonnet": {
+      "intent": "unclear",
+      "severity": 1,
+      "topic": "other"
+    },
+    "text": "I am 😡 angry because spotify owner has destroyed so many qurans astaghfirullah"
+  },
+  {
+    "claude-haiku-4-5": {
+      "intent": "praise",
+      "severity": 1,
+      "topic": "other"
+    },
+    "human": {
+      "intent": "praise",
+      "severity": 1,
+      "topic": "other"
+    },
+    "jev": {
+      "intent": "praise",
+      "severity": 1,
+      "topic": "other"
+    },
+    "review_id": "b5c993cb-5447-409a-8ea4-b8d8b2952145",
+    "sonnet": {
+      "intent": "praise",
+      "severity": 1,
+      "topic": "billing"
+    },
+    "text": "Use this for bus rides car rides train rides. Had premium for student which was amazing. Still loving regular individual premium. Helps me a lot. 100/10"
+  },
+  {
+    "claude-haiku-4-5": {
+      "intent": "complaint",
+      "severity": 2,
+      "topic": "usability"
+    },
+    "human": {
+      "intent": "complaint",
+      "severity": 2,
+      "topic": "usability"
+    },
+    "jev": {
+      "intent": "complaint",
+      "severity": 2,
+      "topic": "usability"
+    },
+    "review_id": "be611e95-12eb-48e4-8b1b-2af991ca0d91",
+    "sonnet": {
+      "intent": "complaint",
+      "severity": 3,
+      "topic": "usability"
+    },
+    "text": "i've been using spotify for quite a couple years now, loved it, but the new updates with shorts and removing... all easy accessibility makes for an unpleasant experience. wouldn't recommend in it's cu"
+  },
+  {
+    "claude-haiku-4-5": {
+      "intent": "unclear",
+      "severity": 1,
+      "topic": "other"
+    },
+    "human": {
+      "intent": "unclear",
+      "severity": 1,
+      "topic": "other"
+    },
+    "jev": {
+      "intent": "complaint",
+      "severity": 2,
+      "topic": "other"
+    },
+    "review_id": "e56291cf-d655-4e2c-95ef-8111bfe24775",
+    "sonnet": {
+      "intent": "unclear",
+      "severity": 1,
+      "topic": "other"
+    },
+    "text": "🤢🤢"
+  },
+  {
+    "claude-haiku-4-5": {
+      "intent": "praise",
+      "severity": 1,
+      "topic": "other"
+    },
+    "human": {
+      "intent": "praise",
+      "severity": 1,
+      "topic": "billing"
+    },
+    "jev": {
+      "intent": "complaint",
+      "severity": 2,
+      "topic": "other"
+    },
+    "review_id": "e5905ad0-34ed-405b-ab21-63eadad0e3fc",
+    "sonnet": {
+      "intent": "complaint",
+      "severity": 2,
+      "topic": "billing"
+    },
+    "text": "Bez premuim to není ono ale i tak supr"
+  },
+  {
+    "claude-haiku-4-5": {
+      "intent": "complaint",
+      "severity": 4,
+      "topic": "downloads"
+    },
+    "human": {
+      "intent": "cancellation",
+      "severity": 3,
+      "topic": "downloads"
+    },
+    "jev": {
+      "intent": "complaint",
+      "severity": 5,
+      "topic": "downloads"
+    },
+    "review_id": "e8b8ced6-5849-4be4-be9a-18a4c7c7993f",
+    "sonnet": {
+      "intent": "complaint",
+      "severity": 4,
+      "topic": "downloads"
+    },
+    "text": "Your app is very good, but I'm having big issues, everytime i download music from my phone before the next day all the music i download is gone please, check it of not no reason to be paying 3dollars "
+  },
+  {
+    "claude-haiku-4-5": {
+      "intent": "praise",
+      "severity": 1,
+      "topic": "other"
+    },
+    "human": {
+      "intent": "praise",
+      "severity": 1,
+      "topic": "catalog"
+    },
+    "jev": {
+      "intent": "praise",
+      "severity": 1,
+      "topic": "catalog"
+    },
+    "review_id": "edd95892-72ec-448e-ac72-ee63812848ec",
+    "sonnet": {
+      "intent": "praise",
+      "severity": 1,
+      "topic": "catalog"
+    },
+    "text": "I have great full time with it also fun with liryc"
+  },
+  {
+    "claude-haiku-4-5": {
+      "intent": "complaint",
+      "severity": 4,
+      "topic": "playback"
+    },
+    "human": {
+      "intent": "complaint",
+      "severity": 3,
+      "topic": "playback"
+    },
+    "jev": {
+      "intent": "cancellation",
+      "severity": 3,
+      "topic": "playback"
+    },
+    "review_id": "fafbd439-2426-4bf5-b79a-cd00a32b1f43",
+    "sonnet": {
+      "intent": "complaint",
+      "severity": 3,
+      "topic": "playback"
+    },
+    "text": "Constantly having to clear the cache in Spotify to make it stream song info in my car, otherwise it just says \"Spotify isn't working\". Google Nest speakers and Echo speakers constantly get confused wh"
+  }
+]

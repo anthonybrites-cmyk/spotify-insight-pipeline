@@ -1,0 +1,54 @@
+{
+  "candidate": {
+    "api": "standard Messages API (the final run uses the Batch API at half price)",
+    "cost_usd": "0.01599",
+    "effort": "none",
+    "exact_quotes": "30/30",
+    "input_tokens": 3700,
+    "model": "claude-haiku-4-5",
+    "output_tokens": 2458
+  },
+  "cases": 30,
+  "claude-haiku-4-5_vs_human": {
+    "all_three": "16/30",
+    "intent": "26/30",
+    "n": 30,
+    "predicted": 30,
+    "severity": "23/30",
+    "topic": "21/30"
+  },
+  "intent_confusion_human_to_candidate": {
+    "cancellation->complaint": 1,
+    "complaint->unclear": 2,
+    "request->praise": 1
+  },
+  "jev_vs_human": {
+    "all_three": "12/30",
+    "intent": "17/30",
+    "n": 30,
+    "predicted": 30,
+    "severity": "17/30",
+    "topic": "25/30"
+  },
+  "note": "30 cases: diagnostic, not a population estimate. Human labels were made without seeing any model output; 3 emoji-only intents were changed from complaint to unclear after the labeller was reminded of the written rubric rule (still blind to model output).",
+  "run_id": "dev10k-b5355bd9",
+  "scoring": "strict: one primary human label per field (alternatives ignored)",
+  "selection": {
+    "eligible": 1362,
+    "label_config": "jev-1.13.0+prompt-1f4c113e8ac0+fallback-claude-sonnet-5-effort-medium-t0.5-cap0.2-0b2d587959+schema-v1",
+    "low_confidence_texts": 1362,
+    "method": "lowest sha256(seed + ':' + review_id) among low-confidence texts (first review ID per text), golden IDs excluded",
+    "run_id": "dev10k-b5355bd9",
+    "sampled": 30,
+    "seed": "spotify-insight-heldout-v1",
+    "threshold": 0.5
+  },
+  "sonnet_fallback_vs_human": {
+    "all_three": "17/30",
+    "intent": "23/30",
+    "n": 30,
+    "predicted": 30,
+    "severity": "20/30",
+    "topic": "27/30"
+  }
+}
