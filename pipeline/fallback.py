@@ -283,7 +283,7 @@ def run_batch(run_dir, client, budget, calls, units, config, phase, stop, log=pr
             ids = [u["original_id"] for u in g]
             cid = f"fb-{sha256_text(config + canonical(ids))[:24]}"
             user = _user(g)
-            est = cost_usd(claude.estimate_tokens(system_prompt() + user), CLAUDE_MAX_TOKENS,
+            est = cost_usd(claude.estimate_tokens(system_prompt() + user), getattr(client, "max_tokens", None) or CLAUDE_MAX_TOKENS,
                            *CLAUDE_PRICES.get(client.model, (CLAUDE_PRICE_IN, CLAUDE_PRICE_OUT))) * CLAUDE_BATCH_DISCOUNT
             budget.reserve(est)  # raises BudgetExceeded before anything is submitted
             reserved += est

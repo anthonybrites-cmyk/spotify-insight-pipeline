@@ -184,7 +184,7 @@ Data: download the course ZIP from the link in the assignment brief, unzip it an
 #    quarantined "out of scope"). Haiku 4.5 fallback and Sonnet 5 verification both via the Message Batches API,
 #    5 workers (Jev at <= 30 requests/s), hard cap $15. First invocation: interruption demo (recorded), then resume.
 F="--input $DATA/spotify_reviews_18months.csv --run-dir runs/final100k $G --scope-sample 100000 \
-  --budget-group full --budget-usd 15 --fallback batch --fallback-model claude-haiku-4-5 --fallback-effort none \
+  --budget-group full --budget-usd 15 --fallback batch --fallback-model claude-haiku-4-5 --fallback-effort none --fallback-max-tokens 8000 \
   --verify-n 1000 --verify-mode batch --workers 5"
 .venv/bin/python -m pipeline run $F --stop-after-units 5000
 .venv/bin/python -m pipeline run $F --grading-dir grading --results-dir results

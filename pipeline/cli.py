@@ -92,7 +92,8 @@ def cmd_run(args):
                      "scope_sample": args.scope_sample, "scope_include_duplicates": args.scope_include_duplicates,
                      "fallback_threshold": args.fallback_threshold, "fallback_max_fraction": args.fallback_max_fraction,
                      "fallback_model": args.fallback_model, "fallback_effort": args.fallback_effort,
-                     "claude_effort": args.claude_effort, "claude_max_tokens": args.claude_max_tokens})
+                     "claude_effort": args.claude_effort, "claude_max_tokens": args.claude_max_tokens,
+                     "fallback_max_tokens": args.fallback_max_tokens})
     manifest.setdefault("invocations", []).append({"id": invocation, "code_version": git_commit(),
                                                   "argv": sys.argv[1:], "started": time.strftime("%Y-%m-%dT%H:%M:%S%z")})
     write_json(run_dir / "run_manifest.json", manifest)
@@ -165,8 +166,10 @@ def _stages(args, stages, run_dir, input_csv, jev, claude_client, budget, calls,
                     else:
                         from .claude import ClaudeClient
                         fb_client = ClaudeClient(require("ANTHROPIC_API_KEY"), model=args.fallback_model,
-                                                 effort=args.fallback_effort, max_tokens=args.claude_max_tokens)
+                                                 effort=args.fallback_effort,
+                                                 max_tokens=args.fallback_max_tokens or args.claude_max_tokens)
                     fb_client.effort = args.fallback_effort
+                    fb_client.max_tokens = args.fallback_max_tokens or args.claude_max_tokens
                 fb = ({"client": fb_client, "mode": args.fallback, "threshold": args.fallback_threshold,
                        "max_fraction": args.fallback_max_fraction, "workers": args.workers}
                       if args.fallback != "off" else None)
@@ -320,6 +323,9 @@ def main(argv=None):
                    "verification, taxonomy and memo keep --claude-effort on claude-sonnet-5")
     p.add_argument("--fallback-effort", default="medium", choices=["none", "low", "medium", "high"],
                    help="'none' = no extended thinking (required for claude-haiku-4-5)")
+    p.add_argument("--fallback-max-tokens", type=int,
+                   help="output-token cap per fallback request (default --claude-max-tokens); also sets the worst case "
+                        "reserved against the budget. Haiku 4.5 measured <= 93 output tokens per review")
     p.add_argument("--fallback-max-fraction", type=float, default=0.2,
                    help="declared cap: at most this fraction of distinct texts go to the Claude fallback")
     p.add_argument("--translate", action="store_true",

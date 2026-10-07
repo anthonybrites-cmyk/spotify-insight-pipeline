@@ -1033,3 +1033,36 @@ class TestCalculatorRefresh(unittest.TestCase):
             self.assertEqual(r2["checkpoints"], r["checkpoints"])  # measured results never change
         finally:
             shutil.rmtree(tmp, ignore_errors=True)
+
+
+class TestFallbackMaxTokens(unittest.TestCase):
+    def test_batch_reservation_uses_the_fallback_output_cap(self):
+        from unittest import mock
+        from pipeline import fakes
+        tmp = Path(tempfile.mkdtemp(prefix="pipeline-fbmt-"))
+        try:
+            claude_fake = fakes.FakeClaude()
+            reserved = []
+            real = cli.Budget.reserve if hasattr(cli, "Budget") else None
+            from pipeline.budget import Budget as B
+            orig = B.reserve
+
+            def spy(self, amount):
+                reserved.append(amount)
+                return orig(self, amount)
+            with mock.patch.object(cli, "make_clients", lambda *a, **k: (FakeJev(low_conf_every=5), claude_fake)), \
+                    mock.patch.object(B, "reserve", spy):
+                code = fake_run(tmp, "--fallback", "batch", "--fallback-model", "claude-haiku-4-5",
+                                "--fallback-effort", "none", "--fallback-max-tokens", "8000",
+                                "--stages", "ingest,enrich", grading=False)
+            self.assertEqual(code, 0)
+            manifest = read_json(tmp / "run" / "run_manifest.json")
+            self.assertEqual(manifest["fallback_max_tokens"], 8000)
+            # Fallback batch reservations are priced at 8,000 output tokens, not the 16,000 default.
+            from pipeline.config import CLAUDE_PRICE_OUT  # the fake model is priced at the default rate
+            half = Decimal("0.5") / Decimal(1000000) * CLAUDE_PRICE_OUT
+            self.assertTrue(reserved)
+            self.assertGreater(max(reserved), Decimal(8000) * half)       # the 8,000-token worst case is reserved
+            self.assertLess(max(reserved), Decimal(16000) * half)         # not the 16,000 default
+        finally:
+            shutil.rmtree(tmp, ignore_errors=True)
