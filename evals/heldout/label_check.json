@@ -1,0 +1,11 @@
+{
+  "counts": {
+    "ambiguous_true": 9,
+    "needs_review_true": 10,
+    "with_label_notes": 14
+  },
+  "errors": [],
+  "file": "evals/heldout/heldout_30_to_label.csv",
+  "rows": 30,
+  "warnings": []
+}
