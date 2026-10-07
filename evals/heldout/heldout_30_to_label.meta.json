@@ -1,0 +1,10 @@
+{
+  "eligible": 1362,
+  "label_config": "jev-1.13.0+prompt-1f4c113e8ac0+fallback-claude-sonnet-5-effort-medium-t0.5-cap0.2-0b2d587959+schema-v1",
+  "low_confidence_texts": 1362,
+  "method": "lowest sha256(seed + ':' + review_id) among low-confidence texts (first review ID per text), golden IDs excluded",
+  "run_id": "dev10k-b5355bd9",
+  "sampled": 30,
+  "seed": "spotify-insight-heldout-v1",
+  "threshold": 0.5
+}

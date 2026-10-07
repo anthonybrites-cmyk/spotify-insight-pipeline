@@ -392,6 +392,11 @@ def main(argv=None):
     p.add_argument("--scope", required=True)
     p.add_argument("--input", help="the run's input CSV (default: the path in run_manifest.json)")
     p.add_argument("--current", action="store_true", help="make this the run the dashboard shows by default")
+    p = sub.add_parser("heldout-sheet", help="blank labeling sheet of fresh low-confidence reviews from a run (no model calls)")
+    p.add_argument("--run-dir", required=True)
+    p.add_argument("--n", type=int, default=30)
+    p.add_argument("--out", default="evals/heldout/heldout_30_to_label.csv")
+    p.add_argument("--exclude-golden", default=None)
     p = sub.add_parser("eval-injection")
     p.add_argument("--budget-usd", type=float, default=0.25)
     args = parser.parse_args(argv)
@@ -400,6 +405,11 @@ def main(argv=None):
         return 0
     if args.command == "golden-input":
         print("wrote", golden.strip_labels(args.golden, args.out))
+        return 0
+    if args.command == "heldout-sheet":
+        from . import heldout
+        out, n, eligible = heldout.build_sheet(args.run_dir, args.n, args.out, args.exclude_golden)
+        print(f"wrote {out}: {n} of {eligible} eligible low-confidence texts")
         return 0
     if args.command in ("db-setup", "publish"):
         from . import publish
