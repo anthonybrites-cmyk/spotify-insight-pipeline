@@ -119,15 +119,17 @@ flowchart LR
     API -->|JSON| UI["Dashboard pages (browser)<br/>overview metrics, topic chart, issue ranking,<br/>issue members + evidence quotes, review lookup,<br/>AI recommendation with linked claims/issues/reviews"]
 ```
 
-- **Database** (`db/schema.sql`): `python -m pipeline publish` loads a finished run's saved outputs: every review record with its source text and labels, plus issues, the ranking, per-topic metrics, claims, facts and the AI-generated memo. `python -m pipeline db-setup` creates the tables and a **SELECT-only** role for the dashboard; its password is generated straight into `.env` and never printed.
+- **Database** (`db/schema.sql`, Neon Postgres): `python -m pipeline publish` loads a finished run's saved outputs: the review records with source text and labels (for the final run, the 100,000 completed reviews and 13 empty-text rows; the 560,609 out-of-scope rows are counted in `runs.quarantine_reasons` rather than stored, which keeps the database at 62 MB on the free tier), plus issues, the ranking, per-topic metrics, claims, facts and the AI-generated memo. The 500 and 10,000 development runs are also stored and selectable. `python -m pipeline db-setup` creates the tables and a **SELECT-only** role for the dashboard; its password is generated straight into `.env` and never printed.
 - **Backend** (`dashboard/app/api/*`): route handlers query Postgres at request time. Every parameter is validated against a strict pattern, and queries are parameterised. The read-only connection string exists only as a server-side Vercel secret.
 - **Dashboard** (`dashboard/app/*`): pages fetch only from the backend API.
-- **AI recommendation:** the memo written by `claude-sonnet-5` from the saved aggregates. Every claim ID links to its issue and number, every issue ID to its member reviews, and every review ID to the original text with the evidence quote highlighted.
-- **Why the numbers match:** the dashboard shows exactly what is in `ranking.csv`, `claims.csv` and the records that the course checker recomputes.
-- **Run it locally:**
-  ```bash
-  cd dashboard && npm install && echo "DASHBOARD_DATABASE_URL=..." > .env.local && npm run dev
-  ```
+- **AI recommendation:** the memo written by `claude-opus-5-5` from the saved aggregates and a bounded evidence pack (development runs: `claude-sonnet-5`). Every claim ID links to its issue and number, every issue ID to its member reviews, and every review ID to the original text with the evidence quote highlighted.
+- **Why the numbers match:** the dashboard shows exactly what is in `ranking.csv`, `claims.csv` and the records that the course checker recomputes. Checked against the live backend on 2026-10-07: all 50 issues (rank, count, severity sum, mean), all 22 claims, the run totals and the memo text match the saved files exactly.
+- **Set up your own copy (database, backend, dashboard):**
+  1. Create a Postgres database (this project uses a free Neon project) and put its owner connection string in `.env` as `DATABASE_URL` (see `.env.example`).
+  2. `.venv/bin/python -m pipeline db-setup`: creates the tables and the SELECT-only `dashboard_reader` role, and writes `DASHBOARD_DATABASE_URL` into `.env` without printing it.
+  3. Publish a run (no model calls): `.venv/bin/python -m pipeline publish --run-dir runs/final100k --label "Final run" --scope "100,000-review seeded sample" --current --omit-out-of-scope-rows`.
+  4. Run the dashboard locally: `cd dashboard && npm install && echo "DASHBOARD_DATABASE_URL=<read-only URL>" > .env.local && npm run dev`.
+  5. Deploy: a Vercel project with root directory `dashboard/` (`vercel.json` sets the Next.js framework), `DASHBOARD_DATABASE_URL` as a server-side environment variable, then `vercel deploy --prod`.
 
 ## Models, settings and roles
 
