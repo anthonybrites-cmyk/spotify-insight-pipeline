@@ -15,4 +15,4 @@ Two stops of the real final run (`runs/final100k`), each resumed with the identi
 
 - Checkpoint snapshots (completed review IDs at each stop): `enrich_stop_*_stop_after.json.gz`, `enrich_stop_*_interrupted.json.gz`.
 - The `phase: "resume"` calls in the call log show that no completed unit was sent again.
-- Screen recording: `Screen Recording 2026-10-06 at 7.01.13 PM.mov` (18.7 MB, sha256 `4e6825aebc624e5928fe1443ffc140c06d52b3c9c60f12b7b5aabe0961ae2bf2`). It is submitted with the delivery note, not committed.
+- Screen recording: [`interruption_resume_terminal.mp4`](interruption_resume_terminal.mp4) (80 s, 3.5 MB), cropped to the terminal panel from the full-screen original `Screen Recording 2026-10-06 at 7.01.13 PM.mov` (18.7 MB, sha256 `4e6825aebc624e5928fe1443ffc140c06d52b3c9c60f12b7b5aabe0961ae2bf2`), which the author keeps. Cropping removed only the unrelated chat and app sidebar.

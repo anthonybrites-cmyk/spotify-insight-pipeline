@@ -30,10 +30,11 @@ Structure (markdown, 400-700 words), using exactly these four section headings:
 ## Recommendation - the priority area and the specific issue(s) to fix first, in 2-3 sentences.
 ## Evidence - the highest-priority issues, each named by its exact issue_id (e.g. `playback.app_crash_freeze`) with its cited numbers, what customers describe, and 1-2 representative review IDs from <examples>. Quote customer words only by copying them exactly from <examples>.
 ## Alternatives considered - compare the other candidate areas (access, usability, playback, billing/support) using the per-topic facts, and say why they rank lower or what evidence would change the decision.
-## Limits - what this analysis cannot show: self-selected historical reviews; no revenue, plan tier or confirmed churn; cancellation intent is not churn; incomplete or quarantined classifications; needs_review volume; verification agreement is between two models, not accuracy.
+## Limits - what this analysis cannot show: self-selected historical reviews; no revenue, plan tier or confirmed churn; cancellation intent is not churn; the classification scope (F00) and, when it is a sample, how many reviews were outside it (F99), so counts describe the classified reviews only; incomplete or quarantined classifications; needs_review volume (these reviews are included in every count and ranking; the flag only marks them for human inspection); verification agreement is between two models, not accuracy.
 
 Issues whose ID ends in `.general` are catch-alls for complaints with no specific, placeable defect (for example "bad app"). Report them honestly, but base the product priority on specific issues and the per-topic comparison.
-Refer to issues by their exact issue_id and to reviews by their exact review_id; do not invent IDs, quotes or numbers."""
+Refer to issues by their exact issue_id and to reviews by their exact review_id; do not invent IDs, quotes or numbers.
+Do not judge label or grouping quality from the examples (for example, whether a quote fits its issue): examples only illustrate what customers say, and label quality is reported by the verification facts."""
 
 
 def build_inputs(ranking, issues, records, verify_report, ingest_summary, exclude_ids=()):
@@ -50,7 +51,7 @@ def build_inputs(ranking, issues, records, verify_report, ingest_summary, exclud
     facts = {
         "F00": ("classification scope (all rows ingested and accounted for)",
                 "full" if not any(str(r.get("reason", "")).startswith("out_of_scope") for r in records) else
-                "sample"),
+                "seeded random sample of review IDs"),
         "F01": ("source reviews in the input file", str(len(records))),
         "F02": ("reviews with a completed classification", str(len(completed))),
         "F03": ("reviews quarantined for empty text", str(sum(r.get("reason") == "empty_review_text" for r in records))),
@@ -60,11 +61,13 @@ def build_inputs(ranking, issues, records, verify_report, ingest_summary, exclud
                 str(sum(str(r.get("reason", "")).startswith("out_of_scope") for r in records))),
         "F05": ("complaint or cancellation-intent reviews (ranked)", str(len(complaints))),
         "F06": ("cancellation-intent reviews", str(sum(r["intent"] == "cancellation" for r in completed))),
-        "F07": ("completed reviews flagged needs_review", str(sum(r["needs_review"] for r in completed))),
+        "F07": ("completed reviews flagged needs_review (included in every count and ranking; the flag marks them "
+                "for human inspection)", str(sum(r["needs_review"] for r in completed))),
         "F08": ("distinct review texts sent to the classifier; exact duplicates reuse that result, and every "
                 "original review ID is still counted separately in all totals",
                 str(ingest_summary["distinct_nonempty_texts"])),
-        "F09": ("share of ranked complaint memberships in the top 3 issues, percent (1 dp)",
+        "F09": ("share of ranked complaint memberships in the top 3 issues, including any .general catch-all among "
+                "them, percent (1 dp)",
                 f"{(100 * top3 / total_members):.1f}" if total_members else "0.0"),
         "F10": ("verification random-sample size (distinct texts)", str(random.get("n", 0))),
         "F11": ("verification random-sample topic agreement, percent (1 dp)", f"{100 * random.get('topic_agreement', 0):.1f}"),

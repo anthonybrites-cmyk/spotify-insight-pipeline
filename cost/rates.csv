@@ -17,3 +17,5 @@ anthropic,claude-haiku-4-5,batch_50pct,input_tokens,0.50,1000000,token,USD,https
 anthropic,claude-haiku-4-5,batch_50pct,cache_write_input_tokens,0.625,1000000,token,USD,https://platform.claude.com/docs/en/about-claude/pricing,2026-09-30,"Batches API x 5-minute cache write"
 anthropic,claude-haiku-4-5,batch_50pct,cache_read_input_tokens,0.05,1000000,token,USD,https://platform.claude.com/docs/en/about-claude/pricing,2026-09-30,"Batches API x cache hit"
 anthropic,claude-haiku-4-5,batch_50pct,output_tokens,2.50,1000000,token,USD,https://platform.claude.com/docs/en/about-claude/pricing,2026-09-30,"Message Batches API"
+anthropic,claude-opus-5-5,standard,input_tokens,4,1000000,token,USD,https://platform.claude.com/docs/en/about-claude/pricing,2026-10-07,"memo only; base input (uncached)"
+anthropic,claude-opus-5-5,standard,output_tokens,20,1000000,token,USD,https://platform.claude.com/docs/en/about-claude/pricing,2026-10-07,"memo only; includes thinking tokens"

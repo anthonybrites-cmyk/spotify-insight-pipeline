@@ -1,25 +1,25 @@
 # Delivery note: Spotify review insight pipeline
 
-Anthony Brites · Final Assignment (Classes 6–7) · submitted with the repository below and one screen recording.
+Anthony Brites · Final Assignment (Classes 6–7). The deliverable is the public repository below, submitted by URL through the course portal; this note, the evidence and the recording are all inside it.
 
 ## Links
 
 - **Repository:** https://github.com/anthonybrites-cmyk/spotify-insight-pipeline (branch `main`). Start with the [README](README.md): it has the rubric-to-evidence map.
 - **Live dashboard:** https://spotify-insight-dashboard.vercel.app (public, read-only; Next.js on Vercel, Neon Postgres, SELECT-only database role).
-- **Interruption/resume recording:** `Screen Recording 2026-10-06 at 7.01.13 PM.mov` (18.7 MB, sha256 `4e6825aebc624e5928fe1443ffc140c06d52b3c9c60f12b7b5aabe0961ae2bf2`). It shows a Ctrl-C stop of the real final run and the resume with the same command. Written evidence: [`evals/recovery/`](evals/recovery/).
+- **Interruption/resume recording:** [`evals/recovery/interruption_resume_terminal.mp4`](evals/recovery/interruption_resume_terminal.mp4) (80 s). It shows a Ctrl-C stop of the real final run, the saved checkpoint, and the resume with the same command (`phase=resume`, completed work not re-sent). It is cropped to the terminal panel from the original full-screen capture (`Screen Recording 2026-10-06 at 7.01.13 PM.mov`, sha256 `4e6825ae…`), kept by the author. Written evidence: [`evals/recovery/`](evals/recovery/).
 
 ## What was run
 
 One saved program (`python -m pipeline run`) takes the course CSV and runs ingest → enrich → verify → group → rank → recommend, then writes the `grading/` export. Code owns the IDs, retries, spending cap, checkpoints and every number; models answer narrow, schema-checked questions.
 
 - **Scope:** a seeded random sample of **100,000 of the 660,622 reviews** (the updated brief allows at least 100,000). All 660,622 rows are ingested and accounted for: 100,000 completed, 560,609 `out_of_scope`, 13 `empty_review_text`.
-- **Models:** Jev `jev-1.13.0` (TypeSafe) labels every text and assigns complaints to issues. When Jev is unsure (confidence below 0.5), `claude-haiku-4-5` re-labels blind through the Batch API, capped at 20% of texts; it handled 17.2%. `claude-sonnet-5` blind-verifies 1,000 random texts (Batch API), proposes the issue taxonomy and drafts the memo. Ranking is plain arithmetic.
-- **Cost and time:** $10.63 at list prices (cap $15), about 1.5 hours of active run time, 108,706 model requests.
-- **Checks:** the course checker accounts for every row with 0 missing, duplicate or invalid records (its one flag, `unfinished_classification`, is expected for the declared scope). The ranking reproduces exactly from the export with no model calls. 25 of 25 planted wrong labels were detected. 13 of 13 injection cases passed. The memo passed every number, ID and quote check.
+- **Models:** Jev `jev-1.13.0` (TypeSafe) labels every text and assigns complaints to issues. When Jev is unsure (confidence below 0.5), `claude-haiku-4-5` re-labels blind through the Batch API, capped at 20% of texts; it handled 17.2%. `claude-sonnet-5` blind-verifies 1,000 random texts (Batch API) and proposes the issue taxonomy. `claude-opus-5-5` writes the memo from the saved aggregates and a bounded evidence pack; code checks every number, ID and quote. Ranking is plain arithmetic.
+- **Cost and time:** $10.89 at list prices (cap $15), including three memo regenerations; about 1.5 hours of active run time; 108,711 model requests.
+- **Checks:** the course checker accounts for every row with 0 missing, duplicate or invalid records (its one flag, `unfinished_classification`, is expected for the declared scope). The ranking reproduces exactly from the export with no model calls. 25 of 25 planted wrong labels were detected. 13 of 13 injection cases passed. The final memo passed every number, ID and quote check. Two earlier drafts also passed the checks but were rejected on review because their arguments were unsupported or incoherent (disclosed in the README).
 
 ## Recommendation (from [`results/memo.md`](results/memo.md))
 
-Prioritize **usability**: reduce ad frequency (`usability.ad_frequency`, 5,488 complaints) and fix the cluster of control issues (`usability.playback_controls_limited`, `usability.shuffle_control`, `usability.queue_playlist_management`), together with the closely related `billing.features_locked_behind_premium` (4,490 complaints, the highest severity sum among specific issues). Playback crashes have the highest mean severity of any named issue and are proposed as a fast follow. The largest bucket, `other.general` (14,039), is vague "bad app" complaints and is not actionable on its own.
+Put next quarter's product effort into **usability** (13,163 complaint/cancellation reviews, severity sum 33,278, the largest topic). Fix `usability.ad_frequency` first (5,488 complaints), then the core listening controls (`usability.playback_controls_limited`, `usability.shuffle_control`). The top-ranked specific issue, `billing.features_locked_behind_premium` (4,490 complaints, severity sum 13,442), overlaps with the controls work, so scope it together with whoever owns free-tier packaging; with no revenue or plan data, this analysis cannot weigh unlocking features. Playback crashes have the highest mean severity (3.50) but lower volume. The largest bucket, `other.general` (14,039), names no specific defect.
 
 ## Decisions and disclosures
 

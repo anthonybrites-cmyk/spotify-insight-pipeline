@@ -36,9 +36,10 @@ CLAUDE_MAX_TOKENS = 16000
 CLAUDE_TIMEOUT_S = 600
 
 # Only these model IDs may be called (the brief asks for a model allowlist).
-MODEL_ALLOWLIST = {"jev": ("jev-1.13.0",), "claude": ("claude-sonnet-5", "claude-haiku-4-5")}
+MODEL_ALLOWLIST = {"jev": ("jev-1.13.0",), "claude": ("claude-sonnet-5", "claude-haiku-4-5", "claude-opus-5-5")}
 # Per-model list prices (USD per 1M tokens: input, output), from the dated rows in cost/rates.csv.
-CLAUDE_PRICES = {"claude-sonnet-5": (Decimal("2"), Decimal("10")), "claude-haiku-4-5": (Decimal("1"), Decimal("5"))}
+CLAUDE_PRICES = {"claude-sonnet-5": (Decimal("2"), Decimal("10")), "claude-haiku-4-5": (Decimal("1"), Decimal("5")),
+                 "claude-opus-5-5": (Decimal("4"), Decimal("20"))}  # Opus 5.5: memo only (--memo-model)
 
 CLAUDE_BATCH_DISCOUNT = Decimal("0.5")  # Message Batches API bills 50% of standard token prices
 

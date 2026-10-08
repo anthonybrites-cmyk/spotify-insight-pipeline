@@ -2,14 +2,14 @@
 
 Advising Spotify at the end of the May 2022 – Nov 2023 review window: **where should next quarter's product effort go — access, usability, playback, or billing/support?** This repository is a saved program that turns the 660,622-review CSV into that recommendation, with traceable evidence.
 
-> **Status (2026-10-07): final run complete.** The final run classified a seeded random sample of **100,000 of the 660,622 reviews** (the brief allows a scope of at least 100,000), accounted for every row, and cost **$10.63** (list price). See [Final run](#final-run-100000-review-seeded-sample). [Development results](#development-results) come from real model calls on the 500-review and 10,000-review checkpoints, the hand-labelled golden 50, 30 held-out reviews and 13 synthetic injection cases. Offline tests use fake providers and are **not** run evidence.
+> **Status (2026-10-07): final run complete.** The final run classified a seeded random sample of **100,000 of the 660,622 reviews** (the brief allows a scope of at least 100,000), accounted for every row, and cost **$10.89** (list price, including three memo regenerations). See [Final run](#final-run-100000-review-seeded-sample). [Development results](#development-results) come from real model calls on the 500-review and 10,000-review checkpoints, the hand-labelled golden 50, 30 held-out reviews and 13 synthetic injection cases. Offline tests use fake providers and are **not** run evidence.
 
 - **Live dashboard: https://spotify-insight-dashboard.vercel.app** (public, read-only, no login). It shows the final run by default; the 500 and 10,000 development runs are selectable.
 - **Delivery note:** [`DELIVERY_NOTE.md`](DELIVERY_NOTE.md)
 - Grading export: [`grading/`](grading/) (final run; passes the course checker, see [Final run](#final-run-100000-review-seeded-sample))
 - Human-readable results: [`results/`](results/) (final run)
 - Decision memo: [`results/memo.md`](results/memo.md) (final run)
-- Interruption/resume evidence: [`evals/recovery/`](evals/recovery/) and the screen recording submitted with the delivery note
+- Interruption/resume evidence: [`evals/recovery/`](evals/recovery/), including the screen recording [`interruption_resume_terminal.mp4`](evals/recovery/interruption_resume_terminal.mp4)
 - Design choices and label examples: [`DESIGN.md`](DESIGN.md)
 - Golden-set labelling instructions: [`evals/golden/LABELING.md`](evals/golden/LABELING.md)
 - **100-review cost/runtime calculator:** [`cost/`](cost/), with a [measured report](cost/report.md) and [offline replay instructions](cost/README.md)
@@ -20,7 +20,7 @@ Advising Spotify at the end of the May 2022 – Nov 2023 review window: **where 
 |---|---|
 | **Deliverable 1** Accessible code, setup and artifacts | [Setup](#setup), [Run](#run), `requirements.txt`, `.env.example` (key names only), [`results/`](results/) |
 | **Deliverable 2** Architecture, shared schema, provenance | [Architecture](#architecture), `pipeline/rubric.py` (Jev questions), `pipeline/verify.py` / `group.py` / `memo.py` (role prompts and schemas), `label_config` on every record and call, `run_manifest.json` (code version, argv, settings) |
-| **Deliverable 3** Memo numbers linked to calculations and evidence | `claims.csv` ↔ `ranking.csv` (course checker recomputes both), `memo_check.json` (every number cited, and every issue ID, review ID and quote validated). Development: [`evals/dev500/memo_v2.md`](evals/dev500/memo_v2.md), [`claims.csv`](evals/dev500/claims.csv), [`memo_check_v2.json`](evals/dev500/memo_check_v2.json). Final: [`results/memo.md`](results/memo.md), [`grading/claims.csv`](grading/claims.csv), [`results/memo_check.json`](results/memo_check.json) (passed on the first draft, 0 errors) |
+| **Deliverable 3** Memo numbers linked to calculations and evidence | `claims.csv` ↔ `ranking.csv` (course checker recomputes both), `memo_check.json` (every number cited, and every issue ID, review ID and quote validated). Development: [`evals/dev500/memo_v2.md`](evals/dev500/memo_v2.md), [`claims.csv`](evals/dev500/claims.csv), [`memo_check_v2.json`](evals/dev500/memo_check_v2.json). Final: [`results/memo.md`](results/memo.md), [`grading/claims.csv`](grading/claims.csv), [`results/memo_check.json`](results/memo_check.json) (final memo passed on its second draft, 0 errors) |
 | **Deliverable 4** Recommendation, alternatives, limitations | Development memo [`evals/dev500/memo_v2.md`](evals/dev500/memo_v2.md); final [`results/memo.md`](results/memo.md); [Limits](#limits) |
 | **Testing 1** 50 human labels, per-field comparison, error analysis | [Held-out 30](#held-out-check-of-the-fallback-choice-evalsheldout) (fresh cases after golden-influenced changes); [`evals/golden/golden_50_human_labels.csv`](evals/golden/golden_50_human_labels.csv), final setup [`final_setup/summary.json`](evals/golden/final_setup/summary.json) (all three 78%), [`summary.json`](evals/golden/summary.json), [`cases.json`](evals/golden/cases.json), [`disagreements.md`](evals/golden/disagreements.md), [`head_to_head.json`](evals/golden/head_to_head.json); [Golden set](#golden-set-50-hand-labelled-reviews) |
 | **Testing 2** Independent verification, planted-error and injection tests | Final: [`results/verification_report.json`](results/verification_report.json) (1,000 random), [`results/planted_label_test.json`](results/planted_label_test.json) (25/25 detected). Development: [`evals/dev500/verification_report.json`](evals/dev500/verification_report.json), [`verification_comparisons.json`](evals/dev500/verification_comparisons.json), [`planted_label_test.json`](evals/dev500/planted_label_test.json), [`evals/injection_results.json`](evals/injection_results.json), [`evals/offline/planted_export_errors.json`](evals/offline/planted_export_errors.json) |
@@ -44,7 +44,7 @@ flowchart TD
       V -->|invalid: retry once| J
       V -->|still invalid| Q[("quarantine<br/>reason + attempts")]
       V -->|valid| S[("enrich/results.jsonl<br/>saved per request")]
-      S -->|"Jev confidence below 0.5"| FB(("Claude fallback<br/>blind re-label, 50 per request<br/>standard or Batch API"))
+      S -->|"Jev confidence below 0.5<br/>(capped at 20% of texts)"| FB(("claude-haiku-4-5 fallback<br/>blind re-label, 50 per request<br/>Batch API"))
       FB --> FV{"code check:<br/>IDs, enums,<br/>exact quote"}
       FV -->|"bad quote: 1 retry"| FB
       FV -->|"ok: final labels; still invalid: keep Jev + needs_review"| S
@@ -52,7 +52,7 @@ flowchart TD
     end
     S -->|"declared random sample, labels hidden"| VF
     subgraph verify [3 VERIFY - claude-sonnet-5 + code]
-      VF(("blind re-label<br/>50 reviews per request")) --> VC["code compares;<br/>disagreements -> needs_review;<br/>planted wrong label on a copy"]
+      VF(("blind re-label, Batch API<br/>50 reviews per request")) --> VC["code compares;<br/>disagreements -> needs_review;<br/>planted wrong label on a copy"]
     end
     S --> G1
     subgraph group [4 GROUP - claude-sonnet-5 + Jev + code]
@@ -68,9 +68,16 @@ flowchart TD
       MC -->|"errors fed back, max 2 revisions"| M
     end
     MC --> OUT[/"grading/ + results/ + memo.md"/]
+    OUT -->|"python -m pipeline publish<br/>(owner role, run once per run)"| DB
+    subgraph serve [7 SERVE - deployed, no model calls]
+      DB[("Neon Postgres<br/>runs, reviews, issues, topic_metrics,<br/>claims, facts, recommendations")]
+      API["Next.js API routes on Vercel<br/>/api/runs, /api/overview, /api/issues,<br/>/api/issues/[id], /api/reviews/[id],<br/>/api/recommendation<br/>SELECT-only role, validated params"]
+      UI["dashboard pages<br/>overview metrics, issue ranking,<br/>issue and review evidence, AI memo"]
+      DB -->|"SQL (read-only)"| API -->|"JSON"| UI
+    end
 ```
 
-In the diagram, circles are model judgments and rectangles and diamonds are code. Code owns dispatch, state, validation, budgets, retries, record accounting and every piece of arithmetic. The models only read language:
+In the diagram, circles are model judgments and rectangles and diamonds are code. Stage 7 is the deployed part: `publish` loads a finished run's saved outputs into Postgres, the backend serves them read-only, and the dashboard displays them; viewing it never calls a model. Code owns dispatch, state, validation, budgets, retries, record accounting and every piece of arithmetic. The models only read language:
 
 - **Jev** answers fixed-choice questions.
 - **Claude** handles blind verification, naming subtopics, and writing the memo.
@@ -127,10 +134,10 @@ flowchart LR
 | Role (`calls.jsonl`) | Model ID | Settings | Prompt version |
 |---|---|---|---|
 | enrich | `jev-1.13.0` (pinned, not the alias) | 1 review per request; Choice for topic, intent and severity; Score for sentiment; Noul for "unclear"; Choice over code-cut sentences for the quote | `label_config` = `jev-1.13.0+prompt-<hash>+schema-v1` |
-| enrich (fallback) | `claude-sonnet-5` | re-labels **blind** every text whose minimum Jev confidence is below 0.5; up to 50 reviews per request; JSON schema with an exact-substring quote; standard API (10k) or Message Batches API at 50% price (full run) | `label_config` gains `+fallback-claude-sonnet-5-t0.5-<hash>` for every record in the run |
-| verify | `claude-sonnet-5` | adaptive thinking, effort medium, JSON-schema output, 50 per request, `max_tokens` 16000 | `claude-sonnet-5+verify-<hash>+schema-v1` |
+| enrich (fallback) | final run: `claude-haiku-4-5` (no extended thinking, `--fallback-max-tokens 8000`); 10k run: `claude-sonnet-5` (effort medium) | re-labels **blind** every text whose minimum Jev confidence is below 0.5, capped at 20% of texts; up to 50 reviews per request; JSON schema with an exact-substring quote; Message Batches API at 50% price (final run) or standard API (10k) | `label_config` gains `+fallback-<model>-effort-<effort>-t0.5-cap0.2-<hash>` for every record in the run |
+| verify | `claude-sonnet-5` | adaptive thinking, effort medium, JSON-schema output, 50 per request, `max_tokens` 16000; Message Batches API in the final run | `claude-sonnet-5+verify-<hash>+schema-v1` |
 | group | `claude-sonnet-5` then `jev-1.13.0` | taxonomy via JSON schema; Jev Choice per complaint | `...+group-taxonomy-<hash>`, `...+group-assign-<hash>` |
-| memo | `claude-sonnet-5` | plain markdown, code check, up to 3 rounds | `claude-sonnet-5+memo-<hash>+schema-v1` |
+| memo | final run: `claude-opus-5-5` (effort high, `--memo-model`); development runs: `claude-sonnet-5` | plain markdown, code check, up to 3 rounds | `<model>+effort-<effort>+memo-<hash>+schema-v1` |
 
 Each hash is taken over the exact prompt, schema and post-processing rules, so changing any of them creates new work rather than reusing cached results. Only `review_text` is sent to any model. The golden-50 human labels are read only by `score-golden`. Golden review IDs are also kept out of the verification sample, the taxonomy examples and the memo evidence pack (`--exclude-golden`).
 
@@ -139,13 +146,13 @@ Each hash is taken over the exact prompt, schema and post-processing rules, so c
 Python 3.11 is required.
 
 ```bash
-git clone <this repo> && cd spotify-insight-pipeline
-python3 -m venv .venv && .venv/bin/pip install --no-cache-dir -r requirements.txt   # anthropic==0.86.0; rest is stdlib
+git clone https://github.com/anthonybrites-cmyk/spotify-insight-pipeline.git && cd spotify-insight-pipeline
+python3 -m venv .venv && .venv/bin/pip install --no-cache-dir -r requirements.txt   # pinned: anthropic, certifi, psycopg; the rest is stdlib
 cp .env.example .env    # then paste TYPESAFE_API_KEY and ANTHROPIC_API_KEY (only needed for paid runs)
 .venv/bin/python -m pipeline keys   # prints True/False per key, never the value
 ```
 
-Data: download the course ZIP from the link in the assignment brief, unzip it anywhere, and point `DATA` at that folder. The raw CSV is not committed. Its SHA-256 is `1fc85de68a304dd8978b537cfa58793d5f41cbaf417fa32cb53899f83a2fcef6` (97,400,616 bytes).
+Data: download the course dataset ZIP from [Google Drive](https://drive.google.com/file/d/1P0rUoAS_wVjp3BYKqXMEyD4u0uJP1Bvf/view) (use Drive's Download button; the preview can omit the large CSV), unzip it anywhere, and point `DATA` at that folder. The raw CSV is not committed. `spotify_reviews_18months.csv` SHA-256 `1fc85de68a304dd8978b537cfa58793d5f41cbaf417fa32cb53899f83a2fcef6` (97,400,616 bytes). Original source: BwandoWando, [3.4 Million Spotify Google Store Reviews](https://www.kaggle.com/datasets/bwandowando/3-4-million-spotify-google-store-reviews), version 2, Kaggle (CC0: Public Domain).
 
 ## Run
 
@@ -255,6 +262,7 @@ Time (modelled from the measured 147 ms median Jev call): 5 workers, capped at 3
 | 2026-10-06 | **Final run scope: a seeded random sample of 100,000 review IDs** (the updated brief accepts ≥100,000), **sampled IDs only**: exact-duplicate copies outside the sample are quarantined as out of scope, not completed by reuse | Projected ~$11–16 against ~$65–93 for the full corpus. Sample-only keeps the business aggregates a fair random sample; including copies would complete about 238,000 rows but over-weight repeated short texts. All 660,622 rows are still ingested, profiled and accounted for. |
 | 2026-10-06 | **Fallback model: Claude Haiku 4.5 without extended thinking, via the Batch API, for every qualifying text (≤20% cap)**; verification (1,000), taxonomy and memo stay on Sonnet 5; final-run hard cap **$15** | Sonnet fallback measured at $0.00204 per review vs Haiku $0.00052. Projected 100k run: ~$10.65 with Haiku vs ~$20 with Sonnet (both Batch). Haiku got all three labels right on 3 of 7 golden low-confidence reviews, vs 5 of 7 for Sonnet and 1 of 7 for Jev ([`evals/effort_test/`](evals/effort_test/)) |
 | 2026-10-06 | **Class 7 review (parallel, caching, batching):** verification moves to the Batch API (`--verify-mode batch`, saves ~$0.74); 5 workers instead of 2 (same cost, ≈2.5× faster, within the 30 requests/s cap under TypeSafe's 40); no prompt caching (Haiku 4.5 caches only prompts of 4,096+ tokens and ours are ~1,200; Sonnet verification would save cents; Jev has no prompt cache and already asks all questions in one request); no reuse of 10k results (only 2,054 of 78,146 texts overlap, ~$0.13) | Class 7 slides 50–70; [`cost/refresh.md`](cost/refresh.md) |
+| 2026-10-07 | **Final memo written by `claude-opus-5-5` (effort high)**, memo stage only | Human review of the regenerated Sonnet 5 drafts found unsupported or incoherent arguments that the number checks cannot catch; the user approved a stronger model for this single bounded task ($0.16 for two rounds) |
 | 2026-10-06 | No translation | 10k language strata, all-three agreement with the verifier: English 77.0%, Latin-script non-English 71.6%, non-Latin script 88.4%. A modest gap, and translation would add cost |
 
 ## Development results
@@ -400,7 +408,7 @@ Run `final100k-0f02b2df` on `spotify_reviews_18months.csv` (sha256 `1fc85de6…`
 | Planted errors | 25 / 25 detected by the same comparison code |
 | Grouping | 50 issues (Sonnet taxonomy plus a code catch-all per topic); 39,931 distinct complaint texts assigned (30,147 by Jev, 9,784 by the single-option rule), 0 missing |
 | Ranking | `rerank --grading-dir grading` reproduces it exactly (sha256 `19342f04…`) |
-| Memo | passed every number, issue-ID, review-ID and quote check on the first draft (0 errors) |
+| Memo | written by `claude-opus-5-5` (effort high) after a human review of earlier drafts (see below); passed every number, issue-ID, review-ID and quote check on its second draft (round 1 had 10 citation errors, fed back by code) |
 | Interruption | a planned stop after 5,000 requests and a **recorded Ctrl-C interrupt**, both resumed without re-sending completed work ([`evals/recovery/`](evals/recovery/)) |
 
 **Cost and time (list prices from provider-reported usage):**
@@ -412,8 +420,11 @@ Run `final100k-0f02b2df` on `spotify_reviews_18months.csv` (sha256 `1fc85de6…`
 | Verification | `claude-sonnet-5` | Batch | 20 | $0.70 | 3 min |
 | Taxonomy | `claude-sonnet-5` | standard | 1 | $0.07 | 20 min group stage, with assignment |
 | Assignment | `jev-1.13.0` | standard, 5 workers | 30,147 | $0.79 | (above) |
-| Memo | `claude-sonnet-5` | standard | 1 | $0.03 | 18 s |
-| **Total** | | | **108,706** | **$10.63** | **≈ 1.5 h of active run time** |
+| Memo, first run | `claude-sonnet-5` | standard | 1 | $0.03 | 18 s |
+| Memo regenerations | `claude-sonnet-5` (3 calls), then `claude-opus-5-5` (2 calls) | standard | 5 | $0.27 | under 1 min each |
+| **Total** | | | **108,711** | **$10.89** | **≈ 1.5 h of active run time** |
+
+**Memo history (human review, disclosed).** The first memo (Sonnet 5) recommended usability, but its Limits section wrongly said that `needs_review` reviews were excluded from the counts, and it did not disclose the 560,609 out-of-scope reviews. The fix gave the memo task corrected fact descriptions and a Limits instruction to state the scope. The regenerated Sonnet drafts passed the code checks but had argument problems a person caught: one claimed, from a single quote, that an issue's examples "don't cleanly match" its definition, and one recommended "usability" while naming a billing issue as a usability item and cited priority-score claims as severity sums. A rule against judging label quality from examples was added, and the final memo was written by `claude-opus-5-5` at high effort (`--memo-model`, `--memo-effort`; memo only). Every draft is saved in `runs/final100k/memo/handoffs/`; the inputs (aggregates, facts, evidence pack) were the same for all of them.
 
 The refreshed calculator projected $10.06 (conservative $13.55). The difference is the Haiku second opinion: $3.98 actual vs $3.43 projected, because 122 inexact-quote retries ran on the standard API at full price. The hard cap was $15. The run stopped once at the budget check before submitting the Haiku batch: the batch reservation used a 16,000-token worst case per request ($11.60 against $9.96 left). It was fixed with a measured output cap (`--fallback-max-tokens 8000`; Haiku writes ≤ 93 tokens per review) and resumed with the same $15 cap.
 
@@ -429,9 +440,20 @@ The refreshed calculator projected $10.06 (conservative $13.55). The difference 
 
 **Verification by who made the final decision:** all-three agreement with the blind Sonnet verifier is 74.7% on texts Jev labelled alone (n = 826) and 49.4% on texts Haiku re-labelled (n = 174). The second group is, by construction, the hardest texts, and on the 30 hand-labelled held-out hard texts Haiku beat Jev (16 vs 12 fully correct). Verifier agreement is consistency between two models, not accuracy.
 
-### One review traced end to end (final run)
+### Reviews traced end to end (final run)
 
-`a0d2ccd3-ebb3-46b9-bbf7-212bb0ec8e84` (cited in the final memo): "This app was my favourite for years until the new update removed everything now I can't do anything I can only 6 skip 6 stacks per hour now I can't play a song which i searched up everything is removed you need premium to do anything I am planning on switching to yt music instead of this now"
+**A. Source ID → enrichment → verification → issue membership → ranking → memo claim.** `9358e18a-2782-464b-b5c7-bca39985ebe8`: "They just ruined everything in free plan we have to buy premium plan to play the choosen song and we can't play the certain parts of the songs....... Such a bad update"
+
+| Stage | What happened | Saved evidence |
+|---|---|---|
+| ingest | row hash `06a5017a…`; text hash (unit) `44062f19…`, one copy; language group `english`; in the seeded sample | `ingest/sources.jsonl`, `ingest/scope.json` |
+| enrich (Jev) | `billing` / `complaint` / severity 3 (confidence: topic 0.99, intent 1.00, severity 0.97, so no fallback); sentiment −0.98; entities `Premium`, `Free tier`; quote = the first sentence, an exact substring | `enrich/results.jsonl`; call `phase: resume` in `calls.jsonl` |
+| verify | in the declared random sample. Sonnet, blind: `billing` / `complaint` / severity 3, "Premium required to play chosen songs now." Full agreement, so no `needs_review` flag | [`results/verification_comparisons.json`](results/verification_comparisons.json) |
+| group | Jev assigns it to `billing.features_locked_behind_premium` (confidence 1.0) | [`grading/membership.csv`](grading/membership.csv) |
+| rank | that issue is rank 2: 4,490 complaints, severity sum 13,442, mean 2.993764; this review contributes 1 complaint and 3 severity points | [`grading/ranking.csv`](grading/ranking.csv) |
+| memo | the issue's numbers are memo claims C05–C08, checked by code against `ranking.csv` | [`grading/claims.csv`](grading/claims.csv), [`results/memo.md`](results/memo.md) |
+
+**B. Failed or ambiguous case.** `a0d2ccd3-ebb3-46b9-bbf7-212bb0ec8e84` (quoted in the final memo): "This app was my favourite for years until the new update removed everything now I can't do anything I can only 6 skip 6 stacks per hour now I can't play a song which i searched up everything is removed you need premium to do anything I am planning on switching to yt music instead of this now"
 
 | Stage | What happened | Saved evidence |
 |---|---|---|

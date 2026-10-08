@@ -93,7 +93,8 @@ def cmd_run(args):
                      "fallback_threshold": args.fallback_threshold, "fallback_max_fraction": args.fallback_max_fraction,
                      "fallback_model": args.fallback_model, "fallback_effort": args.fallback_effort,
                      "claude_effort": args.claude_effort, "claude_max_tokens": args.claude_max_tokens,
-                     "fallback_max_tokens": args.fallback_max_tokens})
+                     "fallback_max_tokens": args.fallback_max_tokens, "memo_model": args.memo_model,
+                     "memo_effort": args.memo_effort})
     manifest.setdefault("invocations", []).append({"id": invocation, "code_version": git_commit(),
                                                   "argv": sys.argv[1:], "started": time.strftime("%Y-%m-%dT%H:%M:%S%z")})
     write_json(run_dir / "run_manifest.json", manifest)
@@ -214,7 +215,22 @@ def _stages(args, stages, run_dir, input_csv, jev, claude_client, budget, calls,
         ranking = ranking or rank.load_computed(run_dir)
         with runlog.stage("recommend") as st:
             _, issues = group.load_assignments(run_dir)
-            claims, errors = memo.run(run_dir, claude_client, budget, calls, ranking, issues["issues"], final,
+            memo_client = claude_client
+            if args.memo_model and args.memo_model != getattr(claude_client, "model", None):
+                if args.memo_model not in MODEL_ALLOWLIST["claude"]:
+                    raise SystemExit(f"memo model {args.memo_model} is not on the allowlist")
+                if args.offline_fake:
+                    from .fakes import FakeClaude
+                    memo_client = FakeClaude()
+                    memo_client.model = "fake-" + args.memo_model
+                else:
+                    from .claude import ClaudeClient
+                    memo_client = ClaudeClient(require("ANTHROPIC_API_KEY"), model=args.memo_model,
+                                               effort=args.memo_effort or args.claude_effort,
+                                               max_tokens=args.claude_max_tokens)
+                memo_client.effort = args.memo_effort or args.claude_effort
+                memo_client.max_tokens = args.claude_max_tokens
+            claims, errors = memo.run(run_dir, memo_client, budget, calls, ranking, issues["issues"], final,
                                       exclude_ids=exclude, log=log)
             st["memo_check_errors"] = len(errors)
         if errors:
@@ -326,6 +342,9 @@ def main(argv=None):
     p.add_argument("--fallback-max-tokens", type=int,
                    help="output-token cap per fallback request (default --claude-max-tokens); also sets the worst case "
                         "reserved against the budget. Haiku 4.5 measured <= 93 output tokens per review")
+    p.add_argument("--memo-model", help="Claude model for the memo only (e.g. claude-opus-5-5); default: the main Claude model")
+    p.add_argument("--memo-effort", choices=["low", "medium", "high", "xhigh", "max"],
+                   help="reasoning effort for the memo model (default --claude-effort)")
     p.add_argument("--fallback-max-fraction", type=float, default=0.2,
                    help="declared cap: at most this fraction of distinct texts go to the Claude fallback")
     p.add_argument("--translate", action="store_true",

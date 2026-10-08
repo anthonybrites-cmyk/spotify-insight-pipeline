@@ -1066,3 +1066,21 @@ class TestFallbackMaxTokens(unittest.TestCase):
             self.assertLess(max(reserved), Decimal(16000) * half)         # not the 16,000 default
         finally:
             shutil.rmtree(tmp, ignore_errors=True)
+
+
+class TestMemoModel(unittest.TestCase):
+    def test_memo_uses_its_own_model_and_effort(self):
+        from unittest import mock
+        from pipeline import fakes
+        tmp = Path(tempfile.mkdtemp(prefix="pipeline-memo-model-"))
+        try:
+            with mock.patch.object(cli, "make_clients", lambda *a, **k: (FakeJev(), fakes.FakeClaude())):
+                self.assertEqual(fake_run(tmp, "--memo-model", "claude-opus-5-5", "--memo-effort", "high",
+                                          grading=False), 0)
+            calls = list(read_jsonl(tmp / "run" / "calls.jsonl"))
+            self.assertEqual({c["model"] for c in calls if c["role"] == "memo"}, {"fake-claude-opus-5-5"})
+            self.assertEqual({c["model"] for c in calls if c["role"] == "verify"}, {"fake-claude-0"})
+            check = read_json(tmp / "run" / "memo" / "check.json")
+            self.assertTrue(check["memo_label_config"].startswith("fake-claude-opus-5-5+effort-high+memo-"))
+        finally:
+            shutil.rmtree(tmp, ignore_errors=True)

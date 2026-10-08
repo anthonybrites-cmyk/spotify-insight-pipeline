@@ -1,16 +1,16 @@
 {
   "budget": {
     "cap_usd": "15.0",
-    "committed_usd": "10.625496164",
+    "committed_usd": "10.890050164",
     "group": "full",
-    "remaining_usd": "4.374503836",
-    "this_run_usd": "10.625496164"
+    "remaining_usd": "4.109949836",
+    "this_run_usd": "10.890050164"
   },
   "caps": {
     "budget_group": "full",
     "budget_usd": 15.0,
     "early_gate_fraction": "0.10",
-    "max_minutes": 65.0,
+    "max_minutes": null,
     "rps": 30,
     "workers": 5
   },
@@ -28,12 +28,12 @@
   "elapsed_seconds_by_stage_all_invocations": {
     "enrich": 4028.5,
     "group": 1198.6,
-    "ingest": 15.8,
+    "ingest": 16.1,
     "rank": 0.1,
-    "recommend": 18.4,
+    "recommend": 119.7,
     "verify": 184.5
   },
-  "elapsed_seconds_total": 5445.9,
+  "elapsed_seconds_total": 5547.5,
   "enrich_invocations": [
     {
       "completed_at_end": 4420,
@@ -140,8 +140,8 @@
       "succeeded_this_invocation": 0
     }
   ],
-  "generated_at": "2026-10-07T03:28:31+00:00",
-  "invocations": 5,
+  "generated_at": "2026-10-08T06:13:10+00:00",
+  "invocations": 8,
   "records": {
     "by_status": {
       "completed": 100000,
@@ -158,7 +158,7 @@
   "resume_evidence": {
     "first_stop_snapshot": "enrich_stop_20261007T015903_stop_after.json"
   },
-  "total_cost_usd_list_price": "10.625496164",
+  "total_cost_usd_list_price": "10.890050164",
   "usage_by_role_model": {
     "enrich|claude-haiku-4-5-20251001": {
       "calls_failed": 4,
@@ -193,12 +193,20 @@
       "output_tokens": 2967807,
       "review_ids_sent": 30147
     },
-    "memo|claude-sonnet-5": {
-      "calls_succeeded": 1,
-      "cost_usd_list_price": "0.032122",
+    "memo|claude-opus-5-5": {
+      "calls_succeeded": 2,
+      "cost_usd_list_price": "0.164640",
       "failed_attempts_without_usage": 0,
-      "input_tokens": 6586,
-      "output_tokens": 1895,
+      "input_tokens": 15695,
+      "output_tokens": 5093,
+      "review_ids_sent": 0
+    },
+    "memo|claude-sonnet-5": {
+      "calls_succeeded": 4,
+      "cost_usd_list_price": "0.132036",
+      "failed_attempts_without_usage": 0,
+      "input_tokens": 28848,
+      "output_tokens": 7434,
       "review_ids_sent": 0
     },
     "verify|claude-sonnet-5": {
