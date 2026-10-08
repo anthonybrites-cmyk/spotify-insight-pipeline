@@ -2,12 +2,14 @@
 
 Advising Spotify at the end of the May 2022 – Nov 2023 review window: **where should next quarter's product effort go — access, usability, playback, or billing/support?** This repository is a saved program that turns the 660,622-review CSV into that recommendation, with traceable evidence.
 
-> **Status (2026-09-30): development runs complete; the full-corpus run has not been made yet.** [Development results](#development-results) come from real model calls on the 500-review checkpoint, the hand-labelled golden 50 and 13 synthetic injection cases. Anything about the full run is marked *pending*. Offline tests use fake providers and are **not** run evidence.
+> **Status (2026-10-07): final run complete.** The final run classified a seeded random sample of **100,000 of the 660,622 reviews** (the brief allows a scope of at least 100,000), accounted for every row, and cost **$10.63** (list price). See [Final run](#final-run-100000-review-seeded-sample). [Development results](#development-results) come from real model calls on the 500-review and 10,000-review checkpoints, the hand-labelled golden 50, 30 held-out reviews and 13 synthetic injection cases. Offline tests use fake providers and are **not** run evidence.
 
-- **Live dashboard: https://spotify-insight-dashboard.vercel.app** (public, read-only, no login). It currently shows the 500-review development run; the final run replaces it.
-- Grading export: [`grading/`](grading/) *(pending: final run)*
-- Human-readable results: [`results/`](results/) *(pending: full run)*
-- Decision memo: [`results/memo.md`](results/memo.md) *(pending)*
+- **Live dashboard: https://spotify-insight-dashboard.vercel.app** (public, read-only, no login). It shows the final run by default; the 500 and 10,000 development runs are selectable.
+- **Delivery note:** [`DELIVERY_NOTE.md`](DELIVERY_NOTE.md)
+- Grading export: [`grading/`](grading/) (final run; passes the course checker, see [Final run](#final-run-100000-review-seeded-sample))
+- Human-readable results: [`results/`](results/) (final run)
+- Decision memo: [`results/memo.md`](results/memo.md) (final run)
+- Interruption/resume evidence: [`evals/recovery/`](evals/recovery/) and the screen recording submitted with the delivery note
 - Design choices and label examples: [`DESIGN.md`](DESIGN.md)
 - Golden-set labelling instructions: [`evals/golden/LABELING.md`](evals/golden/LABELING.md)
 - **100-review cost/runtime calculator:** [`cost/`](cost/), with a [measured report](cost/report.md) and [offline replay instructions](cost/README.md)
@@ -16,16 +18,16 @@ Advising Spotify at the end of the May 2022 – Nov 2023 review window: **where 
 
 | Rubric item | Evidence |
 |---|---|
-| **Deliverable 1** Accessible code, setup and artifacts | [Setup](#setup), [Run](#run), `requirements.txt`, `.env.example` (key names only), [`results/`](results/) *(pending)* |
+| **Deliverable 1** Accessible code, setup and artifacts | [Setup](#setup), [Run](#run), `requirements.txt`, `.env.example` (key names only), [`results/`](results/) |
 | **Deliverable 2** Architecture, shared schema, provenance | [Architecture](#architecture), `pipeline/rubric.py` (Jev questions), `pipeline/verify.py` / `group.py` / `memo.py` (role prompts and schemas), `label_config` on every record and call, `run_manifest.json` (code version, argv, settings) |
-| **Deliverable 3** Memo numbers linked to calculations and evidence | `claims.csv` ↔ `ranking.csv` (course checker recomputes both), `memo_check.json` (every number cited, and every issue ID, review ID and quote validated). Development: [`evals/dev500/memo_v2.md`](evals/dev500/memo_v2.md), [`claims.csv`](evals/dev500/claims.csv), [`memo_check_v2.json`](evals/dev500/memo_check_v2.json). Final: *(pending)* |
-| **Deliverable 4** Recommendation, alternatives, limitations | Development memo [`evals/dev500/memo_v2.md`](evals/dev500/memo_v2.md); final [`results/memo.md`](results/memo.md) *(pending)*; [Limits](#limits) |
-| **Testing 1** 50 human labels, per-field comparison, error analysis | [`evals/golden/golden_50_human_labels.csv`](evals/golden/golden_50_human_labels.csv), [`summary.json`](evals/golden/summary.json), [`cases.json`](evals/golden/cases.json), [`disagreements.md`](evals/golden/disagreements.md), [`head_to_head.json`](evals/golden/head_to_head.json); [Golden set](#golden-set-50-hand-labelled-reviews) |
-| **Testing 2** Independent verification, planted-error and injection tests | [`evals/dev500/verification_report.json`](evals/dev500/verification_report.json), [`verification_comparisons.json`](evals/dev500/verification_comparisons.json), [`planted_label_test.json`](evals/dev500/planted_label_test.json), [`evals/injection_results.json`](evals/injection_results.json), [`evals/offline/planted_export_errors.json`](evals/offline/planted_export_errors.json) |
-| **Testing 3** Real 100-review cold/warm pilot, offline calculator, retry/spending/recovery controls | [`cost/report.md`](cost/report.md): measured cold, warm and 2-worker pilot. [`cost/README.md`](cost/README.md): offline `python -m pipeline cost` replay. Evidence: [`cost/pilot_calls.jsonl`](cost/pilot_calls.jsonl), [`usage.csv`](cost/usage.csv), [`rates.csv`](cost/rates.csv), [`pilot_records.jsonl`](cost/pilot_records.jsonl). Controls: `pipeline/retry.py`, `pipeline/budget.py`, [`evals/offline/test_report.txt`](evals/offline/test_report.txt); `results/run_summary.json` *(pending, full run)* |
-| **Working 1** Full ingestion, coverage, classification | `results/ingestion_report.json`, `grading/ingestion.json`, self-check coverage *(pending)* |
-| **Working 2** Staged program, bounded calls, handoffs, resume | `python -m pipeline run`, `grading/calls.jsonl.gz`, `checkpoint_before.json` / `checkpoint_after.json`, recording *(pending)* |
-| **Working 3** Reproducible ranking; deployed dashboard backed by a database, with grounded AI recommendations | `python -m pipeline rerank --grading-dir grading` (no model calls); live dashboard https://spotify-insight-dashboard.vercel.app ([Dashboard, backend and database](#dashboard-backend-and-database)); memo *(final run pending)* |
+| **Deliverable 3** Memo numbers linked to calculations and evidence | `claims.csv` ↔ `ranking.csv` (course checker recomputes both), `memo_check.json` (every number cited, and every issue ID, review ID and quote validated). Development: [`evals/dev500/memo_v2.md`](evals/dev500/memo_v2.md), [`claims.csv`](evals/dev500/claims.csv), [`memo_check_v2.json`](evals/dev500/memo_check_v2.json). Final: [`results/memo.md`](results/memo.md), [`grading/claims.csv`](grading/claims.csv), [`results/memo_check.json`](results/memo_check.json) (passed on the first draft, 0 errors) |
+| **Deliverable 4** Recommendation, alternatives, limitations | Development memo [`evals/dev500/memo_v2.md`](evals/dev500/memo_v2.md); final [`results/memo.md`](results/memo.md); [Limits](#limits) |
+| **Testing 1** 50 human labels, per-field comparison, error analysis | [Held-out 30](#held-out-check-of-the-fallback-choice-evalsheldout) (fresh cases after golden-influenced changes); [`evals/golden/golden_50_human_labels.csv`](evals/golden/golden_50_human_labels.csv), [`summary.json`](evals/golden/summary.json), [`cases.json`](evals/golden/cases.json), [`disagreements.md`](evals/golden/disagreements.md), [`head_to_head.json`](evals/golden/head_to_head.json); [Golden set](#golden-set-50-hand-labelled-reviews) |
+| **Testing 2** Independent verification, planted-error and injection tests | Final: [`results/verification_report.json`](results/verification_report.json) (1,000 random), [`results/planted_label_test.json`](results/planted_label_test.json) (25/25 detected). Development: [`evals/dev500/verification_report.json`](evals/dev500/verification_report.json), [`verification_comparisons.json`](evals/dev500/verification_comparisons.json), [`planted_label_test.json`](evals/dev500/planted_label_test.json), [`evals/injection_results.json`](evals/injection_results.json), [`evals/offline/planted_export_errors.json`](evals/offline/planted_export_errors.json) |
+| **Testing 3** Real 100-review cold/warm pilot, offline calculator, retry/spending/recovery controls | [`cost/report.md`](cost/report.md): measured cold, warm and 2-worker pilot. [`cost/README.md`](cost/README.md): offline `python -m pipeline cost` replay. Evidence: [`cost/pilot_calls.jsonl`](cost/pilot_calls.jsonl), [`usage.csv`](cost/usage.csv), [`rates.csv`](cost/rates.csv), [`pilot_records.jsonl`](cost/pilot_records.jsonl). Controls: `pipeline/retry.py`, `pipeline/budget.py`, [`evals/offline/test_report.txt`](evals/offline/test_report.txt); [`cost/refresh.md`](cost/refresh.md) (500/10,000 refresh and 100k projection); actual: [`results/run_summary.json`](results/run_summary.json) |
+| **Working 1** Full ingestion, coverage, classification | [`results/ingestion_report.json`](results/ingestion_report.json), [`grading/ingestion.json`](grading/ingestion.json), checker self-check [`evals/final100k/self-check.json`](evals/final100k/self-check.json): all 660,622 IDs accounted for, 100,000 completed in scope |
+| **Working 2** Staged program, bounded calls, handoffs, resume | `python -m pipeline run`, `grading/calls.jsonl.gz`, `checkpoint_before.json` / `checkpoint_after.json`, [`evals/recovery/`](evals/recovery/) (planned stop + recorded Ctrl-C interrupt, both resumed) |
+| **Working 3** Reproducible ranking; deployed dashboard backed by a database, with grounded AI recommendations | `python -m pipeline rerank --grading-dir grading` (no model calls); live dashboard https://spotify-insight-dashboard.vercel.app ([Dashboard, backend and database](#dashboard-backend-and-database)); final memo [`results/memo.md`](results/memo.md) |
 
 ## Architecture
 
@@ -205,7 +207,7 @@ F="--input $DATA/spotify_reviews_18months.csv --run-dir runs/final100k $G --scop
 - **Time cap.** `--max-minutes` stops dispatching and saves progress.
 - **Retries.** Invalid output is retried **at most once**; for Claude, the validation error is fed back. After that, the unit is quarantined with the reason and attempt count. Rate limits and transient errors get bounded exponential backoff that honours `retry-after`: up to 5 attempts for Jev, 4 for Claude. Every failed attempt is logged as `outcome: "failed"`.
 - **Exact-duplicate reuse.** 660,609 nonempty rows collapse to 484,189 distinct texts. The other IDs get `cache_source_id` pointing to the directly classified original. Every ID keeps its own record and is counted separately.
-- **Statuses.** Each record is `completed`, or `quarantined` with a `reason` and `attempts`. Reasons are `empty_review_text`, `enrich_failed: …`, or `pending_not_processed` for an incomplete run.
+- **Statuses.** Each record is `completed`, or `quarantined` with a `reason` and `attempts`. Reasons are `empty_review_text`, `out_of_scope: …` (not in a declared sample scope), `enrich_failed: …`, or, for an unfinished run, `pending_fallback` / `pending_not_processed`.
 - **Usage and cost.** These are provider-reported tokens times published list prices (Jev $0.042 per million input tokens, output free; Sonnet 5 $2/$10 per million), reported in `run_summary.json`. Failed attempts that returned no usage are logged with 0 tokens and `usage_available: false`; they are not estimated.
 
 ## 100-review cost and runtime pilot
@@ -366,7 +368,7 @@ There are 13 synthetic reviews: 7 prompt-injection attempts and 6 controls, incl
 
   Low effort saves about 17% per review, but it changed about a quarter of the fallback's decisions. On the tiny golden check it got one more review wrong. The measured fallback cost at 50 reviews per request ($0.00166) is also well below the pilot's 7-review figure ($0.0026).
 
-### Full-corpus cost estimate (superseded: the final scope is the 100,000-review sample; see the checkpoint refresh)
+### Full-corpus cost estimate (superseded before the final run: the final scope is the 100,000-review sample; see the checkpoint refresh)
 
 | Component | Basis | Estimate |
 |---|---|---|
@@ -379,27 +381,64 @@ There are 13 synthetic reviews: 7 prompt-injection attempts and 6 controls, incl
 
 Runtime: about 4.5 h of Jev enrichment plus about 1.7 h of grouping at 30 requests/s, plus up to 24 h for the fallback batch (most finish within an hour). **Chosen setup:** baseline plus the low-confidence fallback via the Batch API, about $81 projected, under a $90 cap. The 10k run measures the real fallback rate and cost first.
 
-### Full run *(pending)*
+### Final run (100,000-review seeded sample)
 
-When the full run is done, this section will report:
-- rows, completed, quarantined, cache reuse, verifier disagreements, measured cost and time
-- the interruption/resume evidence
-- one review traced end to end, from source ID to memo claim
+Run `final100k-0f02b2df` on `spotify_reviews_18months.csv` (sha256 `1fc85de6…`), started 2026-10-06 18:55 PT, finished 20:28 PT. Command: [Run, step 4](#run).
 
-### One review traced end to end (500 run)
+| | Result |
+|---|---|
+| Rows accounted for | **660,622 / 660,622**: 100,000 completed, 560,609 quarantined `out_of_scope` (not in the seeded sample), 13 quarantined `empty_review_text` |
+| Distinct texts classified | 78,146 (21,854 sampled reviews completed by exact-text reuse, each pointing to its source record) |
+| Course checker ([`self-check.json`](evals/final100k/self-check.json)) | 0 missing, 0 duplicate IDs, 0 invalid or unresolved records. The only flag is `unfinished_classification`, which is expected for the declared 100,000-review scope |
+| Second opinion | 13,446 texts (17.2%, under the 20% cap) re-labelled blind by `claude-haiku-4-5` through one Message Batch of 269 requests. 4 requests returned invalid output and succeeded on their one retry. 33 texts still had an inexact quote after one retry; they keep Jev's labels with `needs_review` = true |
+| Verification | 1,000 random texts blind-labelled by `claude-sonnet-5` (one Message Batch of 20 requests). All-three agreement 70.3% (topic 84.6%, intent 91.2%, severity 86.2%); 230 material disagreements flagged `needs_review` |
+| Planted errors | 25 / 25 detected by the same comparison code |
+| Grouping | 50 issues (Sonnet taxonomy plus a code catch-all per topic); 39,931 distinct complaint texts assigned (30,147 by Jev, 9,784 by the single-option rule), 0 missing |
+| Ranking | `rerank --grading-dir grading` reproduces it exactly (sha256 `19342f04…`) |
+| Memo | passed every number, issue-ID, review-ID and quote check on the first draft (0 errors) |
+| Interruption | a planned stop after 5,000 requests and a **recorded Ctrl-C interrupt**, both resumed without re-sending completed work ([`evals/recovery/`](evals/recovery/)) |
 
-`6eb64519-37d4-4591-a47a-bbb96357de36`: "useless music app music k naam pe khaali ad dikhata hai." (Hinglish: roughly "in the name of music it only shows ads").
+**Cost and time (list prices from provider-reported usage):**
+
+| Stage | Model | Mode | Requests | Cost | Stage time |
+|---|---|---|---|---|---|
+| Labelling | `jev-1.13.0` | standard, 5 workers | 78,146 | $5.04 | 67 min, all enrich invocations (≈ 26 texts/s) |
+| Second opinion | `claude-haiku-4-5` | Batch (+126 standard retries) | 391 | $3.98 | included above (batch done in under 14 min) |
+| Verification | `claude-sonnet-5` | Batch | 20 | $0.70 | 3 min |
+| Taxonomy | `claude-sonnet-5` | standard | 1 | $0.07 | 20 min group stage, with assignment |
+| Assignment | `jev-1.13.0` | standard, 5 workers | 30,147 | $0.79 | (above) |
+| Memo | `claude-sonnet-5` | standard | 1 | $0.03 | 18 s |
+| **Total** | | | **108,706** | **$10.63** | **≈ 1.5 h of active run time** |
+
+The refreshed calculator projected $10.06 (conservative $13.55). The difference is the Haiku second opinion: $3.98 actual vs $3.43 projected, because 122 inexact-quote retries ran on the standard API at full price. The hard cap was $15. The run stopped once at the budget check before submitting the Haiku batch: the batch reservation used a 16,000-token worst case per request ($11.60 against $9.96 left). It was fixed with a measured output cap (`--fallback-max-tokens 8000`; Haiku writes ≤ 93 tokens per review) and resumed with the same $15 cap.
+
+**Top of the ranking** ([`grading/ranking.csv`](grading/ranking.csv)):
+
+| Rank | Issue | Complaints | Severity sum = priority |
+|---|---|---|---|
+| 1 | `other.general` (vague "bad app" complaints with no specific feature) | 14,039 | 28,433 |
+| 2 | `billing.features_locked_behind_premium` | 4,490 | 13,442 |
+| 3 | `usability.ad_frequency` | 5,488 | 11,849 |
+| 4 | `usability.general` | 1,862 | 4,859 |
+| 5 | `usability.playback_controls_limited` | 1,592 | 4,797 |
+
+**Verification by who made the final decision:** all-three agreement with the blind Sonnet verifier is 74.7% on texts Jev labelled alone (n = 826) and 49.4% on texts Haiku re-labelled (n = 174). The second group is, by construction, the hardest texts, and on the 30 hand-labelled held-out hard texts Haiku beat Jev (16 vs 12 fully correct). Verifier agreement is consistency between two models, not accuracy.
+
+### One review traced end to end (final run)
+
+`a0d2ccd3-ebb3-46b9-bbf7-212bb0ec8e84` (cited in the final memo): "This app was my favourite for years until the new update removed everything now I can't do anything I can only 6 skip 6 stacks per hour now I can't play a song which i searched up everything is removed you need premium to do anything I am planning on switching to yt music instead of this now"
 
 | Stage | What happened | Saved evidence |
 |---|---|---|
-| ingest | row hash `27db8f50…`; language group `non_english_latin`; rating 1 (never sent to a model) | `ingest/sources.jsonl` |
-| enrich | Jev: `usability` / `complaint` / severity **4** (P(4)=0.67, P(2)=0.31; severity confidence 0.58); sentiment −0.975; entity `Ads`; the quote is the whole text | `enrich/results.jsonl`, `calls.jsonl` |
-| verify | in the random sample. Claude (blind): `usability` / `complaint` / severity **2**: "Complains about excessive ads interrupting music." The 2-level gap counts as a material disagreement, so `needs_review` = true | `verify/comparisons.json` |
-| group | Jev assigns it to `usability.ad_frequency` | `group/assignments.jsonl`, `membership.csv` |
-| rank | `usability.ad_frequency` is rank 2: 30 complaints, severity sum 65, mean 2.166667 | `ranking.csv` |
-| memo | cited as representative review `6eb64519…` next to claims C05–C08 | `memo_v2.md`, `claims.csv` |
+| ingest | row hash `5026f6bf…`; text hash (unit) `97987547…`, one copy in the corpus; language group `english`; inside the seeded 100,000-review sample | `ingest/sources.jsonl`, `ingest/scope.json` |
+| enrich (Jev) | `billing` / `cancellation` / severity 4, sentiment −0.99, entities `Premium`, `Search`. Topic confidence only **0.34** (billing 0.43, usability 0.27, catalog 0.26), below the 0.5 threshold | `enrich/results.jsonl`; call `phase: resume` in `calls.jsonl` |
+| second opinion (Haiku, Batch API) | blind re-label: `billing` / `cancellation` / severity **5**, quote trimmed to the exact substring from "I can only 6 skip…"; reason: "Explicit cancellation with severe restrictions on core playback features." The quote passed the exact-substring check, so Haiku's labels are final (`decided_by: claude_fallback`) | `enrich/fallback.jsonl`, `enrich/fallback_handoffs/` |
+| verify | not in the random sample | `verify/sample.json` |
+| group | Jev assigns it to `billing.features_locked_behind_premium` (confidence 0.88) | `group/assignments.jsonl`, [`grading/membership.csv`](grading/membership.csv) |
+| rank | `billing.features_locked_behind_premium` is rank 2: 4,490 complaints, severity sum 13,442, mean 2.993764 | [`grading/ranking.csv`](grading/ranking.csv) |
+| memo | quoted with its review ID as evidence next to claims C05–C07 | [`results/memo.md`](results/memo.md), [`grading/claims.csv`](grading/claims.csv) |
 
-**This is also the ambiguous-case example.** By the shared definitions, ad overload with no stated loss of function is severity 2, so the verifier is probably right and Jev's 4 is probably too high. The record keeps Jev's label, which keeps a single `label_config`, and it is flagged `needs_review`. It is included in the ranking with severity 4. That is exactly the kind of low-confidence case a Claude fallback would re-decide.
+**This is also an inspected error.** By the shared definitions, features locked behind Premium are severity 3; severity 5 needs explicit serious harm (money taken, data exposed, an actual injury), and cancellation intent does not raise severity. Haiku's 5 is too high and Jev's 4 was also high, so this one review adds 2 points too many to the issue's severity sum. It does not change the rank: the gap to rank 3 is 1,593 points. Over-scoring is rare: Haiku gave severity 5 to 23 of the 7,476 complaints it decided (0.3%; Jev 1.1%).
 
 ## Tests *(offline evidence in [`evals/offline/`](evals/offline/))*
 
@@ -423,5 +462,8 @@ Run with `EVIDENCE_DIR=evals/offline` to refresh the saved outcomes. The live in
 
 - **The data.** It is a historical, self-selected set of public Play Store reviews, with no revenue, plan tier, cost, or confirmed churn. Cancellation language is expressed intent, not observed churn.
 - **Model agreement.** Agreement between Jev and Claude is not accuracy. The 50-review golden set is a small diagnostic, not a population estimate.
-- **Language.** A deterministic tagger (`pipeline/language.py`) finds 18,821 distinct likely non-English texts in the full file, 3.9% of distinct texts. Verification agreement is reported per language group. Translation (`--translate`) is built but off. Whether to enable it is decided from the 10k comparison, and fixed before the full run, so every record shares one `label_config`.
+- **Scope.** The final run classifies a seeded random sample of 100,000 of the 660,622 reviews (78,146 distinct texts). Counts and severity sums describe that sample, not the whole corpus; shares are estimates of the corpus. Every other row is accounted for as `out_of_scope`. Exact-duplicate copies outside the sample were not completed by reuse, so frequently repeated texts are not over-weighted.
+- **Hard texts.** The verifier agrees with 74.7% of Jev-only decisions but only 49.4% of the Haiku-decided hard texts. On 30 hand-labelled held-out hard texts Haiku was right more often than Jev (16 vs 12 fully correct), but these remain the least reliable labels; 13,974 completed records carry `needs_review` = true.
+- **The largest issue is a catch-all.** Rank 1, `other.general` (14,039 complaints), holds complaints too vague to place ("bad app"). It is real volume but not an actionable feature, so the memo recommends the top specific issues instead.
+- **Language.** A deterministic tagger (`pipeline/language.py`) finds 18,821 distinct likely non-English texts in the full file, 3.9% of distinct texts. Translation (`--translate`) is built but was left off: in the 10k run, all-three verifier agreement was 77.0% for English, 71.6% for non-English Latin script and 88.4% for non-Latin script, a gap too small to justify the cost.
 - **Dates.** The first and last calendar months are partial.
