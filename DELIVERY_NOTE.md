@@ -23,7 +23,7 @@ Prioritize **usability**: reduce ad frequency (`usability.ad_frequency`, 5,488 c
 
 ## Decisions and disclosures
 
-- **Golden set:** I hand-labelled the 50 golden reviews; the labels were never sent to a model. Strict scoring of Jev: topic 88%, intent 96%, severity 84%, all three 74%.
+- **Golden set:** I hand-labelled the 50 golden reviews; the labels were never sent to a model. Strict scoring of the final setup (Jev + Haiku fallback, final prompt): topic 88%, intent 96%, severity 86%, **all three 78%** (Jev alone with the earlier prompt: 74%).
 - **Golden-influenced changes, re-checked on fresh cases:** the golden low-confidence results led to adding the Claude fallback and then choosing Haiku for it. Both were re-checked on 30 fresh, held-out hard reviews I labelled blind: Jev alone 12/30 fully correct, Sonnet 17/30, Haiku 16/30.
 - **Rubric amendment:** severity 5 also covers an actual physical injury (for example hearing loss). It is annotated in `GRADING_CONTRACT.md` and applied identically to every model's prompt.
 - **Adjudication:** after scoring, I answered four questions about golden-set disagreements. One label changed; the original labels file is untouched, and adjudicated scores are reported separately.
