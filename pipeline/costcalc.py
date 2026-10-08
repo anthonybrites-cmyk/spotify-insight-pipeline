@@ -357,6 +357,9 @@ def replay(args, log):
                   "worst_case_claude_request_usd": D(args.output_cap) * rates.get(
                       ("anthropic", "claude-sonnet-5", "standard", "output_tokens"), {"price": D(0)})["price"] / D(1000000)},
               "local_compute": "unknown: runs on a personal laptop; not metered, not included in API spend"}
+    decision = read_json(getattr(args, "decision", None) or (COST / "decision.json"))
+    if decision:
+        report["decision"] = decision
     COST.mkdir(exist_ok=True)
     out_json = Path(args.out).with_suffix(".json")
     out_json.write_text(json.dumps(report, default=str, indent=2, sort_keys=True) + "\n", encoding="utf-8")
@@ -435,6 +438,24 @@ def render(r):
           f"- Maximum workers: {pi['max_workers']} (pilot measured at 1, and 2 where available).",
           f"- Declared maximum fallback fraction: {pi['fallback_max_fraction']}.",
           f"- Local compute: {r['local_compute']}.", ""]
+    d = r.get("decision")
+    if d:
+        L += ["## Chosen setup and scaling decision (from `decision.json`)", "",
+              f"The projections above are the calculator's required full-corpus estimate from the 100-review pilot, "
+              f"made with the plan of that time. After the 500 and 10,000 refreshes ([`refresh.md`](refresh.md)) the "
+              f"final setup was decided on {d['decided_on']}:", "",
+              f"- **Scope:** {d['scope']}",
+              f"- **Budget:** ${d['budget']['cap_usd']} hard cap (budget group `{d['budget']['group']}`): {d['budget']['why']}.",
+              f"- **Concurrency:** {d['concurrency']['workers']} workers, {d['concurrency']['rate_limit_rps']} requests/s: "
+              f"{d['concurrency']['why']}",
+              f"- **Fallback limit:** `{d['fallback']['model']}` (effort {d['fallback']['effort']}, {d['fallback']['api']}) when "
+              f"{d['fallback']['threshold']}, at most {d['fallback']['max_fraction']:.0%} of texts, "
+              f"{d['fallback']['max_output_tokens_per_request']:,} output tokens per request: {d['fallback']['why']}.",
+              f"- **Verification:** `{d['verification']['model']}` on {d['verification']['sample']:,} random texts, {d['verification']['api']}.",
+              f"- **Memo:** `{d['memo']['model']}` (effort {d['memo']['effort']}): {d['memo']['why']}.",
+              "- **Not used:** " + "; ".join(f"{k.replace('_', ' ')}: {v}" for k, v in d["not_used"].items()) + ".",
+              f"- **Outcome:** run `{d['actual']['run_id']}` cost ${d['actual']['cost_usd_list_price']} at list prices in about "
+              f"{d['actual']['active_hours']} h of active run time ([`../{d['actual']['evidence']}`](../{d['actual']['evidence']})).", ""]
     return "\n".join(L)
 
 
@@ -728,6 +749,7 @@ def _replay_args(r):
     r.add_argument("--verify-n", type=int, default=1000)
     r.add_argument("--distinct", type=int, default=FULL["distinct"])
     r.add_argument("--nonempty", type=int, default=FULL["nonempty"])
+    r.add_argument("--decision", default=str(COST / "decision.json"), help="editable record of the chosen setup")
 
 
 def run(args, log):

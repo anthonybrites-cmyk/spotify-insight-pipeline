@@ -421,7 +421,7 @@ Run `final100k-0f02b2df` on `spotify_reviews_18months.csv` (sha256 `1fc85de6…`
 | Taxonomy | `claude-sonnet-5` | standard | 1 | $0.07 | 20 min group stage, with assignment |
 | Assignment | `jev-1.13.0` | standard, 5 workers | 30,147 | $0.79 | (above) |
 | Memo, first run | `claude-sonnet-5` | standard | 1 | $0.03 | 18 s |
-| Memo regenerations | `claude-sonnet-5` (3 calls), then `claude-opus-5-5` (2 calls) | standard | 5 | $0.27 | under 1 min each |
+| Memo regenerations | `claude-sonnet-5` (3 calls), then `claude-opus-5-5` (2 calls) | standard | 5 | $0.26 | under 1 min each |
 | **Total** | | | **108,711** | **$10.89** | **≈ 1.5 h of active run time** |
 
 **Memo history (human review, disclosed).** The first memo (Sonnet 5) recommended usability, but its Limits section wrongly said that `needs_review` reviews were excluded from the counts, and it did not disclose the 560,609 out-of-scope reviews. The fix gave the memo task corrected fact descriptions and a Limits instruction to state the scope. The regenerated Sonnet drafts passed the code checks but had argument problems a person caught: one claimed, from a single quote, that an issue's examples "don't cleanly match" its definition, and one recommended "usability" while naming a billing issue as a usability item and cited priority-score claims as severity sums. A rule against judging label quality from examples was added, and the final memo was written by `claude-opus-5-5` at high effort (`--memo-model`, `--memo-effort`; memo only). Every draft is saved in `runs/final100k/memo/handoffs/`; the inputs (aggregates, facts, evidence pack) were the same for all of them.

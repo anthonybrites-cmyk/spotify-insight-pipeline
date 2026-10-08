@@ -1,6 +1,6 @@
 # 100-review cost and runtime report
 
-Generated 2026-10-01T06:59:31+00:00 by `python -m pipeline cost replay` from saved usage and `rates.csv`. Offline: no provider calls, no API key. Costs = billed units × editable rates; measured results never change when projection inputs change.
+Generated 2026-10-08T06:25:35+00:00 by `python -m pipeline cost replay` from saved usage and `rates.csv`. Offline: no provider calls, no API key. Costs = billed units × editable rates; measured results never change when projection inputs change.
 
 ## Measured pilot runs
 
@@ -62,3 +62,16 @@ One-worker pilot: 0.318 s of enrich stage per distinct text. Measured 2-worker e
 - Maximum workers: 24 (pilot measured at 1, and 2 where available).
 - Declared maximum fallback fraction: 0.2.
 - Local compute: unknown: runs on a personal laptop; not metered, not included in API spend.
+
+## Chosen setup and scaling decision (from `decision.json`)
+
+The projections above are the calculator's required full-corpus estimate from the 100-review pilot, made with the plan of that time. After the 500 and 10,000 refreshes ([`refresh.md`](refresh.md)) the final setup was decided on 2026-10-06:
+
+- **Scope:** seeded random sample of 100,000 of the 660,622 review IDs (78,146 distinct texts; seed spotify-insight-scope-100k-v1). The brief allows a scope of at least 100,000; every other row is ingested and accounted for as out_of_scope.
+- **Budget:** $15 hard cap (budget group `full`): the instructor guided about $10 for 100,000 reviews; the refreshed projection was $10.06 base and $13.55 conservative.
+- **Concurrency:** 5 workers, 30 requests/s: 10k run: median Jev call 147 ms and no rate-limit errors at 2 workers (12.2 texts/s); 5 workers reach the self-imposed 30 requests/s cap, below TypeSafe's published 40. Same cost, about 2.5x faster.
+- **Fallback limit:** `claude-haiku-4-5` (effort none, Message Batches (50% price)) when min(topic, intent, severity confidence) < 0.5, at most 20% of texts, 8,000 output tokens per request: about a third of Sonnet 5's cost per review; on 30 held-out hard reviews Haiku got all three labels right on 16 vs Sonnet 17 and Jev 12.
+- **Verification:** `claude-sonnet-5` on 1,000 random texts, Message Batches (50% price).
+- **Memo:** `claude-opus-5-5` (effort high): one bounded call; chosen after human review of Sonnet 5 drafts.
+- **Not used:** prompt caching: Haiku 4.5 caches only prompts of 4,096+ tokens (ours ~1,200); Sonnet verification would save cents; Jev has no prompt cache; translation: 10k language comparison showed a small gap; reuse of 10k results: only 2,054 of 78,146 texts overlap (~$0.13).
+- **Outcome:** run `final100k-0f02b2df` cost $10.89 (10.63 run + 0.26 memo regenerations) at list prices in about 1.5 h of active run time ([`../results/run_summary.json`](../results/run_summary.json)).

@@ -10,7 +10,9 @@ Required by `COST_CALCULATOR.md`. Everything here can be checked **without an AP
 .venv/bin/python -m pipeline cost replay --rates my_rates.csv   # edit prices; measured usage stays fixed
 ```
 
-Replay reads `usage.csv`, `rates.csv`, `pilot_calls.jsonl` and `measurements.json`. It rewrites `report.md` and `report.json`. Importing or running it never calls a provider.
+Replay reads `usage.csv`, `rates.csv`, `pilot_calls.jsonl`, `measurements.json` and `decision.json` (the chosen budget, concurrency, fallback limit and scaling decision, shown at the end of the report). It rewrites `report.md` and `report.json`. Importing or running it never calls a provider.
+
+**Checkpoint refresh (offline):** `.venv/bin/python -m pipeline cost refresh` re-prices the saved call logs of the 500 and 10,000 runs (`evals/dev500/`, `evals/dev10k/`) and projects the final 100,000-review scope into [`refresh.md`](refresh.md).
 
 How costs are calculated:
 - **Formula:** `item_cost = billed_units × price_usd / per_units`, summed per stage and run. For per-million-token prices, `per_units` is 1,000,000.
