@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "evidence_quote": "l love Spotify it's the best :3",
+      "intent": "praise",
+      "needs_review": false,
+      "reason": "General praise with no specific feature mentioned.",
+      "review_id": "d9151b5e-1189-4ed8-b6d6-965a118d1842",
+      "sentiment": "very positive",
+      "severity": 1,
+      "topic": "other"
+    }
+  ]
+}

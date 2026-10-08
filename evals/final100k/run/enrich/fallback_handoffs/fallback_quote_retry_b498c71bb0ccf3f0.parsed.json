@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "evidence_quote": "when you have a playlist spotify instead plays \"suggested songs\" over and over again",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Playlist behavior degraded by unwanted suggested songs interrupting playback.",
+      "review_id": "71b322f4-1325-4a65-88c2-e284b1863753",
+      "sentiment": "very negative",
+      "severity": 3,
+      "topic": "usability"
+    }
+  ]
+}

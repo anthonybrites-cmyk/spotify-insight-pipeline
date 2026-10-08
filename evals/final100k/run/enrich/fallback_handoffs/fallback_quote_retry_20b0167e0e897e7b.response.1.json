@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.002865",
+  "effort": "none",
+  "input_tokens": 1920,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 189,
+  "request_id": "req_011Cfn8Db5ZV3XdxLyD5zX9h",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"55e6ec8b-ecf8-42e2-bf33-d1dcc1ff2fb0\",\"topic\":\"downloads\",\"intent\":\"complaint\",\"severity\":3,\"sentiment\":\"very negative\",\"evidence_quote\":\"on peut pas downloader sa musique sur une carte SD externe\",\"needs_review\":false,\"reason\":\"Cannot download music to external SD card; core function degraded.\"},{\"review_id\":\"84df4e1b-5f97-4f2a-9af6-678c64ea253e\",\"topic\":\"other\",\"intent\":\"praise\",\"severity\":1,\"sentiment\":\"very positive\",\"evidence_quote\":\"Love Spotify 😍🥰 been using it for a couple of years now!!\",\"needs_review\":false,\"reason\":\"General praise with no specific feature mentioned.\"}]}"
+}

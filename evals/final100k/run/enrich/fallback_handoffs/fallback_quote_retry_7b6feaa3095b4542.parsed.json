@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "evidence_quote": "\" SPOTIFY \" compleat's your daily musical update",
+      "intent": "praise",
+      "needs_review": false,
+      "reason": "General praise with no specific feature mentioned.",
+      "review_id": "8f49864a-09dc-48e6-b57f-3936d68f7a16",
+      "sentiment": "positive",
+      "severity": 1,
+      "topic": "other"
+    }
+  ]
+}

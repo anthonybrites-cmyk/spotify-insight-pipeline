@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.002231",
+  "effort": "none",
+  "input_tokens": 1746,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 97,
+  "request_id": "req_011Cfn8RbYfTc5Etgy96NkEz",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"9f039f0c-77ea-4890-9c87-29dd07374b5a\",\"topic\":\"billing\",\"intent\":\"complaint\",\"severity\":3,\"sentiment\":\"negative\",\"evidence_quote\":\"mostly you can't even use it freely as it wants you to own Spotify premium\",\"needs_review\":false,\"reason\":\"Controls restricted for free users; core functionality limited without Premium.\"}]}"
+}

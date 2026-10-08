@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.003537",
+  "effort": "none",
+  "input_tokens": 2152,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 277,
+  "request_id": "req_011Cfn8NwVskY9Vw4uQSuLu5",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"ade49703-356f-4fad-9322-47d97f4d2990\",\"topic\":\"billing\",\"intent\":\"complaint\",\"severity\":3,\"sentiment\":\"very negative\",\"evidence_quote\":\"you gave all of the basic features to premium users which is awful\",\"needs_review\":false,\"reason\":\"Basic controls (lyrics reading, song rewinding) restricted to Premium.\"},{\"review_id\":\"2cf45c92-71f5-429a-a706-68258942cffc\",\"topic\":\"billing\",\"intent\":\"cancellation\",\"severity\":3,\"sentiment\":\"very negative\",\"evidence_quote\":\"I can't add songs to the queue, put songs on loop or even turn off shuffle\",\"needs_review\":false,\"reason\":\"Premium controls unavailable; explicit cancellation of Premium purchase.\"},{\"review_id\":\"ef112e84-dbe3-4089-8621-fd05e7417930\",\"topic\":\"billing\",\"intent\":\"complaint\",\"severity\":3,\"sentiment\":\"very negative\",\"evidence_quote\":\"we can't go for other playlist it are not played serially we can play songs on loop, we can't rewind song\",\"needs_review\":false,\"reason\":\"Basic playback controls restricted to Premium users.\"}]}"
+}

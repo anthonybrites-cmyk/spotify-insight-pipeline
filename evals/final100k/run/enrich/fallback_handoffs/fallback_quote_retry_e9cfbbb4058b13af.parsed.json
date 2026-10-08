@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "evidence_quote": "My spotify is asking to purchase premium whenever i select a new song",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Premium paywall blocking core playback function on free account.",
+      "review_id": "b1285e4a-f5c4-4a0d-989a-e781dcb2eb62",
+      "sentiment": "negative",
+      "severity": 4,
+      "topic": "billing"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.004674",
+  "effort": "none",
+  "input_tokens": 2314,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 472,
+  "request_id": "req_011Cfn8LTNPkT8UdrqgNCwjc",
+  "stop_reason": "end_turn",
+  "text": "{\"results\": [{\"review_id\": \"59679953-0f3b-43cf-b273-5e1bba094d36\", \"topic\": \"billing\", \"intent\": \"complaint\", \"severity\": 3, \"sentiment\": \"very negative\", \"evidence_quote\": \"गाना भी चेंज नहीं होता है और नहीं गाना स्किप कर सकते हो\", \"needs_review\": false, \"reason\": \"Free users cannot skip or change songs; core controls restricted for paid plan.\"}, {\"review_id\": \"23a4d318-2005-486c-84e6-fca9ab91e881\", \"topic\": \"billing\", \"intent\": \"complaint\", \"severity\": 4, \"sentiment\": \"very negative\", \"evidence_quote\": \"I can't even play a song which I wish to listen\", \"needs_review\": false, \"reason\": \"Cannot play desired songs; core playback function blocked for free users.\"}, {\"review_id\": \"d9cda616-23d6-4f37-90dd-643834e725b0\", \"topic\": \"usability\", \"intent\": \"complaint\", \"severity\": 3, \"sentiment\": \"negative\", \"evidence_quote\": \"it doesn't have a queue list so no idea what will be playing next, second is that it doesn't have a seek song function, no way to rewind or forward\", \"needs_review\": false, \"reason\": \"Multiple usability issues: missing queue, no seek/rewind/forward functions; degraded navigation.\"}, {\"review_id\": \"b6fb817b-9bae-43ba-8fc8-366f9820049e\", \"topic\": \"billing\", \"intent\": \"cancellation\", \"severity\": 3, \"sentiment\": \"very negative\", \"evidence_quote\": \"I'm gonna uninstall it. I don't like the new update. Premium for everything?\", \"needs_review\": false, \"reason\": \"Explicit uninstall threat due to features locked behind Premium paywall.\"}]}"
+}

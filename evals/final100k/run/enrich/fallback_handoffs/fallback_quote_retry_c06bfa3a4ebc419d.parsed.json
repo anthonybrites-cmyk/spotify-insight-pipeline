@@ -1,0 +1,24 @@
+{
+  "results": [
+    {
+      "evidence_quote": "Shifting the basic offers to premium is the worst update brought yet. This isn't called making app better. I'll uninstall this app if not fixed within few days",
+      "intent": "cancellation",
+      "needs_review": false,
+      "reason": "Controls moved to Premium block core functionality; explicit uninstall threat.",
+      "review_id": "907bc019-c9b2-47f4-8f04-09ab190be862",
+      "sentiment": "very negative",
+      "severity": 4,
+      "topic": "billing"
+    },
+    {
+      "evidence_quote": "This is quite a dangerous flaw because turning off Canvas makes the app safer for photosensitive people and not being able to do so means that they can no longer use tha app",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Accessibility control unavailable blocks use for photosensitive users.",
+      "review_id": "a8684563-1703-4bb0-abf8-6e0731c02138",
+      "sentiment": "negative",
+      "severity": 4,
+      "topic": "usability"
+    }
+  ]
+}

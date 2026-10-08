@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.00234",
+  "effort": "none",
+  "input_tokens": 1820,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 104,
+  "request_id": "req_011Cfn8Kdmh4HmauV4mbN1Cm",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"5ba9c001-f236-4b94-bb9a-66239e3fea64\",\"topic\":\"access\",\"intent\":\"complaint\",\"severity\":3,\"sentiment\":\"negative\",\"evidence_quote\":\"i was logged out of my Spotify account and when i go to enter the phone number it says check again\",\"needs_review\":false,\"reason\":\"Login verification issue degraded access; workaround via email found.\"}]}"
+}

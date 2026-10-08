@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "evidence_quote": "",
+      "intent": "unclear",
+      "needs_review": false,
+      "reason": "Religious text unrelated to app or its features.",
+      "review_id": "12336dab-f07c-43ca-9f4e-12b5ba7b3816",
+      "sentiment": "neutral or mixed",
+      "severity": 1,
+      "topic": "other"
+    }
+  ]
+}

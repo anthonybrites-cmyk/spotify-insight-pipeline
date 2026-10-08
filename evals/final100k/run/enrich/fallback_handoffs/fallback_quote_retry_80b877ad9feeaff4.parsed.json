@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "evidence_quote": "𝑻𝒉𝒊𝒔 𝒂𝒑𝒑 𝒊𝒔 𝒓𝒆𝒂𝒍 𝒓𝒆𝒂𝒍 𝒄𝒐𝒐𝒍",
+      "intent": "praise",
+      "needs_review": false,
+      "reason": "General praise with no specific feature mentioned",
+      "review_id": "ceb180eb-cd49-4b33-ad2a-053762b23e1c",
+      "sentiment": "positive",
+      "severity": 1,
+      "topic": "other"
+    }
+  ]
+}

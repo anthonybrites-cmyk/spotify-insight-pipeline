@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.00226",
+  "effort": "none",
+  "input_tokens": 1735,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 105,
+  "request_id": "req_011Cfn8QobS6hfoMtTX7nNTC",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"4841b132-8017-4a04-99dc-7511c32faa5f\",\"topic\":\"usability\",\"intent\":\"complaint\",\"severity\":2,\"sentiment\":\"negative\",\"evidence_quote\":\"the song shuffling. I have over 1000+ songs why would you keep playing the 10-15 consistently\",\"needs_review\":false,\"reason\":\"Shuffle behavior complaint; dislike without loss of function.\"}]}"
+}

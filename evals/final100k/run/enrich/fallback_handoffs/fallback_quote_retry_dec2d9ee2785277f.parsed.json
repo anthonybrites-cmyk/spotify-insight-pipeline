@@ -1,0 +1,24 @@
+{
+  "results": [
+    {
+      "evidence_quote": "it's like the best app Netflix and this between it they're both good but I would have to go with Spotify Spotify has everything you need all the songs you want",
+      "intent": "praise",
+      "needs_review": false,
+      "reason": "General praise with no specific feature complaint or issue.",
+      "review_id": "2a76e284-c74d-4b8b-b314-6a12f81be081",
+      "sentiment": "very positive",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "evidence_quote": "I uninstalled the app and cutoff the funding for the subscription lastnight. 1. There is no customer support",
+      "intent": "cancellation",
+      "needs_review": false,
+      "reason": "Explicit cancellation and uninstall due to lack of support.",
+      "review_id": "2940c1f7-c32d-485c-b16b-9ac375e6ef95",
+      "sentiment": "very negative",
+      "severity": 4,
+      "topic": "support"
+    }
+  ]
+}

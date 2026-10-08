@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.002176",
+  "effort": "none",
+  "input_tokens": 1731,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 89,
+  "request_id": "req_011Cfn8GKJbsUPpVVqazrwME",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"8e78e885-b436-4e19-bfef-cd7fe828bc03\",\"topic\":\"playback\",\"intent\":\"complaint\",\"severity\":4,\"sentiment\":\"very negative\",\"evidence_quote\":\"Can't listen to anything.\",\"needs_review\":false,\"reason\":\"Core task blocked: audio skips when screen locked, unusable.\"}]}"
+}

@@ -1,0 +1,24 @@
+{
+  "results": [
+    {
+      "evidence_quote": "India m add se vasul lo 🤣🤣🤣 free",
+      "intent": "unclear",
+      "needs_review": false,
+      "reason": "Meaningless or untranslatable text with no clear product complaint.",
+      "review_id": "53ce87a5-d0f7-4574-8049-29cf45ebf870",
+      "sentiment": "neutral or mixed",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "evidence_quote": "fav part play kar ne ke liye bhi pese chaye ise",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Premium feature (selecting playback position) requires payment; degraded function.",
+      "review_id": "bb69896d-eae0-48b3-9d9f-05ae70e55178",
+      "sentiment": "negative",
+      "severity": 3,
+      "topic": "billing"
+    }
+  ]
+}

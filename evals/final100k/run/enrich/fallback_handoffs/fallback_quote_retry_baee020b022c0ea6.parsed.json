@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "evidence_quote": "why I have spotify premium if I have to listen to 3 to 4 ads while I'm listening to a podcast",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Complaint about ad frequency despite premium subscription.",
+      "review_id": "0d7fa1d5-cc73-4794-9180-2e47cdf5c964",
+      "sentiment": "negative",
+      "severity": 2,
+      "topic": "usability"
+    }
+  ]
+}

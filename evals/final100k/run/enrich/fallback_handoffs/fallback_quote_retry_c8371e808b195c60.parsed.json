@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "evidence_quote": "can not play your choice song whTs the meaning of music app,if we cannot play our choice song",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "User cannot play chosen songs after update; core control restricted.",
+      "review_id": "1aa1f7c6-491f-4bc6-9797-a51125eea2e7",
+      "sentiment": "very negative",
+      "severity": 3,
+      "topic": "usability"
+    }
+  ]
+}

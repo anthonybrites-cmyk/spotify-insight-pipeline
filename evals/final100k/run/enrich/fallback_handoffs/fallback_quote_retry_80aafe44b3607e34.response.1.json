@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.00426",
+  "effort": "none",
+  "input_tokens": 2165,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 419,
+  "request_id": "req_011Cfn8a1bWDM4HQLsugbajh",
+  "stop_reason": "end_turn",
+  "text": "{\"results\": [{\"review_id\": \"24e47b19-4c44-48d9-b0f5-f8ae34f433c1\", \"topic\": \"other\", \"intent\": \"praise\", \"severity\": 1, \"sentiment\": \"positive\", \"evidence_quote\": \"I think its good i can feel the music its not free but its nice app\", \"needs_review\": false, \"reason\": \"General praise with no specific feature mentioned.\"}, {\"review_id\": \"b069e0a8-eb92-42df-a67f-0d1fe8f57ba0\", \"topic\": \"usability\", \"intent\": \"praise\", \"severity\": 1, \"sentiment\": \"positive\", \"evidence_quote\": \"In all the years I have used spotify i have had no issues\", \"needs_review\": false, \"reason\": \"Positive review praising reliability; mentions ads as expected.\"}, {\"review_id\": \"5b1244ce-e770-46ec-8c5e-9bc4030f205b\", \"topic\": \"billing\", \"intent\": \"complaint\", \"severity\": 2, \"sentiment\": \"negative\", \"evidence_quote\": \"No matter how much you try to force to take premium membership, but membership will not be taken\", \"needs_review\": false, \"reason\": \"Complains about forced premium upselling; no functional loss.\"}, {\"review_id\": \"e5681334-e0f0-4f00-bcb3-886ddc9dfdad\", \"topic\": \"usability\", \"intent\": \"complaint\", \"severity\": 3, \"sentiment\": \"very negative\", \"evidence_quote\": \"its keeping give advertisement after EVERY god damn song\", \"needs_review\": false, \"reason\": \"Excessive ads degrade experience; workaround exists (premium).\"}]}"
+}

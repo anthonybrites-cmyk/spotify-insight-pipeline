@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.002229",
+  "effort": "none",
+  "input_tokens": 1724,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 101,
+  "request_id": "req_011Cfn8L2sFtExAJi5XvrdiD",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"d8ce365d-a781-4bea-939d-9cf187079acf\",\"topic\":\"billing\",\"intent\":\"cancellation\",\"severity\":2,\"sentiment\":\"very negative\",\"evidence_quote\":\"All wase premium 😭😤😤 Unistall the app\",\"needs_review\":false,\"reason\":\"User explicitly states uninstalling app; complains about premium paywall.\"}]}"
+}

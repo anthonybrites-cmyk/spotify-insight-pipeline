@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "evidence_quote": "it's updated version is sooo bad",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Generic criticism of app update with no specific feature identified.",
+      "review_id": "3e0bd5c3-e941-4dbe-8243-8757e4419bc7",
+      "sentiment": "very negative",
+      "severity": 2,
+      "topic": "other"
+    }
+  ]
+}

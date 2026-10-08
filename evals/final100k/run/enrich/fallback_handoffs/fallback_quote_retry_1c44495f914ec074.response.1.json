@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.002223",
+  "effort": "none",
+  "input_tokens": 1733,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 98,
+  "request_id": "req_011Cfn8ZD1p4i9BiBEH2cCfZ",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"573cfc9e-8a3d-41f1-b66e-fe539032f5cf\",\"topic\":\"billing\",\"intent\":\"cancellation\",\"severity\":2,\"sentiment\":\"very negative\",\"evidence_quote\":\"UnInstalled due to stupid premium plans\",\"needs_review\":false,\"reason\":\"User uninstalled due to premium plan criticism; play in order is billing-controlled feature.\"}]}"
+}

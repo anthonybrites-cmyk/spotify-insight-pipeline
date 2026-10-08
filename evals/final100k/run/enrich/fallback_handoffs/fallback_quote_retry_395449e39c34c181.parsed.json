@@ -1,0 +1,24 @@
+{
+  "results": [
+    {
+      "evidence_quote": "it took my premium away even though I don't have to pay for another 2 WEEKS-!?",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Premium deactivated prematurely before renewal date.",
+      "review_id": "81d05c15-61ad-4d87-93ad-d1fb35013a06",
+      "sentiment": "negative",
+      "severity": 4,
+      "topic": "billing"
+    },
+    {
+      "evidence_quote": "The app will start automatically when I get in my car if my Bluetooth is connected. No way to stop this from happening.",
+      "intent": "cancellation",
+      "needs_review": false,
+      "reason": "Auto-launch cannot be disabled; user explicitly ending use.",
+      "review_id": "95a60fe9-9d86-4bf6-8f3f-b6f2d7b29aa3",
+      "sentiment": "very negative",
+      "severity": 3,
+      "topic": "usability"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.002185",
+  "effort": "none",
+  "input_tokens": 1725,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 92,
+  "request_id": "req_011Cfn8NczQ1VfH6d3tNvTvo",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"b6634f22-dd84-4cd1-8a30-70368b70ebea\",\"topic\":\"usability\",\"intent\":\"complaint\",\"severity\":3,\"sentiment\":\"negative\",\"evidence_quote\":\"I can't find anything I want now.\",\"needs_review\":false,\"reason\":\"UI changes degraded navigation; core function impaired but not fully blocked.\"}]}"
+}

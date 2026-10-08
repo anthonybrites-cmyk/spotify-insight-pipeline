@@ -1,0 +1,571 @@
+{
+  "artifacts": [
+    "rank/ranking.csv",
+    "group/issues.json",
+    "verify/report.json",
+    "ingest/summary.json",
+    "records (aggregated in code)"
+  ],
+  "claims": [
+    {
+      "claim_id": "C01",
+      "issue_id": "other.general",
+      "metric": "complaint_count",
+      "value": "14039"
+    },
+    {
+      "claim_id": "C02",
+      "issue_id": "other.general",
+      "metric": "severity_sum",
+      "value": "28433"
+    },
+    {
+      "claim_id": "C03",
+      "issue_id": "other.general",
+      "metric": "mean_severity",
+      "value": "2.025287"
+    },
+    {
+      "claim_id": "C04",
+      "issue_id": "other.general",
+      "metric": "priority_score",
+      "value": "28433"
+    },
+    {
+      "claim_id": "C05",
+      "issue_id": "billing.features_locked_behind_premium",
+      "metric": "complaint_count",
+      "value": "4490"
+    },
+    {
+      "claim_id": "C06",
+      "issue_id": "billing.features_locked_behind_premium",
+      "metric": "severity_sum",
+      "value": "13442"
+    },
+    {
+      "claim_id": "C07",
+      "issue_id": "billing.features_locked_behind_premium",
+      "metric": "mean_severity",
+      "value": "2.993764"
+    },
+    {
+      "claim_id": "C08",
+      "issue_id": "billing.features_locked_behind_premium",
+      "metric": "priority_score",
+      "value": "13442"
+    },
+    {
+      "claim_id": "C09",
+      "issue_id": "usability.ad_frequency",
+      "metric": "complaint_count",
+      "value": "5488"
+    },
+    {
+      "claim_id": "C10",
+      "issue_id": "usability.ad_frequency",
+      "metric": "severity_sum",
+      "value": "11849"
+    },
+    {
+      "claim_id": "C11",
+      "issue_id": "usability.ad_frequency",
+      "metric": "mean_severity",
+      "value": "2.159074"
+    },
+    {
+      "claim_id": "C12",
+      "issue_id": "usability.ad_frequency",
+      "metric": "priority_score",
+      "value": "11849"
+    },
+    {
+      "claim_id": "C13",
+      "issue_id": "usability.general",
+      "metric": "complaint_count",
+      "value": "1862"
+    },
+    {
+      "claim_id": "C14",
+      "issue_id": "usability.general",
+      "metric": "severity_sum",
+      "value": "4859"
+    },
+    {
+      "claim_id": "C15",
+      "issue_id": "usability.general",
+      "metric": "mean_severity",
+      "value": "2.609560"
+    },
+    {
+      "claim_id": "C16",
+      "issue_id": "usability.general",
+      "metric": "priority_score",
+      "value": "4859"
+    },
+    {
+      "claim_id": "C17",
+      "issue_id": "usability.playback_controls_limited",
+      "metric": "complaint_count",
+      "value": "1592"
+    },
+    {
+      "claim_id": "C18",
+      "issue_id": "usability.playback_controls_limited",
+      "metric": "severity_sum",
+      "value": "4797"
+    },
+    {
+      "claim_id": "C19",
+      "issue_id": "usability.playback_controls_limited",
+      "metric": "mean_severity",
+      "value": "3.013191"
+    },
+    {
+      "claim_id": "C20",
+      "issue_id": "usability.playback_controls_limited",
+      "metric": "priority_score",
+      "value": "4797"
+    },
+    {
+      "claim_id": "C21",
+      "issue_id": "usability.shuffle_control",
+      "metric": "complaint_count",
+      "value": "1679"
+    },
+    {
+      "claim_id": "C22",
+      "issue_id": "usability.shuffle_control",
+      "metric": "severity_sum",
+      "value": "4787"
+    },
+    {
+      "claim_id": "C23",
+      "issue_id": "usability.shuffle_control",
+      "metric": "mean_severity",
+      "value": "2.851102"
+    },
+    {
+      "claim_id": "C24",
+      "issue_id": "usability.shuffle_control",
+      "metric": "priority_score",
+      "value": "4787"
+    },
+    {
+      "claim_id": "C25",
+      "issue_id": "usability.queue_playlist_management",
+      "metric": "complaint_count",
+      "value": "1357"
+    },
+    {
+      "claim_id": "C26",
+      "issue_id": "usability.queue_playlist_management",
+      "metric": "severity_sum",
+      "value": "4121"
+    },
+    {
+      "claim_id": "C27",
+      "issue_id": "usability.queue_playlist_management",
+      "metric": "mean_severity",
+      "value": "3.036846"
+    },
+    {
+      "claim_id": "C28",
+      "issue_id": "usability.queue_playlist_management",
+      "metric": "priority_score",
+      "value": "4121"
+    },
+    {
+      "claim_id": "C29",
+      "issue_id": "playback.app_crashes_freezes",
+      "metric": "complaint_count",
+      "value": "1160"
+    },
+    {
+      "claim_id": "C30",
+      "issue_id": "playback.app_crashes_freezes",
+      "metric": "severity_sum",
+      "value": "4062"
+    },
+    {
+      "claim_id": "C31",
+      "issue_id": "playback.app_crashes_freezes",
+      "metric": "mean_severity",
+      "value": "3.501724"
+    },
+    {
+      "claim_id": "C32",
+      "issue_id": "playback.app_crashes_freezes",
+      "metric": "priority_score",
+      "value": "4062"
+    },
+    {
+      "claim_id": "C33",
+      "issue_id": "billing.general",
+      "metric": "complaint_count",
+      "value": "1496"
+    },
+    {
+      "claim_id": "C34",
+      "issue_id": "billing.general",
+      "metric": "severity_sum",
+      "value": "3975"
+    },
+    {
+      "claim_id": "C35",
+      "issue_id": "billing.general",
+      "metric": "mean_severity",
+      "value": "2.657086"
+    },
+    {
+      "claim_id": "C36",
+      "issue_id": "billing.general",
+      "metric": "priority_score",
+      "value": "3975"
+    },
+    {
+      "claim_id": "C37",
+      "issue_id": "playback.general",
+      "metric": "complaint_count",
+      "value": "1222"
+    },
+    {
+      "claim_id": "C38",
+      "issue_id": "playback.general",
+      "metric": "severity_sum",
+      "value": "3953"
+    },
+    {
+      "claim_id": "C39",
+      "issue_id": "playback.general",
+      "metric": "mean_severity",
+      "value": "3.234861"
+    },
+    {
+      "claim_id": "C40",
+      "issue_id": "playback.general",
+      "metric": "priority_score",
+      "value": "3953"
+    }
+  ],
+  "examples": {
+    "billing.features_locked_behind_premium": [
+      {
+        "quote": "I can only 6 skip 6 stacks per hour now I can't play a song which i searched up everything is removed you need premium to do anything I am planning on switching to yt music instead of this now",
+        "review_id": "a0d2ccd3-ebb3-46b9-bbf7-212bb0ec8e84"
+      },
+      {
+        "quote": "most of my playlist is completely gone, or they are not allowing me to play my saved songs",
+        "review_id": "576ec84f-4104-4b7b-abf4-1d09d484d3c4"
+      },
+      {
+        "quote": "I wish I could give this app minus stars, it has started charging money for even playing the playlist normally",
+        "review_id": "33a171b5-b930-48c3-8560-97b8deb538be"
+      }
+    ],
+    "other.general": [
+      {
+        "quote": "It's just start U Burned our HOLY QURAN Tobah Tobah",
+        "review_id": "c5a8f31a-f6fb-44a0-aa82-aee94a462601"
+      },
+      {
+        "quote": "It is one of the worst app as it has only work to collect users personal data only.",
+        "review_id": "9fc1772d-03b5-4d0e-b48c-8aa97cef68c2"
+      },
+      {
+        "quote": "Very bad this application wasted my important time ,time consuming,causes illness",
+        "review_id": "0077f010-0436-4a94-abaf-50782a8c0f16"
+      }
+    ],
+    "usability.ad_frequency": [
+      {
+        "quote": "I don't like that when I'm connected to a network, anyone on that network can join my session and vice versa, which I find extremely creepy.",
+        "review_id": "8de25d2f-73a2-4af8-9288-96c7a036c792"
+      },
+      {
+        "quote": "Steals your info.",
+        "review_id": "6a60b353-efaf-4181-9815-32bdfeff059d"
+      },
+      {
+        "quote": "Today I almost got into an accident because of unexpected loud ad music",
+        "review_id": "08a1f178-3e7a-4d65-9da3-dee293dd0061"
+      }
+    ],
+    "usability.general": [
+      {
+        "quote": "I love this app but i wish that you guys would fix the glitches in the roku verson when it shows the background photo it flashes (it could potentally cause seziseures) plz fix it but otherwise its really good.",
+        "review_id": "e0c4c8f5-ef6d-468d-97d8-98c2b21f1a28"
+      },
+      {
+        "quote": "and stop deleting albums!!!",
+        "review_id": "7df5d56c-0461-45cf-8e85-0cb5563f6325"
+      },
+      {
+        "quote": "Very nice app but ads are listening this is bad",
+        "review_id": "7281fe4c-7da2-46eb-8eed-1efe238123fa"
+      }
+    ],
+    "usability.playback_controls_limited": [
+      {
+        "quote": "What you do puts my life at risk.",
+        "review_id": "f82dc121-4a57-45c8-826d-a46b7081242d"
+      },
+      {
+        "quote": "Dude u can't even trun it back or forth why people obsessed such a bitching appa",
+        "review_id": "09a197ce-c9d5-4be6-84ef-eab81f021bd9"
+      },
+      {
+        "quote": "The new update is so bad I can't even swith the previous song back and I can't even listen to my playlist.",
+        "review_id": "9a2f9235-5c31-4726-baf5-dbb5910e345c"
+      }
+    ]
+  },
+  "facts": {
+    "F00": [
+      "classification scope (all rows ingested and accounted for)",
+      "seeded random sample of review IDs"
+    ],
+    "F01": [
+      "source reviews in the input file",
+      "660622"
+    ],
+    "F02": [
+      "reviews with a completed classification",
+      "100000"
+    ],
+    "F03": [
+      "reviews quarantined for empty text",
+      "13"
+    ],
+    "F04": [
+      "reviews quarantined for other failures",
+      "0"
+    ],
+    "F05": [
+      "complaint or cancellation-intent reviews (ranked)",
+      "44537"
+    ],
+    "F06": [
+      "cancellation-intent reviews",
+      "4327"
+    ],
+    "F07": [
+      "completed reviews flagged needs_review (included in every count and ranking; the flag marks them for human inspection)",
+      "13974"
+    ],
+    "F08": [
+      "distinct review texts sent to the classifier; exact duplicates reuse that result, and every original review ID is still counted separately in all totals",
+      "484189"
+    ],
+    "F09": [
+      "share of ranked complaint memberships in the top 3 issues, including any .general catch-all among them, percent (1 dp)",
+      "53.9"
+    ],
+    "F10": [
+      "verification random-sample size (distinct texts)",
+      "1000"
+    ],
+    "F11": [
+      "verification random-sample topic agreement, percent (1 dp)",
+      "84.6"
+    ],
+    "F12": [
+      "verification random-sample intent agreement, percent (1 dp)",
+      "91.2"
+    ],
+    "F13": [
+      "verification random-sample severity mean absolute difference (levels)",
+      "0.155"
+    ],
+    "F14": [
+      "topic 'usability': complaint/cancellation reviews",
+      "13163"
+    ],
+    "F15": [
+      "topic 'usability': severity sum",
+      "33278"
+    ],
+    "F16": [
+      "topic 'other': complaint/cancellation reviews",
+      "14039"
+    ],
+    "F17": [
+      "topic 'other': severity sum",
+      "28433"
+    ],
+    "F18": [
+      "topic 'billing': complaint/cancellation reviews",
+      "6875"
+    ],
+    "F19": [
+      "topic 'billing': severity sum",
+      "20158"
+    ],
+    "F20": [
+      "topic 'playback': complaint/cancellation reviews",
+      "5615"
+    ],
+    "F21": [
+      "topic 'playback': severity sum",
+      "18451"
+    ],
+    "F22": [
+      "topic 'access': complaint/cancellation reviews",
+      "1610"
+    ],
+    "F23": [
+      "topic 'access': severity sum",
+      "6291"
+    ],
+    "F24": [
+      "topic 'catalog': complaint/cancellation reviews",
+      "2182"
+    ],
+    "F25": [
+      "topic 'catalog': severity sum",
+      "5907"
+    ],
+    "F26": [
+      "topic 'downloads': complaint/cancellation reviews",
+      "935"
+    ],
+    "F27": [
+      "topic 'downloads': severity sum",
+      "3259"
+    ],
+    "F28": [
+      "topic 'support': complaint/cancellation reviews",
+      "118"
+    ],
+    "F29": [
+      "topic 'support': severity sum",
+      "362"
+    ],
+    "F99": [
+      "reviews outside the classification scope (ingested and accounted for, not classified)",
+      "560609"
+    ]
+  },
+  "issues": [
+    {
+      "claims": {
+        "complaint_count": "C01",
+        "mean_severity": "C03",
+        "priority_score": "C04",
+        "severity_sum": "C02"
+      },
+      "definition": "other complaints that match no more specific subtopic, or are too vague to place.",
+      "issue_id": "other.general",
+      "name": "General complaints (no specific feature)",
+      "rank": 1
+    },
+    {
+      "claims": {
+        "complaint_count": "C05",
+        "mean_severity": "C07",
+        "priority_score": "C08",
+        "severity_sum": "C06"
+      },
+      "definition": "Previously free features such as skipping, repeating, or seeking within a song now require a Premium subscription.",
+      "issue_id": "billing.features_locked_behind_premium",
+      "name": "Basic features locked behind Premium",
+      "rank": 2
+    },
+    {
+      "claims": {
+        "complaint_count": "C09",
+        "mean_severity": "C11",
+        "priority_score": "C12",
+        "severity_sum": "C10"
+      },
+      "definition": "Complaints about too many ads, ads playing too often, or ad breaks being too long for free users.",
+      "issue_id": "usability.ad_frequency",
+      "name": "Excessive or frequent ads",
+      "rank": 3
+    },
+    {
+      "claims": {
+        "complaint_count": "C13",
+        "mean_severity": "C15",
+        "priority_score": "C16",
+        "severity_sum": "C14"
+      },
+      "definition": "usability complaints that match no more specific subtopic, or are too vague to place.",
+      "issue_id": "usability.general",
+      "name": "Other usability complaints",
+      "rank": 4
+    },
+    {
+      "claims": {
+        "complaint_count": "C17",
+        "mean_severity": "C19",
+        "priority_score": "C20",
+        "severity_sum": "C18"
+      },
+      "definition": "Missing ability to skip, repeat, seek to a specific part of a song, or control playback precisely.",
+      "issue_id": "usability.playback_controls_limited",
+      "name": "Limited playback controls",
+      "rank": 5
+    },
+    {
+      "claims": {
+        "complaint_count": "C21",
+        "mean_severity": "C23",
+        "priority_score": "C24",
+        "severity_sum": "C22"
+      },
+      "definition": "Inability to turn off shuffle, shuffle getting stuck on, or songs playing in unwanted random order.",
+      "issue_id": "usability.shuffle_control",
+      "name": "Shuffle mode problems",
+      "rank": 6
+    },
+    {
+      "claims": {
+        "complaint_count": "C25",
+        "mean_severity": "C27",
+        "priority_score": "C28",
+        "severity_sum": "C26"
+      },
+      "definition": "Problems managing, editing, viewing, or losing the play queue or playlists through the interface.",
+      "issue_id": "usability.queue_playlist_management",
+      "name": "Queue and playlist management issues",
+      "rank": 7
+    },
+    {
+      "claims": {
+        "complaint_count": "C29",
+        "mean_severity": "C31",
+        "priority_score": "C32",
+        "severity_sum": "C30"
+      },
+      "definition": "The app crashes, freezes, or becomes unresponsive and requires restarting.",
+      "issue_id": "playback.app_crashes_freezes",
+      "name": "App crashes or freezes",
+      "rank": 8
+    },
+    {
+      "claims": {
+        "complaint_count": "C33",
+        "mean_severity": "C35",
+        "priority_score": "C36",
+        "severity_sum": "C34"
+      },
+      "definition": "billing complaints that match no more specific subtopic, or are too vague to place.",
+      "issue_id": "billing.general",
+      "name": "Other billing complaints",
+      "rank": 9
+    },
+    {
+      "claims": {
+        "complaint_count": "C37",
+        "mean_severity": "C39",
+        "priority_score": "C40",
+        "severity_sum": "C38"
+      },
+      "definition": "playback complaints that match no more specific subtopic, or are too vague to place.",
+      "issue_id": "playback.general",
+      "name": "Other playback complaints",
+      "rank": 10
+    }
+  ]
+}

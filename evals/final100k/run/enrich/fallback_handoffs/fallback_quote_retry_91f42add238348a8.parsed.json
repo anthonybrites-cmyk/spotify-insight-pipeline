@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "evidence_quote": "all move are paid",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Alleges paid controls blocked for free users; core functions restricted.",
+      "review_id": "24d7a16e-dabe-4341-ad0a-55c7c5992da2",
+      "sentiment": "very negative",
+      "severity": 3,
+      "topic": "billing"
+    }
+  ]
+}

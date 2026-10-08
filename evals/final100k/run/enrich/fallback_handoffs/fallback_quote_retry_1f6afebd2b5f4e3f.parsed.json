@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "evidence_quote": "it started playing recommend songs instead. The premium page is also in hungarian",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Playlist plays wrong songs; UI language issue; shuffle disabled for free users.",
+      "review_id": "7851312a-156c-4387-a9b6-1ba9836a9825",
+      "sentiment": "very negative",
+      "severity": 3,
+      "topic": "usability"
+    }
+  ]
+}

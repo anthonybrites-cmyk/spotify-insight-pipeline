@@ -1,0 +1,24 @@
+{
+  "results": [
+    {
+      "evidence_quote": "Everytime I stop using Spotify (like I get out the car, stop working out, etc.) And come back to it later, it finishes the song it was last on, but then stops playing the playlist all together.",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "App crashes and stops playback requiring force restart each time.",
+      "review_id": "e69b4c8f-dcf7-4bae-8cce-f5108333132c",
+      "sentiment": "very negative",
+      "severity": 4,
+      "topic": "playback"
+    },
+    {
+      "evidence_quote": "Me: \"Please play this specific song and more from this artist.\" Spotify: \"Hahaha! Nope!",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Cannot play requested songs or artist; search and recommendations severely degraded.",
+      "review_id": "6fe59e01-2fea-432c-b9bf-e37c0836bf3e",
+      "sentiment": "very negative",
+      "severity": 3,
+      "topic": "catalog"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.003075",
+  "effort": "none",
+  "input_tokens": 1930,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 229,
+  "request_id": "req_011Cfn8Td8xnCzRXCckZCHTa",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"907bc019-c9b2-47f4-8f04-09ab190be862\",\"topic\":\"billing\",\"intent\":\"cancellation\",\"severity\":4,\"sentiment\":\"very negative\",\"evidence_quote\":\"Shifting the basic offers to premium is the worst update brought yet. This isn't called making app better. I'll uninstall this app if not fixed within few days\",\"needs_review\":false,\"reason\":\"Controls moved to Premium block core functionality; explicit uninstall threat.\"},{\"review_id\":\"a8684563-1703-4bb0-abf8-6e0731c02138\",\"topic\":\"usability\",\"intent\":\"complaint\",\"severity\":4,\"sentiment\":\"negative\",\"evidence_quote\":\"This is quite a dangerous flaw because turning off Canvas makes the app safer for photosensitive people and not being able to do so means that they can no longer use tha app\",\"needs_review\":false,\"reason\":\"Accessibility control unavailable blocks use for photosensitive users.\"}]}"
+}

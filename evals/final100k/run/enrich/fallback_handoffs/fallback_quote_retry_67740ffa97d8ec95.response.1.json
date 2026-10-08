@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.002245",
+  "effort": "none",
+  "input_tokens": 1765,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 96,
+  "request_id": "req_011Cfn8LpDXScYoX3AFkH1YQ",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"0f3b3789-0928-4786-a01d-d242eb851024\",\"topic\":\"billing\",\"intent\":\"complaint\",\"severity\":2,\"sentiment\":\"negative\",\"evidence_quote\":\"Why the selection is so annoying. It need to buy the premium pack\",\"needs_review\":false,\"reason\":\"User dislikes premium paywall restricting selection; no function blocked.\"}]}"
+}

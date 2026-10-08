@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.002323",
+  "effort": "none",
+  "input_tokens": 1748,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 115,
+  "request_id": "req_011Cfn8Kn5WRU8EPwP9Hy6Uy",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"0a525e26-7db5-4cf5-8b5f-e9e2e22a6a91\",\"topic\":\"other\",\"intent\":\"unclear\",\"severity\":1,\"sentiment\":\"neutral or mixed\",\"evidence_quote\":\"45 𝒹𝑒𝓁𝑒𝓽𝑒\",\"needs_review\":false,\"reason\":\"Unintelligible text with no clear product complaint or intent.\"}]}"
+}

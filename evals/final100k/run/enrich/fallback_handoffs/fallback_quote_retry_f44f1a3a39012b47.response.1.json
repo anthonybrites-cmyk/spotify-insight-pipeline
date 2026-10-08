@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.002189",
+  "effort": "none",
+  "input_tokens": 1719,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 94,
+  "request_id": "req_011Cfn8Zrnfv28KdLJcN9pz7",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"f1117bfc-64dc-4970-ae20-6483a84e2b48\",\"topic\":\"usability\",\"intent\":\"complaint\",\"severity\":3,\"sentiment\":\"neutral or mixed\",\"evidence_quote\":\"I can't unhide me hidden songs please fix it\",\"needs_review\":false,\"reason\":\"Hidden songs cannot be unhidden; workaround may exist.\"}]}"
+}

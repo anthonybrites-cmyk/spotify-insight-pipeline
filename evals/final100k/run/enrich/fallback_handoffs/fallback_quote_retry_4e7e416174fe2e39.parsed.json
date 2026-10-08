@@ -1,0 +1,34 @@
+{
+  "results": [
+    {
+      "evidence_quote": "I'm suddenly not able to view the lyrics of the songs. There wasn't an issue like this until I updated the app a few weeks ago.",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Lyrics viewing feature degraded after app update.",
+      "review_id": "33c6969e-6b7b-49be-9dac-67fd16116b0d",
+      "sentiment": "negative",
+      "severity": 3,
+      "topic": "catalog"
+    },
+    {
+      "evidence_quote": "We have noticed that BTS JIMIN'S name is removed from Spotify Artist as it's not on the Global or any country chart despite him being on the chart consistently for so long since the release of his album.",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Artist missing from platform; search/discovery affected.",
+      "review_id": "975c9861-23c8-4966-a5c2-86fd3c0da4fa",
+      "sentiment": "negative",
+      "severity": 3,
+      "topic": "catalog"
+    },
+    {
+      "evidence_quote": "before I could choose the music I want but now i can't fix this issue and stop with the ads of premium",
+      "intent": "complaint",
+      "needs_review": true,
+      "reason": "Song selection control loss and premium ads; billing-specific mention.",
+      "review_id": "850be56f-4945-4395-a2f0-742864f60838",
+      "sentiment": "negative",
+      "severity": 3,
+      "topic": "billing"
+    }
+  ]
+}

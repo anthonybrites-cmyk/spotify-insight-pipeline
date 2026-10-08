@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "evidence_quote": "im seriously thinking of Stopping my membership.",
+      "intent": "cancellation",
+      "needs_review": false,
+      "reason": "Promised free months not received; threatens cancellation.",
+      "review_id": "d10499e4-ba5e-4a20-b3ce-e618ffd4dbf7",
+      "sentiment": "very negative",
+      "severity": 4,
+      "topic": "billing"
+    }
+  ]
+}

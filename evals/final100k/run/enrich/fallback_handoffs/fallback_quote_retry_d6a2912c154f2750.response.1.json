@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.002441",
+  "effort": "none",
+  "input_tokens": 1816,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 125,
+  "request_id": "req_011Cfn8WAQUGrPououbTHfcf",
+  "stop_reason": "end_turn",
+  "text": "{\"results\": [{\"review_id\": \"a9522d7f-45a5-4b4d-a945-c99b5fb2d12f\", \"topic\": \"usability\", \"intent\": \"praise\", \"severity\": 1, \"sentiment\": \"very positive\", \"evidence_quote\": \"It's great! It's easy to make podcasts, find rare and common music, find podcasts and find good music\", \"needs_review\": false, \"reason\": \"Positive review praising ease of use and music discovery.\"}]}"
+}

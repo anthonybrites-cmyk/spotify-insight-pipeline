@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.002309",
+  "effort": "none",
+  "input_tokens": 1784,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 105,
+  "request_id": "req_011Cfn8V3Zvy4trCm7qmFX21",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"1aa1f7c6-491f-4bc6-9797-a51125eea2e7\",\"topic\":\"usability\",\"intent\":\"complaint\",\"severity\":3,\"sentiment\":\"very negative\",\"evidence_quote\":\"can not play your choice song whTs the meaning of music app,if we cannot play our choice song\",\"needs_review\":false,\"reason\":\"User cannot play chosen songs after update; core control restricted.\"}]}"
+}

@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "evidence_quote": "All of the podcasts I downloaded will be downloading again after logging in. It cost me a lot of data to redownload stuff over and over again.",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Downloaded podcasts repeatedly re-download after logout, consuming significant data.",
+      "review_id": "1e99555f-f579-4a86-9444-41a28f3f44c2",
+      "sentiment": "negative",
+      "severity": 4,
+      "topic": "downloads"
+    }
+  ]
+}

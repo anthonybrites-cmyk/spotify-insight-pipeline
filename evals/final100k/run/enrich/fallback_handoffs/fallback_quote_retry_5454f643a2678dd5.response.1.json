@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.002864",
+  "effort": "none",
+  "input_tokens": 1889,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 195,
+  "request_id": "req_011Cfn8Mr7uPDJP1kjgLkEVN",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"8a410fd3-9255-4061-bfe1-8d10b2eda36d\",\"topic\":\"playback\",\"intent\":\"complaint\",\"severity\":3,\"sentiment\":\"negative\",\"evidence_quote\":\"if has been blocking me from playing podcasts\",\"needs_review\":false,\"reason\":\"Podcasts fail to play; workaround exists but requires reinstall each time.\"},{\"review_id\":\"d907f0f3-7ad6-489d-8b5d-73422128dd8c\",\"topic\":\"billing\",\"intent\":\"complaint\",\"severity\":4,\"sentiment\":\"negative\",\"evidence_quote\":\"I get the \\\"you discovered a premium feature\\\" when the app. The funny thing is... I have premium🤔\",\"needs_review\":false,\"reason\":\"Premium features blocked despite active premium subscription; core function restricted.\"}]}"
+}

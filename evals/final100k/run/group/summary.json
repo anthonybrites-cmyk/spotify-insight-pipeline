@@ -1,0 +1,10 @@
+{
+  "assign_label_config": "jev-1.13.0+group-assign-82704dc8af0c+schema-v1",
+  "assigned": 39931,
+  "distinct_complaint_texts": 39931,
+  "methods": {
+    "jev": 30147,
+    "single_option_rule": 9784
+  },
+  "missing": 0
+}

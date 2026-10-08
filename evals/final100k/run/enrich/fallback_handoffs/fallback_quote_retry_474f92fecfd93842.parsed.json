@@ -1,0 +1,24 @@
+{
+  "results": [
+    {
+      "evidence_quote": "just want the skip option not to repeat the same songs over n over again",
+      "intent": "request",
+      "needs_review": false,
+      "reason": "Request to fix repeat behavior with mixed praise.",
+      "review_id": "722eeac7-d597-48ec-b52e-a43b4f50a709",
+      "sentiment": "positive",
+      "severity": 3,
+      "topic": "usability"
+    },
+    {
+      "evidence_quote": "the basic features is removed yarr....I know money is important",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Core features restricted to Premium; degraded free experience.",
+      "review_id": "072a66de-f9ed-4828-be8e-3eb76eb03099",
+      "sentiment": "very negative",
+      "severity": 3,
+      "topic": "billing"
+    }
+  ]
+}

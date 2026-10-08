@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.002243",
+  "effort": "none",
+  "input_tokens": 1728,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 103,
+  "request_id": "req_011Cfn8NTwSUhSkXosLzMAWT",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"19a70754-333f-47d8-ac02-8d6af9d91e77\",\"topic\":\"playback\",\"intent\":\"complaint\",\"severity\":3,\"sentiment\":\"negative\",\"evidence_quote\":\"when I search a song like habang buhay and when I play it a different song play\",\"needs_review\":false,\"reason\":\"Wrong song plays when selected; function degraded but app usable.\"}]}"
+}

@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "evidence_quote": "Rest all is amazing!",
+      "intent": "praise",
+      "needs_review": false,
+      "reason": "Initial issue minor; resolution praised; final edit expresses gratitude.",
+      "review_id": "d08b58ac-1198-490b-8ace-8eaf2dcfb01c",
+      "sentiment": "positive",
+      "severity": 1,
+      "topic": "access"
+    }
+  ]
+}

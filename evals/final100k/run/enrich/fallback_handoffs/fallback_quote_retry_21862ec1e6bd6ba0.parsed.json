@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "evidence_quote": "ঝড় ছ ⁶",
+      "intent": "unclear",
+      "needs_review": false,
+      "reason": "Meaningless or unintelligible text with no product feedback.",
+      "review_id": "3f210a00-3a14-4897-8a17-1d0cf4e1d338",
+      "sentiment": "neutral or mixed",
+      "severity": 1,
+      "topic": "other"
+    }
+  ]
+}

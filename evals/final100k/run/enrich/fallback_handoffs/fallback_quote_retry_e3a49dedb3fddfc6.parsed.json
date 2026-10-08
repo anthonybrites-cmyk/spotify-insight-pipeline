@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "evidence_quote": "Can you add a feature that let's you give playlists to someone else completely?",
+      "intent": "request",
+      "needs_review": false,
+      "reason": "Feature request for playlist sharing with no reported problem.",
+      "review_id": "be554c27-b372-4f96-86ec-6dc0660877f6",
+      "sentiment": "positive",
+      "severity": 1,
+      "topic": "usability"
+    }
+  ]
+}

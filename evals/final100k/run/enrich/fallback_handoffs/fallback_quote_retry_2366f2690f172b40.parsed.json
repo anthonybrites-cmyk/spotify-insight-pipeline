@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "evidence_quote": "Stuck on logo screen.. Tsk.. Paying for monthly subscription and yet im unable to use it.",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Cannot access app; stuck on logo screen; paying customer unable to use service.",
+      "review_id": "0f0215b3-d62e-45a7-81a1-d4909ebc236e",
+      "sentiment": "very negative",
+      "severity": 4,
+      "topic": "access"
+    }
+  ]
+}

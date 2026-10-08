@@ -1,0 +1,354 @@
+{
+  "results": [
+    {
+      "intent": "request",
+      "reason": "Wishes for free listening without paying.",
+      "review_id": "9f8b71a5-a810-453b-9e76-01afab676a28",
+      "severity": 1,
+      "topic": "billing"
+    },
+    {
+      "intent": "request",
+      "reason": "Simple request to reduce ads.",
+      "review_id": "b4f44843-6973-4ee7-8295-ea7f94ad88c5",
+      "severity": 1,
+      "topic": "usability"
+    },
+    {
+      "intent": "request",
+      "reason": "Asks for cheaper price or multi-device support.",
+      "review_id": "bc8e6063-7a9c-42ab-aca6-bfcca3cc2be1",
+      "severity": 1,
+      "topic": "billing"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Cannot seek back within a song.",
+      "review_id": "e63d2122-9900-493c-bdc7-aa886bf72f49",
+      "severity": 3,
+      "topic": "usability"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Audio cuts out when screen turns off.",
+      "review_id": "eb816595-496d-4f69-86ac-52ae91bcb398",
+      "severity": 3,
+      "topic": "playback"
+    },
+    {
+      "intent": "praise",
+      "reason": "General praise, no specific feature mentioned.",
+      "review_id": "31fc1a23-f453-429a-b9e6-dd4d674de1a7",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Too many ads complaint.",
+      "review_id": "a3065b18-bf90-45fe-ba58-dd0b18a50708",
+      "severity": 2,
+      "topic": "usability"
+    },
+    {
+      "intent": "praise",
+      "reason": "General positive statement.",
+      "review_id": "729cbc26-ac58-4951-b768-99654edabc32",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Complains about inappropriate ads.",
+      "review_id": "1c78dd5a-5509-4a01-be28-58666c9701eb",
+      "severity": 2,
+      "topic": "usability"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Shuffle restricted to songs unless premium.",
+      "review_id": "a16939a7-7d8c-452c-8e7e-8c729a295d5c",
+      "severity": 3,
+      "topic": "billing"
+    },
+    {
+      "intent": "praise",
+      "reason": "Praises huge song selection.",
+      "review_id": "fee6d4f0-3a1d-4327-81bc-9307eb8fa11f",
+      "severity": 1,
+      "topic": "catalog"
+    },
+    {
+      "intent": "praise",
+      "reason": "General praise, no specific feature.",
+      "review_id": "6f1578aa-ffea-48ad-aae4-ed4d2aac8c09",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "intent": "praise",
+      "reason": "General positive sentiment.",
+      "review_id": "de0965df-f7df-458d-b6bf-c07792ac6008",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "intent": "request",
+      "reason": "Requests an applock for login security.",
+      "review_id": "556819e3-e0ac-4223-9bb6-a69006a72616",
+      "severity": 1,
+      "topic": "access"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Music keeps pausing mid-song for premium user.",
+      "review_id": "ba652515-e814-44f4-9f09-13aad15a5f8f",
+      "severity": 3,
+      "topic": "playback"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Basic seek feature taken away without premium.",
+      "review_id": "df5fc1d8-ac1e-4ae4-8519-5ec454b60f82",
+      "severity": 3,
+      "topic": "billing"
+    },
+    {
+      "intent": "praise",
+      "reason": "Praises Spotify Connect feature control.",
+      "review_id": "c564e7cc-831b-4f42-8d45-6ea2ccf27e6c",
+      "severity": 1,
+      "topic": "usability"
+    },
+    {
+      "intent": "praise",
+      "reason": "General praise, no specific feature.",
+      "review_id": "00b38e97-8078-4d95-b452-9b8e975e5f08",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Complains sign-in is worse than competitor.",
+      "review_id": "a900199b-7e45-4eb2-a0af-3e5e3cbce82f",
+      "severity": 2,
+      "topic": "access"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Generic 'worst app' complaint.",
+      "review_id": "aa198dca-7657-4a07-a5a6-cf27ecee83f1",
+      "severity": 2,
+      "topic": "other"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Cannot fast-forward or rewind songs.",
+      "review_id": "c2c9cf2d-1e66-40ba-ad46-829a52f895c1",
+      "severity": 3,
+      "topic": "usability"
+    },
+    {
+      "intent": "praise",
+      "reason": "General enthusiastic praise.",
+      "review_id": "ffb03d23-58b1-4afd-8a6a-bcfaa8df10bd",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "intent": "praise",
+      "reason": "Praises music recommendation algorithm.",
+      "review_id": "6bda24db-25db-4eb5-97fd-c1b1c56440c0",
+      "severity": 1,
+      "topic": "catalog"
+    },
+    {
+      "intent": "praise",
+      "reason": "General slang praise.",
+      "review_id": "f25c5185-e318-4e58-9ea9-c0f9f257544f",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Limited song changes before requiring payment.",
+      "review_id": "a2431d97-7c6a-4cc5-b614-9d319ce16e2a",
+      "severity": 3,
+      "topic": "billing"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Vague complaint about features behind premium.",
+      "review_id": "90754830-69e3-4f71-99f6-08b3f1149440",
+      "severity": 2,
+      "topic": "billing"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Cannot choose specific song to play.",
+      "review_id": "4c6bb0a7-3a25-4adf-b859-c08678bc5f78",
+      "severity": 3,
+      "topic": "billing"
+    },
+    {
+      "intent": "cancellation",
+      "reason": "Plans to uninstall calling app greedy.",
+      "review_id": "6db08730-02c5-479d-aace-29ed2a14ac67",
+      "severity": 2,
+      "topic": "billing"
+    },
+    {
+      "intent": "unclear",
+      "reason": "Political statement, no product complaint.",
+      "review_id": "baac066e-770f-4d9e-b74c-9fabbee678e2",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Dislikes new update, no specific feature named.",
+      "review_id": "73877768-b160-429c-9324-38471a28ca17",
+      "severity": 2,
+      "topic": "other"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Generic expression of hate for the app.",
+      "review_id": "4095fdc4-9ddc-4405-b395-2ca043e7e093",
+      "severity": 2,
+      "topic": "other"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Non-premium functionality is too limited.",
+      "review_id": "fe05877d-5e11-43a5-89d9-5070dc74d01c",
+      "severity": 3,
+      "topic": "billing"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Album playback includes songs from wrong album.",
+      "review_id": "1d8e965b-5687-41eb-b6f7-322691ff7d3e",
+      "severity": 3,
+      "topic": "catalog"
+    },
+    {
+      "intent": "complaint",
+      "reason": "App not fully available in every country.",
+      "review_id": "1b326d48-c751-4e4a-9d06-efcfbdce5cfe",
+      "severity": 3,
+      "topic": "access"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Brief complaint calling app greedy.",
+      "review_id": "8c3148de-272c-4dd1-b540-bcc745d4de73",
+      "severity": 2,
+      "topic": "billing"
+    },
+    {
+      "intent": "complaint",
+      "reason": "All features reported blocked.",
+      "review_id": "3804584a-1ed3-4a9b-9fbd-1282c98f59cb",
+      "severity": 4,
+      "topic": "billing"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Implies app useless without premium purchase.",
+      "review_id": "b4a6751c-600c-4901-9ab6-802d95bb595e",
+      "severity": 2,
+      "topic": "billing"
+    },
+    {
+      "intent": "praise",
+      "reason": "General praise, no specific feature.",
+      "review_id": "c6f44372-b3a2-46ae-9a37-fc0fbfccb25e",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Playback stops after ads for months.",
+      "review_id": "856725d8-ad8b-4d0d-84a9-f9f9f9e5d840",
+      "severity": 3,
+      "topic": "playback"
+    },
+    {
+      "intent": "praise",
+      "reason": "General praise, no specific feature.",
+      "review_id": "1155f077-8768-465e-88a6-da1819fd7dad",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Generic complaint about glitches.",
+      "review_id": "6419229e-685e-4b7d-8641-622af45a486d",
+      "severity": 2,
+      "topic": "playback"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Missing songs and poor quality experience.",
+      "review_id": "1dd314d0-76d2-466f-934b-5bcc19a83c99",
+      "severity": 3,
+      "topic": "catalog"
+    },
+    {
+      "intent": "unclear",
+      "reason": "Meaningless text, no discernible content.",
+      "review_id": "9544ab4d-0cd3-4a50-8251-fbabc3f49cfd",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "intent": "unclear",
+      "reason": "Bare boycott slogan with no complaint.",
+      "review_id": "0e262b89-8e06-4a3a-a4e5-9db572bad81a",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "intent": "praise",
+      "reason": "General positive statement.",
+      "review_id": "61b33b7b-5c21-4f23-8c2f-299cfa28aa36",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "intent": "unclear",
+      "reason": "Vague political-sounding statement, unclear meaning.",
+      "review_id": "82ad1f4a-57fc-4cdb-b222-927a135672d0",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Missing a specific song from catalog.",
+      "review_id": "bf889f1f-c63f-472a-af70-8bfb666656f0",
+      "severity": 2,
+      "topic": "catalog"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Cannot download songs at all.",
+      "review_id": "57003388-efdb-4899-b9a0-237fda0b53c2",
+      "severity": 4,
+      "topic": "downloads"
+    },
+    {
+      "intent": "cancellation",
+      "reason": "Plans to uninstall due to disliked update.",
+      "review_id": "bad6fc21-aa36-449a-b64e-844f93e87158",
+      "severity": 2,
+      "topic": "other"
+    },
+    {
+      "intent": "praise",
+      "reason": "General praise, no specific feature.",
+      "review_id": "fd418892-0097-4938-aa50-f82f0fc7722b",
+      "severity": 1,
+      "topic": "other"
+    }
+  ]
+}

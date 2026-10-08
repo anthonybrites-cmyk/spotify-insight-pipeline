@@ -1,0 +1,64 @@
+{
+  "results": [
+    {
+      "evidence_quote": "the app did not add song to my playlist when i just want to lisen to my songs",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Playlist management issue; app adding unwanted songs.",
+      "review_id": "3529ecfb-3890-4130-8a4f-6e80c5664152",
+      "sentiment": "negative",
+      "severity": 2,
+      "topic": "usability"
+    },
+    {
+      "evidence_quote": "It don't matter if you pay to have the ads removed in every podcast you will have ads no mater what",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Ads still appear despite payment; usability complaint about ads.",
+      "review_id": "d8c5664d-28d5-4cfe-96ab-39c46b9b1a0a",
+      "sentiment": "negative",
+      "severity": 3,
+      "topic": "usability"
+    },
+    {
+      "evidence_quote": "anytime I want to listen to a \"free\" book I have to retrigger an email to purchase it. It doesn't stay unlocked and it doesn't save my place.",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Audiobook playback degraded; forced re-authentication and progress loss.",
+      "review_id": "5ab9ac8f-fff9-40a9-826b-5032fd6d168c",
+      "sentiment": "negative",
+      "severity": 3,
+      "topic": "playback"
+    },
+    {
+      "evidence_quote": "Just gonna uninstall this stupid begger app",
+      "intent": "cancellation",
+      "needs_review": false,
+      "reason": "Explicit uninstall threat; billing complaint about forced monetization.",
+      "review_id": "ff04ed03-2445-4059-837f-5eb1359b2cd2",
+      "sentiment": "very negative",
+      "severity": 4,
+      "topic": "billing"
+    },
+    {
+      "evidence_quote": "the new home screen tiktok like make over is forcing me to do so. I pay a subscription and the current home screen is making me hate the music searching experience.",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "UI redesign degrading search experience; usability complaint.",
+      "review_id": "c88e649a-1116-4853-b3d3-0e3e1c0de370",
+      "sentiment": "negative",
+      "severity": 2,
+      "topic": "usability"
+    },
+    {
+      "evidence_quote": "the audio quality through Andriod Auto. I feel it's really quiet compared to radio or satellite radio. I wish they had some type of amplifier built in",
+      "intent": "request",
+      "needs_review": false,
+      "reason": "Feature request for audio amplification; no reported failure, mostly positive.",
+      "review_id": "d34ea1df-3579-4ef0-93c1-e0a8db8cbaf2",
+      "sentiment": "positive",
+      "severity": 1,
+      "topic": "playback"
+    }
+  ]
+}

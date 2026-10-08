@@ -1,0 +1,34 @@
+{
+  "results": [
+    {
+      "evidence_quote": "you gave all of the basic features to premium users which is awful",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Basic controls (lyrics reading, song rewinding) restricted to Premium.",
+      "review_id": "ade49703-356f-4fad-9322-47d97f4d2990",
+      "sentiment": "very negative",
+      "severity": 3,
+      "topic": "billing"
+    },
+    {
+      "evidence_quote": "I can't add songs to the queue, put songs on loop or even turn off shuffle",
+      "intent": "cancellation",
+      "needs_review": false,
+      "reason": "Premium controls unavailable; explicit cancellation of Premium purchase.",
+      "review_id": "2cf45c92-71f5-429a-a706-68258942cffc",
+      "sentiment": "very negative",
+      "severity": 3,
+      "topic": "billing"
+    },
+    {
+      "evidence_quote": "we can't go for other playlist it are not played serially we can play songs on loop, we can't rewind song",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Basic playback controls restricted to Premium users.",
+      "review_id": "ef112e84-dbe3-4089-8621-fd05e7417930",
+      "sentiment": "very negative",
+      "severity": 3,
+      "topic": "billing"
+    }
+  ]
+}

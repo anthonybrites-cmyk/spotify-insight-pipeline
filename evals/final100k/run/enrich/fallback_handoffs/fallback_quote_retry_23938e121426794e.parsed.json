@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "evidence_quote": "the excessive hyoer media, associated with the ads",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Mixed review with generic criticism and ad complaints, no core function blocked.",
+      "review_id": "243dc040-aef0-4f88-9cf4-182fa65f85bc",
+      "sentiment": "negative",
+      "severity": 2,
+      "topic": "usability"
+    }
+  ]
+}

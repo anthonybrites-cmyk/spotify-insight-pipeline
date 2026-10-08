@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "evidence_quote": "Perfect app for music and much more.",
+      "intent": "praise",
+      "needs_review": false,
+      "reason": "General praise with no specific feature problem reported.",
+      "review_id": "4753f955-7801-4bfd-8766-94a1e67723b8",
+      "sentiment": "very positive",
+      "severity": 1,
+      "topic": "other"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.002278",
+  "effort": "none",
+  "input_tokens": 1743,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 107,
+  "request_id": "req_011Cfn8XH6KkCipXU6UuXdvg",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"23f5cf20-850b-4a42-a2c0-2a7ae380eb8e\",\"topic\":\"billing\",\"intent\":\"complaint\",\"severity\":4,\"sentiment\":\"very negative\",\"evidence_quote\":\"all the normal features like skipping the song or playing the previous song or playing from the part u like is not available\",\"needs_review\":false,\"reason\":\"Core playback controls blocked; likely Premium restriction after update.\"}]}"
+}

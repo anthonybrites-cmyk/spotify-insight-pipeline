@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.002917",
+  "effort": "none",
+  "input_tokens": 1877,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 208,
+  "request_id": "req_011Cfn8adAeoB4ZL3KjrgYgF",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"e3fd919e-f2e6-4a3f-b3fd-f26fa9733cc8\",\"topic\":\"billing\",\"intent\":\"cancellation\",\"severity\":2,\"sentiment\":\"very negative\",\"evidence_quote\":\"Everytime we need to get premiere. It's so annoying.\",\"needs_review\":false,\"reason\":\"Free user frustrated by Premium paywall; explicit non-return threat.\"},{\"review_id\":\"72d08ef1-ef98-4087-897a-fc888e52781d\",\"topic\":\"usability\",\"intent\":\"complaint\",\"severity\":3,\"sentiment\":\"negative\",\"evidence_quote\":\"Ads are way too loud in comparison to the music. I will have the music at a comfortable level and when an ad pops up it will literally make my ears hurt\",\"needs_review\":false,\"reason\":\"Ad volume disrupts listening experience; considering competitor; threat implied.\"}]}"
+}

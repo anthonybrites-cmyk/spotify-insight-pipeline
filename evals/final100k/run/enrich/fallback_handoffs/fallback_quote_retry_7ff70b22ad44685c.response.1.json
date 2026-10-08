@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.002239",
+  "effort": "none",
+  "input_tokens": 1754,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 97,
+  "request_id": "req_011Cfn8MkYnRrwJCnDZQZsAw",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"3a6733d8-6d40-40bd-bc69-e39c80e48298\",\"topic\":\"catalog\",\"intent\":\"request\",\"severity\":1,\"sentiment\":\"neutral or mixed\",\"evidence_quote\":\"I want lyrics in song's language but letters 🔠 in English\",\"needs_review\":false,\"reason\":\"Feature request for improved lyrics display without reported malfunction.\"}]}"
+}

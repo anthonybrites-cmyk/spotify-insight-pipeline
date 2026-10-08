@@ -1,0 +1,24 @@
+{
+  "results": [
+    {
+      "evidence_quote": "tried to sign up for Premium and the app stops responding and won't let me enter info to purchase Premium",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Cannot complete Premium purchase; app crashes during signup.",
+      "review_id": "6e0ecad3-23ee-4d5a-98fc-cba0f477ca98",
+      "sentiment": "very negative",
+      "severity": 4,
+      "topic": "billing"
+    },
+    {
+      "evidence_quote": "Best App for music since the start",
+      "intent": "praise",
+      "needs_review": false,
+      "reason": "General praise with podcast content mentioned; no specific feature complaint.",
+      "review_id": "589afc3e-20e1-45fb-a3ba-9beec67eafdd",
+      "sentiment": "very positive",
+      "severity": 1,
+      "topic": "other"
+    }
+  ]
+}

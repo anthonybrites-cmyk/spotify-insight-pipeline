@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "evidence_quote": "u can no more skip songs or skip to my favorite part",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Skip controls locked behind Premium after update; core functionality blocked.",
+      "review_id": "e07cbffe-2a82-4c36-beb5-2765a17a8068",
+      "sentiment": "very negative",
+      "severity": 4,
+      "topic": "billing"
+    }
+  ]
+}

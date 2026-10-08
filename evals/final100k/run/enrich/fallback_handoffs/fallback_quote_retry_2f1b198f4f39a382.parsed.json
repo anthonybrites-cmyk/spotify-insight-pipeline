@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "evidence_quote": "It will make you angry. I hate it, It is getting uninstalled.",
+      "intent": "cancellation",
+      "needs_review": false,
+      "reason": "Explicit cancellation with severe usability complaints blocking core tasks.",
+      "review_id": "5f1570cb-8c67-41e6-aeac-49b7a8ad5dfa",
+      "sentiment": "very negative",
+      "severity": 4,
+      "topic": "usability"
+    }
+  ]
+}

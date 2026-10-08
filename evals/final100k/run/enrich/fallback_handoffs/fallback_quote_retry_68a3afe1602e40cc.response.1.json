@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.002175",
+  "effort": "none",
+  "input_tokens": 1730,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 89,
+  "request_id": "req_011Cfn8PD9iNqrHwojxxuDLt",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"cdaf29e1-4554-42d1-83c1-7ff4d631dc89\",\"topic\":\"usability\",\"intent\":\"complaint\",\"severity\":3,\"sentiment\":\"negative\",\"evidence_quote\":\"can't even listen music peacefully...\",\"needs_review\":false,\"reason\":\"Update caused usability degradation; specific function impaired.\"}]}"
+}

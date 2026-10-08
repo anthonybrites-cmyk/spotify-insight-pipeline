@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "evidence_quote": "I can't find anything I want now.",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "UI changes degraded navigation; core function impaired but not fully blocked.",
+      "review_id": "b6634f22-dd84-4cd1-8a30-70368b70ebea",
+      "sentiment": "negative",
+      "severity": 3,
+      "topic": "usability"
+    }
+  ]
+}

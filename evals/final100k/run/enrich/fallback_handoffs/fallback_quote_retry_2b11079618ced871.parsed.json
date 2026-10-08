@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "evidence_quote": "Spotify listened!!!! (This is my new review after they changed the hompage back..thank god😁)",
+      "intent": "praise",
+      "needs_review": false,
+      "reason": "Positive review praising homepage design change after complaint was addressed.",
+      "review_id": "536a8a70-ffda-427b-8b3b-13dbbde0e2f1",
+      "sentiment": "very positive",
+      "severity": 1,
+      "topic": "usability"
+    }
+  ]
+}

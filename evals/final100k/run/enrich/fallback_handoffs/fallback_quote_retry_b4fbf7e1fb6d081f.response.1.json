@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.002398",
+  "effort": "none",
+  "input_tokens": 1803,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 119,
+  "request_id": "req_011Cfn8HpjTCqcLW85RocYcH",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"c912a426-ab44-47b1-b239-73ab79dbaafc\",\"topic\":\"downloads\",\"intent\":\"cancellation\",\"severity\":4,\"sentiment\":\"very negative\",\"evidence_quote\":\"Everytime I open the app it proceeds to redownload all of my music. I have no idea why it cant recognize a song it downloaded literaly 15 minutes earlier.\",\"needs_review\":false,\"reason\":\"Downloads fail to persist; core function blocked. Cancellation stated.\"}]}"
+}

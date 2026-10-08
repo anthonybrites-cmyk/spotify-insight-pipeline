@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.002288",
+  "effort": "none",
+  "input_tokens": 1823,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 93,
+  "request_id": "req_011Cfn8SvFb91DxXDuVGL4D1",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"5fe68ce0-3e5a-4a3d-9782-716a3f409c68\",\"topic\":\"usability\",\"intent\":\"complaint\",\"severity\":3,\"sentiment\":\"very negative\",\"evidence_quote\":\"the skip button doesn't work now\",\"needs_review\":false,\"reason\":\"Skip button malfunction degrades but doesn't block playback entirely.\"}]}"
+}

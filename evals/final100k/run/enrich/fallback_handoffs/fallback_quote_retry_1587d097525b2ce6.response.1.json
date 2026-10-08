@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.002203",
+  "effort": "none",
+  "input_tokens": 1743,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 92,
+  "request_id": "req_011Cfn8XP9iC2hziiRh5Dh24",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"d10499e4-ba5e-4a20-b3ce-e618ffd4dbf7\",\"topic\":\"billing\",\"intent\":\"cancellation\",\"severity\":4,\"sentiment\":\"very negative\",\"evidence_quote\":\"im seriously thinking of Stopping my membership.\",\"needs_review\":false,\"reason\":\"Promised free months not received; threatens cancellation.\"}]}"
+}

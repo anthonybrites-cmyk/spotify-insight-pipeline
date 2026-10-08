@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "evidence_quote": "It's actually worse than expected",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Generic criticism with no specific feature defect identified.",
+      "review_id": "c6c25d99-879f-4ea7-b8ab-f05073d37ea5",
+      "sentiment": "negative",
+      "severity": 2,
+      "topic": "other"
+    }
+  ]
+}

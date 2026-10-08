@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "evidence_quote": "When you go to the liked songs and play shuffle, the app will play suggested song and you can't skip it.",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Shuffle behavior complaint with restricted skipping for free users.",
+      "review_id": "6d11c631-0be2-4fbd-b423-c20ab41356d8",
+      "sentiment": "very negative",
+      "severity": 3,
+      "topic": "usability"
+    }
+  ]
+}

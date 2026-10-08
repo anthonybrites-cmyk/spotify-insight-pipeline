@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.002848",
+  "effort": "none",
+  "input_tokens": 1943,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 181,
+  "request_id": "req_011Cfn8N5gV6Mq6MD7LuAm7K",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"6e0ecad3-23ee-4d5a-98fc-cba0f477ca98\",\"topic\":\"billing\",\"intent\":\"complaint\",\"severity\":4,\"sentiment\":\"very negative\",\"evidence_quote\":\"tried to sign up for Premium and the app stops responding and won't let me enter info to purchase Premium\",\"needs_review\":false,\"reason\":\"Cannot complete Premium purchase; app crashes during signup.\"},{\"review_id\":\"589afc3e-20e1-45fb-a3ba-9beec67eafdd\",\"topic\":\"other\",\"intent\":\"praise\",\"severity\":1,\"sentiment\":\"very positive\",\"evidence_quote\":\"Best App for music since the start\",\"needs_review\":false,\"reason\":\"General praise with podcast content mentioned; no specific feature complaint.\"}]}"
+}

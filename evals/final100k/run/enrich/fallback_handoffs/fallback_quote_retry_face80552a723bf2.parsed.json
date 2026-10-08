@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "evidence_quote": "Sometimes a song is replaced by another version.",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Song replacement degrades playback; workaround exists by selecting different versions.",
+      "review_id": "43e103db-2fca-40db-a1b4-9e99f3299053",
+      "sentiment": "negative",
+      "severity": 3,
+      "topic": "playback"
+    }
+  ]
+}

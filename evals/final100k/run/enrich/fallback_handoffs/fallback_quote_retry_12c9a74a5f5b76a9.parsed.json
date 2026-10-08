@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "evidence_quote": "But I'm moving on, I think the app is useless.",
+      "intent": "cancellation",
+      "needs_review": false,
+      "reason": "Explicit cancellation with complaint about playback control limitations.",
+      "review_id": "d6893ae4-fb0f-437c-917d-4faff40f94c2",
+      "sentiment": "very negative",
+      "severity": 3,
+      "topic": "usability"
+    }
+  ]
+}

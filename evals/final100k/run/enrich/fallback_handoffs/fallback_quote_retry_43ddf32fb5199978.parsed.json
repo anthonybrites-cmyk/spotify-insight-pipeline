@@ -1,0 +1,44 @@
+{
+  "results": [
+    {
+      "evidence_quote": "এক্সপেরিয়েন্স অসাধারণ 👌",
+      "intent": "praise",
+      "needs_review": false,
+      "reason": "General praise for overall experience, no specific feature",
+      "review_id": "b2cae5a5-3956-43c2-ac7f-4ca906e18fe2",
+      "sentiment": "very positive",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "evidence_quote": "there's no way for me to remove it. Super annoying..",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Cannot remove unwanted podcast suggestion from home page",
+      "review_id": "c36f5cf5-d722-46cc-b96c-5a57412b7aaf",
+      "sentiment": "negative",
+      "severity": 2,
+      "topic": "usability"
+    },
+    {
+      "evidence_quote": "Literally not being able to play a song agian",
+      "intent": "cancellation",
+      "needs_review": false,
+      "reason": "Cannot play songs; explicit threat to uninstall",
+      "review_id": "c4316cc9-61f6-47c3-ac22-3d1cb114b552",
+      "sentiment": "very negative",
+      "severity": 4,
+      "topic": "playback"
+    },
+    {
+      "evidence_quote": "It is the best music app ever",
+      "intent": "praise",
+      "needs_review": false,
+      "reason": "General praise with no specific feature highlighted",
+      "review_id": "383c6f4c-1a7f-4acc-837f-45775b1645a7",
+      "sentiment": "very positive",
+      "severity": 1,
+      "topic": "other"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.002171",
+  "effort": "none",
+  "input_tokens": 1756,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 83,
+  "request_id": "req_011Cfn8FczSvrtvvAhcnCvVi",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"12336dab-f07c-43ca-9f4e-12b5ba7b3816\",\"topic\":\"other\",\"intent\":\"unclear\",\"severity\":1,\"sentiment\":\"neutral or mixed\",\"evidence_quote\":\"\",\"needs_review\":false,\"reason\":\"Religious text unrelated to app or its features.\"}]}"
+}

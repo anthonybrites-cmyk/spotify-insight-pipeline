@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.003021",
+  "effort": "none",
+  "input_tokens": 1926,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 219,
+  "request_id": "req_011Cfn8QxDbtWRYpCSCEBP81",
+  "stop_reason": "end_turn",
+  "text": "{\"results\": [{\"review_id\": \"9f8b71a5-a810-453b-9e76-01afab676a28\", \"topic\": \"billing\", \"intent\": \"request\", \"severity\": 1, \"sentiment\": \"positive\", \"evidence_quote\": \"it would be the best if you can listen to anywhere without paying money for anything\", \"needs_review\": false, \"reason\": \"Feature request for free unlimited listening; no problem reported.\"}, {\"review_id\": \"a357a57d-b8ee-4143-8c90-e1dcf9b8205d\", \"topic\": \"billing\", \"intent\": \"complaint\", \"severity\": 3, \"sentiment\": \"very negative\", \"evidence_quote\": \"removing the option to play an album NORMALLY (playing the songs in the order given in album)\", \"needs_review\": false, \"reason\": \"Free user's shuffle-only restriction; control explicitly locked behind Premium.\"}]}"
+}

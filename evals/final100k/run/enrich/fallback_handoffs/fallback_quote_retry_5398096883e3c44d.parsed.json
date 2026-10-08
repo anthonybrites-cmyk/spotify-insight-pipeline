@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "evidence_quote": "the skip button doesn't work now",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Skip button malfunction degrades but doesn't block playback entirely.",
+      "review_id": "5fe68ce0-3e5a-4a3d-9782-716a3f409c68",
+      "sentiment": "very negative",
+      "severity": 3,
+      "topic": "usability"
+    }
+  ]
+}

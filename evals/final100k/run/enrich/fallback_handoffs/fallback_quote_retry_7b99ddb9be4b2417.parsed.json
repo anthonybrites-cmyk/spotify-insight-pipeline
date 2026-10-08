@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "evidence_quote": "All wase premium 😭😤😤 Unistall the app",
+      "intent": "cancellation",
+      "needs_review": false,
+      "reason": "User explicitly states uninstalling app; complains about premium paywall.",
+      "review_id": "d8ce365d-a781-4bea-939d-9cf187079acf",
+      "sentiment": "very negative",
+      "severity": 2,
+      "topic": "billing"
+    }
+  ]
+}

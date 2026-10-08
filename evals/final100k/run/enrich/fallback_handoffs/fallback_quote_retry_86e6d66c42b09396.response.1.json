@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.002304",
+  "effort": "none",
+  "input_tokens": 1744,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 112,
+  "request_id": "req_011Cfn8Cv3YQP2B9yMQ6aCpr",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"cda14629-a3b5-4ada-9795-c2c622059de0\",\"topic\":\"billing\",\"intent\":\"complaint\",\"severity\":3,\"sentiment\":\"negative\",\"evidence_quote\":\"On PC you can choose what song you want to hear and ad's appear every 5-7 songs. Why can't mobile have that?\",\"needs_review\":false,\"reason\":\"Mobile lacks song selection control available on PC; control restricted for free users.\"}]}"
+}

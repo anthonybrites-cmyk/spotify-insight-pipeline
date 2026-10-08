@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.002295",
+  "effort": "none",
+  "input_tokens": 1765,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 106,
+  "request_id": "req_011Cfn8VzNUH1LX675xqH6Vv",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"6d11c631-0be2-4fbd-b423-c20ab41356d8\",\"topic\":\"usability\",\"intent\":\"complaint\",\"severity\":3,\"sentiment\":\"very negative\",\"evidence_quote\":\"When you go to the liked songs and play shuffle, the app will play suggested song and you can't skip it.\",\"needs_review\":false,\"reason\":\"Shuffle behavior complaint with restricted skipping for free users.\"}]}"
+}

@@ -1,0 +1,354 @@
+{
+  "results": [
+    {
+      "intent": "complaint",
+      "reason": "Music keeps playing without app use via headphones.",
+      "review_id": "8089ecb3-c127-443a-a587-2636efb02e6b",
+      "severity": 3,
+      "topic": "playback"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Music disappearing randomly despite liking app.",
+      "review_id": "541f4a8f-9297-4408-8085-7bd64a6fe7ce",
+      "severity": 3,
+      "topic": "downloads"
+    },
+    {
+      "intent": "cancellation",
+      "reason": "Explicit request to delete app, no specific issue.",
+      "review_id": "1680d6aa-2b12-4907-8e97-1feb0d0102f8",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "intent": "praise",
+      "reason": "General positive praise with no feature.",
+      "review_id": "9dc3038f-1e7e-4aeb-9328-f3310ee897df",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "intent": "praise",
+      "reason": "Praises music selection and reliability.",
+      "review_id": "a224bcf8-a832-4599-8488-d1ac1231c0d2",
+      "severity": 1,
+      "topic": "catalog"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Premium subscription logged out despite paying.",
+      "review_id": "25766091-58d1-47ad-83d6-ca36d97fccfd",
+      "severity": 4,
+      "topic": "billing"
+    },
+    {
+      "intent": "praise",
+      "reason": "General positive comment, no specifics.",
+      "review_id": "a66d306f-732e-42fb-91a3-d4e478c32cdf",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "intent": "praise",
+      "reason": "General praise for listening to music.",
+      "review_id": "94b27344-685a-4320-ac75-96be87404ebd",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "intent": "unclear",
+      "reason": "Meaningless single word text.",
+      "review_id": "9bf89f42-180d-4b23-b4d2-71f890da8a7a",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "intent": "praise",
+      "reason": "General praise with no specific feature.",
+      "review_id": "709f0805-cbb7-409a-822f-1d238ccced53",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "intent": "praise",
+      "reason": "Praises playlist creation and album selection.",
+      "review_id": "3f3d3216-45f0-401f-8c12-d781caa07ec1",
+      "severity": 1,
+      "topic": "usability"
+    },
+    {
+      "intent": "praise",
+      "reason": "Praises user-friendly design.",
+      "review_id": "93772b11-c88f-4283-978e-b02bcdf07e79",
+      "severity": 1,
+      "topic": "usability"
+    },
+    {
+      "intent": "unclear",
+      "reason": "Gibberish text, no discernible meaning.",
+      "review_id": "6ca01921-6b4a-40e3-b1bd-9bc506631099",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Generic complaint about premium existing.",
+      "review_id": "ad6756af-73bd-4ecc-ab97-529b55e44390",
+      "severity": 2,
+      "topic": "billing"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Song choice locked behind premium after update.",
+      "review_id": "840446fa-4609-45ab-94fe-9514b57de90d",
+      "severity": 3,
+      "topic": "billing"
+    },
+    {
+      "intent": "praise",
+      "reason": "General enjoyment statement.",
+      "review_id": "726509e9-acff-4a10-bb3e-7a6f15d0a2a7",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "intent": "praise",
+      "reason": "Praises ad-free subscription experience.",
+      "review_id": "979bae57-f68f-4914-88d0-2e40c277b337",
+      "severity": 1,
+      "topic": "billing"
+    },
+    {
+      "intent": "cancellation",
+      "reason": "Shuffle/queue controls now locked behind premium, switching services.",
+      "review_id": "c13cea1a-0306-4eb8-bc45-9dd8028cd9d7",
+      "severity": 3,
+      "topic": "billing"
+    },
+    {
+      "intent": "praise",
+      "reason": "Short general praise statement.",
+      "review_id": "b273d561-720e-4373-9678-a6e88d71986e",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Calls app buggy and backwards generally.",
+      "review_id": "9912288b-be19-4bba-a1f7-19b02d7b1661",
+      "severity": 2,
+      "topic": "other"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Ads and premium-locked playback controls frustrate user.",
+      "review_id": "15624e1a-a894-4608-b473-ba68e67d8b79",
+      "severity": 3,
+      "topic": "billing"
+    },
+    {
+      "intent": "praise",
+      "reason": "Praises having favorite music and podcasts.",
+      "review_id": "15f67dcb-efa0-406d-9235-62663eddf377",
+      "severity": 1,
+      "topic": "catalog"
+    },
+    {
+      "intent": "complaint",
+      "reason": "General decline in app quality noted.",
+      "review_id": "3d080845-df05-4d6a-b196-d74c835033f3",
+      "severity": 2,
+      "topic": "other"
+    },
+    {
+      "intent": "praise",
+      "reason": "General love for the app.",
+      "review_id": "0ae38d8c-5b77-47a1-b838-5f327bd42ff0",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "intent": "praise",
+      "reason": "Enthusiastic general praise, no specific feature.",
+      "review_id": "8ce74dcc-9093-4e62-9449-966e0f98c112",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Dislikes frequency of app updates.",
+      "review_id": "9e74b72f-2816-4934-801d-9162aff4405f",
+      "severity": 2,
+      "topic": "usability"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Playlist shuffles and adds unwanted songs.",
+      "review_id": "85d2a7a4-d51d-4a2f-bbd5-38727833c655",
+      "severity": 3,
+      "topic": "usability"
+    },
+    {
+      "intent": "praise",
+      "reason": "General comparative praise, no specific feature.",
+      "review_id": "524a0b9b-e8a5-4f01-a264-f6d07ed2a0c1",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "intent": "complaint",
+      "reason": "App only good with premium subscription.",
+      "review_id": "a6d3fb15-f2a8-481d-851b-54da78ad1dd4",
+      "severity": 3,
+      "topic": "billing"
+    },
+    {
+      "intent": "praise",
+      "reason": "Simple general praise statement.",
+      "review_id": "5652c8f5-70df-4b20-ae22-a6715ab1d5d3",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "intent": "praise",
+      "reason": "General praise, no specifics.",
+      "review_id": "d5d1defa-4bdf-4109-b071-8d75de28e78a",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Searched song not found or retrieved.",
+      "review_id": "d4693f55-cd0f-40fe-9831-36b2ab921bd8",
+      "severity": 3,
+      "topic": "catalog"
+    },
+    {
+      "intent": "unclear",
+      "reason": "Nonsensical phrase, no clear meaning.",
+      "review_id": "ed4ec193-9da7-4fce-86a2-24672de76174",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "intent": "cancellation",
+      "reason": "Explicit departure over political/religious grievance.",
+      "review_id": "9f9237ba-764b-43db-953f-97d0d41ced5d",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "intent": "praise",
+      "reason": "General positive sentiment about music and app.",
+      "review_id": "7c27e9e1-5002-45cb-878d-fb6640b594b5",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Login consistently fails, blocking access.",
+      "review_id": "1e59df7c-2066-470d-986f-bfaf8712c011",
+      "severity": 4,
+      "topic": "access"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Dislikes smart shuffle feature.",
+      "review_id": "1e977c5d-8843-4403-9bdb-936ca507aeae",
+      "severity": 2,
+      "topic": "usability"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Unwanted songs played instead of favorites.",
+      "review_id": "00dae027-4236-40a3-b603-0e87ca5cdb43",
+      "severity": 3,
+      "topic": "catalog"
+    },
+    {
+      "intent": "complaint",
+      "reason": "UI flashing issue on Chromebook reported repeatedly.",
+      "review_id": "d9ce18ef-19e7-4612-a197-5655a24f6057",
+      "severity": 3,
+      "topic": "usability"
+    },
+    {
+      "intent": "praise",
+      "reason": "General enthusiastic praise statement.",
+      "review_id": "013b68ba-2409-4979-acef-01337d77f63a",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Recent updates found disappointing overall.",
+      "review_id": "57c1e229-d6f0-445f-a6e2-95f9c9896715",
+      "severity": 2,
+      "topic": "usability"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Generic negative statement about the app.",
+      "review_id": "14646a19-3c00-4faa-8e3c-3c32f16fd65f",
+      "severity": 2,
+      "topic": "other"
+    },
+    {
+      "intent": "cancellation",
+      "reason": "Uninstalling due to app becoming paid platform.",
+      "review_id": "8b714f65-da13-488f-b2ae-b5df9ef475cb",
+      "severity": 3,
+      "topic": "billing"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Shuffle play on playlists deemed worst feature.",
+      "review_id": "b3629e05-3a9f-4316-8b91-0ad40640c308",
+      "severity": 3,
+      "topic": "usability"
+    },
+    {
+      "intent": "complaint",
+      "reason": "App won't connect to internet or data after update.",
+      "review_id": "9b38b4ba-6d5e-4bec-8e32-797b2a7257af",
+      "severity": 4,
+      "topic": "playback"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Criticizes algorithm, pricing, and artist payouts.",
+      "review_id": "a75d1b94-11b9-4683-8615-26f6462890b3",
+      "severity": 2,
+      "topic": "catalog"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Alleges manipulated streaming stats, no personal departure.",
+      "review_id": "38f5e07a-344b-4c0b-8c85-fb6321be2906",
+      "severity": 2,
+      "topic": "other"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Cannot view full playlist despite trying.",
+      "review_id": "e5f4b09f-1bbb-4102-87e4-71f94b9fe389",
+      "severity": 3,
+      "topic": "usability"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Skip limits and lost song order/control features.",
+      "review_id": "eaa85565-a2c6-4c6b-9204-74ed19dbf687",
+      "severity": 3,
+      "topic": "billing"
+    },
+    {
+      "intent": "unclear",
+      "reason": "Unrelated phrase with no product content.",
+      "review_id": "36227df4-4608-4597-93fa-b9d8a3cb91fc",
+      "severity": 1,
+      "topic": "other"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.003571",
+  "effort": "none",
+  "input_tokens": 2121,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 290,
+  "request_id": "req_011Cfn8Tr36qvPzh2CNq1v6T",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"c024b64d-902d-4660-b2b8-12730fe6e9e8\",\"topic\":\"other\",\"intent\":\"praise\",\"severity\":1,\"sentiment\":\"very positive\",\"evidence_quote\":\"So convenient all my music & pidcasts available when I need them!\",\"needs_review\":false,\"reason\":\"General praise for convenience, no specific feature.\"},{\"review_id\":\"e932521b-ec25-4756-9193-9debe30ed4dd\",\"topic\":\"usability\",\"intent\":\"praise\",\"severity\":1,\"sentiment\":\"very positive\",\"evidence_quote\":\"on hyvä juttu, että katsomalla mainoksen saa 30 min kuunnella musiikkia ilman katkoja\",\"needs_review\":false,\"reason\":\"Praising ad-supported listening feature despite noting ad frequency.\"},{\"review_id\":\"4b149114-4ad4-4984-998e-f1b46a6f5ef3\",\"topic\":\"playback\",\"intent\":\"complaint\",\"severity\":3,\"sentiment\":\"very negative\",\"evidence_quote\":\"offline mode\\\" still tries to use your data to connect and slows everything down\",\"needs_review\":false,\"reason\":\"Offline mode degrades performance; core function works but restricted.\"}]}"
+}

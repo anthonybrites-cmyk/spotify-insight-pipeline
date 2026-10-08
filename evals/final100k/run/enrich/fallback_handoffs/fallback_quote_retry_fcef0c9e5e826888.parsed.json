@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "evidence_quote": "now I'm uninstalling hrr baat pe premium skip v nhi krr skte ho ab aap new updates ke karan",
+      "intent": "cancellation",
+      "needs_review": false,
+      "reason": "Explicit cancellation with complaint about premium skip restriction.",
+      "review_id": "b60c12d4-df06-4b95-b12c-3dbc9d21bccc",
+      "sentiment": "very negative",
+      "severity": 3,
+      "topic": "billing"
+    }
+  ]
+}

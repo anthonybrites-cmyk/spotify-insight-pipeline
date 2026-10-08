@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.002179",
+  "effort": "none",
+  "input_tokens": 1739,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 88,
+  "request_id": "req_011Cfn8SC64CQvC2N4yhNGEB",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"24d7a16e-dabe-4341-ad0a-55c7c5992da2\",\"topic\":\"billing\",\"intent\":\"complaint\",\"severity\":3,\"sentiment\":\"very negative\",\"evidence_quote\":\"all move are paid\",\"needs_review\":false,\"reason\":\"Alleges paid controls blocked for free users; core functions restricted.\"}]}"
+}

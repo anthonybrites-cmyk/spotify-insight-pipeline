@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "evidence_quote": "when you play a song it plays a COMPLETELY different song",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Core playback control failure with multiple usability complaints reported.",
+      "review_id": "9d0e6753-718e-44da-973b-6ac0e4ef79c1",
+      "sentiment": "very negative",
+      "severity": 3,
+      "topic": "usability"
+    }
+  ]
+}

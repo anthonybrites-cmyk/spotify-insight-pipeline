@@ -1,0 +1,354 @@
+{
+  "results": [
+    {
+      "intent": "complaint",
+      "reason": "Lyrics incorrect and timing mismatched with song.",
+      "review_id": "b80472e7-c053-438b-ba3e-93738a29b253",
+      "severity": 3,
+      "topic": "catalog"
+    },
+    {
+      "intent": "praise",
+      "reason": "General enthusiastic praise with no specifics.",
+      "review_id": "1d373f1f-f823-44c3-90d3-a3354e197f2a",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "intent": "unclear",
+      "reason": "Ambiguous text, unclear meaning despite angry emojis.",
+      "review_id": "3a2302d0-6a34-4d09-b1aa-6c45b64bc8fe",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "intent": "request",
+      "reason": "Requests Spotify Wrapped feature for Bangladesh.",
+      "review_id": "9a1c3046-05af-4b9b-b2dd-1df70e2d5f9f",
+      "severity": 1,
+      "topic": "catalog"
+    },
+    {
+      "intent": "praise",
+      "reason": "General praise, no specific feature mentioned.",
+      "review_id": "79b8176b-3d61-456d-8e44-8d53663c2bde",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Dislikes new premium update, no function loss stated.",
+      "review_id": "20b8dc23-b833-49b3-af7b-762512f02d96",
+      "severity": 2,
+      "topic": "billing"
+    },
+    {
+      "intent": "complaint",
+      "reason": "App entirely unusable in Iran, blocking access.",
+      "review_id": "4e71234c-94ae-4cef-b688-6daec870a86e",
+      "severity": 4,
+      "topic": "access"
+    },
+    {
+      "intent": "unclear",
+      "reason": "Meaningless text with no product content.",
+      "review_id": "a3b22ccd-712d-473b-b740-6ad91459e5af",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Generic negative statement, no specific issue.",
+      "review_id": "b0d98f57-5723-48f6-8a2c-962ddc4eb9a7",
+      "severity": 2,
+      "topic": "other"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Explicit content toggle resets every app close.",
+      "review_id": "b71cc2c0-f5fc-4b6c-9c5d-8b7b17624329",
+      "severity": 3,
+      "topic": "usability"
+    },
+    {
+      "intent": "praise",
+      "reason": "General praise, no specific feature named.",
+      "review_id": "000a6ad1-31e7-40fa-99d6-16723f887f39",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Cannot get premium for free, minor frustration.",
+      "review_id": "a506b8bf-8c1f-48e3-ad8b-3d5ee248c592",
+      "severity": 2,
+      "topic": "billing"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Generic complaint calling app the worst.",
+      "review_id": "ad0b8985-a911-4f27-a744-d347f2d83645",
+      "severity": 2,
+      "topic": "other"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Sarcastic complaint about increased ads after update.",
+      "review_id": "58862221-ed51-4889-a487-1365c3b66195",
+      "severity": 2,
+      "topic": "usability"
+    },
+    {
+      "intent": "praise",
+      "reason": "Praises ease of use of the app.",
+      "review_id": "a6112456-887a-47d8-a1fe-66f1745cf075",
+      "severity": 1,
+      "topic": "usability"
+    },
+    {
+      "intent": "praise",
+      "reason": "General praise with no specific feature.",
+      "review_id": "d127fbe5-08d2-495b-90c9-39ad46494f29",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Generic complaint about new update making app worst.",
+      "review_id": "ae00a9af-f707-4f81-8737-3a1e63be1d43",
+      "severity": 2,
+      "topic": "other"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Playback restricted to shuffle, can't choose desired songs.",
+      "review_id": "fd8a5b46-b657-4d5f-9f5c-217b7645d7a0",
+      "severity": 3,
+      "topic": "usability"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Dislikes decision regarding premium features.",
+      "review_id": "f03fc8c9-c57d-4c3d-b499-7f5ce84f14eb",
+      "severity": 2,
+      "topic": "billing"
+    },
+    {
+      "intent": "request",
+      "reason": "Wants a removed song/group restored to catalog.",
+      "review_id": "d089a425-ab3f-4aed-b034-06afff2bd800",
+      "severity": 2,
+      "topic": "catalog"
+    },
+    {
+      "intent": "cancellation",
+      "reason": "Uninstalled; song skip and choice blocked behind premium.",
+      "review_id": "cd2f5608-bece-4df1-a4a5-6f5ca7545958",
+      "severity": 4,
+      "topic": "billing"
+    },
+    {
+      "intent": "praise",
+      "reason": "General praise, no specific feature named.",
+      "review_id": "001aa59c-bb15-48e6-8ac5-a97f05cfadb4",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "intent": "praise",
+      "reason": "General praise with no specifics mentioned.",
+      "review_id": "c9517659-98c2-426f-acda-c7ad1c16485b",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "intent": "praise",
+      "reason": "Single word general praise, no specifics.",
+      "review_id": "64938bb1-065f-4dd5-a8a4-78e65a2281a1",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "intent": "praise",
+      "reason": "Praises ease of use of the app.",
+      "review_id": "8696c999-c8f4-4b0b-a61a-8ab06e1fd3e7",
+      "severity": 1,
+      "topic": "usability"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Generic negative statement about the app.",
+      "review_id": "9f7f9b0c-7877-4e15-8bdd-1848fe3524aa",
+      "severity": 2,
+      "topic": "other"
+    },
+    {
+      "intent": "praise",
+      "reason": "General emotional praise, no specific feature.",
+      "review_id": "7e17938f-5cde-4b03-8ca6-902d400204d4",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Compares variety unfavorably to YouTube's offerings.",
+      "review_id": "ec5f1651-b606-4f38-8382-4d3753ac330c",
+      "severity": 2,
+      "topic": "catalog"
+    },
+    {
+      "intent": "request",
+      "reason": "Requests leniency for users who can't pay.",
+      "review_id": "3f1822f3-5ec6-4ece-9dcb-4d77f3f61d47",
+      "severity": 1,
+      "topic": "billing"
+    },
+    {
+      "intent": "praise",
+      "reason": "General praise, no specific feature mentioned.",
+      "review_id": "ae9b47c5-5b02-4a43-b382-10bacf96d1d8",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "intent": "praise",
+      "reason": "Praises the Spotify Wrapped feature.",
+      "review_id": "2eed527e-f4eb-45b3-86f5-ce465ae6e957",
+      "severity": 1,
+      "topic": "catalog"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Complains about high storage usage while streaming.",
+      "review_id": "3e907713-1ca8-47c6-9aa5-11f9d7f591ef",
+      "severity": 2,
+      "topic": "playback"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Complains app is bad and hard to use.",
+      "review_id": "36653dc7-f4f6-46ab-a855-355f849b5b5d",
+      "severity": 2,
+      "topic": "usability"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Generic complaint calling it worst company.",
+      "review_id": "bdca5cb7-0b76-4d73-a8ce-46e548ad5d0c",
+      "severity": 2,
+      "topic": "other"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Generic negative comment, no specifics given.",
+      "review_id": "65433c7f-9481-4935-b7a7-f7f2d5ea123d",
+      "severity": 2,
+      "topic": "other"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Sarcastic complaint about needing premium to listen.",
+      "review_id": "f8c617f7-a335-48d6-95c7-d81660f492ce",
+      "severity": 2,
+      "topic": "billing"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Free users limited to six song plays, can't forward.",
+      "review_id": "934f4111-ed22-46c5-a34d-e67c425a6ea8",
+      "severity": 3,
+      "topic": "billing"
+    },
+    {
+      "intent": "praise",
+      "reason": "General praise calling it best music app.",
+      "review_id": "dbcbbf6c-4427-432a-9150-3efe224ed3ef",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Calls for app to be banned, generic complaint.",
+      "review_id": "6b943b5e-ec55-426d-a57b-5460d5bcfec4",
+      "severity": 2,
+      "topic": "other"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Searching a song plays random playlist tracks instead.",
+      "review_id": "d54da0b8-d5ce-434f-bd68-9e5bc783e062",
+      "severity": 3,
+      "topic": "catalog"
+    },
+    {
+      "intent": "praise",
+      "reason": "Overall positive experience, no specific complaint.",
+      "review_id": "c0da2927-dbab-491d-a75a-0f87ffc1edee",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "intent": "unclear",
+      "reason": "Vague neutral comment with no detail.",
+      "review_id": "6b696ec6-1649-41cb-ac75-ff6e93b40949",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "intent": "unclear",
+      "reason": "Unrelated and meaningless text.",
+      "review_id": "e0e2178a-34a5-444a-8eee-357767432aea",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Accuses Spotify of being money hungry, losing listeners.",
+      "review_id": "0a7149d7-a3b2-46cd-902b-1f59b0dd0990",
+      "severity": 2,
+      "topic": "billing"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Complains interface is boring and repetitive daily.",
+      "review_id": "390c0848-57bc-49ca-ba95-df073c948f04",
+      "severity": 2,
+      "topic": "usability"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Generic statement that app is not good.",
+      "review_id": "84cd75aa-c671-4ee8-a92f-758b1530c0d3",
+      "severity": 2,
+      "topic": "other"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Lyrics missing after update, frustrating experience.",
+      "review_id": "1ceb4360-9790-4c07-bed9-4fe922feeb03",
+      "severity": 3,
+      "topic": "catalog"
+    },
+    {
+      "intent": "praise",
+      "reason": "Praises app and low ad frequency.",
+      "review_id": "84aafada-1ac9-4c34-bb6d-a23e0126b205",
+      "severity": 1,
+      "topic": "usability"
+    },
+    {
+      "intent": "complaint",
+      "reason": "Generic complaint about recent updates making it worst.",
+      "review_id": "2addeeab-962a-4f37-9cbc-7b48570f62d5",
+      "severity": 2,
+      "topic": "other"
+    },
+    {
+      "intent": "praise",
+      "reason": "Single word general positive sentiment.",
+      "review_id": "6627a878-58e2-421f-81f9-fdbaafd5b6f5",
+      "severity": 1,
+      "topic": "other"
+    }
+  ]
+}

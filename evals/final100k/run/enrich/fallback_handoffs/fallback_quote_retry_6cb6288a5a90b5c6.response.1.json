@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.00221",
+  "effort": "none",
+  "input_tokens": 1730,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 96,
+  "request_id": "req_011Cfn8PwA4zkjqC7fKkjcED",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"f8aeab6f-4389-4587-b369-1218522f6bd9\",\"topic\":\"catalog\",\"intent\":\"request\",\"severity\":3,\"sentiment\":\"neutral or mixed\",\"evidence_quote\":\"Why is lyrics not showing in Spotify?\",\"needs_review\":false,\"reason\":\"Lyrics unavailability is a catalog issue; request for payment options is secondary.\"}]}"
+}

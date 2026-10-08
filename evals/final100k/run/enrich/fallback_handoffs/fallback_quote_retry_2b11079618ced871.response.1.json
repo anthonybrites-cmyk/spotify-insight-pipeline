@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.002359",
+  "effort": "none",
+  "input_tokens": 1814,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 109,
+  "request_id": "req_011Cfn8NHaM4oQkGvCPTsJDs",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"536a8a70-ffda-427b-8b3b-13dbbde0e2f1\",\"topic\":\"usability\",\"intent\":\"praise\",\"severity\":1,\"sentiment\":\"very positive\",\"evidence_quote\":\"Spotify listened!!!! (This is my new review after they changed the hompage back..thank god😁)\",\"needs_review\":false,\"reason\":\"Positive review praising homepage design change after complaint was addressed.\"}]}"
+}

@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "evidence_quote": "Why is lyrics not showing in Spotify?",
+      "intent": "request",
+      "needs_review": false,
+      "reason": "Lyrics unavailability is a catalog issue; request for payment options is secondary.",
+      "review_id": "f8aeab6f-4389-4587-b369-1218522f6bd9",
+      "sentiment": "neutral or mixed",
+      "severity": 3,
+      "topic": "catalog"
+    }
+  ]
+}

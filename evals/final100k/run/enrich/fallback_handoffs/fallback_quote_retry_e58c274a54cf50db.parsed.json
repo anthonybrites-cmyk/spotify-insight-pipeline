@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "evidence_quote": "I love using Spotify for my music",
+      "intent": "praise",
+      "needs_review": false,
+      "reason": "Overall positive review with minor usability complaint mentioned but not primary focus.",
+      "review_id": "67a3c9df-cf38-40ce-b145-31f592eda1e3",
+      "sentiment": "positive",
+      "severity": 1,
+      "topic": "usability"
+    }
+  ]
+}

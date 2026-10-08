@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "evidence_quote": "On PC you can choose what song you want to hear and ad's appear every 5-7 songs. Why can't mobile have that?",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Mobile lacks song selection control available on PC; control restricted for free users.",
+      "review_id": "cda14629-a3b5-4ada-9795-c2c622059de0",
+      "sentiment": "negative",
+      "severity": 3,
+      "topic": "billing"
+    }
+  ]
+}

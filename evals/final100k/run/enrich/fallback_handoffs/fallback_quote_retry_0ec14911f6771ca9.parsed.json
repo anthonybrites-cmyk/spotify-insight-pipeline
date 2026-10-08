@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "evidence_quote": "couldn't see my like playlist whever I opened the playlist of likes it's show black screen",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Playlist display broken; workaround exists with other playlists.",
+      "review_id": "102cdffe-dc37-416a-af31-3f9314387368",
+      "sentiment": "negative",
+      "severity": 3,
+      "topic": "usability"
+    }
+  ]
+}

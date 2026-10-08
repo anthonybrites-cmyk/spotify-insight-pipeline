@@ -1,0 +1,44 @@
+{
+  "results": [
+    {
+      "evidence_quote": "can't skip songs can't even listen liked songs",
+      "intent": "cancellation",
+      "needs_review": false,
+      "reason": "Skip and song selection controls locked for free users.",
+      "review_id": "21b73ca4-fca3-4423-847b-419e199dd610",
+      "sentiment": "very negative",
+      "severity": 4,
+      "topic": "billing"
+    },
+    {
+      "evidence_quote": "After the recent update it's not working while using Android auto",
+      "intent": "cancellation",
+      "needs_review": false,
+      "reason": "Core playback function blocked after update; threatens to switch.",
+      "review_id": "66238df5-f9bc-43be-95d4-7d50c277d5b7",
+      "sentiment": "very negative",
+      "severity": 4,
+      "topic": "playback"
+    },
+    {
+      "evidence_quote": "Sometimes a completely different song plays, not the one I selected",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Selected songs fail to play; wrong song plays instead.",
+      "review_id": "61739f53-6b95-4997-b3c6-f1dec193a527",
+      "sentiment": "very negative",
+      "severity": 4,
+      "topic": "playback"
+    },
+    {
+      "evidence_quote": "latest UI update made it pretty much unusable",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Navigation degraded by unwanted UI change; workaround possible.",
+      "review_id": "12a69762-323e-423d-9775-a3d067bb9c2e",
+      "sentiment": "negative",
+      "severity": 3,
+      "topic": "usability"
+    }
+  ]
+}

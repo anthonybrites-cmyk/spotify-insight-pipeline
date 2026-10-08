@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "evidence_quote": "I didn't meticulously craft my playlists for spotify to have the gall to play suggested songs in playlists where they don't belong.",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Unwanted songs appearing in playlists despite autoplay disabled.",
+      "review_id": "a2155205-7694-4ada-9bde-c334b29ecf4e",
+      "sentiment": "very negative",
+      "severity": 3,
+      "topic": "usability"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.004519",
+  "effort": "none",
+  "input_tokens": 2204,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 463,
+  "request_id": "req_011Cfn8URYV831kWHBxi8jUG",
+  "stop_reason": "end_turn",
+  "text": "{\"results\": [{\"review_id\": \"60306d58-cc3f-469d-a8e4-3ef15949da74\", \"topic\": \"other\", \"intent\": \"unclear\", \"severity\": 1, \"sentiment\": \"neutral or mixed\", \"evidence_quote\": \"I̊s̊ åp̊p̊ k̊o̊ b̊h̊i̊ D̊e̊l̊e̊t̊e̊ k̊i̊ẙå j̊ååẙe̊ p̊l̊åẙ S̊t̊o̊r̊e̊ p̊e̊r̊ s̊e̊ H̊åt̊å D̊i̊ẙå J̊ååẙe̊ i̊s̊e̊ ååp̊k̊o̊\", \"needs_review\": false, \"reason\": \"Gibberish text with diacritical marks, unintelligible content.\"}, {\"review_id\": \"563acfda-9cd6-48e1-aaf7-45e1e6bbf240\", \"topic\": \"usability\", \"intent\": \"complaint\", \"severity\": 2, \"sentiment\": \"negative\", \"evidence_quote\": \"We skip the ad part it is not that bad\", \"needs_review\": false, \"reason\": \"Generic complaint about ads; minor annoyance.\"}, {\"review_id\": \"066ac1dc-6346-40a9-b03f-bcf2e2d89a3d\", \"topic\": \"catalog\", \"intent\": \"complaint\", \"severity\": 2, \"sentiment\": \"very negative\", \"evidence_quote\": \"why yours not releasing it for all countries\", \"needs_review\": false, \"reason\": \"Feature unavailable in user's country; complaint about catalog/regional access.\"}]}"
+}

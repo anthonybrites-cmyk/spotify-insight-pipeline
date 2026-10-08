@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.002287",
+  "effort": "none",
+  "input_tokens": 1727,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 112,
+  "request_id": "req_011Cfn8XYsMHbqJG9jNhRLbh",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"b60c12d4-df06-4b95-b12c-3dbc9d21bccc\",\"topic\":\"billing\",\"intent\":\"cancellation\",\"severity\":3,\"sentiment\":\"very negative\",\"evidence_quote\":\"now I'm uninstalling hrr baat pe premium skip v nhi krr skte ho ab aap new updates ke karan\",\"needs_review\":false,\"reason\":\"Explicit cancellation with complaint about premium skip restriction.\"}]}"
+}

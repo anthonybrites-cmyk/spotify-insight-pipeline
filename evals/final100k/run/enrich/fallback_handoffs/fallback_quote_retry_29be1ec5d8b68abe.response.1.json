@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.003132",
+  "effort": "none",
+  "input_tokens": 2002,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 226,
+  "request_id": "req_011Cfn8HVEgT1hiDzxwRW48t",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"bfb4c3a5-7ec1-40fa-81c3-3ac068c04e86\",\"topic\":\"usability\",\"intent\":\"complaint\",\"severity\":3,\"sentiment\":\"negative\",\"evidence_quote\":\"if I look up an artist, select an album, then push play it seems reasonable that the album would start to play!?\",\"needs_review\":false,\"reason\":\"Album fails to play selected content; shuffle/recommendation issue degrades function.\"},{\"review_id\":\"d2abc337-a78b-48a5-96dc-1a1cce028bda\",\"topic\":\"usability\",\"intent\":\"cancellation\",\"severity\":4,\"sentiment\":\"very negative\",\"evidence_quote\":\"I'm searching to listen to a track, and the app is playing a whole playlist on it's own, and the playlist doesn't even start with my desired song.\",\"needs_review\":false,\"reason\":\"Cannot control playback or disable shuffle; core function blocked. Explicit departure.\"}]}"
+}

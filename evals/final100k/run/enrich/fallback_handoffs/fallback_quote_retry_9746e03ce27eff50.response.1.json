@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.002562",
+  "effort": "none",
+  "input_tokens": 1827,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 147,
+  "request_id": "req_011Cfn8PpTFZpD5eKrzmf42B",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"2e0c2832-b503-4671-bf0c-a49c60f1d94a\",\"topic\":\"playback\",\"intent\":\"complaint\",\"severity\":3,\"sentiment\":\"negative\",\"evidence_quote\":\"Every time I close it out completely from the background it either loses my place in my playlist (I listen to it from start to finish in alphabetical order bc the shuffle algorithm sucks) and skips back to the beginning OR it gets stuck on a loop of 6 songs in the playlist\",\"needs_review\":false,\"reason\":\"Playback disruption: queue resets and song loops prevent normal listening.\"}]}"
+}

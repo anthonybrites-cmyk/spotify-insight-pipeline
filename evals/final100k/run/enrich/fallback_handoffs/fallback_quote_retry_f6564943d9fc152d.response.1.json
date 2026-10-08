@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.004119",
+  "effort": "none",
+  "input_tokens": 2294,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 365,
+  "request_id": "req_011Cfn8TQ4A8SgsxcvvLBwuw",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"d546454a-b492-4b72-bcfe-2a30855eb79a\",\"topic\":\"billing\",\"intent\":\"cancellation\",\"severity\":4,\"sentiment\":\"very negative\",\"evidence_quote\":\"we cannot play songs in order, we cannot replay the song , we cannot listen parts of song, we cannot EVEN listen songs of our choice\",\"needs_review\":false,\"reason\":\"Premium features locked; user threatens switching apps.\"},{\"review_id\":\"9c153d59-ac9a-4f3f-b201-f621e62afff7\",\"topic\":\"catalog\",\"intent\":\"complaint\",\"severity\":3,\"sentiment\":\"negative\",\"evidence_quote\":\"Two features that would be extremely useful for UK and other European users (especially for the UK given recent changes to our law) that are completely unavailable\",\"needs_review\":false,\"reason\":\"Features unavailable by region despite paying same fee.\"},{\"review_id\":\"6ca466d8-34b0-4dcb-8408-e06e0aa218c2\",\"topic\":\"access\",\"intent\":\"praise\",\"severity\":1,\"sentiment\":\"very positive\",\"evidence_quote\":\"this app is great. Thanks for the quick response.\",\"needs_review\":false,\"reason\":\"Issue resolved; praised support response.\"},{\"review_id\":\"f387fa95-9579-4b09-8e35-b0eaafc20119\",\"topic\":\"playback\",\"intent\":\"praise\",\"severity\":1,\"sentiment\":\"positive\",\"evidence_quote\":\"Finally glad that it seems to be fixed.\",\"needs_review\":false,\"reason\":\"Past problem resolved; satisfied with current state.\"}]}"
+}

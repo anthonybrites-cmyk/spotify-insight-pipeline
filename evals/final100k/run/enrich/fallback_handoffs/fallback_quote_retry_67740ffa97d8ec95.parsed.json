@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "evidence_quote": "Why the selection is so annoying. It need to buy the premium pack",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "User dislikes premium paywall restricting selection; no function blocked.",
+      "review_id": "0f3b3789-0928-4786-a01d-d242eb851024",
+      "sentiment": "negative",
+      "severity": 2,
+      "topic": "billing"
+    }
+  ]
+}

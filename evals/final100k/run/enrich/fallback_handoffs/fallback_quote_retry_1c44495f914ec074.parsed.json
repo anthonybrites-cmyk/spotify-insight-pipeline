@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "evidence_quote": "UnInstalled due to stupid premium plans",
+      "intent": "cancellation",
+      "needs_review": false,
+      "reason": "User uninstalled due to premium plan criticism; play in order is billing-controlled feature.",
+      "review_id": "573cfc9e-8a3d-41f1-b66e-fe539032f5cf",
+      "sentiment": "very negative",
+      "severity": 2,
+      "topic": "billing"
+    }
+  ]
+}

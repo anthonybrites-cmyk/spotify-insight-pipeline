@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.002453",
+  "effort": "none",
+  "input_tokens": 1813,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 128,
+  "request_id": "req_011Cfn8aSXCHh1XByQMKsY4s",
+  "stop_reason": "end_turn",
+  "text": "{\"results\": [{\"review_id\": \"a2155205-7694-4ada-9bde-c334b29ecf4e\", \"topic\": \"usability\", \"intent\": \"complaint\", \"severity\": 3, \"sentiment\": \"very negative\", \"evidence_quote\": \"I didn't meticulously craft my playlists for spotify to have the gall to play suggested songs in playlists where they don't belong.\", \"needs_review\": false, \"reason\": \"Unwanted songs appearing in playlists despite autoplay disabled.\"}]}"
+}

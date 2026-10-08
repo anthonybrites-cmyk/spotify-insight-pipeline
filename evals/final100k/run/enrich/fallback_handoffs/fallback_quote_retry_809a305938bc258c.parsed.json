@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "evidence_quote": "i didnt like the factthat you guys have 'download' access in the premium feature",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "User dislikes download feature being premium-only, mixed praise and complaint.",
+      "review_id": "31ebdac5-5dbd-4da2-b8aa-8ecacb85dfbf",
+      "sentiment": "negative",
+      "severity": 2,
+      "topic": "billing"
+    }
+  ]
+}

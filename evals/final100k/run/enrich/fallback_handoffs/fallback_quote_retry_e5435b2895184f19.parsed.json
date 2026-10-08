@@ -1,0 +1,54 @@
+{
+  "results": [
+    {
+      "evidence_quote": "These app is very smooth and I'm so happy😄😃😁 for these app",
+      "intent": "praise",
+      "needs_review": false,
+      "reason": "General praise with no specific feature mentioned.",
+      "review_id": "aa26b182-340d-4ebf-a67a-e228ea1dd3f7",
+      "sentiment": "very positive",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "evidence_quote": "after I update to the new version, before the time I have to pay for the next month, I can't listen to any song in spotify because of the warning blocked the whole app",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Cannot play any music after update; core task blocked.",
+      "review_id": "9230bb37-ec49-4ffe-a21d-0f2a9087a778",
+      "sentiment": "negative",
+      "severity": 4,
+      "topic": "playback"
+    },
+    {
+      "evidence_quote": "𝙰 𝚟𝚎𝚛𝚢 𝚗𝚒𝚌𝚎 𝚊𝚙𝚙 𝚕𝚘𝚟𝚎 𝚝𝚑𝚒𝚜 𝚊𝚙𝚙 🥰 𝚊𝚗𝚍 𝚒𝚝 𝚒𝚜 𝚊𝚕𝚜𝚘 𝚟𝚎𝚛𝚢 𝚞𝚜𝚎𝚏𝚞𝚕",
+      "intent": "praise",
+      "needs_review": false,
+      "reason": "General praise with no specific feature.",
+      "review_id": "23fc23e9-8ef2-4408-a267-18274a81b811",
+      "sentiment": "very positive",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "evidence_quote": "sometimes they show two ads even though thirty minutes haven't passed yet",
+      "intent": "praise",
+      "needs_review": false,
+      "reason": "Minor annoyance about ad frequency but still very positive overall.",
+      "review_id": "319ce2a1-9f2f-4013-9a75-911d3d216085",
+      "sentiment": "positive",
+      "severity": 2,
+      "topic": "usability"
+    },
+    {
+      "evidence_quote": "off the internet for over 30 days which the app will uninstall your music, this sucks for people I know who go without internet for months at a time yet maintain a subscription but can't listen to installed music due to this limitation",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Downloaded music deleted after 30 days offline; function degraded but workaround exists.",
+      "review_id": "2bab4608-6ce6-4841-a6f9-9eccdf48ff9c",
+      "sentiment": "negative",
+      "severity": 3,
+      "topic": "downloads"
+    }
+  ]
+}

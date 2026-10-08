@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "evidence_quote": "Great App/Service! -2016 Still using it! Still loving it!",
+      "intent": "praise",
+      "needs_review": false,
+      "reason": "Overall praise with no specific feature mentioned",
+      "review_id": "7387471e-1a48-48f5-80c8-f19e295e03c5",
+      "sentiment": "very positive",
+      "severity": 1,
+      "topic": "other"
+    }
+  ]
+}

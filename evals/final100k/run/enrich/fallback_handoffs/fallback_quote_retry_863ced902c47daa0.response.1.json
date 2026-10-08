@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.00222",
+  "effort": "none",
+  "input_tokens": 1755,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 93,
+  "request_id": "req_011Cfn8X7CkmjBzVhu3Vn4i4",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"e07cbffe-2a82-4c36-beb5-2765a17a8068\",\"topic\":\"billing\",\"intent\":\"complaint\",\"severity\":4,\"sentiment\":\"very negative\",\"evidence_quote\":\"u can no more skip songs or skip to my favorite part\",\"needs_review\":false,\"reason\":\"Skip controls locked behind Premium after update; core functionality blocked.\"}]}"
+}

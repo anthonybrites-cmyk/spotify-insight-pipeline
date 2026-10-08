@@ -1,0 +1,34 @@
+{
+  "results": [
+    {
+      "evidence_quote": "I̊s̊ åp̊p̊ k̊o̊ b̊h̊i̊ D̊e̊l̊e̊t̊e̊ k̊i̊ẙå j̊ååẙe̊ p̊l̊åẙ S̊t̊o̊r̊e̊ p̊e̊r̊ s̊e̊ H̊åt̊å D̊i̊ẙå J̊ååẙe̊ i̊s̊e̊ ååp̊k̊o̊",
+      "intent": "unclear",
+      "needs_review": false,
+      "reason": "Gibberish text with diacritical marks, unintelligible content.",
+      "review_id": "60306d58-cc3f-469d-a8e4-3ef15949da74",
+      "sentiment": "neutral or mixed",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "evidence_quote": "We skip the ad part it is not that bad",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Generic complaint about ads; minor annoyance.",
+      "review_id": "563acfda-9cd6-48e1-aaf7-45e1e6bbf240",
+      "sentiment": "negative",
+      "severity": 2,
+      "topic": "usability"
+    },
+    {
+      "evidence_quote": "why yours not releasing it for all countries",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Feature unavailable in user's country; complaint about catalog/regional access.",
+      "review_id": "066ac1dc-6346-40a9-b03f-bcf2e2d89a3d",
+      "sentiment": "very negative",
+      "severity": 2,
+      "topic": "catalog"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "evidence_quote": "A must-have for every person. Unlimited music listening",
+      "intent": "praise",
+      "needs_review": false,
+      "reason": "General praise of app with no specific feature complaint.",
+      "review_id": "acc7b463-310e-4366-9f6c-5eea78ed591c",
+      "sentiment": "very positive",
+      "severity": 1,
+      "topic": "other"
+    }
+  ]
+}

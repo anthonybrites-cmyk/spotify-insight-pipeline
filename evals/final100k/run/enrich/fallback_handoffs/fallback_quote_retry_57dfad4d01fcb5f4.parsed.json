@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "evidence_quote": "even we can't change the track without premium",
+      "intent": "cancellation",
+      "needs_review": false,
+      "reason": "User explicitly states they will download tracks elsewhere due to premium restrictions on track control.",
+      "review_id": "cc67fdf1-3dd6-4f75-a41e-1a5936d81253",
+      "sentiment": "very negative",
+      "severity": 4,
+      "topic": "billing"
+    }
+  ]
+}

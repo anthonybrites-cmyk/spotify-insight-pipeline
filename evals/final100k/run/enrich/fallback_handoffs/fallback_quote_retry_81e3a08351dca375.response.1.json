@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.00216",
+  "effort": "none",
+  "input_tokens": 1720,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 88,
+  "request_id": "req_011Cfn8PfNYQvDnTwCNzpRjX",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"d9151b5e-1189-4ed8-b6d6-965a118d1842\",\"topic\":\"other\",\"intent\":\"praise\",\"severity\":1,\"sentiment\":\"very positive\",\"evidence_quote\":\"l love Spotify it's the best :3\",\"needs_review\":false,\"reason\":\"General praise with no specific feature mentioned.\"}]}"
+}

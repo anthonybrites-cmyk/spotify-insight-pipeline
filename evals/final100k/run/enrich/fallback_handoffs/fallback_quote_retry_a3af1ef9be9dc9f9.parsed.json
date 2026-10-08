@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "evidence_quote": "You Can't Skip Through Songs More Than 6 Times An Hour, Skip To Parts Of A Song, Effectively Add Songs To Queue, Or See The Order Of Songs Playing Or Play Songs Again In 24 Hours Without Premium.",
+      "intent": "cancellation",
+      "needs_review": false,
+      "reason": "Controls explicitly locked behind Premium; writer threatens departure.",
+      "review_id": "8effb009-58c1-4e9e-8f96-eca549b03dfc",
+      "sentiment": "very negative",
+      "severity": 4,
+      "topic": "billing"
+    }
+  ]
+}

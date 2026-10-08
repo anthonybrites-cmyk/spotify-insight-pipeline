@@ -1,0 +1,34 @@
+{
+  "results": [
+    {
+      "evidence_quote": "Its was a very nice app for listing music",
+      "intent": "praise",
+      "needs_review": false,
+      "reason": "General praise, no specific feature mentioned.",
+      "review_id": "075c85c2-7ff8-4588-adb0-e7ec9035144d",
+      "sentiment": "positive",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "evidence_quote": "I cannot rewind song nor can I play song of my choice ... This shows that I cannot have a good song experience if I don't pay for premium",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Controls locked behind Premium; core task blocked.",
+      "review_id": "22dc0ccd-2d26-4014-9438-b5add2934f03",
+      "sentiment": "very negative",
+      "severity": 4,
+      "topic": "billing"
+    },
+    {
+      "evidence_quote": "spotify. me. apne. suffle lisning. song. very. dificult. it. is. a. hamble. request. erase. the. suffle. make. it. old. spotify",
+      "intent": "request",
+      "needs_review": true,
+      "reason": "Unclear text; appears to request shuffle removal but unintelligible.",
+      "review_id": "9583a6e2-31d0-4458-b04d-5d464424c6ab",
+      "sentiment": "negative",
+      "severity": 2,
+      "topic": "usability"
+    }
+  ]
+}

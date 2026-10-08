@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "evidence_quote": "I don't want to click on follow with every single artist for I can just listen to some songs I like",
+      "intent": "request",
+      "needs_review": false,
+      "reason": "Feature request for library organization with generic praise mixed in.",
+      "review_id": "3469b5f8-cc10-42b8-8752-3e0d5cbea502",
+      "sentiment": "neutral or mixed",
+      "severity": 2,
+      "topic": "usability"
+    }
+  ]
+}

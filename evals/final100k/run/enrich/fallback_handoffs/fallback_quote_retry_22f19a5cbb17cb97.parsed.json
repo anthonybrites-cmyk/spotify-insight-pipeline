@@ -1,0 +1,24 @@
+{
+  "results": [
+    {
+      "evidence_quote": "I love spotty! Have used 2 different apps in the past, and they were very difficult to figure out! I am so happy to have found Spotify!",
+      "intent": "praise",
+      "needs_review": false,
+      "reason": "General praise with no specific feature mentioned.",
+      "review_id": "090369b6-4d11-4ca6-80df-1a3d058c8d92",
+      "sentiment": "very positive",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "evidence_quote": "now its just unbearable, literally u just can't listen music without purchasing premium",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Ads frequency degrading usability; some listening still possible.",
+      "review_id": "eb84af75-2e0e-4462-a3fc-46b2f41675ea",
+      "sentiment": "very negative",
+      "severity": 3,
+      "topic": "usability"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "evidence_quote": "when I search a song like habang buhay and when I play it a different song play",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Wrong song plays when selected; function degraded but app usable.",
+      "review_id": "19a70754-333f-47d8-ac02-8d6af9d91e77",
+      "sentiment": "negative",
+      "severity": 3,
+      "topic": "playback"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "evidence_quote": "It is always enjoyable and I can I can listen to the music that I want to hear",
+      "intent": "praise",
+      "needs_review": false,
+      "reason": "General praise with no specific feature mentioned.",
+      "review_id": "de92a218-5570-429c-8e18-1a9e78ac3795",
+      "sentiment": "very positive",
+      "severity": 1,
+      "topic": "other"
+    }
+  ]
+}

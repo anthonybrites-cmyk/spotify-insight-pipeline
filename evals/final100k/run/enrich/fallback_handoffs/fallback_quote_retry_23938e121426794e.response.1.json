@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.002207",
+  "effort": "none",
+  "input_tokens": 1747,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 92,
+  "request_id": "req_011Cfn8JLcYwx5bKm7v3QEus",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"243dc040-aef0-4f88-9cf4-182fa65f85bc\",\"topic\":\"usability\",\"intent\":\"complaint\",\"severity\":2,\"sentiment\":\"negative\",\"evidence_quote\":\"the excessive hyoer media, associated with the ads\",\"needs_review\":false,\"reason\":\"Mixed review with generic criticism and ad complaints, no core function blocked.\"}]}"
+}

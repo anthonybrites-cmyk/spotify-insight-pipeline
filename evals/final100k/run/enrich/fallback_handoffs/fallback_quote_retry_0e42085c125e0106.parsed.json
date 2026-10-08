@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "evidence_quote": "I had premium on my other devices, so i'm looking forward to applying it to this device soon.",
+      "intent": "praise",
+      "needs_review": false,
+      "reason": "General positive sentiment about Premium feature across devices.",
+      "review_id": "6502e2e5-4a38-482f-9999-34316f64d738",
+      "sentiment": "positive",
+      "severity": 1,
+      "topic": "other"
+    }
+  ]
+}

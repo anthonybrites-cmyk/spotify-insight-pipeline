@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "evidence_quote": "It won't actually let me listen to my playlists anymore. I made a new playlist this morning and instead of letting me listen to it, it started playing the recommended songs and there's no way that I've been able to find to make it stop. There's also no way to turn off shuffle. It won't let you click on specific songs in your playlist anymore",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Playlist controls degraded; workarounds may exist but core functionality restricted.",
+      "review_id": "3eb78b23-f840-4786-a966-5ed8f7e6160d",
+      "sentiment": "very negative",
+      "severity": 3,
+      "topic": "usability"
+    }
+  ]
+}

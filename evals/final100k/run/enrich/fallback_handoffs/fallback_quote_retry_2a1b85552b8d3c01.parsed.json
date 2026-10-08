@@ -1,0 +1,74 @@
+{
+  "results": [
+    {
+      "evidence_quote": "when i pressed join, it didn't work. It said I had the wrong address and won't be able to join a family plan for a whole year.",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Family plan join failed with address block; core task blocked.",
+      "review_id": "b98758c1-58f0-4251-a211-23ab727b5f38",
+      "sentiment": "negative",
+      "severity": 4,
+      "topic": "billing"
+    },
+    {
+      "evidence_quote": "Music has been cutting out for weeks.",
+      "intent": "cancellation",
+      "needs_review": false,
+      "reason": "Chronic playback failure plus explicit departure threat.",
+      "review_id": "574d3a84-5cab-43c2-8573-367f42555bf6",
+      "sentiment": "very negative",
+      "severity": 4,
+      "topic": "playback"
+    },
+    {
+      "evidence_quote": "Half of my playlist is gone from my downloads.",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Downloaded songs missing; core offline function blocked.",
+      "review_id": "4bfb27a4-a40b-4fd1-9028-e6316c929840",
+      "sentiment": "negative",
+      "severity": 4,
+      "topic": "downloads"
+    },
+    {
+      "evidence_quote": "Plays random music not from my playlists. All of a sudden will only play suggested songs.",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Cannot play chosen music; core function blocked.",
+      "review_id": "2b3202a3-bfcc-4729-b9bb-66fa7b477435",
+      "sentiment": "very negative",
+      "severity": 4,
+      "topic": "playback"
+    },
+    {
+      "evidence_quote": "for 3 years I've waited for hi-fi and you still can't get it together.",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Missing audio quality feature; degraded experience but workaround exists.",
+      "review_id": "2139aed7-bcd2-4da7-ba23-503064041c3c",
+      "sentiment": "negative",
+      "severity": 3,
+      "topic": "catalog"
+    },
+    {
+      "evidence_quote": "#SpotifyCorrupt",
+      "intent": "unclear",
+      "needs_review": false,
+      "reason": "Unsubstantiated conspiracy allegations without product complaint.",
+      "review_id": "e6d1e45b-412c-49cf-956a-3525d7bc4964",
+      "sentiment": "very negative",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "evidence_quote": "I have a Playlist with 4 songs and I can never listen to the songs because it plays everything else but the songs I added to there.",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Cannot play chosen playlist songs; core function blocked.",
+      "review_id": "0d943136-0d00-4c2a-a787-bbd44a93b1ea",
+      "sentiment": "very negative",
+      "severity": 4,
+      "topic": "usability"
+    }
+  ]
+}

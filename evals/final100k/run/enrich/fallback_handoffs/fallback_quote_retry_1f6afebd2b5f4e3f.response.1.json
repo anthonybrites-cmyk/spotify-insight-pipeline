@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.002292",
+  "effort": "none",
+  "input_tokens": 1797,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 99,
+  "request_id": "req_011Cfn8BsnLEhkrfqZBhHV6H",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"7851312a-156c-4387-a9b6-1ba9836a9825\",\"topic\":\"usability\",\"intent\":\"complaint\",\"severity\":3,\"sentiment\":\"very negative\",\"evidence_quote\":\"it started playing recommend songs instead. The premium page is also in hungarian\",\"needs_review\":false,\"reason\":\"Playlist plays wrong songs; UI language issue; shuffle disabled for free users.\"}]}"
+}

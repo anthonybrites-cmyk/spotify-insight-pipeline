@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.003169",
+  "effort": "none",
+  "input_tokens": 1944,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 245,
+  "request_id": "req_011Cfn8YR3qgnhgctwzhM1eA",
+  "stop_reason": "end_turn",
+  "text": "{\"results\": [{\"review_id\": \"2a76e284-c74d-4b8b-b314-6a12f81be081\", \"topic\": \"other\", \"intent\": \"praise\", \"severity\": 1, \"sentiment\": \"very positive\", \"evidence_quote\": \"it's like the best app Netflix and this between it they're both good but I would have to go with Spotify Spotify has everything you need all the songs you want\", \"needs_review\": false, \"reason\": \"General praise with no specific feature complaint or issue.\"}, {\"review_id\": \"2940c1f7-c32d-485c-b16b-9ac375e6ef95\", \"topic\": \"support\", \"intent\": \"cancellation\", \"severity\": 4, \"sentiment\": \"very negative\", \"evidence_quote\": \"I uninstalled the app and cutoff the funding for the subscription lastnight. 1. There is no customer support\", \"needs_review\": false, \"reason\": \"Explicit cancellation and uninstall due to lack of support.\"}]}"
+}

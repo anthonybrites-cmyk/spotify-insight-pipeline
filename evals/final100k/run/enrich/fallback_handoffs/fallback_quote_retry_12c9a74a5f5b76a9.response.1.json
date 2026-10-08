@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.002233",
+  "effort": "none",
+  "input_tokens": 1748,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 97,
+  "request_id": "req_011Cfn8SmTW2vmb6siMa5p3X",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"d6893ae4-fb0f-437c-917d-4faff40f94c2\",\"topic\":\"usability\",\"intent\":\"cancellation\",\"severity\":3,\"sentiment\":\"very negative\",\"evidence_quote\":\"But I'm moving on, I think the app is useless.\",\"needs_review\":false,\"reason\":\"Explicit cancellation with complaint about playback control limitations.\"}]}"
+}

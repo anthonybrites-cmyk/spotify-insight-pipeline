@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "evidence_quote": "I have company during my long drives (music shoo away sleepiness and boredom when driving)",
+      "intent": "praise",
+      "needs_review": false,
+      "reason": "General praise for app's music and meditation features",
+      "review_id": "2ac553d5-791e-4e81-b0fc-85154026b2ca",
+      "sentiment": "very positive",
+      "severity": 1,
+      "topic": "other"
+    }
+  ]
+}

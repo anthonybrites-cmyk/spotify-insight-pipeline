@@ -1,0 +1,24 @@
+{
+  "results": [
+    {
+      "evidence_quote": "on peut pas downloader sa musique sur une carte SD externe",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Cannot download music to external SD card; core function degraded.",
+      "review_id": "55e6ec8b-ecf8-42e2-bf33-d1dcc1ff2fb0",
+      "sentiment": "very negative",
+      "severity": 3,
+      "topic": "downloads"
+    },
+    {
+      "evidence_quote": "Love Spotify 😍🥰 been using it for a couple of years now!!",
+      "intent": "praise",
+      "needs_review": false,
+      "reason": "General praise with no specific feature mentioned.",
+      "review_id": "84df4e1b-5f97-4f2a-9af6-678c64ea253e",
+      "sentiment": "very positive",
+      "severity": 1,
+      "topic": "other"
+    }
+  ]
+}

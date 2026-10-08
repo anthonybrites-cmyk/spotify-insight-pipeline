@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.002205",
+  "effort": "none",
+  "input_tokens": 1715,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 98,
+  "request_id": "req_011Cfn8ZghSfRqJhGaLQvd8t",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"3f210a00-3a14-4897-8a17-1d0cf4e1d338\",\"topic\":\"other\",\"intent\":\"unclear\",\"severity\":1,\"sentiment\":\"neutral or mixed\",\"evidence_quote\":\"ঝড় ছ ⁶\",\"needs_review\":false,\"reason\":\"Meaningless or unintelligible text with no product feedback.\"}]}"
+}

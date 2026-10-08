@@ -10,13 +10,13 @@ The shared labels are closed sets: 8 topics, 5 intents, and 5 severity levels. J
 - **Code enforces the contract's rules.** Severity is set to 1 for praise, request and unclear reviews, and to at least 2 for complaints. Sentiment uses the course-documented mapping `sentiment = score / 2 − 1` on Jev's 0–4 Score position, computed in Decimal arithmetic. Jev's documentation advises keeping arithmetic and identity rules in code.
 - **Validation and retries.** Every Jev answer is checked: allowed option, level range, and an exact-substring quote. An invalid answer is retried at most once; if it is still invalid, the unit is quarantined with the reason and attempt count. Rate limits and transient errors are a separate case with bounded backoff.
 
-## Where Claude (`claude-sonnet-5`) is used
+## Where Claude is used
 
-It is used only for small tasks that need judgment or free text:
+Claude is used only for small tasks that need judgment or free text. In the final run: `claude-sonnet-5` for verification and the subtopic list, `claude-haiku-4-5` for the low-confidence fallback (next sections), and `claude-opus-5-5` for the memo.
 
-1. **Blind verification.** This is a different model family and never sees Jev's labels. The declared sample is uniform random: the lowest `sha256("spotify-insight-verify-v1:" + text_hash)` values, excluding golden-50 IDs. Agreement is reported overall and by Jev-confidence band. A planted-wrong-label test runs on a separate copy of the comparisons, uses no model calls, and must be caught by the same comparison code.
-2. **Subtopic list.** Claude proposes it from a saved, deterministic sample of complaint quotes.
-3. **The memo.**
+1. **Blind verification** (`claude-sonnet-5`). This is a different model family and never sees Jev's labels. The declared sample is uniform random: the lowest `sha256("spotify-insight-verify-v1:" + text_hash)` values, excluding golden-50 IDs. Agreement is reported overall and by Jev-confidence band. A planted-wrong-label test runs on a separate copy of the comparisons, uses no model calls, and must be caught by the same comparison code.
+2. **Subtopic list** (`claude-sonnet-5`). Claude proposes it from a saved, deterministic sample of complaint quotes.
+3. **The memo** (`claude-opus-5-5` in the final run, chosen after human review of Sonnet drafts; see the README's memo history).
 
 A material disagreement sets `needs_review=true`: topic or intent differs, or severity differs by 2 or more levels. The label itself is not overwritten, so each label keeps a single `label_config`.
 
@@ -87,7 +87,9 @@ The last two non-English rows together, 18,821 texts (3.9%), are the translation
 Plan, decided with measured data:
 1. The 500 and 10k runs report verifier agreement per language group. The 10k run also verifies all 268 non-English candidates as a separate declared stratum (`--verify-extra-groups`). The random sample stays the headline.
 2. If non-English agreement is clearly worse, test `--translate` on those 268 texts. That is enrichment only. `compare-translation` scores both Jev label sets against the *same* blind verifier labels and reports the translation cost.
-3. The setting is then fixed for the full run, so all 660,622 records share one `label_config`.
+3. The setting is then fixed for the final run, so every record shares one `label_config`.
+
+**Outcome (2026-10-06): translation off.** In the 10k run, all-three agreement with the blind verifier was 77.0% for English, 71.6% for Latin-script non-English and 88.4% for non-Latin script: no clear gap, so the translation test was not needed and was not run.
 
 When translation is on:
 - Claude translates candidates in batches of up to 50, with IDs checked and every batch saved.
@@ -98,15 +100,16 @@ When translation is on:
 
 ## Claude fallback for low-confidence labels
 
-- **Rule.** A text is re-labelled by Claude when Jev's minimum topic/intent/severity confidence is below 0.5, which was about 14% of texts in the 500 run.
+- **Rule.** A text is re-labelled by Claude when Jev's minimum topic/intent/severity confidence is below 0.5: about 14% of texts in the 500 run, 16.1% in the 10k run and 17.2% (13,446 texts) in the final run, under a declared cap of 20%.
+- **Model.** `claude-sonnet-5` (effort medium) in the 10k run; `claude-haiku-4-5` without extended thinking in the final run, chosen for cost (about a third per review) after the held-out check below.
 - **Blind.** Claude never sees Jev's answer. It returns topic, intent, severity, a sentiment level, an evidence quote and `needs_review` for up to 50 reviews per request.
 - **Code checks.** Every ID and enum is checked, and the quote must be an exact substring of that review. The same severity rules as for Jev are applied, and entities still come from the lexicon.
 - **Retries.** A structurally invalid response is retried once with the error. Reviews with a bad quote are retried once in a follow-up request. Anything still invalid keeps its Jev labels and is marked `needs_review` with the reason, so coverage is never lost.
-- **Provenance.** The fallback is part of enrichment. Its calls are logged as `enrich` calls under the same `label_config`, which gains `+fallback-claude-sonnet-5-t0.5-<hash>` for **every** record in the run. A record's final labels come from Claude (`decided_by: claude_fallback`) or Jev, and the Jev labels are kept alongside for comparison.
+- **Provenance.** The fallback is part of enrichment. Its calls are logged as `enrich` calls under the same `label_config`, which gains `+fallback-<model>-effort-<effort>-t0.5-cap0.2-<hash>` for **every** record in the run. A record's final labels come from Claude (`decided_by: claude_fallback`) or Jev, and the Jev labels are kept alongside for comparison.
 - **Checkpoints.** A low-confidence unit counts as completed only after its fallback resolves. An interrupted run's checkpoint therefore never claims it.
-- **Modes.** The 10k run uses the standard API. The full run uses the Message Batches API at 50% price: the batch ID is saved, and an interrupted run resumes polling instead of resubmitting. A failed batch request gets one retry through the standard API.
+- **Modes.** The 10k run used the standard API. The final run used the Message Batches API at 50% price (one batch of 269 requests, with an 8,000-token output cap per request): the batch ID is saved, and an interrupted run resumes polling instead of resubmitting. A failed batch request gets one retry through the standard API.
 - **Independence caveat.** For fallback-decided records, the verifier is the same model family as the labeller. Verification reports that stratum separately as a consistency check, not independent verification.
-- **Why, and the disclosure.** On the golden 50, in Jev's low-confidence band, Jev got all three labels right on 1 of 7 reviews and Claude on 5 of 7; above it, Jev was as good or better (`evals/golden/head_to_head.json`). Because the golden set informed this choice, it is disclosed, and the choice is re-checked on about 30 fresh held-out reviews from the 10k run, hand-labelled before predictions are shown.
+- **Why, and the disclosure.** On the golden 50, in Jev's low-confidence band, Jev got all three labels right on 1 of 7 reviews and Claude on 5 of 7; above it, Jev was as good or better (`evals/golden/head_to_head.json`). Because the golden set informed this choice, it is disclosed, and the choice was re-checked on 30 fresh held-out low-confidence reviews from the 10k run, hand-labelled blind: all three labels right for Jev alone on 12, Sonnet on 17, Haiku on 16 (`evals/heldout/`).
 
 ## Deviation from the shared definitions: severity 5
 
@@ -124,7 +127,7 @@ The change produces a new `label_config` prompt hash.
 
 **Disclosure.** The change was prompted while hand-labelling the golden set. No model predictions existed yet, so no golden *results* influenced it. Even so, a fresh, non-golden held-out case was added: `ctl_physical_harm` in `evals/injection_cases.jsonl`.
 
-**Risk.** The instructor's private benchmark uses the course's original definition. A health-harm review that this pipeline rates 5 may be expected as a lower level there. Such reviews are expected to be rare. Their count will be reported after the full run.
+**Risk.** The instructor's private benchmark uses the course's original definition. A health-harm review that this pipeline rates 5 may be expected as a lower level there. Such reviews are rare: in the final run, 448 of the 100,000 completed reviews have severity 5, and only 9 of their evidence quotes contain a health or injury word (a rough keyword check, not a manual count).
 
 ## Examples of applying the shared definitions
 

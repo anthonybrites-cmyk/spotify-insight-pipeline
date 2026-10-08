@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.00233",
+  "effort": "none",
+  "input_tokens": 1735,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 119,
+  "request_id": "req_011Cfn8GCW5iXv5gHhMz9fHY",
+  "stop_reason": "end_turn",
+  "text": "{\"results\": [{\"review_id\": \"0d7fa1d5-cc73-4794-9180-2e47cdf5c964\", \"topic\": \"usability\", \"intent\": \"complaint\", \"severity\": 2, \"sentiment\": \"negative\", \"evidence_quote\": \"why I have spotify premium if I have to listen to 3 to 4 ads while I'm listening to a podcast\", \"needs_review\": false, \"reason\": \"Complaint about ad frequency despite premium subscription.\"}]}"
+}

@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.003106",
+  "effort": "none",
+  "input_tokens": 1991,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 223,
+  "request_id": "req_011Cfn8YyZgW2KMzfVWT3FC9",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"15d191ed-6934-4e9d-b053-51e0871dfba4\",\"topic\":\"billing\",\"intent\":\"complaint\",\"severity\":4,\"sentiment\":\"very negative\",\"evidence_quote\":\"Here in Canada I'm unable to choose a specific song from my playlist (it will ONLY play songs on shuffle), rewind a song, go back to the previous song, skip songs\",\"needs_review\":false,\"reason\":\"Free tier controls explicitly locked behind Premium in Canada.\"},{\"review_id\":\"24cd09d5-db84-4ef7-8edb-8c5fad81bfda\",\"topic\":\"billing\",\"intent\":\"complaint\",\"severity\":4,\"sentiment\":\"very negative\",\"evidence_quote\":\"I'm not buying premium just to get the basic functions of the app. It's that i can't actually listen to music whenever I want to.\",\"needs_review\":false,\"reason\":\"Core controls restricted to Premium; user unable to skip or choose songs.\"}]}"
+}

@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "evidence_quote": "Please Don't Copy Our Links. Thank you.",
+      "intent": "unclear",
+      "needs_review": false,
+      "reason": "Unclear instruction-like statement unrelated to app features",
+      "review_id": "52191e15-572b-4f1e-9f8b-1f2622989a4d",
+      "sentiment": "neutral or mixed",
+      "severity": 1,
+      "topic": "other"
+    }
+  ]
+}

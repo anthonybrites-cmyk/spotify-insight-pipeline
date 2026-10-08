@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.003854",
+  "effort": "none",
+  "input_tokens": 2174,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 336,
+  "request_id": "req_011Cfn8MFQLmLXqQL4KXjBAk",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"bbf73600-df5c-4b2d-b83a-249eca002d0e\",\"topic\":\"other\",\"intent\":\"praise\",\"severity\":1,\"sentiment\":\"positive\",\"evidence_quote\":\"𝗴𝗼𝗼𝗱 •-• 𝗜𝘄𝗲 𝘁𝗵𝗶𝗻𝗸 𝘆𝗼𝘂 𝘀𝗵𝗼𝘂𝗹𝗱 𝗴𝗲𝘁 𝗶𝘁 𝗲𝘃𝗲𝗻 𝘄𝗶𝘁𝗵 𝗮𝗱𝗱𝘀\",\"needs_review\":false,\"reason\":\"General praise with no specific feature mentioned.\"},{\"review_id\":\"c09383bf-b18a-4c73-b9c8-5578217ac7b9\",\"topic\":\"billing\",\"intent\":\"cancellation\",\"severity\":4,\"sentiment\":\"very negative\",\"evidence_quote\":\"you removed tapping back, play in any order and loop features for non premium people\",\"needs_review\":false,\"reason\":\"Controls locked behind Premium; explicit uninstall statement indicates cancellation.\"}]}"
+}

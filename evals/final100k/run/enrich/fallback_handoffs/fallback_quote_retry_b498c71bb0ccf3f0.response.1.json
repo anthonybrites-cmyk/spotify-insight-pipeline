@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.002279",
+  "effort": "none",
+  "input_tokens": 1779,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 100,
+  "request_id": "req_011Cfn8FLABEuZGP1B85eNtu",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"71b322f4-1325-4a65-88c2-e284b1863753\",\"topic\":\"usability\",\"intent\":\"complaint\",\"severity\":3,\"sentiment\":\"very negative\",\"evidence_quote\":\"when you have a playlist spotify instead plays \\\"suggested songs\\\" over and over again\",\"needs_review\":false,\"reason\":\"Playlist behavior degraded by unwanted suggested songs interrupting playback.\"}]}"
+}

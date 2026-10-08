@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.002952",
+  "effort": "none",
+  "input_tokens": 2137,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 163,
+  "request_id": "req_011Cfn8KCoWpummR43fQWMiu",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"ceb180eb-cd49-4b33-ad2a-053762b23e1c\",\"topic\":\"other\",\"intent\":\"praise\",\"severity\":1,\"sentiment\":\"positive\",\"evidence_quote\":\"𝑻𝒉𝒊𝒔 𝒂𝒑𝒑 𝒊𝒔 𝒓𝒆𝒂𝒍 𝒓𝒆𝒂𝒍 𝒄𝒐𝒐𝒍\",\"needs_review\":false,\"reason\":\"General praise with no specific feature mentioned\"}]}"
+}

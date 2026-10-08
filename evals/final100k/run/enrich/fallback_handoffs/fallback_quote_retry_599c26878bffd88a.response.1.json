@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.003888",
+  "effort": "none",
+  "input_tokens": 2178,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 342,
+  "request_id": "req_011Cfn8WVYQ4sMe96g2z8SzR",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"21b73ca4-fca3-4423-847b-419e199dd610\",\"topic\":\"billing\",\"intent\":\"cancellation\",\"severity\":4,\"sentiment\":\"very negative\",\"evidence_quote\":\"can't skip songs can't even listen liked songs\",\"needs_review\":false,\"reason\":\"Skip and song selection controls locked for free users.\"},{\"review_id\":\"66238df5-f9bc-43be-95d4-7d50c277d5b7\",\"topic\":\"playback\",\"intent\":\"cancellation\",\"severity\":4,\"sentiment\":\"very negative\",\"evidence_quote\":\"After the recent update it's not working while using Android auto\",\"needs_review\":false,\"reason\":\"Core playback function blocked after update; threatens to switch.\"},{\"review_id\":\"61739f53-6b95-4997-b3c6-f1dec193a527\",\"topic\":\"playback\",\"intent\":\"complaint\",\"severity\":4,\"sentiment\":\"very negative\",\"evidence_quote\":\"Sometimes a completely different song plays, not the one I selected\",\"needs_review\":false,\"reason\":\"Selected songs fail to play; wrong song plays instead.\"},{\"review_id\":\"12a69762-323e-423d-9775-a3d067bb9c2e\",\"topic\":\"usability\",\"intent\":\"complaint\",\"severity\":3,\"sentiment\":\"negative\",\"evidence_quote\":\"latest UI update made it pretty much unusable\",\"needs_review\":false,\"reason\":\"Navigation degraded by unwanted UI change; workaround possible.\"}]}"
+}

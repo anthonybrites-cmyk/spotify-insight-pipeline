@@ -1,0 +1,34 @@
+{
+  "results": [
+    {
+      "evidence_quote": "So convenient all my music & pidcasts available when I need them!",
+      "intent": "praise",
+      "needs_review": false,
+      "reason": "General praise for convenience, no specific feature.",
+      "review_id": "c024b64d-902d-4660-b2b8-12730fe6e9e8",
+      "sentiment": "very positive",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "evidence_quote": "on hyvä juttu, että katsomalla mainoksen saa 30 min kuunnella musiikkia ilman katkoja",
+      "intent": "praise",
+      "needs_review": false,
+      "reason": "Praising ad-supported listening feature despite noting ad frequency.",
+      "review_id": "e932521b-ec25-4756-9193-9debe30ed4dd",
+      "sentiment": "very positive",
+      "severity": 1,
+      "topic": "usability"
+    },
+    {
+      "evidence_quote": "offline mode\" still tries to use your data to connect and slows everything down",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Offline mode degrades performance; core function works but restricted.",
+      "review_id": "4b149114-4ad4-4984-998e-f1b46a6f5ef3",
+      "sentiment": "very negative",
+      "severity": 3,
+      "topic": "playback"
+    }
+  ]
+}

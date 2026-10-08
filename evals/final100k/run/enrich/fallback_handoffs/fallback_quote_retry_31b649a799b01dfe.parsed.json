@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "evidence_quote": "mostly you can't even use it freely as it wants you to own Spotify premium",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Controls restricted for free users; core functionality limited without Premium.",
+      "review_id": "9f039f0c-77ea-4890-9c87-29dd07374b5a",
+      "sentiment": "negative",
+      "severity": 3,
+      "topic": "billing"
+    }
+  ]
+}

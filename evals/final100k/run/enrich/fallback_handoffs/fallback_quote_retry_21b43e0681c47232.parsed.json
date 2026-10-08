@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "evidence_quote": "Can't listen to anything.",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Core task blocked: audio skips when screen locked, unusable.",
+      "review_id": "8e78e885-b436-4e19-bfef-cd7fe828bc03",
+      "sentiment": "very negative",
+      "severity": 4,
+      "topic": "playback"
+    }
+  ]
+}

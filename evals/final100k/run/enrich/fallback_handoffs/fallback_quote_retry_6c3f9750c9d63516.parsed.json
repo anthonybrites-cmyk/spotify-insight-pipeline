@@ -1,0 +1,24 @@
+{
+  "results": [
+    {
+      "evidence_quote": "Man kann ohne dieses überteuerte Premium keine Offline Musik hören",
+      "intent": "cancellation",
+      "needs_review": false,
+      "reason": "Offline listening locked behind Premium; app deleted.",
+      "review_id": "1f6296c0-5883-40fb-9e65-35eaa096c0f6",
+      "sentiment": "very negative",
+      "severity": 4,
+      "topic": "billing"
+    },
+    {
+      "evidence_quote": "it pause whatever I'm listening to every few minutes, the play button is straight up broken",
+      "intent": "cancellation",
+      "needs_review": false,
+      "reason": "Playback pauses frequently; controls broken; exclusive content not worth it.",
+      "review_id": "4be88186-4331-4932-add4-988d3893cd53",
+      "sentiment": "very negative",
+      "severity": 4,
+      "topic": "playback"
+    }
+  ]
+}

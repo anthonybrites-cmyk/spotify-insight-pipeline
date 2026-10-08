@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "evidence_quote": "The latest update made my mind turning spotify to mod apk",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Generic criticism of update; no specific function loss.",
+      "review_id": "481ff549-2a01-4252-9e8d-4be0ad896fee",
+      "sentiment": "negative",
+      "severity": 2,
+      "topic": "usability"
+    }
+  ]
+}

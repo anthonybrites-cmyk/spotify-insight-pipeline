@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "evidence_quote": "I can't listen to songs in my saved list again…..can't go back….",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Cannot play saved songs; core playback function blocked.",
+      "review_id": "ea7d3043-b93b-4859-b117-8081b27a4054",
+      "sentiment": "very negative",
+      "severity": 4,
+      "topic": "playback"
+    }
+  ]
+}

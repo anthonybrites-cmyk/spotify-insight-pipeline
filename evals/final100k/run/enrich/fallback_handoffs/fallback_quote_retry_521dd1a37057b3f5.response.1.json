@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.003178",
+  "effort": "none",
+  "input_tokens": 1998,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 236,
+  "request_id": "req_011Cfn8J6NHuEF8NjfCecVME",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"e69b4c8f-dcf7-4bae-8cce-f5108333132c\",\"topic\":\"playback\",\"intent\":\"complaint\",\"severity\":4,\"sentiment\":\"very negative\",\"evidence_quote\":\"Everytime I stop using Spotify (like I get out the car, stop working out, etc.) And come back to it later, it finishes the song it was last on, but then stops playing the playlist all together.\",\"needs_review\":false,\"reason\":\"App crashes and stops playback requiring force restart each time.\"},{\"review_id\":\"6fe59e01-2fea-432c-b9bf-e37c0836bf3e\",\"topic\":\"catalog\",\"intent\":\"complaint\",\"severity\":3,\"sentiment\":\"very negative\",\"evidence_quote\":\"Me: \\\"Please play this specific song and more from this artist.\\\" Spotify: \\\"Hahaha! Nope!\",\"needs_review\":false,\"reason\":\"Cannot play requested songs or artist; search and recommendations severely degraded.\"}]}"
+}

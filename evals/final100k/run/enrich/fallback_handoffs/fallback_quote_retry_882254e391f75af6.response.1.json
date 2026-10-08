@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.00251",
+  "effort": "none",
+  "input_tokens": 1820,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 138,
+  "request_id": "req_011Cfn8VcjiGQhVqiwtdn8q2",
+  "stop_reason": "end_turn",
+  "text": "{\"results\": [{\"review_id\": \"6fdd9655-9783-412a-badf-ac4eadea2be8\", \"topic\": \"playback\", \"intent\": \"complaint\", \"severity\": 4, \"sentiment\": \"very negative\", \"evidence_quote\": \"every ~20 minutes the app stops while playing music. This has persisted across Android phones. Recently, it's gotten to the point where it can't make it through more than one song without stopping.\", \"needs_review\": false, \"reason\": \"App fails to play music reliably on Android; core function blocked.\"}]}"
+}

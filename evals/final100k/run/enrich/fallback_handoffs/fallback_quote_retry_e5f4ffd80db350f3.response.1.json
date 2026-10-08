@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.005888",
+  "effort": "none",
+  "input_tokens": 2733,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 631,
+  "request_id": "req_011Cfn8E7ZMwt9bsmteNJz5F",
+  "stop_reason": "end_turn",
+  "text": "{\"results\": [{\"review_id\": \"9a45fc63-0744-49a4-b0bb-b2b75552ded3\", \"topic\": \"catalog\", \"intent\": \"complaint\", \"severity\": 3, \"sentiment\": \"negative\", \"evidence_quote\": \"𝒏𝒊𝒄𝒆 𝒂𝒑𝒑 𝒃𝒖𝒕 𝒏𝒐𝒕 𝒔𝒉𝒐𝒘𝒊𝒏𝒈 𝒍𝒚𝒓𝒊𝒄𝒔\", \"needs_review\": false, \"reason\": \"Lyrics not showing; user tried uninstall/reinstall but now hates app.\"}, {\"review_id\": \"9cfbddee-70fc-4e2a-baa7-e35043d0fba5\", \"topic\": \"billing\", \"intent\": \"cancellation\", \"severity\": 4, \"sentiment\": \"very negative\", \"evidence_quote\": \"I'm paying customer who PAYS for NO ads, GETTING ADS??\", \"needs_review\": false, \"reason\": \"Paying customer receiving ads they shouldn't; threatens to switch.\"}, {\"review_id\": \"abe288f6-2f50-4385-afb0-0a0c8d43b6a0\", \"topic\": \"usability\", \"intent\": \"complaint\", \"severity\": 3, \"sentiment\": \"negative\", \"evidence_quote\": \"you can only do/listen to what Spotify want you to, not you as an user\", \"needs_review\": false, \"reason\": \"No user control over playlists and recommendations; feels restricted.\"}, {\"review_id\": \"2bd789ce-928b-4bbb-ad6c-4759de2df2f5\", \"topic\": \"usability\", \"intent\": \"request\", \"severity\": 2, \"sentiment\": \"negative\", \"evidence_quote\": \"Why doesn't Spotify allow Android users to rate or leave reviews for Podcasts ?\", \"needs_review\": false, \"reason\": \"Requesting feature for podcast ratings on Android; minor annoyance.\"}, {\"review_id\": \"a35251dd-7588-4319-9e2f-f60b8ef96b71\", \"topic\": \"downloads\", \"intent\": \"praise\", \"severity\": 1, \"sentiment\": \"very positive\", \"evidence_quote\": \"downloading doesn't take 4 hours!!!!!\", \"needs_review\": false, \"reason\": \"Praising downloads speed and music library availability.\"}]}"
+}

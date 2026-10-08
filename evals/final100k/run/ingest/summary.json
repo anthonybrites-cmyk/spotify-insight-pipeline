@@ -1,0 +1,20 @@
+{
+  "complete": true,
+  "distinct_nonempty_texts": 484189,
+  "duplicate_review_ids": 0,
+  "empty_review_text": 13,
+  "exact_duplicate_rows_reusable": 176420,
+  "input_bytes": 97400616,
+  "input_path": "/Users/anthonybrites/code/NEW - Final Assignment - Spotify Reviews Dataset/spotify_reviews_18months.csv",
+  "input_sha256": "1fc85de68a304dd8978b537cfa58793d5f41cbaf417fa32cb53899f83a2fcef6",
+  "language_groups_distinct": {
+    "english": 438197,
+    "no_letters": 4261,
+    "non_english_latin": 15532,
+    "non_latin_script": 3289,
+    "short_unrecognised": 22910
+  },
+  "language_version": "a532ed5052",
+  "nonempty": 660609,
+  "rows": 660622
+}

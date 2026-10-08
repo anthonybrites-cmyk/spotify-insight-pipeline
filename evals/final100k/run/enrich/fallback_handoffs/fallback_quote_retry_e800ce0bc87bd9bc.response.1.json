@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.002161",
+  "effort": "none",
+  "input_tokens": 1736,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 85,
+  "request_id": "req_011Cfn8PNNc3TakE1YAyRtja",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"4753f955-7801-4bfd-8766-94a1e67723b8\",\"topic\":\"other\",\"intent\":\"praise\",\"severity\":1,\"sentiment\":\"very positive\",\"evidence_quote\":\"Perfect app for music and much more.\",\"needs_review\":false,\"reason\":\"General praise with no specific feature problem reported.\"}]}"
+}

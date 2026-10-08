@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.002334",
+  "effort": "none",
+  "input_tokens": 1809,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 105,
+  "request_id": "req_011Cfn8GR3PsiPeagBTvE8fQ",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"3469b5f8-cc10-42b8-8752-3e0d5cbea502\",\"topic\":\"usability\",\"intent\":\"request\",\"severity\":2,\"sentiment\":\"neutral or mixed\",\"evidence_quote\":\"I don't want to click on follow with every single artist for I can just listen to some songs I like\",\"needs_review\":false,\"reason\":\"Feature request for library organization with generic praise mixed in.\"}]}"
+}

@@ -1,0 +1,24 @@
+{
+  "results": [
+    {
+      "evidence_quote": "the fact that you cannot put the previous song that played is fraustrating and sometimes annoying",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Cannot rewind to previous song; dislike with some workaround possible.",
+      "review_id": "402bab00-afe3-4728-a2e1-76dee94f92b1",
+      "sentiment": "neutral or mixed",
+      "severity": 2,
+      "topic": "usability"
+    },
+    {
+      "evidence_quote": "we are switching",
+      "intent": "cancellation",
+      "needs_review": false,
+      "reason": "Explicit departure after poor support experience with billing issue.",
+      "review_id": "63ed6956-9977-4b0c-ab9e-c9e3d8f3c2e4",
+      "sentiment": "very negative",
+      "severity": 3,
+      "topic": "support"
+    }
+  ]
+}

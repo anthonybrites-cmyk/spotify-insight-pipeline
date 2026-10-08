@@ -1,0 +1,34 @@
+{
+  "results": [
+    {
+      "evidence_quote": "gas all the tunes I've needed",
+      "intent": "praise",
+      "needs_review": false,
+      "reason": "General positive statement about music availability.",
+      "review_id": "8b31c26c-d35d-493b-9b83-c34cc223dbc5",
+      "sentiment": "positive",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "evidence_quote": "Very nice app. Great app to listen music.. We can find almost every songs here without wasting much network... Love this app extremely ❤️",
+      "intent": "praise",
+      "needs_review": false,
+      "reason": "Pure praise with no specific feature or problem reported.",
+      "review_id": "8ad22bc7-2b88-475c-8371-9f525957032c",
+      "sentiment": "very positive",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "evidence_quote": "When I add music to my liked list I can't select it. It is annoying that it is not working as expected. Tapping the play button doesn't work as well.",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Multiple usability functions degraded; workarounds may exist.",
+      "review_id": "c12617db-39e0-4935-9fde-c993bd49681c",
+      "sentiment": "negative",
+      "severity": 3,
+      "topic": "usability"
+    }
+  ]
+}

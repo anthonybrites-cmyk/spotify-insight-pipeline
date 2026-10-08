@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.002264",
+  "effort": "none",
+  "input_tokens": 1829,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 87,
+  "request_id": "req_011Cfn8ScFN54dMCwo9oXaCt",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"d08b58ac-1198-490b-8ace-8eaf2dcfb01c\",\"topic\":\"access\",\"intent\":\"praise\",\"severity\":1,\"sentiment\":\"positive\",\"evidence_quote\":\"Rest all is amazing!\",\"needs_review\":false,\"reason\":\"Initial issue minor; resolution praised; final edit expresses gratitude.\"}]}"
+}

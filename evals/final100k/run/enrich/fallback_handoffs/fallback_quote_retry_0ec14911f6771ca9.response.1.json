@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.002266",
+  "effort": "none",
+  "input_tokens": 1776,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 98,
+  "request_id": "req_011Cfn8JjgNcF7X9z7VFEwUX",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"102cdffe-dc37-416a-af31-3f9314387368\",\"topic\":\"usability\",\"intent\":\"complaint\",\"severity\":3,\"sentiment\":\"negative\",\"evidence_quote\":\"couldn't see my like playlist whever I opened the playlist of likes it's show black screen\",\"needs_review\":false,\"reason\":\"Playlist display broken; workaround exists with other playlists.\"}]}"
+}

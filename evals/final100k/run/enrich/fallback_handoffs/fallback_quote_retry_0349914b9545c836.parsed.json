@@ -1,0 +1,34 @@
+{
+  "results": [
+    {
+      "evidence_quote": "you have to earn money so just make it paid don't keep it free",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Generic criticism of freemium model; minor annoyance without loss of function.",
+      "review_id": "723ca9a5-c1d7-4e8b-a939-dce02ec42fcf",
+      "sentiment": "negative",
+      "severity": 2,
+      "topic": "billing"
+    },
+    {
+      "evidence_quote": "you can't skip songs without paying money you only get 6-7 skips PER HOUR",
+      "intent": "cancellation",
+      "needs_review": false,
+      "reason": "Cancellation explicit; core control locked behind paywall blocks primary task.",
+      "review_id": "f262ec5b-540e-44df-ba94-80cfc3627a60",
+      "sentiment": "very negative",
+      "severity": 4,
+      "topic": "billing"
+    },
+    {
+      "evidence_quote": "Uninstalling right away!",
+      "intent": "cancellation",
+      "needs_review": false,
+      "reason": "Explicit cancellation; generic criticism of pricing policy without specific function loss.",
+      "review_id": "892c5709-1d36-4bcf-9d27-e7d3eed41f9b",
+      "sentiment": "very negative",
+      "severity": 2,
+      "topic": "billing"
+    }
+  ]
+}

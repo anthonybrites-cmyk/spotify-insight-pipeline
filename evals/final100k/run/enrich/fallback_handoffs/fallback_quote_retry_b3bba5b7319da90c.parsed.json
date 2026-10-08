@@ -1,0 +1,24 @@
+{
+  "results": [
+    {
+      "evidence_quote": "𝗴𝗼𝗼𝗱 •-• 𝗜𝘄𝗲 𝘁𝗵𝗶𝗻𝗸 𝘆𝗼𝘂 𝘀𝗵𝗼𝘂𝗹𝗱 𝗴𝗲𝘁 𝗶𝘁 𝗲𝘃𝗲𝗻 𝘄𝗶𝘁𝗵 𝗮𝗱𝗱𝘀",
+      "intent": "praise",
+      "needs_review": false,
+      "reason": "General praise with no specific feature mentioned.",
+      "review_id": "bbf73600-df5c-4b2d-b83a-249eca002d0e",
+      "sentiment": "positive",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "evidence_quote": "you removed tapping back, play in any order and loop features for non premium people",
+      "intent": "cancellation",
+      "needs_review": false,
+      "reason": "Controls locked behind Premium; explicit uninstall statement indicates cancellation.",
+      "review_id": "c09383bf-b18a-4c73-b9c8-5578217ac7b9",
+      "sentiment": "very negative",
+      "severity": 4,
+      "topic": "billing"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "results": [
+    {
+      "evidence_quote": "if has been blocking me from playing podcasts",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Podcasts fail to play; workaround exists but requires reinstall each time.",
+      "review_id": "8a410fd3-9255-4061-bfe1-8d10b2eda36d",
+      "sentiment": "negative",
+      "severity": 3,
+      "topic": "playback"
+    },
+    {
+      "evidence_quote": "I get the \"you discovered a premium feature\" when the app. The funny thing is... I have premium🤔",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Premium features blocked despite active premium subscription; core function restricted.",
+      "review_id": "d907f0f3-7ad6-489d-8b5d-73422128dd8c",
+      "sentiment": "negative",
+      "severity": 4,
+      "topic": "billing"
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "results": [
+    {
+      "evidence_quote": "We can't skip , even can't repeat a lovely part of song , that actions push to not be a part of Spotify family more",
+      "intent": "cancellation",
+      "needs_review": false,
+      "reason": "Free users cannot skip or repeat; restricts core controls.",
+      "review_id": "140f524d-b0cc-47c0-846d-514aa0440f0d",
+      "sentiment": "very negative",
+      "severity": 3,
+      "topic": "billing"
+    },
+    {
+      "evidence_quote": "I love this app best music app out there",
+      "intent": "praise",
+      "needs_review": false,
+      "reason": "General praise with no specific feature complaint.",
+      "review_id": "5d8b12e4-0257-4cc9-b57f-0578891ffa6a",
+      "sentiment": "very positive",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "evidence_quote": "the features are gone...the new update made it all worse",
+      "intent": "complaint",
+      "needs_review": true,
+      "reason": "Vague reference to missing features; unclear which usability problem.",
+      "review_id": "50b3f86f-6ee8-464c-b9ce-c8bcf5b05c14",
+      "sentiment": "very negative",
+      "severity": 2,
+      "topic": "usability"
+    },
+    {
+      "evidence_quote": "When I listen to songs they just randomly stop",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Songs stop playing; function degraded but app works partially.",
+      "review_id": "3d0767a4-357c-497d-8c49-dd5984c3bc8e",
+      "sentiment": "negative",
+      "severity": 3,
+      "topic": "playback"
+    },
+    {
+      "evidence_quote": "i can't choose what song I want to paly it won't let me play it",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Cannot choose songs; control restricted, likely free tier limitation.",
+      "review_id": "871b44fb-269c-4913-9c4c-fb6fd02b9987",
+      "sentiment": "negative",
+      "severity": 3,
+      "topic": "billing"
+    }
+  ]
+}

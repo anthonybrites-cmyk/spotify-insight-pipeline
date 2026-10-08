@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "evidence_quote": "45 𝒹𝑒𝓁𝑒𝓽𝑒",
+      "intent": "unclear",
+      "needs_review": false,
+      "reason": "Unintelligible text with no clear product complaint or intent.",
+      "review_id": "0a525e26-7db5-4cf5-8b5f-e9e2e22a6a91",
+      "sentiment": "neutral or mixed",
+      "severity": 1,
+      "topic": "other"
+    }
+  ]
+}

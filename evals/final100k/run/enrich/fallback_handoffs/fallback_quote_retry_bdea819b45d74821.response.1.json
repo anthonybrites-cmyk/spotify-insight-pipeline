@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.002226",
+  "effort": "none",
+  "input_tokens": 1711,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 103,
+  "request_id": "req_011Cfn8CaGQUqwxTSa5GKDXV",
+  "stop_reason": "end_turn",
+  "text": "{\"results\": [{\"review_id\": \"481ff549-2a01-4252-9e8d-4be0ad896fee\", \"topic\": \"usability\", \"intent\": \"complaint\", \"severity\": 2, \"sentiment\": \"negative\", \"evidence_quote\": \"The latest update made my mind turning spotify to mod apk\", \"needs_review\": false, \"reason\": \"Generic criticism of update; no specific function loss.\"}]}"
+}

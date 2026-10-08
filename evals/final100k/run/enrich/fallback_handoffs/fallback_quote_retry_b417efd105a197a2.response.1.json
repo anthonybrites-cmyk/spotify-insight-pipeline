@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.00295",
+  "effort": "none",
+  "input_tokens": 1950,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 200,
+  "request_id": "req_011Cfn8DoWuh6QrwFZBcNkHx",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"e8cfa0c5-6f2e-4862-903e-eb91132877f0\",\"topic\":\"billing\",\"intent\":\"complaint\",\"severity\":3,\"sentiment\":\"negative\",\"evidence_quote\":\"on my phone i wasnt use to using spotify on a phone so i thought i didnt had to shuffle the songs but guess what... I DID\",\"needs_review\":false,\"reason\":\"Free tier restricts skip/shuffle controls; paid feature complaint.\"},{\"review_id\":\"a83b15ed-2117-4d78-bb45-281469830cb4\",\"topic\":\"billing\",\"intent\":\"complaint\",\"severity\":2,\"sentiment\":\"negative\",\"evidence_quote\":\"har waqt premium keliye majboor karta hai yeh spotify wale\",\"needs_review\":false,\"reason\":\"Complains about constant Premium upselling or pressure.\"}]}"
+}

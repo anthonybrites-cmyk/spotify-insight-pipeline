@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "evidence_quote": "It's a very good app which help me to get connected must times to the very best sound of the producers expectation",
+      "intent": "praise",
+      "needs_review": false,
+      "reason": "General praise with no specific feature mentioned.",
+      "review_id": "2ad54deb-b84e-4990-b114-c030405083a6",
+      "sentiment": "very positive",
+      "severity": 1,
+      "topic": "other"
+    }
+  ]
+}

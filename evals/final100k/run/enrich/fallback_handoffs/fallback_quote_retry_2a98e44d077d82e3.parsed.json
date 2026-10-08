@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "evidence_quote": "You tell in your Advertisement that you will have you 30 min without Ad then why ad appear while we change Music.",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "User complains about ads appearing during free tier usage as advertised.",
+      "review_id": "ec7f9c8f-a73b-4a5e-b6f8-c7be5551f4f8",
+      "sentiment": "very negative",
+      "severity": 2,
+      "topic": "usability"
+    }
+  ]
+}

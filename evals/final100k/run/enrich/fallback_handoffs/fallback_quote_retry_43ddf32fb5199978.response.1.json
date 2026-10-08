@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.004037",
+  "effort": "none",
+  "input_tokens": 2292,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 349,
+  "request_id": "req_011Cfn8H3PvJHmyxmn5Ko7Aa",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"b2cae5a5-3956-43c2-ac7f-4ca906e18fe2\",\"topic\":\"other\",\"intent\":\"praise\",\"severity\":1,\"sentiment\":\"very positive\",\"evidence_quote\":\"এক্সপেরিয়েন্স অসাধারণ 👌\",\"needs_review\":false,\"reason\":\"General praise for overall experience, no specific feature\"},{\"review_id\":\"c36f5cf5-d722-46cc-b96c-5a57412b7aaf\",\"topic\":\"usability\",\"intent\":\"complaint\",\"severity\":2,\"sentiment\":\"negative\",\"evidence_quote\":\"there's no way for me to remove it. Super annoying..\",\"needs_review\":false,\"reason\":\"Cannot remove unwanted podcast suggestion from home page\"},{\"review_id\":\"c4316cc9-61f6-47c3-ac22-3d1cb114b552\",\"topic\":\"playback\",\"intent\":\"cancellation\",\"severity\":4,\"sentiment\":\"very negative\",\"evidence_quote\":\"Literally not being able to play a song agian\",\"needs_review\":false,\"reason\":\"Cannot play songs; explicit threat to uninstall\"},{\"review_id\":\"383c6f4c-1a7f-4acc-837f-45775b1645a7\",\"topic\":\"other\",\"intent\":\"praise\",\"severity\":1,\"sentiment\":\"very positive\",\"evidence_quote\":\"It is the best music app ever\",\"needs_review\":false,\"reason\":\"General praise with no specific feature highlighted\"}]}"
+}

@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.004083",
+  "effort": "none",
+  "input_tokens": 2223,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 372,
+  "request_id": "req_011Cfn8ZMy4jM8NbWPrUPx4H",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"29b955f1-4550-4417-a2d8-e17086944073\",\"topic\":\"playback\",\"intent\":\"cancellation\",\"severity\":4,\"sentiment\":\"very negative\",\"evidence_quote\":\"I can't even listen to it through my headphones currently\",\"needs_review\":false,\"reason\":\"Connection issues blocking playback; explicit departure threat after 10 years.\"},{\"review_id\":\"d7849a67-f2ef-46ae-988f-da6c66d4c48c\",\"topic\":\"usability\",\"intent\":\"cancellation\",\"severity\":3,\"sentiment\":\"very negative\",\"evidence_quote\":\"we can not ask the song again, we can't play queue songs\",\"needs_review\":false,\"reason\":\"Queue playback restricted after update; explicit app cancellation stated.\"},{\"review_id\":\"55a927de-0b53-42da-8578-f9edfc427e3f\",\"topic\":\"playback\",\"intent\":\"cancellation\",\"severity\":4,\"sentiment\":\"very negative\",\"evidence_quote\":\"try and play music and it freezes while it's trying to connect\",\"needs_review\":false,\"reason\":\"Music freezing/failing to play; explicit service departure stated.\"},{\"review_id\":\"8a47038f-4a75-4851-81a8-d7b5656dbfba\",\"topic\":\"billing\",\"intent\":\"complaint\",\"severity\":3,\"sentiment\":\"very negative\",\"evidence_quote\":\"You can't play the song neither can you change it. They say it's a premium feature\",\"needs_review\":false,\"reason\":\"Song selection and changing locked behind paywall; controls restricted for free users.\"}]}"
+}

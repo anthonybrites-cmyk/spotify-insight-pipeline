@@ -252,8 +252,15 @@ def replay(args, log):
                 "summed_call_seconds": round(sum((c["duration_ms"] or 0) for c in sc) / 1000, 3)}
         api = sum((s["api_cost_usd"] for s in stages.values()), D(0))
         completed = meas["record_status"]["completed"]
+        run_summary = read_json(RUNS / m.get("run_folder", label) / "run_summary.json", {}) or {}
+        by_status = (run_summary.get("records") or {}).get("by_status") or meas["record_status"]
+        jev_requests = stages.get("enrich_jev", {}).get("requests_succeeded", 0)
+        unique_texts = meas["input"]["distinct_texts"]
         rows_in = meas["input"]["rows"]
         measured[label] = {"kind": m["kind"], "workers": m["workers"], "wall_clock_seconds": m["wall_clock_seconds"],
+                           "records_completed": by_status.get("completed", 0),
+                           "records_quarantined": sum(v for k, v in by_status.items() if k != "completed"),
+                           "unique_texts": unique_texts, "result_cache_hits": max(unique_texts - jev_requests, 0),
                            "stage_seconds": m.get("stage_seconds", {}), "new_calls": m["new_calls"],
                            "new_enrichment_calls": m["new_enrichment_calls"],
                            "new_downstream_calls": m["new_downstream_calls"], "stages": stages,
@@ -335,7 +342,14 @@ def replay(args, log):
     enrich_hours = D(distinct) / modeled_rate / 3600 if modeled_rate else None
     group_hours = D(distinct) * assign_rate / modeled_rate / 3600 if modeled_rate else None
 
+    used_keys = sorted({(p["provider"], p["model"], p["price_tier"], p["item"]) for p in priced
+                        if D(p["billed_units"]) and (p["provider"], p["model"], p["price_tier"], p["item"]) in rates})
+    with Path(args.rates).open(encoding="utf-8", newline="") as f:
+        rate_rows = {(r["provider"], r["model"], r["tier"], r["item"]): r for r in csv.DictReader(f)}
+    rates_used = [{k: rate_rows[key][k] for k in ("provider", "model", "tier", "item", "price_usd", "per_units", "unit",
+                                                   "currency", "source_url", "checked_on")} for key in used_keys]
     report = {"generated_at": now(), "rates_file": str(args.rates), "missing_rates": [list(k) for k in missing],
+              "rates_used": rates_used,
               "measured": measured, "projection_inputs": {
                   "base_run": base_label, "jev_cost_per_distinct_text": jev_per_text, "jev_attempts_per_success": retry_factor,
                   "fallback_cost_per_review": fb_per_review, "fallback_cost_basis": fb_cost_basis,
@@ -378,11 +392,12 @@ def render(r):
     if r["missing_rates"]:
         L += ["**Unpriced usage (rate missing; left unresolved, not zero):** " + ", ".join("/".join(k) for k in r["missing_rates"]), ""]
     L += ["## Measured pilot runs", "",
-          "| Run | Kind | Workers | Wall-clock s | New calls (enrich / downstream) | API cost USD | per 1,000 rows | per completed record | rows/s |",
-          "|---|---|---|---|---|---|---|---|---|"]
+          "| Run | Kind | Workers | Records completed / quarantined | Unique texts | Result-cache hits | Wall-clock s | New calls (enrich / downstream) | API cost USD | per 1,000 rows | per completed record | rows/s |",
+          "|---|---|---|---|---|---|---|---|---|---|---|---|"]
     for label, m in r["measured"].items():
         down = sum(m["new_downstream_calls"].values())
-        L.append(f"| {label} | {m['kind']} | {m['workers']} | {m['wall_clock_seconds']} | {m['new_enrichment_calls']} / {down} | "
+        L.append(f"| {label} | {m['kind']} | {m['workers']} | {m['records_completed']} / {m['records_quarantined']} | "
+                 f"{m['unique_texts']} | {m['result_cache_hits']} | {m['wall_clock_seconds']} | {m['new_enrichment_calls']} / {down} | "
                  f"{money(m['api_cost_usd'])} | {money(m['cost_per_1000_input_rows']) if m['cost_per_1000_input_rows'] is not None else '-'} | "
                  f"{money(m['cost_per_completed_record']) if m['cost_per_completed_record'] is not None else '-'} | "
                  f"{money(m['throughput_rows_per_s'], '0.01') if m['throughput_rows_per_s'] else '-'} |")
@@ -390,20 +405,30 @@ def render(r):
         if m["kind"] != "cold":
             continue
         L += ["", f"### Stages: {label}", "",
-              "| Stage | Provider / model | Effort | Tier | Requests ok / attempts / failed | Reviews sent | Max batch | Input | Cache write | Cache read | Output | Max output/request | API USD | Stage s | Summed call s |",
-              "|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|"]
+              "| Stage | Provider / model | Effort | Tier | Prompt / schema version (`label_config`) | Requests ok / attempts / failed | Reviews sent | Max batch | Input | Cache write | Cache read | Output | Max output/request | API USD | Stage s | Summed call s |",
+              "|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|"]
         stage_secs = m["stage_seconds"]
         stage_map = {"enrich_jev": "enrich", "enrich_fallback": "enrich", "verify": "verify",
                      "group_taxonomy": "group", "group_assign": "group", "memo": "recommend"}
         for name, s in m["stages"].items():
             u = s["usage"]
             L.append(f"| {name} | {'/'.join(s['provider'])} `{'/'.join(s['model'])}` | {'/'.join(s['effort']) or 'n/a'} | "
-                     f"{'/'.join(s['price_tier'])} | {s['requests_succeeded']} / {s['attempts']} / {s['failed_attempts']} | "
+                     f"{'/'.join(s['price_tier'])} | {'<br>'.join('`' + c + '`' for c in s['label_config']) or 'n/a'} | "
+                     f"{s['requests_succeeded']} / {s['attempts']} / {s['failed_attempts']} | "
                      f"{s['reviews_sent']} | {s['max_batch_size']} | {u['input_tokens']:,} | {u['cache_write_input_tokens']:,} | "
                      f"{u['cache_read_input_tokens']:,} | {u['output_tokens']:,} | {s['max_output_tokens_one_request']:,} | "
                      f"{money(s['api_cost_usd'])} | {stage_secs.get(stage_map.get(name, name), '-')} | {s['summed_call_seconds']} |")
         L += ["", "Stage seconds come from the run log (wall-clock per stage; enrich includes the fallback, group "
               "includes taxonomy and assignment). Summed call seconds can exceed wall-clock when calls overlap."]
+    if r.get("rates_used"):
+        L += ["", "### Rates applied to the measured usage (from `rates.csv`; editable)", "",
+              "| Provider | Model | Tier | Item | Price | Per units | Unit | Currency | Source | Checked on |",
+              "|---|---|---|---|---|---|---|---|---|---|"]
+        for x in r["rates_used"]:
+            L.append(f"| {x['provider']} | `{x['model']}` | {x['tier']} | {x['item']} | {x['price_usd']} | {x['per_units']} | "
+                     f"{x['unit']} | {x['currency']} | [link]({x['source_url']}) | {x['checked_on']} |")
+        L += ["", "Result-cache hits = distinct texts completed without a new enrichment request in that run "
+                  "(the warm rerun reuses all 100 saved results under unchanged settings)."]
     pi = r["projection_inputs"]
     L += ["", "## Full-run projection (estimates)", "",
           f"Base run `{pi['base_run']}`. Measured rates: Jev ${money(pi['jev_cost_per_distinct_text'], '0.0000001')} per distinct "

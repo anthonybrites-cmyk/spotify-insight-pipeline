@@ -1,0 +1,44 @@
+{
+  "results": [
+    {
+      "evidence_quote": "I think its good i can feel the music its not free but its nice app",
+      "intent": "praise",
+      "needs_review": false,
+      "reason": "General praise with no specific feature mentioned.",
+      "review_id": "24e47b19-4c44-48d9-b0f5-f8ae34f433c1",
+      "sentiment": "positive",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "evidence_quote": "In all the years I have used spotify i have had no issues",
+      "intent": "praise",
+      "needs_review": false,
+      "reason": "Positive review praising reliability; mentions ads as expected.",
+      "review_id": "b069e0a8-eb92-42df-a67f-0d1fe8f57ba0",
+      "sentiment": "positive",
+      "severity": 1,
+      "topic": "usability"
+    },
+    {
+      "evidence_quote": "No matter how much you try to force to take premium membership, but membership will not be taken",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Complains about forced premium upselling; no functional loss.",
+      "review_id": "5b1244ce-e770-46ec-8c5e-9bc4030f205b",
+      "sentiment": "negative",
+      "severity": 2,
+      "topic": "billing"
+    },
+    {
+      "evidence_quote": "its keeping give advertisement after EVERY god damn song",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Excessive ads degrade experience; workaround exists (premium).",
+      "review_id": "e5681334-e0f0-4f00-bcb3-886ddc9dfdad",
+      "sentiment": "very negative",
+      "severity": 3,
+      "topic": "usability"
+    }
+  ]
+}

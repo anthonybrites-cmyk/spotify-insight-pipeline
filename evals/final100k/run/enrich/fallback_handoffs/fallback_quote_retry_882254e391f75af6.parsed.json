@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "evidence_quote": "every ~20 minutes the app stops while playing music. This has persisted across Android phones. Recently, it's gotten to the point where it can't make it through more than one song without stopping.",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "App fails to play music reliably on Android; core function blocked.",
+      "review_id": "6fdd9655-9783-412a-badf-ac4eadea2be8",
+      "sentiment": "very negative",
+      "severity": 4,
+      "topic": "playback"
+    }
+  ]
+}

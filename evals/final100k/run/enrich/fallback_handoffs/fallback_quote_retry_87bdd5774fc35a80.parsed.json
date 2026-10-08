@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "evidence_quote": "it say to buy a premium for that",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Premium controls (skips, song selection) locked; core functionality blocked.",
+      "review_id": "0fffe874-1e3f-448c-8a34-f0fc5a6deca3",
+      "sentiment": "negative",
+      "severity": 4,
+      "topic": "billing"
+    }
+  ]
+}

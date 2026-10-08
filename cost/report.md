@@ -1,40 +1,51 @@
 # 100-review cost and runtime report
 
-Generated 2026-10-08T06:25:35+00:00 by `python -m pipeline cost replay` from saved usage and `rates.csv`. Offline: no provider calls, no API key. Costs = billed units × editable rates; measured results never change when projection inputs change.
+Generated 2026-10-08T06:41:32+00:00 by `python -m pipeline cost replay` from saved usage and `rates.csv`. Offline: no provider calls, no API key. Costs = billed units × editable rates; measured results never change when projection inputs change.
 
 ## Measured pilot runs
 
-| Run | Kind | Workers | Wall-clock s | New calls (enrich / downstream) | API cost USD | per 1,000 rows | per completed record | rows/s |
-|---|---|---|---|---|---|---|---|---|
-| cold-w1 | cold | 1 | 110.588 | 101 / 42 | 0.177592 | 1.775917 | 0.001776 | 0.90 |
-| cold-w1-warm | warm | 1 | 0.06 | 0 / 0 | 0.000000 | 0.000000 | 0.000000 | 1666.67 |
-| cold-w2 | cold | 2 | 70.433 | 101 / 38 | 0.106308 | 1.063082 | 0.001063 | 1.42 |
+| Run | Kind | Workers | Records completed / quarantined | Unique texts | Result-cache hits | Wall-clock s | New calls (enrich / downstream) | API cost USD | per 1,000 rows | per completed record | rows/s |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| cold-w1 | cold | 1 | 100 / 0 | 100 | 0 | 110.588 | 101 / 42 | 0.177592 | 1.775917 | 0.001776 | 0.90 |
+| cold-w1-warm | warm | 1 | 100 / 0 | 100 | 100 | 0.06 | 0 / 0 | 0.000000 | 0.000000 | 0.000000 | 1666.67 |
+| cold-w2 | cold | 2 | 100 / 0 | 100 | 0 | 70.433 | 101 / 38 | 0.106308 | 1.063082 | 0.001063 | 1.42 |
 
 ### Stages: cold-w1
 
-| Stage | Provider / model | Effort | Tier | Requests ok / attempts / failed | Reviews sent | Max batch | Input | Cache write | Cache read | Output | Max output/request | API USD | Stage s | Summed call s |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| enrich_fallback | anthropic `claude-sonnet-5` | medium | standard | 1 / 1 / 0 | 7 | 7 | 2,632 | 0 | 0 | 1,326 | 1,326 | 0.018524 | 31.8 | 12.841 |
-| enrich_jev | typesafe `jev-1.13.0` | n/a | standard | 100 / 100 / 0 | 100 | 1 | 152,841 | 0 | 0 | 22,363 | 293 | 0.006419 | 31.8 | 18.908 |
-| group_assign | typesafe `jev-1.13.0` | n/a | standard | 37 / 37 / 0 | 37 | 1 | 21,246 | 0 | 0 | 3,245 | 119 | 0.000892 | 19.3 | 6.961 |
-| group_taxonomy | anthropic `claude-sonnet-5` | medium | standard | 1 / 1 / 0 | 0 | 0 | 3,147 | 0 | 0 | 1,402 | 1,402 | 0.020314 | 19.3 | 12.353 |
-| memo | anthropic `claude-sonnet-5` | medium | standard | 3 / 3 / 0 | 0 | 0 | 22,930 | 0 | 0 | 5,417 | 1,902 | 0.100030 | 39.3 | 39.279 |
-| verify | anthropic `claude-sonnet-5` | medium | standard | 1 / 1 / 0 | 20 | 20 | 3,416 | 0 | 0 | 2,458 | 2,458 | 0.031412 | 20.1 | 20.061 |
+| Stage | Provider / model | Effort | Tier | Prompt / schema version (`label_config`) | Requests ok / attempts / failed | Reviews sent | Max batch | Input | Cache write | Cache read | Output | Max output/request | API USD | Stage s | Summed call s |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| enrich_fallback | anthropic `claude-sonnet-5` | medium | standard | `jev-1.13.0+prompt-1f4c113e8ac0+fallback-claude-sonnet-5-effort-medium-t0.5-cap0.2-0b2d587959+schema-v1` | 1 / 1 / 0 | 7 | 7 | 2,632 | 0 | 0 | 1,326 | 1,326 | 0.018524 | 31.8 | 12.841 |
+| enrich_jev | typesafe `jev-1.13.0` | n/a | standard | `jev-1.13.0+prompt-1f4c113e8ac0+fallback-claude-sonnet-5-effort-medium-t0.5-cap0.2-0b2d587959+schema-v1` | 100 / 100 / 0 | 100 | 1 | 152,841 | 0 | 0 | 22,363 | 293 | 0.006419 | 31.8 | 18.908 |
+| group_assign | typesafe `jev-1.13.0` | n/a | standard | `jev-1.13.0+group-assign-40729efbec5a+schema-v1` | 37 / 37 / 0 | 37 | 1 | 21,246 | 0 | 0 | 3,245 | 119 | 0.000892 | 19.3 | 6.961 |
+| group_taxonomy | anthropic `claude-sonnet-5` | medium | standard | `claude-sonnet-5+effort-medium+group-taxonomy-af9e131d9244+schema-v1` | 1 / 1 / 0 | 0 | 0 | 3,147 | 0 | 0 | 1,402 | 1,402 | 0.020314 | 19.3 | 12.353 |
+| memo | anthropic `claude-sonnet-5` | medium | standard | `claude-sonnet-5+effort-medium+memo-234ca26a1c7f+schema-v1` | 3 / 3 / 0 | 0 | 0 | 22,930 | 0 | 0 | 5,417 | 1,902 | 0.100030 | 39.3 | 39.279 |
+| verify | anthropic `claude-sonnet-5` | medium | standard | `claude-sonnet-5+effort-medium+verify-0102d95afe14+schema-v1` | 1 / 1 / 0 | 20 | 20 | 3,416 | 0 | 0 | 2,458 | 2,458 | 0.031412 | 20.1 | 20.061 |
 
 Stage seconds come from the run log (wall-clock per stage; enrich includes the fallback, group includes taxonomy and assignment). Summed call seconds can exceed wall-clock when calls overlap.
 
 ### Stages: cold-w2
 
-| Stage | Provider / model | Effort | Tier | Requests ok / attempts / failed | Reviews sent | Max batch | Input | Cache write | Cache read | Output | Max output/request | API USD | Stage s | Summed call s |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| enrich_fallback | anthropic `claude-sonnet-5` | medium | standard | 1 / 1 / 0 | 7 | 7 | 2,629 | 0 | 0 | 1,514 | 1,514 | 0.020398 | 22.8 | 13.308 |
-| enrich_jev | typesafe `jev-1.13.0` | n/a | standard | 100 / 100 / 0 | 100 | 1 | 152,841 | 0 | 0 | 22,363 | 293 | 0.006419 | 22.8 | 18.841 |
-| group_assign | typesafe `jev-1.13.0` | n/a | standard | 35 / 35 / 0 | 35 | 1 | 20,020 | 0 | 0 | 2,889 | 103 | 0.000841 | 14.6 | 6.472 |
-| group_taxonomy | anthropic `claude-sonnet-5` | medium | standard | 1 / 1 / 0 | 0 | 0 | 3,142 | 0 | 0 | 1,321 | 1,321 | 0.019494 | 14.6 | 11.301 |
-| memo | anthropic `claude-sonnet-5` | medium | standard | 1 / 1 / 0 | 0 | 0 | 6,212 | 0 | 0 | 1,710 | 1,710 | 0.029524 | 14.8 | 14.741 |
-| verify | anthropic `claude-sonnet-5` | medium | standard | 1 / 1 / 0 | 20 | 20 | 3,416 | 0 | 0 | 2,280 | 2,280 | 0.029632 | 18.3 | 18.245 |
+| Stage | Provider / model | Effort | Tier | Prompt / schema version (`label_config`) | Requests ok / attempts / failed | Reviews sent | Max batch | Input | Cache write | Cache read | Output | Max output/request | API USD | Stage s | Summed call s |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| enrich_fallback | anthropic `claude-sonnet-5` | medium | standard | `jev-1.13.0+prompt-1f4c113e8ac0+fallback-claude-sonnet-5-effort-medium-t0.5-cap0.2-0b2d587959+schema-v1` | 1 / 1 / 0 | 7 | 7 | 2,629 | 0 | 0 | 1,514 | 1,514 | 0.020398 | 22.8 | 13.308 |
+| enrich_jev | typesafe `jev-1.13.0` | n/a | standard | `jev-1.13.0+prompt-1f4c113e8ac0+fallback-claude-sonnet-5-effort-medium-t0.5-cap0.2-0b2d587959+schema-v1` | 100 / 100 / 0 | 100 | 1 | 152,841 | 0 | 0 | 22,363 | 293 | 0.006419 | 22.8 | 18.841 |
+| group_assign | typesafe `jev-1.13.0` | n/a | standard | `jev-1.13.0+group-assign-f8f54e4333a1+schema-v1` | 35 / 35 / 0 | 35 | 1 | 20,020 | 0 | 0 | 2,889 | 103 | 0.000841 | 14.6 | 6.472 |
+| group_taxonomy | anthropic `claude-sonnet-5` | medium | standard | `claude-sonnet-5+effort-medium+group-taxonomy-af9e131d9244+schema-v1` | 1 / 1 / 0 | 0 | 0 | 3,142 | 0 | 0 | 1,321 | 1,321 | 0.019494 | 14.6 | 11.301 |
+| memo | anthropic `claude-sonnet-5` | medium | standard | `claude-sonnet-5+effort-medium+memo-234ca26a1c7f+schema-v1` | 1 / 1 / 0 | 0 | 0 | 6,212 | 0 | 0 | 1,710 | 1,710 | 0.029524 | 14.8 | 14.741 |
+| verify | anthropic `claude-sonnet-5` | medium | standard | `claude-sonnet-5+effort-medium+verify-0102d95afe14+schema-v1` | 1 / 1 / 0 | 20 | 20 | 3,416 | 0 | 0 | 2,280 | 2,280 | 0.029632 | 18.3 | 18.245 |
 
 Stage seconds come from the run log (wall-clock per stage; enrich includes the fallback, group includes taxonomy and assignment). Summed call seconds can exceed wall-clock when calls overlap.
+
+### Rates applied to the measured usage (from `rates.csv`; editable)
+
+| Provider | Model | Tier | Item | Price | Per units | Unit | Currency | Source | Checked on |
+|---|---|---|---|---|---|---|---|---|---|
+| anthropic | `claude-sonnet-5` | standard | input_tokens | 2 | 1000000 | token | USD | [link](https://platform.claude.com/docs/en/about-claude/pricing) | 2026-09-30 |
+| anthropic | `claude-sonnet-5` | standard | output_tokens | 10 | 1000000 | token | USD | [link](https://platform.claude.com/docs/en/about-claude/pricing) | 2026-09-30 |
+| typesafe | `jev-1.13.0` | standard | input_tokens | 0.042 | 1000000 | token | USD | [link](https://docs.typesafe.ai/models) | 2026-09-29 |
+| typesafe | `jev-1.13.0` | standard | output_tokens | 0 | 1000000 | token | USD | [link](https://docs.typesafe.ai/models) | 2026-09-29 |
+
+Result-cache hits = distinct texts completed without a new enrichment request in that run (the warm rerun reuses all 100 saved results under unchanged settings).
 
 ## Full-run projection (estimates)
 

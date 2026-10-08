@@ -1,0 +1,24 @@
+{
+  "results": [
+    {
+      "evidence_quote": "u click the music u want and get ten seconds of it",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Cannot choose own music; playback cut short after 10 seconds.",
+      "review_id": "08ea1094-4a00-4de6-9e04-3815595c9dc3",
+      "sentiment": "very negative",
+      "severity": 3,
+      "topic": "usability"
+    },
+    {
+      "evidence_quote": "they even put the access to lyrics in premium",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Lyrics feature moved to Premium; features locked behind paywall.",
+      "review_id": "77a093d9-9c2c-4c72-a54d-ad708e1e79c6",
+      "sentiment": "negative",
+      "severity": 2,
+      "topic": "billing"
+    }
+  ]
+}

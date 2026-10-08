@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "evidence_quote": "Every time I close it out completely from the background it either loses my place in my playlist (I listen to it from start to finish in alphabetical order bc the shuffle algorithm sucks) and skips back to the beginning OR it gets stuck on a loop of 6 songs in the playlist",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Playback disruption: queue resets and song loops prevent normal listening.",
+      "review_id": "2e0c2832-b503-4671-bf0c-a49c60f1d94a",
+      "sentiment": "negative",
+      "severity": 3,
+      "topic": "playback"
+    }
+  ]
+}

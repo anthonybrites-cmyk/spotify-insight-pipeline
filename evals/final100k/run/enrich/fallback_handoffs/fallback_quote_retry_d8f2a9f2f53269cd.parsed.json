@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "evidence_quote": "i was logged out of my Spotify account and when i go to enter the phone number it says check again",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Login verification issue degraded access; workaround via email found.",
+      "review_id": "5ba9c001-f236-4b94-bb9a-66239e3fea64",
+      "sentiment": "negative",
+      "severity": 3,
+      "topic": "access"
+    }
+  ]
+}

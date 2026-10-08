@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.002258",
+  "effort": "none",
+  "input_tokens": 1793,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 93,
+  "request_id": "req_011Cfn8VoJDHuR3627ckqz6J",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"0fffe874-1e3f-448c-8a34-f0fc5a6deca3\",\"topic\":\"billing\",\"intent\":\"complaint\",\"severity\":4,\"sentiment\":\"negative\",\"evidence_quote\":\"it say to buy a premium for that\",\"needs_review\":false,\"reason\":\"Premium controls (skips, song selection) locked; core functionality blocked.\"}]}"
+}

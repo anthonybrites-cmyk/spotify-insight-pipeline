@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.00279",
+  "effort": "none",
+  "input_tokens": 1910,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 176,
+  "request_id": "req_011Cfn8WhUzdni7sLFAcUSUa",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"722eeac7-d597-48ec-b52e-a43b4f50a709\",\"topic\":\"usability\",\"intent\":\"request\",\"severity\":3,\"sentiment\":\"positive\",\"evidence_quote\":\"just want the skip option not to repeat the same songs over n over again\",\"needs_review\":false,\"reason\":\"Request to fix repeat behavior with mixed praise.\"},{\"review_id\":\"072a66de-f9ed-4828-be8e-3eb76eb03099\",\"topic\":\"billing\",\"intent\":\"complaint\",\"severity\":3,\"sentiment\":\"very negative\",\"evidence_quote\":\"the basic features is removed yarr....I know money is important\",\"needs_review\":false,\"reason\":\"Core features restricted to Premium; degraded free experience.\"}]}"
+}

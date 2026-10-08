@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.003659",
+  "effort": "none",
+  "input_tokens": 2034,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 325,
+  "request_id": "req_011Cfn8QF8K55NQ2BkNESYvi",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"143c4ce0-4f82-426f-adeb-8b9dd86d7d2f\",\"topic\":\"billing\",\"intent\":\"cancellation\",\"severity\":3,\"sentiment\":\"very negative\",\"evidence_quote\":\"forcing someone to use premium by cutting off basic features is not done. you are digging your own grave Spotify, never coming back to you\",\"needs_review\":false,\"reason\":\"Free features restricted behind paywall; explicit departure stated.\"},{\"review_id\":\"4159be4b-5008-4f84-b90e-a1b5a69fc0bc\",\"topic\":\"billing\",\"intent\":\"cancellation\",\"severity\":3,\"sentiment\":\"very negative\",\"evidence_quote\":\"Better to uninstall then use it ...the situation is like that one day it will even ask to get premium for listening to songs.\",\"needs_review\":false,\"reason\":\"Premium paywall concern; uninstall and removal threats indicate departure.\"},{\"review_id\":\"8dd0b8f4-adb7-483e-8f7c-69ff62ff521a\",\"topic\":\"billing\",\"intent\":\"complaint\",\"severity\":3,\"sentiment\":\"very negative\",\"evidence_quote\":\"they shouldn't provide the free version instead make it paid app and get out of ruining the day for the free version users with recent update\",\"needs_review\":true,\"reason\":\"Unclear exact feature impact; appears billing-related but text partially garbled.\"}]}"
+}

@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "evidence_quote": "Love this app ❤",
+      "intent": "praise",
+      "needs_review": false,
+      "reason": "General praise with no specific feature mentioned.",
+      "review_id": "7da70837-585f-4369-a988-9bdb945bba4e",
+      "sentiment": "very positive",
+      "severity": 1,
+      "topic": "other"
+    }
+  ]
+}

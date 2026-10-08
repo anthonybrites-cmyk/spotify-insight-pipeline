@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "evidence_quote": "can't even listen music peacefully...",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Update caused usability degradation; specific function impaired.",
+      "review_id": "cdaf29e1-4554-42d1-83c1-7ff4d631dc89",
+      "sentiment": "negative",
+      "severity": 3,
+      "topic": "usability"
+    }
+  ]
+}

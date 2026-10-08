@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.002316",
+  "effort": "none",
+  "input_tokens": 1771,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 109,
+  "request_id": "req_011Cfn8VFiuuNBzYgdY29yXH",
+  "stop_reason": "end_turn",
+  "text": "{\"results\": [{\"review_id\": \"be554c27-b372-4f96-86ec-6dc0660877f6\", \"topic\": \"usability\", \"intent\": \"request\", \"severity\": 1, \"sentiment\": \"positive\", \"evidence_quote\": \"Can you add a feature that let's you give playlists to someone else completely?\", \"needs_review\": false, \"reason\": \"Feature request for playlist sharing with no reported problem.\"}]}"
+}

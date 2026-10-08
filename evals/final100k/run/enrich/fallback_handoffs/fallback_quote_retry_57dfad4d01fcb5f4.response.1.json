@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.002205",
+  "effort": "none",
+  "input_tokens": 1725,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 96,
+  "request_id": "req_011Cfn8YpsnxRL1uVzKqewJi",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"cc67fdf1-3dd6-4f75-a41e-1a5936d81253\",\"topic\":\"billing\",\"intent\":\"cancellation\",\"severity\":4,\"sentiment\":\"very negative\",\"evidence_quote\":\"even we can't change the track without premium\",\"needs_review\":false,\"reason\":\"User explicitly states they will download tracks elsewhere due to premium restrictions on track control.\"}]}"
+}

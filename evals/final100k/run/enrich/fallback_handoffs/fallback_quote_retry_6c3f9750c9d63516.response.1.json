@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.002918",
+  "effort": "none",
+  "input_tokens": 1963,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 191,
+  "request_id": "req_011Cfn8NisrzFqtrhQK6QSdq",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"1f6296c0-5883-40fb-9e65-35eaa096c0f6\",\"topic\":\"billing\",\"intent\":\"cancellation\",\"severity\":4,\"sentiment\":\"very negative\",\"evidence_quote\":\"Man kann ohne dieses überteuerte Premium keine Offline Musik hören\",\"needs_review\":false,\"reason\":\"Offline listening locked behind Premium; app deleted.\"},{\"review_id\":\"4be88186-4331-4932-add4-988d3893cd53\",\"topic\":\"playback\",\"intent\":\"cancellation\",\"severity\":4,\"sentiment\":\"very negative\",\"evidence_quote\":\"it pause whatever I'm listening to every few minutes, the play button is straight up broken\",\"needs_review\":false,\"reason\":\"Playback pauses frequently; controls broken; exclusive content not worth it.\"}]}"
+}

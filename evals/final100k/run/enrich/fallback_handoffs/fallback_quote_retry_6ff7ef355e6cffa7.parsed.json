@@ -1,0 +1,44 @@
+{
+  "results": [
+    {
+      "evidence_quote": "I can't even listen to it through my headphones currently",
+      "intent": "cancellation",
+      "needs_review": false,
+      "reason": "Connection issues blocking playback; explicit departure threat after 10 years.",
+      "review_id": "29b955f1-4550-4417-a2d8-e17086944073",
+      "sentiment": "very negative",
+      "severity": 4,
+      "topic": "playback"
+    },
+    {
+      "evidence_quote": "we can not ask the song again, we can't play queue songs",
+      "intent": "cancellation",
+      "needs_review": false,
+      "reason": "Queue playback restricted after update; explicit app cancellation stated.",
+      "review_id": "d7849a67-f2ef-46ae-988f-da6c66d4c48c",
+      "sentiment": "very negative",
+      "severity": 3,
+      "topic": "usability"
+    },
+    {
+      "evidence_quote": "try and play music and it freezes while it's trying to connect",
+      "intent": "cancellation",
+      "needs_review": false,
+      "reason": "Music freezing/failing to play; explicit service departure stated.",
+      "review_id": "55a927de-0b53-42da-8578-f9edfc427e3f",
+      "sentiment": "very negative",
+      "severity": 4,
+      "topic": "playback"
+    },
+    {
+      "evidence_quote": "You can't play the song neither can you change it. They say it's a premium feature",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Song selection and changing locked behind paywall; controls restricted for free users.",
+      "review_id": "8a47038f-4a75-4851-81a8-d7b5656dbfba",
+      "sentiment": "very negative",
+      "severity": 3,
+      "topic": "billing"
+    }
+  ]
+}

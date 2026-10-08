@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "evidence_quote": "Long playlists will sometimes just not load at all, or the UI/song selection will freeze up after listening too long on another device.",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Core playback function blocked: playlists fail to load, UI freezes.",
+      "review_id": "262597b8-a346-419e-85f3-784e3a476f92",
+      "sentiment": "very negative",
+      "severity": 4,
+      "topic": "playback"
+    }
+  ]
+}

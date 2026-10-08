@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.003299",
+  "effort": "none",
+  "input_tokens": 1944,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 271,
+  "request_id": "req_011Cfn8LzsynzAY5vMgDY8HU",
+  "stop_reason": "end_turn",
+  "text": "{\"results\": [{\"review_id\": \"586b19e9-422d-419e-b967-918b1f9937e9\", \"topic\": \"usability\", \"intent\": \"complaint\", \"severity\": 3, \"sentiment\": \"negative\", \"evidence_quote\": \"I am always accidentally turning it on when I think Im just turning regular shuffle off and even when I'm aware and cycling through the shuffle options it takes 5-10 seconds for smart shuffle to apply before I can even turn it off.\", \"needs_review\": false, \"reason\": \"Smart Shuffle usability issue causes repeated accidental activation and delay.\"}, {\"review_id\": \"e5370e45-35e9-4bd7-9b8e-afa648b90826\", \"topic\": \"usability\", \"intent\": \"request\", \"severity\": 2, \"sentiment\": \"negative\", \"evidence_quote\": \"Rất nhiều QC và tần suất 2 bài 1 lần, vui lòng Spotify giảm tần xuất QC\", \"needs_review\": true, \"reason\": \"Non-English review; likely ads complaint but context unclear.\"}]}"
+}

@@ -1,0 +1,24 @@
+{
+  "results": [
+    {
+      "evidence_quote": "I am always accidentally turning it on when I think Im just turning regular shuffle off and even when I'm aware and cycling through the shuffle options it takes 5-10 seconds for smart shuffle to apply before I can even turn it off.",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Smart Shuffle usability issue causes repeated accidental activation and delay.",
+      "review_id": "586b19e9-422d-419e-b967-918b1f9937e9",
+      "sentiment": "negative",
+      "severity": 3,
+      "topic": "usability"
+    },
+    {
+      "evidence_quote": "Rất nhiều QC và tần suất 2 bài 1 lần, vui lòng Spotify giảm tần xuất QC",
+      "intent": "request",
+      "needs_review": true,
+      "reason": "Non-English review; likely ads complaint but context unclear.",
+      "review_id": "e5370e45-35e9-4bd7-9b8e-afa648b90826",
+      "sentiment": "negative",
+      "severity": 2,
+      "topic": "usability"
+    }
+  ]
+}

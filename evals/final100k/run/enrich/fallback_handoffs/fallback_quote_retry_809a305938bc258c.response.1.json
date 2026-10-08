@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.002264",
+  "effort": "none",
+  "input_tokens": 1734,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 106,
+  "request_id": "req_011Cfn8MT3auTD7ppDvbhCCy",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"31ebdac5-5dbd-4da2-b8aa-8ecacb85dfbf\",\"topic\":\"billing\",\"intent\":\"complaint\",\"severity\":2,\"sentiment\":\"negative\",\"evidence_quote\":\"i didnt like the factthat you guys have 'download' access in the premium feature\",\"needs_review\":false,\"reason\":\"User dislikes download feature being premium-only, mixed praise and complaint.\"}]}"
+}

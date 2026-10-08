@@ -1,0 +1,24 @@
+{
+  "results": [
+    {
+      "evidence_quote": "Spotify constantly plays (recommends) the same songs for me with its Enhance and \"Made for You\" features",
+      "intent": "request",
+      "needs_review": false,
+      "reason": "Feature request with generic complaint about recommendations.",
+      "review_id": "0a6f50c6-117b-4474-bc6b-06ed5328ca40",
+      "sentiment": "negative",
+      "severity": 2,
+      "topic": "usability"
+    },
+    {
+      "evidence_quote": "But it deletes your liked songs playlists from time to time which is annoying.",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Mixed review; deletion issue degrades function but praise outweighs.",
+      "review_id": "ad8212ec-4b59-4147-860d-0fa8d38b7dd8",
+      "sentiment": "positive",
+      "severity": 3,
+      "topic": "usability"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.002877",
+  "effort": "none",
+  "input_tokens": 1967,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 182,
+  "request_id": "req_011Cfn8Fyt4UmjdnaEbAU9hv",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"08ea1094-4a00-4de6-9e04-3815595c9dc3\",\"topic\":\"usability\",\"intent\":\"complaint\",\"severity\":3,\"sentiment\":\"very negative\",\"evidence_quote\":\"u click the music u want and get ten seconds of it\",\"needs_review\":false,\"reason\":\"Cannot choose own music; playback cut short after 10 seconds.\"},{\"review_id\":\"77a093d9-9c2c-4c72-a54d-ad708e1e79c6\",\"topic\":\"billing\",\"intent\":\"complaint\",\"severity\":2,\"sentiment\":\"negative\",\"evidence_quote\":\"they even put the access to lyrics in premium\",\"needs_review\":false,\"reason\":\"Lyrics feature moved to Premium; features locked behind paywall.\"}]}"
+}

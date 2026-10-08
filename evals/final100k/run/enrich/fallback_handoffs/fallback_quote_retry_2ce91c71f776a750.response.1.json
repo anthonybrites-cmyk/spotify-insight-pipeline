@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.003424",
+  "effort": "none",
+  "input_tokens": 1954,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 294,
+  "request_id": "req_011Cfn8LCNGCbMNWitrM514d",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"8b31c26c-d35d-493b-9b83-c34cc223dbc5\",\"topic\":\"other\",\"intent\":\"praise\",\"severity\":1,\"sentiment\":\"positive\",\"evidence_quote\":\"gas all the tunes I've needed\",\"needs_review\":false,\"reason\":\"General positive statement about music availability.\"},{\"review_id\":\"8ad22bc7-2b88-475c-8371-9f525957032c\",\"topic\":\"other\",\"intent\":\"praise\",\"severity\":1,\"sentiment\":\"very positive\",\"evidence_quote\":\"Very nice app. Great app to listen music.. We can find almost every songs here without wasting much network... Love this app extremely ❤️\",\"needs_review\":false,\"reason\":\"Pure praise with no specific feature or problem reported.\"},{\"review_id\":\"c12617db-39e0-4935-9fde-c993bd49681c\",\"topic\":\"usability\",\"intent\":\"complaint\",\"severity\":3,\"sentiment\":\"negative\",\"evidence_quote\":\"When I add music to my liked list I can't select it. It is annoying that it is not working as expected. Tapping the play button doesn't work as well.\",\"needs_review\":false,\"reason\":\"Multiple usability functions degraded; workarounds may exist.\"}]}"
+}

@@ -1,0 +1,24 @@
+{
+  "results": [
+    {
+      "evidence_quote": "if I look up an artist, select an album, then push play it seems reasonable that the album would start to play!?",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Album fails to play selected content; shuffle/recommendation issue degrades function.",
+      "review_id": "bfb4c3a5-7ec1-40fa-81c3-3ac068c04e86",
+      "sentiment": "negative",
+      "severity": 3,
+      "topic": "usability"
+    },
+    {
+      "evidence_quote": "I'm searching to listen to a track, and the app is playing a whole playlist on it's own, and the playlist doesn't even start with my desired song.",
+      "intent": "cancellation",
+      "needs_review": false,
+      "reason": "Cannot control playback or disable shuffle; core function blocked. Explicit departure.",
+      "review_id": "d2abc337-a78b-48a5-96dc-1a1cce028bda",
+      "sentiment": "very negative",
+      "severity": 4,
+      "topic": "usability"
+    }
+  ]
+}

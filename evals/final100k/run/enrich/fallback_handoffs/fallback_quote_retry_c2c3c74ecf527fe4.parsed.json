@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "evidence_quote": "l can't listen offline",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Offline listening feature not working; core function degraded.",
+      "review_id": "f1352084-8419-495d-9eec-6260d919531a",
+      "sentiment": "negative",
+      "severity": 3,
+      "topic": "downloads"
+    }
+  ]
+}

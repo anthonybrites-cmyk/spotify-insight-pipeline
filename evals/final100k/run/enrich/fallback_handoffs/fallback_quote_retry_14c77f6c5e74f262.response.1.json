@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.002723",
+  "effort": "none",
+  "input_tokens": 1838,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 177,
+  "request_id": "req_011Cfn8FnUxH3u8jUFqjpGPJ",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"ee28d258-f4d3-42d0-aa96-f27eed68bd72\",\"topic\":\"other\",\"intent\":\"request\",\"severity\":1,\"sentiment\":\"positive\",\"evidence_quote\":\"Allow the AI DJ to work when casting to a speaker\",\"needs_review\":false,\"reason\":\"Feature request with no reported problem or failure.\"},{\"review_id\":\"946859b8-f941-4c69-b260-06ef5af5b997\",\"topic\":\"other\",\"intent\":\"complaint\",\"severity\":2,\"sentiment\":\"negative\",\"evidence_quote\":\"This application is truly disappointing because other apps permission is easy but this is doesn't do...\",\"needs_review\":true,\"reason\":\"Unclear what specific feature or permission issue; incomplete sentence.\"}]}"
+}

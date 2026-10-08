@@ -1,0 +1,24 @@
+{
+  "results": [
+    {
+      "evidence_quote": "on my phone i wasnt use to using spotify on a phone so i thought i didnt had to shuffle the songs but guess what... I DID",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Free tier restricts skip/shuffle controls; paid feature complaint.",
+      "review_id": "e8cfa0c5-6f2e-4862-903e-eb91132877f0",
+      "sentiment": "negative",
+      "severity": 3,
+      "topic": "billing"
+    },
+    {
+      "evidence_quote": "har waqt premium keliye majboor karta hai yeh spotify wale",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Complains about constant Premium upselling or pressure.",
+      "review_id": "a83b15ed-2117-4d78-bb45-281469830cb4",
+      "sentiment": "negative",
+      "severity": 2,
+      "topic": "billing"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "evidence_quote": "the app has begun to fail to load content or find search results",
+      "intent": "cancellation",
+      "needs_review": false,
+      "reason": "Search/catalog function blocked; explicit cancellation threat.",
+      "review_id": "4a524a17-559d-4d85-815d-ee9f1a4f050b",
+      "sentiment": "very negative",
+      "severity": 4,
+      "topic": "catalog"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.002886",
+  "effort": "none",
+  "input_tokens": 1951,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 187,
+  "request_id": "req_011Cfn8KQ3Sf5VG6QBm7zc4J",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"402bab00-afe3-4728-a2e1-76dee94f92b1\",\"topic\":\"usability\",\"intent\":\"complaint\",\"severity\":2,\"sentiment\":\"neutral or mixed\",\"evidence_quote\":\"the fact that you cannot put the previous song that played is fraustrating and sometimes annoying\",\"needs_review\":false,\"reason\":\"Cannot rewind to previous song; dislike with some workaround possible.\"},{\"review_id\":\"63ed6956-9977-4b0c-ab9e-c9e3d8f3c2e4\",\"topic\":\"support\",\"intent\":\"cancellation\",\"severity\":3,\"sentiment\":\"very negative\",\"evidence_quote\":\"we are switching\",\"needs_review\":false,\"reason\":\"Explicit departure after poor support experience with billing issue.\"}]}"
+}

@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "evidence_quote": "It's great! It's easy to make podcasts, find rare and common music, find podcasts and find good music",
+      "intent": "praise",
+      "needs_review": false,
+      "reason": "Positive review praising ease of use and music discovery.",
+      "review_id": "a9522d7f-45a5-4b4d-a945-c99b5fb2d12f",
+      "sentiment": "very positive",
+      "severity": 1,
+      "topic": "usability"
+    }
+  ]
+}

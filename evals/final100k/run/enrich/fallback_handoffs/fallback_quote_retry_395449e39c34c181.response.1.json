@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.00299",
+  "effort": "none",
+  "input_tokens": 1955,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 207,
+  "request_id": "req_011Cfn8EjUrGusf5LgU1D8fr",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"81d05c15-61ad-4d87-93ad-d1fb35013a06\",\"topic\":\"billing\",\"intent\":\"complaint\",\"severity\":4,\"sentiment\":\"negative\",\"evidence_quote\":\"it took my premium away even though I don't have to pay for another 2 WEEKS-!?\",\"needs_review\":false,\"reason\":\"Premium deactivated prematurely before renewal date.\"},{\"review_id\":\"95a60fe9-9d86-4bf6-8f3f-b6f2d7b29aa3\",\"topic\":\"usability\",\"intent\":\"cancellation\",\"severity\":3,\"sentiment\":\"very negative\",\"evidence_quote\":\"The app will start automatically when I get in my car if my Bluetooth is connected. No way to stop this from happening.\",\"needs_review\":false,\"reason\":\"Auto-launch cannot be disabled; user explicitly ending use.\"}]}"
+}

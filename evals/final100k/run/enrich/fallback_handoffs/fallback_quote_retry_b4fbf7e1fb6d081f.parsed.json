@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "evidence_quote": "Everytime I open the app it proceeds to redownload all of my music. I have no idea why it cant recognize a song it downloaded literaly 15 minutes earlier.",
+      "intent": "cancellation",
+      "needs_review": false,
+      "reason": "Downloads fail to persist; core function blocked. Cancellation stated.",
+      "review_id": "c912a426-ab44-47b1-b239-73ab79dbaafc",
+      "sentiment": "very negative",
+      "severity": 4,
+      "topic": "downloads"
+    }
+  ]
+}

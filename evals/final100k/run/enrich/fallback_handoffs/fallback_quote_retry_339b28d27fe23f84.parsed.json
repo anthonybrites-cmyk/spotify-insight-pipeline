@@ -1,0 +1,24 @@
+{
+  "results": [
+    {
+      "evidence_quote": "Everytime we need to get premiere. It's so annoying.",
+      "intent": "cancellation",
+      "needs_review": false,
+      "reason": "Free user frustrated by Premium paywall; explicit non-return threat.",
+      "review_id": "e3fd919e-f2e6-4a3f-b3fd-f26fa9733cc8",
+      "sentiment": "very negative",
+      "severity": 2,
+      "topic": "billing"
+    },
+    {
+      "evidence_quote": "Ads are way too loud in comparison to the music. I will have the music at a comfortable level and when an ad pops up it will literally make my ears hurt",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Ad volume disrupts listening experience; considering competitor; threat implied.",
+      "review_id": "72d08ef1-ef98-4087-897a-fc888e52781d",
+      "sentiment": "negative",
+      "severity": 3,
+      "topic": "usability"
+    }
+  ]
+}

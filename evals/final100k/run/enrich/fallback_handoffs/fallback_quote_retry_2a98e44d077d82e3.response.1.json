@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.002339",
+  "effort": "none",
+  "input_tokens": 1759,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 116,
+  "request_id": "req_011Cfn8MbVausuW6sTU6oABz",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"ec7f9c8f-a73b-4a5e-b6f8-c7be5551f4f8\",\"topic\":\"usability\",\"intent\":\"complaint\",\"severity\":2,\"sentiment\":\"very negative\",\"evidence_quote\":\"You tell in your Advertisement that you will have you 30 min without Ad then why ad appear while we change Music.\",\"needs_review\":false,\"reason\":\"User complains about ads appearing during free tier usage as advertised.\"}]}"
+}

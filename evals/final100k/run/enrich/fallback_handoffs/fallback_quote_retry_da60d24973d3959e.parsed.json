@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "evidence_quote": "I am just gonna hate it because of the update!! This is insane...",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Update caused dislike; unclear specific impact but no function loss stated.",
+      "review_id": "4974dbb6-ef90-48d6-be51-4f64fef4e5a8",
+      "sentiment": "negative",
+      "severity": 2,
+      "topic": "usability"
+    }
+  ]
+}

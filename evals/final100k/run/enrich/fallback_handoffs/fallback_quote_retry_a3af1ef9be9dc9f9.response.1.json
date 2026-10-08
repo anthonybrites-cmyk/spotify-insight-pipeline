@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.002465",
+  "effort": "none",
+  "input_tokens": 1820,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 129,
+  "request_id": "req_011Cfn8aFB4kKTV6i1v63oMx",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"8effb009-58c1-4e9e-8f96-eca549b03dfc\",\"topic\":\"billing\",\"intent\":\"cancellation\",\"severity\":4,\"sentiment\":\"very negative\",\"evidence_quote\":\"You Can't Skip Through Songs More Than 6 Times An Hour, Skip To Parts Of A Song, Effectively Add Songs To Queue, Or See The Order Of Songs Playing Or Play Songs Again In 24 Hours Without Premium.\",\"needs_review\":false,\"reason\":\"Controls explicitly locked behind Premium; writer threatens departure.\"}]}"
+}

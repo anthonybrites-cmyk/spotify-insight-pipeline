@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "evidence_quote": "all the normal features like skipping the song or playing the previous song or playing from the part u like is not available",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Core playback controls blocked; likely Premium restriction after update.",
+      "review_id": "23f5cf20-850b-4a42-a2c0-2a7ae380eb8e",
+      "sentiment": "very negative",
+      "severity": 4,
+      "topic": "billing"
+    }
+  ]
+}

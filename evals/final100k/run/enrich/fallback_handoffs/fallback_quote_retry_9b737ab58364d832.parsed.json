@@ -1,0 +1,34 @@
+{
+  "results": [
+    {
+      "evidence_quote": "forcing someone to use premium by cutting off basic features is not done. you are digging your own grave Spotify, never coming back to you",
+      "intent": "cancellation",
+      "needs_review": false,
+      "reason": "Free features restricted behind paywall; explicit departure stated.",
+      "review_id": "143c4ce0-4f82-426f-adeb-8b9dd86d7d2f",
+      "sentiment": "very negative",
+      "severity": 3,
+      "topic": "billing"
+    },
+    {
+      "evidence_quote": "Better to uninstall then use it ...the situation is like that one day it will even ask to get premium for listening to songs.",
+      "intent": "cancellation",
+      "needs_review": false,
+      "reason": "Premium paywall concern; uninstall and removal threats indicate departure.",
+      "review_id": "4159be4b-5008-4f84-b90e-a1b5a69fc0bc",
+      "sentiment": "very negative",
+      "severity": 3,
+      "topic": "billing"
+    },
+    {
+      "evidence_quote": "they shouldn't provide the free version instead make it paid app and get out of ruining the day for the free version users with recent update",
+      "intent": "complaint",
+      "needs_review": true,
+      "reason": "Unclear exact feature impact; appears billing-related but text partially garbled.",
+      "review_id": "8dd0b8f4-adb7-483e-8f7c-69ff62ff521a",
+      "sentiment": "very negative",
+      "severity": 3,
+      "topic": "billing"
+    }
+  ]
+}

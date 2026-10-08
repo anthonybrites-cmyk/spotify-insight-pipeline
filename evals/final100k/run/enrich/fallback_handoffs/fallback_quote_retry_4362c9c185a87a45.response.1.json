@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.00224",
+  "effort": "none",
+  "input_tokens": 1745,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 99,
+  "request_id": "req_011Cfn8HegDTcaUXe6gLysb8",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"2ac553d5-791e-4e81-b0fc-85154026b2ca\",\"topic\":\"other\",\"intent\":\"praise\",\"severity\":1,\"sentiment\":\"very positive\",\"evidence_quote\":\"I have company during my long drives (music shoo away sleepiness and boredom when driving)\",\"needs_review\":false,\"reason\":\"General praise for app's music and meditation features\"}]}"
+}

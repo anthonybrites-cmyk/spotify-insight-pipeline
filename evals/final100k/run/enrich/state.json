@@ -1,0 +1,119 @@
+{
+  "early_gate": {
+    "accepted_override": false,
+    "allowed_at_gate_usd": "1.500",
+    "evaluated_at": "2026-10-07T02:01:11+00:00",
+    "fraction_done": "0.1000051186241138382002917616",
+    "linear_projection_usd": "7.7595",
+    "passed": true,
+    "projected_fallback_usd_included": "0.277750",
+    "spend_at_gate_usd": "0.775993816"
+  },
+  "first_stop_snapshot": "enrich_stop_20261007T015903_stop_after.json",
+  "invocations": [
+    {
+      "completed_at_end": 4420,
+      "completed_at_start": 0,
+      "ended": "2026-10-07T01:59:03+00:00",
+      "failed_this_invocation": 0,
+      "fallback": {
+        "effort": "none",
+        "max_fraction": 0.2,
+        "mode": "batch",
+        "model": "claude-haiku-4-5",
+        "tag": "fallback-claude-haiku-4-5-effort-none-t0.5-cap0.2-0b2d587959",
+        "threshold": 0.5
+      },
+      "label_config": "jev-1.13.0+prompt-1f4c113e8ac0+fallback-claude-haiku-4-5-effort-none-t0.5-cap0.2-0b2d587959+schema-v1",
+      "pending_at_start": 78146,
+      "phase": "initial",
+      "snapshot": "enrich_stop_20261007T015903_stop_after.json",
+      "spend_before_usd": "0",
+      "started": "2026-10-07T01:55:50+00:00",
+      "stop_reason": "stop_after",
+      "succeeded_this_invocation": 5000
+    },
+    {
+      "completed_at_end": 7098,
+      "completed_at_start": 5000,
+      "ended": "2026-10-07T02:01:31+00:00",
+      "failed_this_invocation": 0,
+      "fallback": {
+        "effort": "none",
+        "max_fraction": 0.2,
+        "mode": "batch",
+        "model": "claude-haiku-4-5",
+        "tag": "fallback-claude-haiku-4-5-effort-none-t0.5-cap0.2-0b2d587959",
+        "threshold": 0.5
+      },
+      "label_config": "jev-1.13.0+prompt-1f4c113e8ac0+fallback-claude-haiku-4-5-effort-none-t0.5-cap0.2-0b2d587959+schema-v1",
+      "pending_at_start": 73146,
+      "phase": "resume",
+      "snapshot": "enrich_stop_20261007T020131_interrupted.json",
+      "spend_before_usd": "0.318103968",
+      "started": "2026-10-07T01:59:23+00:00",
+      "stop_reason": "interrupted",
+      "succeeded_this_invocation": 3168
+    },
+    {
+      "completed_at_end": 15471,
+      "completed_at_start": 8168,
+      "ended": "2026-10-07T02:09:45+00:00",
+      "failed_this_invocation": 0,
+      "fallback": {
+        "effort": "none",
+        "max_fraction": 0.2,
+        "mode": "batch",
+        "model": "claude-haiku-4-5",
+        "tag": "fallback-claude-haiku-4-5-effort-none-t0.5-cap0.2-0b2d587959",
+        "threshold": 0.5
+      },
+      "label_config": "jev-1.13.0+prompt-1f4c113e8ac0+fallback-claude-haiku-4-5-effort-none-t0.5-cap0.2-0b2d587959+schema-v1",
+      "pending_at_start": 69978,
+      "phase": "resume",
+      "snapshot": "enrich_stop_20261007T020945_interrupted.json",
+      "spend_before_usd": "0.520920246",
+      "started": "2026-10-07T02:01:46+00:00",
+      "stop_reason": "interrupted",
+      "succeeded_this_invocation": 9894
+    },
+    {
+      "completed_at_start": 18062,
+      "fallback": {
+        "effort": "none",
+        "max_fraction": 0.2,
+        "mode": "batch",
+        "model": "claude-haiku-4-5",
+        "tag": "fallback-claude-haiku-4-5-effort-none-t0.5-cap0.2-0b2d587959",
+        "threshold": 0.5
+      },
+      "label_config": "jev-1.13.0+prompt-1f4c113e8ac0+fallback-claude-haiku-4-5-effort-none-t0.5-cap0.2-0b2d587959+schema-v1",
+      "pending_at_start": 60084,
+      "phase": "resume",
+      "spend_before_usd": "1.157374638",
+      "started": "2026-10-07T02:09:55+00:00"
+    },
+    {
+      "completed_at_end": 78146,
+      "completed_at_start": 78146,
+      "ended": "2026-10-07T03:05:03+00:00",
+      "failed_this_invocation": 0,
+      "fallback": {
+        "effort": "none",
+        "max_fraction": 0.2,
+        "mode": "batch",
+        "model": "claude-haiku-4-5",
+        "tag": "fallback-claude-haiku-4-5-effort-none-t0.5-cap0.2-0b2d587959",
+        "threshold": 0.5
+      },
+      "label_config": "jev-1.13.0+prompt-1f4c113e8ac0+fallback-claude-haiku-4-5-effort-none-t0.5-cap0.2-0b2d587959+schema-v1",
+      "pending_at_start": 0,
+      "phase": "resume",
+      "snapshot": "enrich_complete.json",
+      "spend_before_usd": "5.044449228",
+      "started": "2026-10-07T02:51:20+00:00",
+      "stop_reason": null,
+      "succeeded_this_invocation": 0
+    }
+  ]
+}

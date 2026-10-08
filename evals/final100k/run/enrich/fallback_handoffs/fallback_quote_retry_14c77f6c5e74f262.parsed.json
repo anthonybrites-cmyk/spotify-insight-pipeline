@@ -1,0 +1,24 @@
+{
+  "results": [
+    {
+      "evidence_quote": "Allow the AI DJ to work when casting to a speaker",
+      "intent": "request",
+      "needs_review": false,
+      "reason": "Feature request with no reported problem or failure.",
+      "review_id": "ee28d258-f4d3-42d0-aa96-f27eed68bd72",
+      "sentiment": "positive",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "evidence_quote": "This application is truly disappointing because other apps permission is easy but this is doesn't do...",
+      "intent": "complaint",
+      "needs_review": true,
+      "reason": "Unclear what specific feature or permission issue; incomplete sentence.",
+      "review_id": "946859b8-f941-4c69-b260-06ef5af5b997",
+      "sentiment": "negative",
+      "severity": 2,
+      "topic": "other"
+    }
+  ]
+}

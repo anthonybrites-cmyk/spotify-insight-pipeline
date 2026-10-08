@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.002332",
+  "effort": "none",
+  "input_tokens": 1757,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 115,
+  "request_id": "req_011Cfn8FA7w4ebQG3JjJCcJU",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"1e99555f-f579-4a86-9444-41a28f3f44c2\",\"topic\":\"downloads\",\"intent\":\"complaint\",\"severity\":4,\"sentiment\":\"negative\",\"evidence_quote\":\"All of the podcasts I downloaded will be downloading again after logging in. It cost me a lot of data to redownload stuff over and over again.\",\"needs_review\":false,\"reason\":\"Downloaded podcasts repeatedly re-download after logout, consuming significant data.\"}]}"
+}

@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "evidence_quote": "but its still a shame... a disgrace...",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Generic criticism without specific feature or defect identified.",
+      "review_id": "8e1dc120-94a5-41a8-ac5e-d4634654a062",
+      "sentiment": "negative",
+      "severity": 2,
+      "topic": "other"
+    }
+  ]
+}

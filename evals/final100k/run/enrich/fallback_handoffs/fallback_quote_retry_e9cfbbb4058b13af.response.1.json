@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.002198",
+  "effort": "none",
+  "input_tokens": 1718,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 96,
+  "request_id": "req_011Cfn8WKmXegaPQCt1vZdJD",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"b1285e4a-f5c4-4a0d-989a-e781dcb2eb62\",\"topic\":\"billing\",\"intent\":\"complaint\",\"severity\":4,\"sentiment\":\"negative\",\"evidence_quote\":\"My spotify is asking to purchase premium whenever i select a new song\",\"needs_review\":false,\"reason\":\"Premium paywall blocking core playback function on free account.\"}]}"
+}

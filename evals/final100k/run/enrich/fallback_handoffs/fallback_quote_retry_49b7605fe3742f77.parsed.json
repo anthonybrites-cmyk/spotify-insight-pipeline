@@ -1,0 +1,24 @@
+{
+  "results": [
+    {
+      "evidence_quote": "Working flawlessly and enjoying non adds premium version",
+      "intent": "praise",
+      "needs_review": false,
+      "reason": "General praise for app performance, no specific feature.",
+      "review_id": "2c864f89-9aa9-4700-8ec0-30a42b6cd9f6",
+      "sentiment": "positive",
+      "severity": 1,
+      "topic": "other"
+    },
+    {
+      "evidence_quote": "still getting charged on an old email. I'm paying for nothing.",
+      "intent": "complaint",
+      "needs_review": false,
+      "reason": "Ongoing charges after cancellation, billing blocked core function.",
+      "review_id": "75b5fa35-6d88-43a1-b6ed-e4356940f5e4",
+      "sentiment": "very negative",
+      "severity": 4,
+      "topic": "billing"
+    }
+  ]
+}

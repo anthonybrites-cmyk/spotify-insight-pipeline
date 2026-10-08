@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.004875",
+  "effort": "none",
+  "input_tokens": 2485,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 478,
+  "request_id": "req_011Cfn8T1dY4WcqjnBdDVrkL",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"e72bb1b8-c50c-434b-ab14-de453bd9193f\",\"topic\":\"usability\",\"intent\":\"complaint\",\"severity\":2,\"sentiment\":\"very negative\",\"evidence_quote\":\"wont play songs ipick and gets stuck on page shift 85% of the time\",\"needs_review\":false,\"reason\":\"Unclear writing but reports playback and design issues; low severity due to vague context.\"},{\"review_id\":\"44e045a3-c820-477d-a2c9-3ce002614431\",\"topic\":\"playback\",\"intent\":\"cancellation\",\"severity\":4,\"sentiment\":\"very negative\",\"evidence_quote\":\"All of a sudden spotify wouldn't play in the backround\",\"needs_review\":false,\"reason\":\"Background playback failure; explicit switch to competitor; core function blocked.\"},{\"review_id\":\"8116bec2-7285-41f3-bb73-fb4c5c691bb1\",\"topic\":\"catalog\",\"intent\":\"request\",\"severity\":1,\"sentiment\":\"neutral or mixed\",\"evidence_quote\":\"it didn't work, so like after some research i came to know that it isn't available in my country yet\",\"needs_review\":false,\"reason\":\"Feature unavailable by region; requests feature in country; otherwise very positive.\"},{\"review_id\":\"e93ce9ba-422f-4f4d-8197-fcbef9a2f734\",\"topic\":\"playback\",\"intent\":\"complaint\",\"severity\":4,\"sentiment\":\"very negative\",\"evidence_quote\":\"it still doesn't work the way it use to\",\"needs_review\":false,\"reason\":\"Continuous playback broken after update; core function degraded; paying customer.\"},{\"review_id\":\"e41cb282-6150-4147-9388-404ede18cd97\",\"topic\":\"access\",\"intent\":\"complaint\",\"severity\":3,\"sentiment\":\"negative\",\"evidence_quote\":\"it would log me out of my phone and the computer and make me change my password before I could log back in\",\"needs_review\":false,\"reason\":\"Repeated forced logouts and password resets; access restricted but not permanently blocked.\"}]}"
+}

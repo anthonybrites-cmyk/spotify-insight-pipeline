@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.003547",
+  "effort": "none",
+  "input_tokens": 2007,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 308,
+  "request_id": "req_011Cfn8asHxEVj9ynvrqxMhi",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"075c85c2-7ff8-4588-adb0-e7ec9035144d\",\"topic\":\"other\",\"intent\":\"praise\",\"severity\":1,\"sentiment\":\"positive\",\"evidence_quote\":\"Its was a very nice app for listing music\",\"needs_review\":false,\"reason\":\"General praise, no specific feature mentioned.\"},{\"review_id\":\"22dc0ccd-2d26-4014-9438-b5add2934f03\",\"topic\":\"billing\",\"intent\":\"complaint\",\"severity\":4,\"sentiment\":\"very negative\",\"evidence_quote\":\"I cannot rewind song nor can I play song of my choice ... This shows that I cannot have a good song experience if I don't pay for premium\",\"needs_review\":false,\"reason\":\"Controls locked behind Premium; core task blocked.\"},{\"review_id\":\"9583a6e2-31d0-4458-b04d-5d464424c6ab\",\"topic\":\"usability\",\"intent\":\"request\",\"severity\":2,\"sentiment\":\"negative\",\"evidence_quote\":\"spotify. me. apne. suffle lisning. song. very. dificult. it. is. a. hamble. request. erase. the. suffle. make. it. old. spotify\",\"needs_review\":true,\"reason\":\"Unclear text; appears to request shuffle removal but unintelligible.\"}]}"
+}

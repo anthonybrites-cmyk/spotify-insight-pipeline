@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.002949",
+  "effort": "none",
+  "input_tokens": 1969,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 196,
+  "request_id": "req_011Cfn8C3TFPgsbLpZBRqSb1",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"0a6f50c6-117b-4474-bc6b-06ed5328ca40\",\"topic\":\"usability\",\"intent\":\"request\",\"severity\":2,\"sentiment\":\"negative\",\"evidence_quote\":\"Spotify constantly plays (recommends) the same songs for me with its Enhance and \\\"Made for You\\\" features\",\"needs_review\":false,\"reason\":\"Feature request with generic complaint about recommendations.\"},{\"review_id\":\"ad8212ec-4b59-4147-860d-0fa8d38b7dd8\",\"topic\":\"usability\",\"intent\":\"complaint\",\"severity\":3,\"sentiment\":\"positive\",\"evidence_quote\":\"But it deletes your liked songs playlists from time to time which is annoying.\",\"needs_review\":false,\"reason\":\"Mixed review; deletion issue degrades function but praise outweighs.\"}]}"
+}

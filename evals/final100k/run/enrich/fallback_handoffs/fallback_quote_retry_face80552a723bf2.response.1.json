@@ -1,0 +1,13 @@
+{
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cost_usd": "0.002272",
+  "effort": "none",
+  "input_tokens": 1797,
+  "max_tokens": 8000,
+  "model": "claude-haiku-4-5-20251001",
+  "output_tokens": 95,
+  "request_id": "req_011Cfn8UmhSJCfvbF6t316R5",
+  "stop_reason": "end_turn",
+  "text": "{\"results\":[{\"review_id\":\"43e103db-2fca-40db-a1b4-9e99f3299053\",\"topic\":\"playback\",\"intent\":\"complaint\",\"severity\":3,\"sentiment\":\"negative\",\"evidence_quote\":\"Sometimes a song is replaced by another version.\",\"needs_review\":false,\"reason\":\"Song replacement degrades playback; workaround exists by selecting different versions.\"}]}"
+}
